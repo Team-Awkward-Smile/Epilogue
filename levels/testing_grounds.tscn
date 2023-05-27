@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://cn2lbtkt6ntnt"]
+
+[ext_resource type="PackedScene" uid="uid://cmrbm1u6fwi67" path="res://actors/bob/bob.tscn" id="1_t1cyc"]
+[ext_resource type="Script" path="res://actors/bob/Movement.cs" id="2_ghmef"]
+[ext_resource type="Script" path="res://props/camera/Camera.cs" id="2_ymvue"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0un8g"]
+size = Vector2(758, 40)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_2v45o"]
+
+[node name="Root" type="Node2D"]
+
+[node name="Bob" parent="." instance=ExtResource("1_t1cyc")]
+position = Vector2(373, -82)
+script = ExtResource("2_ghmef")
+
+[node name="Ground" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+position = Vector2(379, -20)
+shape = SubResource("RectangleShape2D_0un8g")
+debug_color = Color(0.952941, 0.45098, 0.52549, 0.419608)
+
+[node name="TextureRect" type="TextureRect" parent="Ground"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 758.0
+grow_vertical = 0
+texture = SubResource("PlaceholderTexture2D_2v45o")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
+script = ExtResource("2_ymvue")
