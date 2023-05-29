@@ -9,7 +9,7 @@ public partial class Camera : Camera2D
 		_cameraTarget = GetNode<CharacterBody2D>("../Bob");
 	}
 
-	public override void _Process(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
 		Position = _cameraTarget.Position;
 	}
