@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://cn2lbtkt6ntnt"]
+[gd_scene load_steps=10 format=3 uid="uid://cn2lbtkt6ntnt"]
 
 [ext_resource type="PackedScene" uid="uid://cmrbm1u6fwi67" path="res://actors/bob/bob.tscn" id="1_t1cyc"]
+[ext_resource type="Script" path="res://addons/base_scene/BaseScene.cs" id="1_v1t6h"]
 [ext_resource type="Script" path="res://actors/bob/Movement.cs" id="2_ghmef"]
 [ext_resource type="Script" path="res://props/camera/Camera.cs" id="2_ymvue"]
 [ext_resource type="Texture2D" uid="uid://iwr2v70okfhc" path="res://temp/checkerboard.png" id="4_xfdqh"]
@@ -30,6 +31,7 @@ sources/1 = SubResource("TileSetAtlasSource_rgkj0")
 sources/3 = SubResource("TileSetAtlasSource_8qghg")
 
 [node name="Root" type="Node2D"]
+script = ExtResource("1_v1t6h")
 
 [node name="Bob" parent="." instance=ExtResource("1_t1cyc")]
 position = Vector2(373, -82)

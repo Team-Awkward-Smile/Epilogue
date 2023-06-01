@@ -11,12 +11,25 @@ config_version=5
 [application]
 
 config/name="Epilogue"
+run/main_scene="res://levels/testing_grounds.tscn"
 config/features=PackedStringArray("4.0", "C#", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+VersionManager="*res://global/VersionManager.cs"
 
 [dotnet]
 
 project/assembly_name="Epilogue"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/base_scene/plugin.cfg")
+
+[global]
+
+Version="0.0"
 
 [input]
 
