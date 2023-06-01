@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://cmrbm1u6fwi67"]
+
+[ext_resource type="Script" path="res://actors/bob/Movement.cs" id="1_nkfv1"]
+[ext_resource type="SpriteFrames" uid="uid://cpaye1bvlk8dh" path="res://actors/bob/animations/animations.tres" id="2_ynuev"]
+[ext_resource type="Script" path="res://actors/bob/Animation.cs" id="3_r7gcx"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dw2ko"]
+radius = 15.0
+height = 48.0
+
+[node name="Bob" type="CharacterBody2D"]
+script = ExtResource("1_nkfv1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -25)
+shape = SubResource("CapsuleShape2D_dw2ko")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -24)
+sprite_frames = ExtResource("2_ynuev")
+animation = &"walk"
+frame = 3
+frame_progress = 0.527838
+script = ExtResource("3_r7gcx")
