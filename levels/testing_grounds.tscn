@@ -34,7 +34,6 @@ script = ExtResource("1_v1t6h")
 
 [node name="Bob" parent="." instance=ExtResource("1_t1cyc")]
 position = Vector2(373, -82)
-collision_mask = 14
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(3, 3)

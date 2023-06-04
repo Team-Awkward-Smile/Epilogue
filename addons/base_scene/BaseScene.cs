@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 [Tool]
 public partial class BaseScene : Node2D

@@ -1,24 +1,210 @@
-[gd_scene load_steps=5 format=3 uid="uid://cmrbm1u6fwi67"]
+[gd_scene load_steps=29 format=3 uid="uid://cmrbm1u6fwi67"]
 
 [ext_resource type="Script" path="res://actors/bob/Movement.cs" id="1_nkfv1"]
-[ext_resource type="SpriteFrames" uid="uid://cpaye1bvlk8dh" path="res://actors/bob/animations/animations.tres" id="2_ynuev"]
-[ext_resource type="Script" path="res://actors/bob/Animation.cs" id="3_r7gcx"]
+[ext_resource type="Script" path="res://addons/character_base/CharacterBase.cs" id="1_soybf"]
+[ext_resource type="AnimationLibrary" uid="uid://36iv5024fmwi" path="res://actors/bob/animations/Bob.res" id="2_wik8b"]
+[ext_resource type="Texture2D" uid="uid://df2a87s4cukqq" path="res://actors/bob/sprite_sheet/epilogue_bob-Sheet.png" id="5_jkmx5"]
+[ext_resource type="Script" path="res://actors/bob/AttackController.cs" id="6_vqvow"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dw2ko"]
+[sub_resource type="Animation" id="Animation_1kqj8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../CollisionShape2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -24)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../CollisionShape2D:shape:radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [15.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../CollisionShape2D:shape:height")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [46.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:frame_coords")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 2)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AttackController/Area2D/CollisionShape2D:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hko5d"]
+_data = {
+"RESET": SubResource("Animation_1kqj8")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xygeo"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_osdd2"]
 radius = 15.0
-height = 48.0
+height = 46.0
 
-[node name="Bob" type="CharacterBody2D"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_m75wk"]
+animation = &"Bob/Attacking"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_w7ors"]
+animation = &"Bob/Crouching"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_yf8of"]
+animation = &"Bob/Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_al3gp"]
+animation = &"Bob/Jumping_ascend"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_64ke5"]
+animation = &"Bob/Jumping_descend"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_nhgy8"]
+animation = &"Bob/Jumping_land"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_h7513"]
+animation = &"Bob/Standing"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_g5ul1"]
+animation = &"Bob/Walking"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6aj00"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_o7665"]
+advance_mode = 2
+advance_expression = "velocity.x != 0"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_7wqhn"]
+advance_mode = 2
+advance_expression = "velocity.x == 0"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_wktc4"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_x26kd"]
+advance_mode = 2
+advance_expression = "velocity.y == 0"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_osmr1"]
+advance_mode = 2
+advance_expression = "velocity.y > 0"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_cunsf"]
+switch_mode = 2
+advance_condition = &"Standing"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_yrhb7"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_dw7jo"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_8rwsa"]
+states/Attacking/node = SubResource("AnimationNodeAnimation_m75wk")
+states/Attacking/position = Vector2(467, 113)
+states/Crouching/node = SubResource("AnimationNodeAnimation_w7ors")
+states/Crouching/position = Vector2(555, -207)
+states/End/position = Vector2(1528, 100)
+states/Idle/node = SubResource("AnimationNodeAnimation_yf8of")
+states/Idle/position = Vector2(387, 12)
+states/Jumping_ascend/node = SubResource("AnimationNodeAnimation_al3gp")
+states/Jumping_ascend/position = Vector2(272, -181)
+states/Jumping_descend/node = SubResource("AnimationNodeAnimation_64ke5")
+states/Jumping_descend/position = Vector2(115, -93)
+states/Jumping_land/node = SubResource("AnimationNodeAnimation_nhgy8")
+states/Jumping_land/position = Vector2(115, 12)
+states/Standing/node = SubResource("AnimationNodeAnimation_h7513")
+states/Standing/position = Vector2(555, -105)
+states/Start/position = Vector2(115, 100)
+states/Walking/node = SubResource("AnimationNodeAnimation_g5ul1")
+states/Walking/position = Vector2(593, 12)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_6aj00"), "Idle", "Walking", SubResource("AnimationNodeStateMachineTransition_o7665"), "Walking", "Idle", SubResource("AnimationNodeStateMachineTransition_7wqhn"), "Jumping_land", "Idle", SubResource("AnimationNodeStateMachineTransition_wktc4"), "Jumping_descend", "Jumping_land", SubResource("AnimationNodeStateMachineTransition_x26kd"), "Jumping_ascend", "Jumping_descend", SubResource("AnimationNodeStateMachineTransition_osmr1"), "Crouching", "Standing", SubResource("AnimationNodeStateMachineTransition_cunsf"), "Standing", "Idle", SubResource("AnimationNodeStateMachineTransition_yrhb7"), "Attacking", "Idle", SubResource("AnimationNodeStateMachineTransition_dw7jo")]
+graph_offset = Vector2(-442, -56)
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_huc84"]
+
+[node name="CharacterBase" type="CharacterBody2D"]
+collision_mask = 10
+script = ExtResource("1_soybf")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Sprite2D")
+libraries = {
+"": SubResource("AnimationLibrary_hko5d"),
+"Bob": ExtResource("2_wik8b")
+}
+
+[node name="MovementController" type="Node2D" parent="."]
 script = ExtResource("1_nkfv1")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -25)
-shape = SubResource("CapsuleShape2D_dw2ko")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -24)
-sprite_frames = ExtResource("2_ynuev")
-animation = &"walk"
-frame = 3
-frame_progress = 0.527838
-script = ExtResource("3_r7gcx")
+texture = ExtResource("5_jkmx5")
+hframes = 8
+vframes = 5
+frame = 16
+
+[node name="AttackController" type="Node2D" parent="Sprite2D"]
+position = Vector2(0, 24)
+script = ExtResource("6_vqvow")
+
+[node name="Area2D" type="Area2D" parent="Sprite2D/AttackController"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/AttackController/Area2D"]
+position = Vector2(18, -30)
+shape = SubResource("CircleShape2D_xygeo")
+disabled = true
+debug_color = Color(0.905882, 0.262745, 0.396078, 0.419608)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -24)
+shape = SubResource("CapsuleShape2D_osdd2")
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+unique_name_in_owner = true
+tree_root = SubResource("AnimationNodeStateMachine_8rwsa")
+anim_player = NodePath("../AnimationPlayer")
+advance_expression_base_node = NodePath("..")
+active = true
+parameters/playback = SubResource("AnimationNodeStateMachinePlayback_huc84")
+parameters/conditions/Standing = false
