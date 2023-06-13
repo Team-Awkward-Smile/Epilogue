@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://dh5j46sah7rbu"]
+
+[ext_resource type="Texture2D" uid="uid://u7uf8a33fwil" path="res://test_shaders/shader_border.png" id="1_nhqvu"]
+[ext_resource type="Shader" path="res://test_shaders/negative.gdshader" id="1_ohnu4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dydcv"]
+shader = ExtResource("1_ohnu4")
+
+[node name="TextureRect" type="TextureRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1052.0
+offset_bottom = -548.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_nhqvu")
+
+[node name="Negative" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_dydcv")
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 99.0
+offset_bottom = 99.0

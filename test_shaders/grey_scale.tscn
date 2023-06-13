@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://e1kfmtgvx3b0"]
+
+[ext_resource type="Texture2D" uid="uid://u7uf8a33fwil" path="res://test_shaders/shader_border.png" id="1_0xt1s"]
+[ext_resource type="Shader" path="res://test_shaders/grey_scale.gdshader" id="1_074is"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hjnjy"]
+shader = ExtResource("1_074is")
+shader_parameter/force = 1.0
+
+[node name="TextureRect" type="TextureRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1052.0
+offset_bottom = -548.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_0xt1s")
+
+[node name="GreyScale" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_hjnjy")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2

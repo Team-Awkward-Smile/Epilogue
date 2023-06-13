@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://tnahpbeamhtf"]
+
+[ext_resource type="Texture2D" uid="uid://u7uf8a33fwil" path="res://test_shaders/shader_border.png" id="1_t38le"]
+[ext_resource type="Shader" path="res://test_shaders/distort.gdshader" id="1_yd4yn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v5jr1"]
+shader = ExtResource("1_yd4yn")
+shader_parameter/force = 0.1
+shader_parameter/center = Vector2(0.5, 0.5)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_5tdff"]
+
+[node name="TextureRect" type="TextureRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1052.0
+offset_bottom = -548.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_t38le")
+
+[node name="Node2D" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_v5jr1")
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 99.0
+offset_bottom = 99.0
+texture = SubResource("CanvasTexture_5tdff")
