@@ -1,12 +1,12 @@
 [gd_scene load_steps=8 format=3 uid="uid://cn2lbtkt6ntnt"]
 
-[ext_resource type="PackedScene" uid="uid://cmrbm1u6fwi67" path="res://actors/bob/bob.tscn" id="1_ikraw"]
-[ext_resource type="Script" path="res://props/camera/Camera.cs" id="2_o3nwi"]
-[ext_resource type="Texture2D" uid="uid://iwr2v70okfhc" path="res://temp/checkerboard.png" id="3_dobrk"]
-[ext_resource type="Texture2D" uid="uid://dh4ef3r7apig" path="res://temp/checkerboard_slope.png" id="4_3ok0j"]
+[ext_resource type="PackedScene" uid="uid://cmrbm1u6fwi67" path="res://actors/bob/bob.tscn" id="1_a1eny"]
+[ext_resource type="Script" path="res://props/camera/Camera.cs" id="2_hlhwm"]
+[ext_resource type="Texture2D" uid="uid://iwr2v70okfhc" path="res://temp/checkerboard.png" id="3_1sihb"]
+[ext_resource type="Texture2D" uid="uid://dh4ef3r7apig" path="res://temp/checkerboard_slope.png" id="4_uyx2w"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rgkj0"]
-texture = ExtResource("3_dobrk")
+texture = ExtResource("3_1sihb")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -14,7 +14,7 @@ texture_region_size = Vector2i(32, 32)
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8qghg"]
-texture = ExtResource("4_3ok0j")
+texture = ExtResource("4_uyx2w")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -30,7 +30,7 @@ sources/3 = SubResource("TileSetAtlasSource_8qghg")
 
 [node name="Root" type="Node2D"]
 
-[node name="Bob" parent="." instance=ExtResource("1_ikraw")]
+[node name="Bob" parent="." instance=ExtResource("1_a1eny")]
 position = Vector2(374, -173)
 
 [node name="StateMonitor" type="Label" parent="Bob"]
@@ -52,7 +52,7 @@ vertical_alignment = 1
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(3, 3)
-script = ExtResource("2_o3nwi")
+script = ExtResource("2_hlhwm")
 
 [node name="Ground" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_hmeum")

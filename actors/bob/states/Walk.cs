@@ -15,6 +15,10 @@ public partial class Walk : StateComponent
 		{
 			StateMachine.ChangeState("Jump");
 		}
+		else if(Input.IsActionJustPressed("attack"))
+		{
+			StateMachine.ChangeState("MeleeAttack");
+		}
 	}
 
 	public override void OnEnter()
@@ -40,7 +44,17 @@ public partial class Walk : StateComponent
 			return;
 		}
 
+		if(Character.IsOnWall() && AnimPlayer.CurrentAnimation == "Bob/Walking")
+		{
+			AnimPlayer.Play("Bob/Idle");
+		}
+		else if(!Character.IsOnWall() && AnimPlayer.CurrentAnimation != "Bob/Walking")
+		{
+			AnimPlayer.Play("Bob/Walking");
+		}
+
 		_sprite.FlipH = _movementDirection < 0f;
+		HitBoxContainer.Scale = new Vector2(_movementDirection < 0f ? -1 : 1, 1f);
 
 		var velocity = Character.Velocity;
 

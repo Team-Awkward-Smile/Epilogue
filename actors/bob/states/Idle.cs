@@ -14,6 +14,10 @@ public partial class Idle : StateComponent
 		{
 			StateMachine.ChangeState("Crouch");
 		}
+		else if(Input.IsActionJustPressed("attack"))
+		{
+			StateMachine.ChangeState("MeleeAttack");
+		}
 	}
 
 	public override void OnEnter()

@@ -10,24 +10,34 @@ public partial class StateComponent : Node
 	protected StateMachineComponent StateMachine { get; private set; }
 	protected CharacterBody2D Character { get; private set; }
 	protected AnimationPlayer AnimPlayer { get; private set; }
+	protected Area2D HitBoxContainer { get; private set; }
 	protected float Gravity { get; private set; }
 
 	public override void _Ready()
 	{
 		StateMachine = (StateMachineComponent) GetParent();
-		Character = (CharacterBody2D) StateMachine.GetParent();
-		AnimPlayer = Character.GetChildren().OfType<AnimationPlayer>().FirstOrDefault();
-		Gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 
 		if(StateMachine is null)
 		{
 			GD.PrintErr($"State Machine not found for State [{Name}]");
 		}
 
+		Character = (CharacterBody2D) StateMachine.GetParent();
+		AnimPlayer = Character.GetChildren().OfType<AnimationPlayer>().FirstOrDefault();
+
 		if(AnimPlayer is null)
 		{
 			GD.PrintErr($"Animation Player not found for State [{Name}]");
 		}
+
+		HitBoxContainer = Character.GetNode<Area2D>("HitBoxContainer");
+
+		if(HitBoxContainer is null)
+		{
+			GD.PrintErr($"Hitbox Container not found for State [{Name}]");
+		}
+
+		Gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 	}
 
 	public virtual void Update(double delta) { }
