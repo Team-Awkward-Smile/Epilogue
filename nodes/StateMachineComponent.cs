@@ -71,6 +71,7 @@ public partial class StateMachineComponent : Node
 		oldState.QueueFree();
 
 		_currentState = (StateComponent) newState.Duplicate();
+		_currentState.Name = "CurrentState";
 
 		AddChild(_currentState);
 		GetNode<Label>("../%StateMonitor").Text = $"{newState.Name}";

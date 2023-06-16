@@ -1,3 +1,5 @@
+using Epilogue.constants;
+using Epilogue.extensions;
 using Epilogue.nodes;
 using Godot;
 using System.Linq;
@@ -7,13 +9,27 @@ public partial class Walk : StateComponent
 {
 	[Export] private float _moveSpeed = 100f;
 
-	private Sprite2D _sprite;
-
 	public override void OnInput(InputEvent @event)
 	{
 		if(Input.IsActionJustPressed("jump"))
 		{
-			StateMachine.ChangeState("Jump");
+			if(Character.IsOnWall())
+			{
+				if(Character.IsHeadRayCastColliding())
+				{
+					// Is near a wall
+					StateMachine.ChangeState("Jump");
+				}
+				else
+				{
+					// Is near a ledge
+					StateMachine.ChangeState("GrabLedge");
+				}
+			}
+			else
+			{
+				StateMachine.ChangeState("Jump");
+			}
 		}
 		else if(Input.IsActionJustPressed("attack"))
 		{
@@ -23,8 +39,6 @@ public partial class Walk : StateComponent
 
 	public override void OnEnter()
 	{
-		_sprite = Character.GetChildren().OfType<Sprite2D>().FirstOrDefault();
-
 		AnimPlayer.Play("Bob/Walking");
 	}
 
@@ -53,8 +67,8 @@ public partial class Walk : StateComponent
 			AnimPlayer.Play("Bob/Walking");
 		}
 
-		_sprite.FlipH = _movementDirection < 0f;
-		HitBoxContainer.Scale = new Vector2(_movementDirection < 0f ? -1 : 1, 1f);
+		var rotationContainer = (Node2D) Character.GetNode("RotationContainer");
+		rotationContainer.Scale = new Vector2(_movementDirection < 0f ? -1 : 1, 1f);
 
 		var velocity = Character.Velocity;
 

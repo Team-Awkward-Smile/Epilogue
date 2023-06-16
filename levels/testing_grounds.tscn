@@ -1,12 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://cn2lbtkt6ntnt"]
+[gd_scene load_steps=9 format=3 uid="uid://cn2lbtkt6ntnt"]
 
-[ext_resource type="PackedScene" uid="uid://cmrbm1u6fwi67" path="res://actors/bob/bob.tscn" id="1_a1eny"]
-[ext_resource type="Script" path="res://props/camera/Camera.cs" id="2_hlhwm"]
-[ext_resource type="Texture2D" uid="uid://iwr2v70okfhc" path="res://temp/checkerboard.png" id="3_1sihb"]
-[ext_resource type="Texture2D" uid="uid://dh4ef3r7apig" path="res://temp/checkerboard_slope.png" id="4_uyx2w"]
+[ext_resource type="PackedScene" uid="uid://cmrbm1u6fwi67" path="res://actors/bob/bob.tscn" id="1_64vtv"]
+[ext_resource type="Script" path="res://props/camera/Camera.cs" id="2_0cy86"]
+[ext_resource type="Texture2D" uid="uid://iwr2v70okfhc" path="res://temp/checkerboard.png" id="3_htyrk"]
+[ext_resource type="Texture2D" uid="uid://dh4ef3r7apig" path="res://temp/checkerboard_slope.png" id="4_dd40q"]
+[ext_resource type="Script" path="res://nodes/BranchNameLabel.cs" id="5_hhokm"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rgkj0"]
-texture = ExtResource("3_1sihb")
+texture = ExtResource("3_htyrk")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -14,7 +15,7 @@ texture_region_size = Vector2i(32, 32)
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8qghg"]
-texture = ExtResource("4_uyx2w")
+texture = ExtResource("4_dd40q")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -30,7 +31,10 @@ sources/3 = SubResource("TileSetAtlasSource_8qghg")
 
 [node name="Root" type="Node2D"]
 
-[node name="Bob" parent="." instance=ExtResource("1_a1eny")]
+[node name="BranchNameLabel" type="CanvasLayer" parent="."]
+script = ExtResource("5_hhokm")
+
+[node name="Bob" parent="." instance=ExtResource("1_64vtv")]
 position = Vector2(374, -173)
 
 [node name="StateMonitor" type="Label" parent="Bob"]
@@ -52,7 +56,7 @@ vertical_alignment = 1
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(3, 3)
-script = ExtResource("2_hlhwm")
+script = ExtResource("2_0cy86")
 
 [node name="Ground" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_hmeum")
