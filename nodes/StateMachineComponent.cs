@@ -74,7 +74,6 @@ public partial class StateMachineComponent : Node
 		_currentState.Name = "CurrentState";
 
 		AddChild(_currentState);
-		GetNode<Label>("../%StateMonitor").Text = $"{newState.Name}";
 
 		_currentState.OnEnter();
 	}

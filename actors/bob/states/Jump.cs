@@ -14,7 +14,10 @@ public partial class Jump : StateComponent
 
 		Character.Velocity = new Vector2(0f, Character.Velocity.Y);
 		AnimPlayer.Play("Bob/Jumping_ascend");
-		AnimPlayer.AnimationFinished += StartJump;
+		AnimPlayer.AnimationFinished += (StringName animName) =>
+		{
+			Character.Velocity = new Vector2(_horizontalVelocity, _jumpSpeed);
+		};
 	}
 
 	public override void PhysicsUpdate(double delta)
@@ -27,11 +30,9 @@ public partial class Jump : StateComponent
 			StateMachine.ChangeState("Fall");
 			return;
 		}
-	}
-
-	private void StartJump(StringName animName)
-	{
-		Character.Velocity = new Vector2(_horizontalVelocity, _jumpSpeed);
-		AnimPlayer.AnimationFinished -= StartJump;
+		else if(Character.IsOnFloor() && Character.Velocity.Y < 0)
+		{
+			StateMachine.ChangeState("Idle");
+		}
 	}
 }

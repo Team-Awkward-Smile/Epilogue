@@ -1,17 +1,17 @@
 [gd_scene load_steps=16 format=3 uid="uid://cmrbm1u6fwi67"]
 
-[ext_resource type="AnimationLibrary" uid="uid://36iv5024fmwi" path="res://actors/bob/animations/Bob.res" id="1_p2ucl"]
-[ext_resource type="Texture2D" uid="uid://df2a87s4cukqq" path="res://actors/bob/sprite_sheet/epilogue_bob-Sheet.png" id="2_euunb"]
-[ext_resource type="Shape2D" uid="uid://3mco74p24h1u" path="res://actors/bob/hitboxes/melee_1.tres" id="3_ikioi"]
-[ext_resource type="Script" path="res://nodes/StateMachineComponent.cs" id="4_asqsf"]
-[ext_resource type="Script" path="res://actors/bob/states/Walk.cs" id="5_g5jm4"]
-[ext_resource type="Script" path="res://actors/bob/states/Jump.cs" id="6_ivnqs"]
-[ext_resource type="Script" path="res://actors/bob/states/Idle.cs" id="7_8qvw6"]
-[ext_resource type="Script" path="res://actors/bob/states/Fall.cs" id="8_3es3p"]
-[ext_resource type="Script" path="res://actors/bob/states/Crouch.cs" id="9_ooafr"]
-[ext_resource type="Script" path="res://actors/bob/states/MeleeAttack.cs" id="10_pstdg"]
-[ext_resource type="Script" path="res://actors/bob/states/GrabLedge.cs" id="11_dassn"]
-[ext_resource type="Script" path="res://actors/bob/states/ClimbLedge.cs" id="12_ybkxo"]
+[ext_resource type="Texture2D" uid="uid://df2a87s4cukqq" path="res://actors/bob/sprite_sheet/epilogue_bob-Sheet.png" id="1_bxvwp"]
+[ext_resource type="Shape2D" uid="uid://3mco74p24h1u" path="res://actors/bob/hitboxes/melee_1.tres" id="2_6wpf7"]
+[ext_resource type="AnimationLibrary" uid="uid://36iv5024fmwi" path="res://actors/bob/animations/Bob.res" id="3_ytry0"]
+[ext_resource type="Script" path="res://nodes/StateMachineComponent.cs" id="4_it6vp"]
+[ext_resource type="Script" path="res://actors/bob/states/Walk.cs" id="5_7nu6n"]
+[ext_resource type="Script" path="res://actors/bob/states/Jump.cs" id="6_kpw6p"]
+[ext_resource type="Script" path="res://actors/bob/states/Idle.cs" id="7_assfw"]
+[ext_resource type="Script" path="res://actors/bob/states/Fall.cs" id="8_y1ltg"]
+[ext_resource type="Script" path="res://actors/bob/states/Crouch.cs" id="9_2tk5e"]
+[ext_resource type="Script" path="res://actors/bob/states/MeleeAttack.cs" id="10_280x1"]
+[ext_resource type="Script" path="res://actors/bob/states/GrabLedge.cs" id="11_a8syo"]
+[ext_resource type="Script" path="res://actors/bob/states/ClimbLedge.cs" id="12_pbnx5"]
 
 [sub_resource type="Animation" id="Animation_1kqj8"]
 length = 0.001
@@ -30,19 +30,19 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../CollisionShape2D:shape:size")
+tracks/1/path = NodePath("../../CollisionShape2D:shape:size")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(20, 41.875)]
+"values": [Vector2(26.04, 41.875)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../CollisionShape2D:position")
+tracks/2/path = NodePath("../../CollisionShape2D:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -61,7 +61,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
+"values": [true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hko5d"]
@@ -76,12 +76,14 @@ size = Vector2(26.04, 41.875)
 collision_mask = 10
 floor_constant_speed = true
 floor_snap_length = 5.0
+platform_floor_layers = 4294901768
+platform_wall_layers = 8
 
 [node name="RotationContainer" type="Node2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="RotationContainer"]
 position = Vector2(0, -24)
-texture = ExtResource("2_euunb")
+texture = ExtResource("1_bxvwp")
 hframes = 8
 vframes = 5
 frame = 16
@@ -94,7 +96,8 @@ input_pickable = false
 
 [node name="HitBox" type="CollisionShape2D" parent="RotationContainer/HitBoxContainer"]
 position = Vector2(12, -25)
-shape = ExtResource("3_ikioi")
+shape = ExtResource("2_6wpf7")
+disabled = true
 debug_color = Color(0.929412, 0.231373, 0.341176, 0.419608)
 
 [node name="RayCast2D" type="RayCast2D" parent="RotationContainer"]
@@ -107,36 +110,38 @@ collision_mask = 8
 root_node = NodePath("../RotationContainer/Sprite2D")
 libraries = {
 "": SubResource("AnimationLibrary_hko5d"),
-"Bob": ExtResource("1_p2ucl")
+"Bob": ExtResource("3_ytry0")
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["MainHitbox"]]
 position = Vector2(0, -22)
 shape = SubResource("RectangleShape2D_vj7nu")
 
-[node name="StateMachineComponent" type="Node" parent="."]
-script = ExtResource("4_asqsf")
+[node name="StateMachineComponent" type="Node" parent="." node_paths=PackedStringArray("InitialState")]
+script = ExtResource("4_it6vp")
+InitialState = NodePath("Idle")
 
 [node name="Walk" type="Node" parent="StateMachineComponent"]
-script = ExtResource("5_g5jm4")
+script = ExtResource("5_7nu6n")
 
 [node name="Jump" type="Node" parent="StateMachineComponent"]
-script = ExtResource("6_ivnqs")
+script = ExtResource("6_kpw6p")
+_jumpSpeed = -365.0
 
 [node name="Idle" type="Node" parent="StateMachineComponent"]
-script = ExtResource("7_8qvw6")
+script = ExtResource("7_assfw")
 
 [node name="Fall" type="Node" parent="StateMachineComponent"]
-script = ExtResource("8_3es3p")
+script = ExtResource("8_y1ltg")
 
 [node name="Crouch" type="Node" parent="StateMachineComponent"]
-script = ExtResource("9_ooafr")
+script = ExtResource("9_2tk5e")
 
 [node name="MeleeAttack" type="Node" parent="StateMachineComponent"]
-script = ExtResource("10_pstdg")
+script = ExtResource("10_280x1")
 
 [node name="GrabLedge" type="Node" parent="StateMachineComponent"]
-script = ExtResource("11_dassn")
+script = ExtResource("11_a8syo")
 
 [node name="ClimbLedge" type="Node" parent="StateMachineComponent"]
-script = ExtResource("12_ybkxo")
+script = ExtResource("12_pbnx5")

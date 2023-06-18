@@ -27,17 +27,20 @@ public partial class Idle : StateComponent
 
 	public override void PhysicsUpdate(double delta)
 	{
-		Character.Velocity = new Vector2(0f, Character.Velocity.Y + (Gravity * (float) delta));
-		Character.MoveAndSlide();
-
 		if(!Character.IsOnFloor())
 		{
 			StateMachine.ChangeState("Fall");
 			return;
 		}
 
-		if(Input.GetAxis("move_left", "move_right") != 0f)
+		var movement = Input.GetAxis("move_left", "move_right"); 
+		if(movement != 0f)
 		{
+			if(Character.IsOnWall() && movement == -Character.GetWallNormal().X)
+			{
+				return;
+			}
+
 			StateMachine.ChangeState("Walk");
 			return;
 		}
