@@ -1,5 +1,6 @@
 using Epilogue.nodes;
 using Godot;
+using System;
 
 namespace Epilogue.actors.hestmor.states;
 public partial class Idle : StateComponent
@@ -22,6 +23,7 @@ public partial class Idle : StateComponent
 
 	public override void OnEnter()
 	{
+		Character.Velocity = new Vector2(0f, 0f);
 		AnimPlayer.Play("Bob/Idle");
 	}
 
@@ -41,7 +43,7 @@ public partial class Idle : StateComponent
 				return;
 			}
 
-			StateMachine.ChangeState("Walk");
+			StateMachine.ChangeState(Input.IsActionPressed("toggle_walk") || Math.Abs(movement) < 0.5f ? "Walk" : "Run");
 			return;
 		}
 

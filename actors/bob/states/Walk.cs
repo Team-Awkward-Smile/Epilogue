@@ -7,7 +7,6 @@ namespace Epilogue.actors.hestmor.states;
 public partial class Walk : StateComponent
 {
 	[Export] private float _walkSpeed = 100f;
-	[Export] private float _runSpeed = 200f;
 
 	public override void OnInput(InputEvent @event)
 	{
@@ -35,6 +34,10 @@ public partial class Walk : StateComponent
 		{
 			StateMachine.ChangeState("MeleeAttack");
 		}
+		else if(Input.IsActionJustPressed("crouch"))
+		{
+			StateMachine.ChangeState("Crouch");
+		}
 	}
 
 	public override void OnEnter()
@@ -48,26 +51,13 @@ public partial class Walk : StateComponent
 
 		if(movementDirection != 0f)
 		{
-			float movementSpeed;
-
-			if(Input.IsActionPressed("toggle_walk") || Math.Abs(movementDirection) < 0.5f)
-			{
-				AnimPlayer.Play("Bob/Walking");
-				movementSpeed = _walkSpeed;
-			}
-			else
-			{
-				AnimPlayer.Play("Bob/Walking", -1, 2f);
-				movementSpeed = _runSpeed;
-			}
-
 			var rotationContainer = Character.GetRotationContainer();
 			rotationContainer.Scale = new Vector2(movementDirection < 0f ? -1 : 1, 1f);
 
 			var velocity = Character.Velocity;
 
 			velocity.Y += Gravity * (float) delta;
-			velocity.X = movementDirection * movementSpeed;
+			velocity.X = movementDirection * _walkSpeed * (float) delta * 100;
 
 			Character.Velocity = velocity;
 		}
@@ -77,12 +67,14 @@ public partial class Walk : StateComponent
 		if(movementDirection == 0f || Character.IsOnWall())
 		{
 			StateMachine.ChangeState("Idle");
-			return;
 		}
 		else if(!Character.IsOnFloor())
 		{
 			StateMachine.ChangeState("Fall");
-			return;
+		}
+		else if(!Input.IsActionPressed("toggle_walk") && Math.Abs(movementDirection) >= 0.5f)
+		{
+			StateMachine.ChangeState("Run");
 		}
 	}
 }

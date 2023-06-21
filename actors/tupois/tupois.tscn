@@ -1,0 +1,71 @@
+[gd_scene load_steps=10 format=3 uid="uid://b3eq6wabf2x2g"]
+
+[ext_resource type="Texture2D" uid="uid://cqbkcvypwkowq" path="res://temp/tupois_spritesheet.png" id="1_ypu5q"]
+[ext_resource type="Shader" path="res://actors/tupois/shaders/tupois.gdshader" id="2_krbnj"]
+[ext_resource type="Script" path="res://nodes/StateMachineComponent.cs" id="3_gmlu4"]
+[ext_resource type="Script" path="res://actors/tupois/states/Walk.cs" id="4_6kapy"]
+[ext_resource type="AnimationLibrary" uid="uid://cnmfd8eqihs1g" path="res://actors/tupois/animation/tupois.res" id="5_pfl68"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_whc85"]
+radius = 15.0333
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s3tkk"]
+shader = ExtResource("2_krbnj")
+shader_parameter/force = 0.006
+shader_parameter/center = Vector2(0.5, 0.5)
+
+[sub_resource type="Animation" id="Animation_0dp6l"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D2:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u6jmk"]
+_data = {
+"RESET": SubResource("Animation_0dp6l")
+}
+
+[node name="Tupois" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 8
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(0, -2)
+scale = Vector2(0.339744, 0.339744)
+texture = ExtResource("1_ypu5q")
+vframes = 3
+
+[node name="RotationContainer" type="Node2D" parent="."]
+
+[node name="HitBoxContainer" type="Area2D" parent="RotationContainer"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_whc85")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_s3tkk")
+position = Vector2(0, -2)
+scale = Vector2(0.339744, 0.339744)
+texture = ExtResource("1_ypu5q")
+vframes = 3
+
+[node name="StateMachineComponent" type="Node" parent="."]
+script = ExtResource("3_gmlu4")
+
+[node name="Walk" type="Node" parent="StateMachineComponent"]
+script = ExtResource("4_6kapy")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_u6jmk"),
+"tupois": ExtResource("5_pfl68")
+}

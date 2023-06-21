@@ -1,3 +1,4 @@
+using Epilogue.extensions;
 using Epilogue.nodes;
 using Godot;
 
@@ -17,7 +18,10 @@ public partial class Fall : StateComponent
 		if(Character.IsOnFloor())
 		{
 			StateMachine.ChangeState("Idle");
-			return;
+		}
+		else if(Character.IsOnWall() && !Character.IsHeadRayCastColliding())
+		{
+			StateMachine.ChangeState("GrabLedge");
 		}
 	}
 

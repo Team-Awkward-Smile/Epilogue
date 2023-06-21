@@ -1,3 +1,4 @@
+using Epilogue.extensions;
 using Epilogue.nodes;
 using Godot;
 
@@ -33,6 +34,10 @@ public partial class Jump : StateComponent
 		else if(Character.IsOnFloor() && Character.Velocity.Y < 0)
 		{
 			StateMachine.ChangeState("Idle");
+		}
+		else if(Character.IsOnWall() && !Character.IsHeadRayCastColliding())
+		{
+			StateMachine.ChangeState("GrabLedge");
 		}
 	}
 }

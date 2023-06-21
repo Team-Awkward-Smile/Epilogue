@@ -28,6 +28,8 @@ public partial class StateMachineComponent : Node
 		}
 
 		AddChild(_currentState);
+
+		_currentState.OnEnter();
 	}
 
 	public override void _UnhandledInput(InputEvent @event)

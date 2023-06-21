@@ -1,17 +1,21 @@
-[gd_scene load_steps=16 format=3 uid="uid://cmrbm1u6fwi67"]
+[gd_scene load_steps=20 format=3 uid="uid://cmrbm1u6fwi67"]
 
-[ext_resource type="Texture2D" uid="uid://df2a87s4cukqq" path="res://actors/bob/sprite_sheet/epilogue_bob-Sheet.png" id="1_bxvwp"]
-[ext_resource type="Shape2D" uid="uid://3mco74p24h1u" path="res://actors/bob/hitboxes/melee_1.tres" id="2_6wpf7"]
-[ext_resource type="AnimationLibrary" uid="uid://36iv5024fmwi" path="res://actors/bob/animations/Bob.res" id="3_ytry0"]
-[ext_resource type="Script" path="res://nodes/StateMachineComponent.cs" id="4_it6vp"]
-[ext_resource type="Script" path="res://actors/bob/states/Walk.cs" id="5_7nu6n"]
-[ext_resource type="Script" path="res://actors/bob/states/Jump.cs" id="6_kpw6p"]
-[ext_resource type="Script" path="res://actors/bob/states/Idle.cs" id="7_assfw"]
-[ext_resource type="Script" path="res://actors/bob/states/Fall.cs" id="8_y1ltg"]
-[ext_resource type="Script" path="res://actors/bob/states/Crouch.cs" id="9_2tk5e"]
-[ext_resource type="Script" path="res://actors/bob/states/MeleeAttack.cs" id="10_280x1"]
-[ext_resource type="Script" path="res://actors/bob/states/GrabLedge.cs" id="11_a8syo"]
-[ext_resource type="Script" path="res://actors/bob/states/ClimbLedge.cs" id="12_pbnx5"]
+[ext_resource type="Texture2D" uid="uid://df2a87s4cukqq" path="res://actors/bob/sprite_sheet/epilogue_bob-Sheet.png" id="1_e3jif"]
+[ext_resource type="Shape2D" uid="uid://3mco74p24h1u" path="res://actors/bob/hitboxes/melee_1.tres" id="2_roimk"]
+[ext_resource type="AnimationLibrary" uid="uid://36iv5024fmwi" path="res://actors/bob/animations/Bob.res" id="3_lv018"]
+[ext_resource type="Script" path="res://nodes/StateMachineComponent.cs" id="4_ljc5n"]
+[ext_resource type="Script" path="res://actors/bob/states/Walk.cs" id="5_ja04i"]
+[ext_resource type="Script" path="res://actors/bob/states/Jump.cs" id="6_drrfu"]
+[ext_resource type="Script" path="res://actors/bob/states/Idle.cs" id="7_eu6sn"]
+[ext_resource type="Script" path="res://actors/bob/states/Fall.cs" id="8_mo3lg"]
+[ext_resource type="Script" path="res://actors/bob/states/Crouch.cs" id="9_i8pcb"]
+[ext_resource type="Script" path="res://actors/bob/states/MeleeAttack.cs" id="10_wcbbo"]
+[ext_resource type="Script" path="res://actors/bob/states/GrabLedge.cs" id="11_bgg5h"]
+[ext_resource type="Script" path="res://actors/bob/states/ClimbLedge.cs" id="12_wobkk"]
+[ext_resource type="Script" path="res://actors/bob/states/Slide.cs" id="13_f54tc"]
+[ext_resource type="Script" path="res://actors/bob/states/Run.cs" id="14_mo36x"]
+[ext_resource type="Script" path="res://actors/bob/AimController.cs" id="15_vibhy"]
+[ext_resource type="Texture2D" uid="uid://ddjhwyr0eudal" path="res://temp/aim_arrow.png" id="16_4aoai"]
 
 [sub_resource type="Animation" id="Animation_1kqj8"]
 length = 0.001
@@ -72,8 +76,9 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vj7nu"]
 size = Vector2(26.04, 41.875)
 
-[node name="Bob" type="CharacterBody2D"]
-collision_mask = 10
+[node name="Bob" type="CharacterBody2D" groups=["Player"]]
+collision_mask = 8
+floor_stop_on_slope = false
 floor_constant_speed = true
 floor_snap_length = 5.0
 platform_floor_layers = 4294901768
@@ -82,10 +87,10 @@ platform_wall_layers = 8
 [node name="RotationContainer" type="Node2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="RotationContainer"]
-position = Vector2(0, -24)
-texture = ExtResource("1_bxvwp")
+position = Vector2(0, -23)
+texture = ExtResource("1_e3jif")
 hframes = 8
-vframes = 5
+vframes = 7
 frame = 16
 
 [node name="HitBoxContainer" type="Area2D" parent="RotationContainer"]
@@ -96,13 +101,19 @@ input_pickable = false
 
 [node name="HitBox" type="CollisionShape2D" parent="RotationContainer/HitBoxContainer"]
 position = Vector2(12, -25)
-shape = ExtResource("2_6wpf7")
+shape = ExtResource("2_roimk")
 disabled = true
 debug_color = Color(0.929412, 0.231373, 0.341176, 0.419608)
 
-[node name="RayCast2D" type="RayCast2D" parent="RotationContainer"]
+[node name="HeadRayCast2D" type="RayCast2D" parent="RotationContainer"]
 editor_description = "RayCast used to test collisions against walls. Alongside the regular CharacterBody2D, can be used to determine is the character is near a ledge"
-position = Vector2(0, -43)
+position = Vector2(0, -42)
+target_position = Vector2(25, 0)
+collision_mask = 8
+
+[node name="WaistRayCast2D" type="RayCast2D" parent="RotationContainer"]
+editor_description = "RayCast used to test collisions against walls. Alongside the regular CharacterBody2D, can be used to determine is the character is near a ledge"
+position = Vector2(0, -21)
 target_position = Vector2(25, 0)
 collision_mask = 8
 
@@ -110,7 +121,7 @@ collision_mask = 8
 root_node = NodePath("../RotationContainer/Sprite2D")
 libraries = {
 "": SubResource("AnimationLibrary_hko5d"),
-"Bob": ExtResource("3_ytry0")
+"Bob": ExtResource("3_lv018")
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["MainHitbox"]]
@@ -118,30 +129,47 @@ position = Vector2(0, -22)
 shape = SubResource("RectangleShape2D_vj7nu")
 
 [node name="StateMachineComponent" type="Node" parent="." node_paths=PackedStringArray("InitialState")]
-script = ExtResource("4_it6vp")
+script = ExtResource("4_ljc5n")
 InitialState = NodePath("Idle")
 
 [node name="Walk" type="Node" parent="StateMachineComponent"]
-script = ExtResource("5_7nu6n")
+script = ExtResource("5_ja04i")
 
 [node name="Jump" type="Node" parent="StateMachineComponent"]
-script = ExtResource("6_kpw6p")
+script = ExtResource("6_drrfu")
 _jumpSpeed = -365.0
 
 [node name="Idle" type="Node" parent="StateMachineComponent"]
-script = ExtResource("7_assfw")
+script = ExtResource("7_eu6sn")
 
 [node name="Fall" type="Node" parent="StateMachineComponent"]
-script = ExtResource("8_y1ltg")
+script = ExtResource("8_mo3lg")
 
 [node name="Crouch" type="Node" parent="StateMachineComponent"]
-script = ExtResource("9_2tk5e")
+script = ExtResource("9_i8pcb")
 
 [node name="MeleeAttack" type="Node" parent="StateMachineComponent"]
-script = ExtResource("10_280x1")
+script = ExtResource("10_wcbbo")
 
 [node name="GrabLedge" type="Node" parent="StateMachineComponent"]
-script = ExtResource("11_a8syo")
+script = ExtResource("11_bgg5h")
 
 [node name="ClimbLedge" type="Node" parent="StateMachineComponent"]
-script = ExtResource("12_pbnx5")
+script = ExtResource("12_wobkk")
+
+[node name="Slide" type="Node" parent="StateMachineComponent"]
+script = ExtResource("13_f54tc")
+
+[node name="Run" type="Node" parent="StateMachineComponent"]
+script = ExtResource("14_mo36x")
+
+[node name="AimController" type="Node2D" parent="."]
+position = Vector2(0, -1)
+script = ExtResource("15_vibhy")
+
+[node name="AimArrow" type="Sprite2D" parent="."]
+position = Vector2(0, -21)
+rotation = 1.5708
+scale = Vector2(0.0933333, 0.0933333)
+texture = ExtResource("16_4aoai")
+offset = Vector2(300, 0)
