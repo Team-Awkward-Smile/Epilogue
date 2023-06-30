@@ -7,15 +7,15 @@ public partial class Idle : StateComponent
 {
 	public override void OnInput(InputEvent @event)
 	{
-		if(Input.IsActionJustPressed("jump"))
+		if(Input.IsActionJustPressed(_jumpInput))
 		{
 			StateMachine.ChangeState("Jump");
 		}
-		else if(Input.IsActionJustPressed("crouch"))
+		else if(Input.IsActionJustPressed(_crouchInput))
 		{
 			StateMachine.ChangeState("Crouch");
 		}
-		else if(Input.IsActionJustPressed("attack"))
+		else if(Input.IsActionJustPressed(_attackInput))
 		{
 			StateMachine.ChangeState("MeleeAttack");
 		}
@@ -23,31 +23,31 @@ public partial class Idle : StateComponent
 
 	public override void OnEnter()
 	{
-		Character.Velocity = new Vector2(0f, 0f);
+		Actor.Velocity = new Vector2(0f, 0f);
 		AnimPlayer.Play("Bob/Idle");
 	}
 
 	public override void PhysicsUpdate(double delta)
 	{
-		if(!Character.IsOnFloor())
+		if(!Actor.IsOnFloor())
 		{
 			StateMachine.ChangeState("Fall");
 			return;
 		}
 
-		var movement = Input.GetAxis("move_left", "move_right"); 
+		var movement = Input.GetAxis(_moveLeftInput, _moveRightInput);
 		if(movement != 0f)
 		{
-			if(Character.IsOnWall() && movement == -Character.GetWallNormal().X)
+			if(Actor.IsOnWall() && movement == -Actor.GetWallNormal().X)
 			{
 				return;
 			}
 
-			StateMachine.ChangeState(Input.IsActionPressed("toggle_walk") || Math.Abs(movement) < 0.5f ? "Walk" : "Run");
+			StateMachine.ChangeState(Math.Abs(movement) < 0.5f ? "Walk" : "Run");
 			return;
 		}
 
-		if(Input.IsActionPressed("crouch"))
+		if(Input.IsActionPressed(_crouchInput))
 		{
 			StateMachine.ChangeState("Crouch");
 			return;

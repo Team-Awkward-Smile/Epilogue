@@ -19,15 +19,13 @@ public partial class StateMachineComponent : Node
 
 		if(InitialState is not null)
 		{
-			_currentState = (StateComponent) InitialState.Duplicate();
+			_currentState = InitialState;
 		}
 		else
 		{
 			GD.PushWarning($"Initial State of actor [{Owner.Name}] not set. Defaulting to [{_states.First().Name}]");
-			_currentState = (StateComponent) _states.First().Duplicate();
+			_currentState = _states.First();
 		}
-
-		AddChild(_currentState);
 
 		_currentState.OnEnter();
 	}
@@ -47,7 +45,7 @@ public partial class StateMachineComponent : Node
 		_currentState?.PhysicsUpdate(delta);
 	}
 
-	public void ChangeState(string stateName)
+	public async void ChangeState(string stateName)
 	{
 		var oldState = _currentState;
 
@@ -64,19 +62,11 @@ public partial class StateMachineComponent : Node
 			return;
 		}
 
-		oldState.StateFinished += () => SetNewState(oldState, newState);
 		oldState.OnLeave();
-	}
 
-	private void SetNewState(StateComponent oldState, StateComponent newState)
-	{
-		oldState.QueueFree();
+		await oldState.OnLeaveAsync();
 
-		_currentState = (StateComponent) newState.Duplicate();
-		_currentState.Name = "CurrentState";
-
-		AddChild(_currentState);
-
+		_currentState = newState;
 		_currentState.OnEnter();
 	}
 }

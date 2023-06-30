@@ -20,9 +20,9 @@ public partial class Walk : StateComponent
 	{
 		_shaderTimer += delta;
 
-		var pos = ShaderUtils.GetCanvasItemPositionInScreenUV(Character);
+		var pos = ShaderUtils.GetCanvasItemPositionInScreenUV(Actor);
 
-		Character.GetNode<Sprite2D>("Sprite2D").SetShaderMaterialParameter("center", pos);
+		Actor.GetNode<Sprite2D>("Sprite2D").SetShaderMaterialParameter("center", pos);
 	}
 
 	// Called once per logic frame (60 times per second, by default)
@@ -36,8 +36,8 @@ public partial class Walk : StateComponent
 			_walkSpeed *= -1;
 		}
 
-		Character.Velocity = new Vector2(_walkSpeed * (float) delta * 100f, 0f);
-		Character.MoveAndSlide();
+		Actor.Velocity = new Vector2(_walkSpeed * (float) delta * 100f, 0f);
+		Actor.MoveAndSlide();
 	}
 }
 

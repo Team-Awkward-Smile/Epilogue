@@ -11,7 +11,7 @@ public partial class Crouch : StateComponent
 
 	public override void Update(double delta)
 	{
-		if(Input.IsActionJustReleased("crouch"))
+		if(Input.IsActionJustReleased(_crouchInput))
 		{
 			StateMachine.ChangeState("Idle");
 		}

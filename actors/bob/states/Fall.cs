@@ -1,6 +1,7 @@
 using Epilogue.extensions;
 using Epilogue.nodes;
 using Godot;
+using System.Threading.Tasks;
 
 namespace Epilogue.actors.hestmor.states;
 public partial class Fall : StateComponent
@@ -12,22 +13,24 @@ public partial class Fall : StateComponent
 
 	public override void PhysicsUpdate(double delta)
 	{
-		Character.Velocity = new Vector2(Character.Velocity.X, Character.Velocity.Y + (Gravity * (float) delta));
-		Character.MoveAndSlide();
+		Actor.Velocity = new Vector2(Actor.Velocity.X, Actor.Velocity.Y + (Gravity * (float) delta));
+		Actor.MoveAndSlide();
 
-		if(Character.IsOnFloor())
+		if(Actor.IsOnFloor())
 		{
 			StateMachine.ChangeState("Idle");
 		}
-		else if(Character.IsOnWall() && !Character.IsHeadRayCastColliding())
+		else if(Actor.IsOnWall() && !Actor.IsHeadRayCastColliding())
 		{
 			StateMachine.ChangeState("GrabLedge");
 		}
 	}
 
-	public override void OnLeave()
+	public override async Task OnLeaveAsync()
 	{
+		AudioPlayer.PlaySfx("Land");
 		AnimPlayer.Play("Bob/Jumping_land");
-		AnimPlayer.AnimationFinished += (StringName animName) => EmitSignal(SignalName.StateFinished);
+
+		await ToSignal(AnimPlayer, "animation_finished");
 	}
 }

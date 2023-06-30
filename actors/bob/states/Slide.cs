@@ -13,17 +13,14 @@ public partial class Slide : StateComponent
 
 	public override void OnInput(InputEvent @event)
 	{
-		if(Input.IsActionJustPressed("jump"))
+		if(Input.IsActionJustPressed(_jumpInput))
 		{
 			StateMachine.ChangeState("Jump");
 		}
-		else if(Input.IsActionJustPressed("up"))
+		else if(Input.IsActionJustPressed(_cancelSlideInput))
 		{
 			AnimPlayer.Play("Bob/Slide_end");
-			AnimPlayer.AnimationFinished += (StringName animName) =>
-			{
-				StateMachine.ChangeState("Idle");
-			};
+			AnimPlayer.AnimationFinished += EndSlide; 
 		}
 	}
 
@@ -31,18 +28,21 @@ public partial class Slide : StateComponent
 	{
 		EmitSignal(SignalName.StateStarted);
 
-		_slopeSnap = Character.FloorSnapLength;
+		_slopeSnap = Actor.FloorSnapLength;
+		_slideFinished = false;
+		_timer = 0f;
 
-		Character.FloorSnapLength = 10f;
-		Character.FloorConstantSpeed = false;
-		Character.Velocity = new Vector2(Character.Velocity.X * (1f + _slideSpeedBonus), Character.Velocity.Y);
+		Actor.FloorSnapLength = 10f;
+		Actor.FloorConstantSpeed = false;
+		Actor.Velocity = new Vector2(Actor.Velocity.X * (1f + _slideSpeedBonus), Actor.Velocity.Y);
 		AnimPlayer.Play("Bob/Slide_start");
+		AudioPlayer.PlaySfx("Slide");
 	}
 
 	public override void PhysicsUpdate(double delta)
 	{
-		Character.Velocity = new Vector2(Character.Velocity.X, Character.Velocity.Y + Gravity * (float) delta);
-		Character.MoveAndSlide();
+		Actor.Velocity = new Vector2(Actor.Velocity.X, Actor.Velocity.Y + Gravity * (float) delta);
+		Actor.MoveAndSlide();
 
 		_timer += delta;
 		
@@ -50,20 +50,23 @@ public partial class Slide : StateComponent
 		{
 			_slideFinished = true;
 
-			Character.Velocity = new Vector2(Character.Velocity.X / 2, Character.Velocity.Y);
+			Actor.Velocity = new Vector2(Actor.Velocity.X / 2, Actor.Velocity.Y);
 			AnimPlayer.Play("Bob/Slide_end");
-			AnimPlayer.AnimationFinished += (StringName animName) =>
-			{
-				StateMachine.ChangeState("Idle");
-			};
+			AnimPlayer.AnimationFinished += EndSlide; 
 		}
 	}
 
 	public override void OnLeave()
 	{
-		Character.FloorSnapLength = _slopeSnap;
-		Character.FloorConstantSpeed = true;
+		Actor.FloorSnapLength = _slopeSnap;
+		Actor.FloorConstantSpeed = true;
 
 		EmitSignal(SignalName.StateFinished);
+	}
+
+	private void EndSlide(StringName animName)
+	{
+		StateMachine.ChangeState("Idle");
+		AnimPlayer.AnimationFinished -= EndSlide;
 	}
 }

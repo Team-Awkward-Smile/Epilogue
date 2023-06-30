@@ -1,4 +1,3 @@
-using Epilogue.extensions;
 using Epilogue.nodes;
 using Godot;
 
@@ -9,33 +8,38 @@ public partial class Jump : StateComponent
 
 	private float _horizontalVelocity;
 
+	private void StartJump(StringName animName)
+	{
+		AnimPlayer.AnimationFinished -= StartJump;
+		Actor.Velocity = new Vector2(_horizontalVelocity, _jumpSpeed);
+		GD.Print(AnimPlayer.GetSignalConnectionList("animation_finished").Count);
+	}
+
 	public override void OnEnter()
 	{
-		_horizontalVelocity = Character.Velocity.X;
+		_horizontalVelocity = Actor.Velocity.X;
 
-		Character.Velocity = new Vector2(0f, Character.Velocity.Y);
+		AudioPlayer.PlaySfx("Jump");
+		Actor.Velocity = new Vector2(0f, Actor.Velocity.Y);
 		AnimPlayer.Play("Bob/Jumping_ascend");
-		AnimPlayer.AnimationFinished += (StringName animName) =>
-		{
-			Character.Velocity = new Vector2(_horizontalVelocity, _jumpSpeed);
-		};
+		AnimPlayer.AnimationFinished += StartJump;
 	}
 
 	public override void PhysicsUpdate(double delta)
 	{
-		Character.Velocity = new Vector2(Character.Velocity.X, Character.Velocity.Y + Gravity * (float) delta);
-		Character.MoveAndSlide();
+		Actor.Velocity = new Vector2(Actor.Velocity.X, Actor.Velocity.Y + (Gravity * (float) delta));
+		Actor.MoveAndSlide();
 
-		if(Character.Velocity.Y > 0)
+		if(Actor.Velocity.Y > 0)
 		{
 			StateMachine.ChangeState("Fall");
 			return;
 		}
-		else if(Character.IsOnFloor() && Character.Velocity.Y < 0)
+		else if(Actor.IsOnFloor() && Actor.Velocity.Y < 0)
 		{
 			StateMachine.ChangeState("Idle");
 		}
-		else if(Character.IsOnWall() && !Character.IsHeadRayCastColliding())
+		else if(Actor.IsOnWall() && !Actor.IsHeadRayCastColliding())
 		{
 			StateMachine.ChangeState("GrabLedge");
 		}

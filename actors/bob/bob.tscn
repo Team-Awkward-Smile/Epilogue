@@ -1,21 +1,23 @@
-[gd_scene load_steps=20 format=3 uid="uid://cmrbm1u6fwi67"]
+[gd_scene load_steps=22 format=3 uid="uid://cmrbm1u6fwi67"]
 
-[ext_resource type="Texture2D" uid="uid://df2a87s4cukqq" path="res://actors/bob/sprite_sheet/epilogue_bob-Sheet.png" id="1_e3jif"]
-[ext_resource type="Shape2D" uid="uid://3mco74p24h1u" path="res://actors/bob/hitboxes/melee_1.tres" id="2_roimk"]
-[ext_resource type="AnimationLibrary" uid="uid://36iv5024fmwi" path="res://actors/bob/animations/Bob.res" id="3_lv018"]
-[ext_resource type="Script" path="res://nodes/StateMachineComponent.cs" id="4_ljc5n"]
-[ext_resource type="Script" path="res://actors/bob/states/Walk.cs" id="5_ja04i"]
-[ext_resource type="Script" path="res://actors/bob/states/Jump.cs" id="6_drrfu"]
-[ext_resource type="Script" path="res://actors/bob/states/Idle.cs" id="7_eu6sn"]
-[ext_resource type="Script" path="res://actors/bob/states/Fall.cs" id="8_mo3lg"]
-[ext_resource type="Script" path="res://actors/bob/states/Crouch.cs" id="9_i8pcb"]
-[ext_resource type="Script" path="res://actors/bob/states/MeleeAttack.cs" id="10_wcbbo"]
-[ext_resource type="Script" path="res://actors/bob/states/GrabLedge.cs" id="11_bgg5h"]
-[ext_resource type="Script" path="res://actors/bob/states/ClimbLedge.cs" id="12_wobkk"]
-[ext_resource type="Script" path="res://actors/bob/states/Slide.cs" id="13_f54tc"]
-[ext_resource type="Script" path="res://actors/bob/states/Run.cs" id="14_mo36x"]
-[ext_resource type="Script" path="res://actors/bob/AimController.cs" id="15_vibhy"]
-[ext_resource type="Texture2D" uid="uid://ddjhwyr0eudal" path="res://temp/aim_arrow.png" id="16_4aoai"]
+[ext_resource type="Script" path="res://nodes/Actor.cs" id="1_1ngnl"]
+[ext_resource type="Texture2D" uid="uid://df2a87s4cukqq" path="res://actors/bob/sprite_sheet/epilogue_bob-Sheet.png" id="2_2p7be"]
+[ext_resource type="Shape2D" uid="uid://3mco74p24h1u" path="res://actors/bob/hitboxes/melee_1.tres" id="3_qd40k"]
+[ext_resource type="AnimationLibrary" uid="uid://36iv5024fmwi" path="res://actors/bob/animations/Bob.res" id="4_vvpuj"]
+[ext_resource type="Script" path="res://nodes/StateMachineComponent.cs" id="5_ge2qa"]
+[ext_resource type="Script" path="res://actors/bob/states/Walk.cs" id="6_gyv8s"]
+[ext_resource type="Script" path="res://actors/bob/states/Jump.cs" id="7_ybk36"]
+[ext_resource type="Script" path="res://actors/bob/states/Idle.cs" id="8_4vkid"]
+[ext_resource type="Script" path="res://actors/bob/states/Fall.cs" id="9_amah0"]
+[ext_resource type="Script" path="res://actors/bob/states/Crouch.cs" id="10_hahhf"]
+[ext_resource type="Script" path="res://actors/bob/states/MeleeAttack.cs" id="11_gfj0o"]
+[ext_resource type="Script" path="res://actors/bob/states/GrabLedge.cs" id="12_pbyo3"]
+[ext_resource type="Script" path="res://actors/bob/states/ClimbLedge.cs" id="13_tkuqh"]
+[ext_resource type="Script" path="res://actors/bob/states/Slide.cs" id="14_yrngk"]
+[ext_resource type="Script" path="res://actors/bob/states/Run.cs" id="15_pkcm2"]
+[ext_resource type="Script" path="res://actors/bob/AimController.cs" id="16_xji7a"]
+[ext_resource type="Texture2D" uid="uid://ddjhwyr0eudal" path="res://temp/aim_arrow.png" id="17_1jvv6"]
+[ext_resource type="Script" path="res://actors/bob/AudioPlayer.cs" id="18_onm3o"]
 
 [sub_resource type="Animation" id="Animation_1kqj8"]
 length = 0.001
@@ -83,12 +85,13 @@ floor_constant_speed = true
 floor_snap_length = 5.0
 platform_floor_layers = 4294901768
 platform_wall_layers = 8
+script = ExtResource("1_1ngnl")
 
 [node name="RotationContainer" type="Node2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="RotationContainer"]
 position = Vector2(0, -23)
-texture = ExtResource("1_e3jif")
+texture = ExtResource("2_2p7be")
 hframes = 8
 vframes = 7
 frame = 16
@@ -101,7 +104,7 @@ input_pickable = false
 
 [node name="HitBox" type="CollisionShape2D" parent="RotationContainer/HitBoxContainer"]
 position = Vector2(12, -25)
-shape = ExtResource("2_roimk")
+shape = ExtResource("3_qd40k")
 disabled = true
 debug_color = Color(0.929412, 0.231373, 0.341176, 0.419608)
 
@@ -121,7 +124,7 @@ collision_mask = 8
 root_node = NodePath("../RotationContainer/Sprite2D")
 libraries = {
 "": SubResource("AnimationLibrary_hko5d"),
-"Bob": ExtResource("3_lv018")
+"Bob": ExtResource("4_vvpuj")
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["MainHitbox"]]
@@ -129,47 +132,52 @@ position = Vector2(0, -22)
 shape = SubResource("RectangleShape2D_vj7nu")
 
 [node name="StateMachineComponent" type="Node" parent="." node_paths=PackedStringArray("InitialState")]
-script = ExtResource("4_ljc5n")
+script = ExtResource("5_ge2qa")
 InitialState = NodePath("Idle")
 
 [node name="Walk" type="Node" parent="StateMachineComponent"]
-script = ExtResource("5_ja04i")
+script = ExtResource("6_gyv8s")
 
 [node name="Jump" type="Node" parent="StateMachineComponent"]
-script = ExtResource("6_drrfu")
+script = ExtResource("7_ybk36")
 _jumpSpeed = -365.0
 
 [node name="Idle" type="Node" parent="StateMachineComponent"]
-script = ExtResource("7_eu6sn")
+script = ExtResource("8_4vkid")
 
 [node name="Fall" type="Node" parent="StateMachineComponent"]
-script = ExtResource("8_mo3lg")
+script = ExtResource("9_amah0")
 
 [node name="Crouch" type="Node" parent="StateMachineComponent"]
-script = ExtResource("9_i8pcb")
+script = ExtResource("10_hahhf")
 
 [node name="MeleeAttack" type="Node" parent="StateMachineComponent"]
-script = ExtResource("10_wcbbo")
+script = ExtResource("11_gfj0o")
 
 [node name="GrabLedge" type="Node" parent="StateMachineComponent"]
-script = ExtResource("11_bgg5h")
+script = ExtResource("12_pbyo3")
 
 [node name="ClimbLedge" type="Node" parent="StateMachineComponent"]
-script = ExtResource("12_wobkk")
+script = ExtResource("13_tkuqh")
 
 [node name="Slide" type="Node" parent="StateMachineComponent"]
-script = ExtResource("13_f54tc")
+script = ExtResource("14_yrngk")
 
 [node name="Run" type="Node" parent="StateMachineComponent"]
-script = ExtResource("14_mo36x")
+script = ExtResource("15_pkcm2")
 
 [node name="AimController" type="Node2D" parent="."]
 position = Vector2(0, -1)
-script = ExtResource("15_vibhy")
+script = ExtResource("16_xji7a")
 
 [node name="AimArrow" type="Sprite2D" parent="."]
 position = Vector2(0, -21)
 rotation = 1.5708
 scale = Vector2(0.0933333, 0.0933333)
-texture = ExtResource("16_4aoai")
+texture = ExtResource("17_1jvv6")
 offset = Vector2(300, 0)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+script = ExtResource("18_onm3o")
+
+[node name="Node" type="Node" parent="."]

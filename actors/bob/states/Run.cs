@@ -10,11 +10,11 @@ public partial class Run : StateComponent
 
 	public override void OnInput(InputEvent @event)
 	{
-		if(Input.IsActionJustPressed("jump"))
+		if(Input.IsActionJustPressed(_jumpInput))
 		{
-			if(Character.IsOnWall())
+			if(Actor.IsOnWall())
 			{
-				if(Character.IsHeadRayCastColliding())
+				if(Actor.IsHeadRayCastColliding())
 				{
 					// Is near a wall
 					StateMachine.ChangeState("Jump");
@@ -30,11 +30,11 @@ public partial class Run : StateComponent
 				StateMachine.ChangeState("Jump");
 			}
 		}
-		else if(Input.IsActionJustPressed("attack"))
+		else if(Input.IsActionJustPressed(_attackInput))
 		{
 			StateMachine.ChangeState("MeleeAttack");
 		}
-		else if(Input.IsActionJustPressed("crouch"))
+		else if(Input.IsActionJustPressed(_slideInput))
 		{
 			StateMachine.ChangeState("Slide");
 		}
@@ -47,35 +47,34 @@ public partial class Run : StateComponent
 
 	public override void PhysicsUpdate(double delta)
 	{
-		var movementDirection = Input.GetAxis("move_left", "move_right");
+		var movementDirection = Input.GetAxis(_moveLeftInput, _moveRightInput);
 
 		if(movementDirection != 0f)
 		{
-			var rotationContainer = Character.GetRotationContainer();
+			var rotationContainer = Actor.GetRotationContainer();
 			rotationContainer.Scale = new Vector2(movementDirection < 0f ? -1 : 1, 1f);
 
-			var velocity = Character.Velocity;
+			var velocity = Actor.Velocity;
 
 			velocity.Y += Gravity * (float) delta;
 			velocity.X = movementDirection * _runSpeed;
 
-			Character.Velocity = velocity;
+			Actor.Velocity = velocity;
 		}
 
-		Character.MoveAndSlide();
+		Actor.MoveAndSlide();
 
-		if(movementDirection == 0f || Character.IsOnWall())
+		if(movementDirection == 0f || Actor.IsOnWall())
 		{
 			StateMachine.ChangeState("Idle");
 		}
-		else if(!Character.IsOnFloor())
+		else if(!Actor.IsOnFloor())
 		{
 			StateMachine.ChangeState("Fall");
 		}
-		else if(Input.IsActionPressed("toggle_walk") || Math.Abs(movementDirection) < 0.5f)
+		else if(!Input.IsActionPressed(_toggleRunInput) && Math.Abs(movementDirection) < 0.5f)
 		{
 			StateMachine.ChangeState("Walk");
 		}
-
 	}
 }

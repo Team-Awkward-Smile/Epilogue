@@ -1,4 +1,5 @@
 using Godot;
+using System.Linq;
 
 namespace Epilogue.ui.debug;
 public partial class DebugInfo : Node
@@ -9,6 +10,12 @@ public partial class DebugInfo : Node
 
 	public override void _Ready()
 	{
+		if(_aimQuadrants)
+		{
+			GetViewport().SizeChanged += SetAimQuadrantLines;
+			SetAimQuadrantLines();
+		}
+
 		var hContainer = GetNode<HBoxContainer>("HBoxContainer");
 
 		if(_playerSpeed)
@@ -20,36 +27,41 @@ public partial class DebugInfo : Node
 		{
 			hContainer.AddChild(new BranchName());
 		}
+	}
 
-		if(_aimQuadrants)
+	private void SetAimQuadrantLines()
+	{
+		foreach(var c in GetChildren().OfType<Line2D>().ToList())
 		{
-			var screenSize = DisplayServer.WindowGetSize();
+			c.QueueFree();
+		}
 
-			for(var i = 1; i <= 2; i++)
+		var screenSize = DisplayServer.WindowGetSize();
+
+		for(var i = 1; i <= 2; i++)
+		{
+			var line = new Line2D()
 			{
-				var line = new Line2D()
-				{
-					Width = 1
-				};
+				Width = 1
+			};
 
-				line.AddPoint(new Vector2(screenSize.X / 3 * i, 0f));
-				line.AddPoint(new Vector2(screenSize.X / 3 * i, screenSize.Y));
+			line.AddPoint(new Vector2(screenSize.X / 3 * i, 0f));
+			line.AddPoint(new Vector2(screenSize.X / 3 * i, screenSize.Y));
 
-				AddChild(line);
-			}
+			AddChild(line);
+		}
 
-			for(var i = 1; i <= 2; i++)
+		for(var i = 1; i <= 2; i++)
+		{
+			var line = new Line2D()
 			{
-				var line = new Line2D()
-				{
-					Width = 1
-				};
+				Width = 1
+			};
 
-				line.AddPoint(new Vector2(0f, screenSize.Y / 3 * i));
-				line.AddPoint(new Vector2(screenSize.X, screenSize.Y / 3 * i));
+			line.AddPoint(new Vector2(0f, screenSize.Y / 3 * i));
+			line.AddPoint(new Vector2(screenSize.X, screenSize.Y / 3 * i));
 
-				AddChild(line);
-			}
+			AddChild(line);
 		}
 	}
 }

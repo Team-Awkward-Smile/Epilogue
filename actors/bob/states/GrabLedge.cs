@@ -19,6 +19,6 @@ public partial class GrabLedge : StateComponent
 
 	public override void OnEnter()
 	{
-		var offset = (Character.Position.Y % Constants.MAP_TILE_SIZE);
+		var offset = (Actor.Position.Y % Constants.MAP_TILE_SIZE);
 	}
 }
