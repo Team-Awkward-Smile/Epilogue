@@ -61,8 +61,6 @@ public partial class Walk : StateComponent
 
 		if(movementDirection != 0f)
 		{
-			Actor.SetFacingDirection(movementDirection < 0 ? ActorFacingDirectionEnum.Left : ActorFacingDirectionEnum.Right);
-
 			var velocity = Actor.Velocity;
 
 			velocity.Y += Gravity * (float) delta;

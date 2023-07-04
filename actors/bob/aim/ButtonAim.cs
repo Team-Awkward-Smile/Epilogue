@@ -16,27 +16,10 @@ public partial class ButtonAim : Node
 
 	public override void _Process(double delta)
 	{
-		var aimDirection = Input.GetVector("aim_left_modifier", "aim_right_modifier", "aim_up_retro", "aim_down_retro");
-		var flagY = AimDirectionEnum.None;
-		var flagX = AimDirectionEnum.None;
+		var aimDirection = Input.GetVector("aim_left_retro", "aim_right_retro", "aim_up_retro", "aim_down_retro");
 
-		if(aimDirection.Y == 0)
-		{
-			// No aiming button pressed, aim Left/Right depending on character's facing position
-			var actorDirection = _actor.FacingDirection;
-
-			flagX = actorDirection == ActorFacingDirectionEnum.Left ? AimDirectionEnum.Left : AimDirectionEnum.Right;
-			flagY = AimDirectionEnum.None;
-		}
-		else
-		{
-			flagY = aimDirection.Y < 0 ? AimDirectionEnum.Up : AimDirectionEnum.Down;
-
-			if(aimDirection.X != 0)
-			{
-				flagX = aimDirection.X < 0 ? AimDirectionEnum.Left : AimDirectionEnum.Right;
-			}
-		}
+		var flagX = aimDirection.X < 0 ? AimDirectionEnum.Left : aimDirection.X > 0 ? AimDirectionEnum.Right : AimDirectionEnum.None;
+		var flagY = aimDirection.Y < 0 ? AimDirectionEnum.Up : aimDirection.Y > 0 ? AimDirectionEnum.Down : AimDirectionEnum.None;
 
 		_aim.SetAimDirection(flagX | flagY);
 	}

@@ -1,11 +1,14 @@
 using Epilogue.global.enums;
 using Epilogue.global.singletons;
+using Epilogue.nodes;
 using Godot;
 using Godot.Collections;
 
 namespace Epilogue.actors.hestmor.aim;
 public partial class Aim : Node
 {
+	private Actor _actor;
+
 	private readonly Dictionary<AimDirectionEnum, int> _aimAngles = new()
 	{
 		{ AimDirectionEnum.Left | AimDirectionEnum.None, 180 },		// Left
@@ -33,8 +36,27 @@ public partial class Aim : Node
 		stickAim.ProcessMode = inputType == InputTypeEnum.Controller && Settings.ControlScheme == ControlSchemeEnum.Modern ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
 	}
 
+	public override void _Ready()
+	{
+		_actor = (Actor) Owner;
+	}
+
 	public void SetAimDirection(AimDirectionEnum direction)
 	{
+		if(direction == AimDirectionEnum.None)
+		{
+			direction = _actor.FacingDirection == ActorFacingDirectionEnum.Left ? AimDirectionEnum.Left : AimDirectionEnum.Right;
+		}
+
+		if((direction & AimDirectionEnum.Left) != 0)
+		{
+			_actor.SetFacingDirection(ActorFacingDirectionEnum.Left);
+		}
+		else if((direction & AimDirectionEnum.Right) != 0)
+		{
+			_actor.SetFacingDirection(ActorFacingDirectionEnum.Right);
+		}
+
 		GetNode<Sprite2D>("../AimArrow").RotationDegrees = _aimAngles[direction];
 	}
 }
