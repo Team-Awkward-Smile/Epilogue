@@ -1,6 +1,7 @@
+using Epilogue.global.enums;
+using Epilogue.global.singletons;
 using Epilogue.nodes;
 using Godot;
-using System;
 
 namespace Epilogue.actors.hestmor.states;
 public partial class Walk : StateComponent
@@ -9,7 +10,7 @@ public partial class Walk : StateComponent
 
 	public override void OnInput(InputEvent @event)
 	{
-		if(Input.IsActionJustPressed(_jumpInput))
+		if(@event.IsAction(Settings.GetActionName("jump")))
 		{
 			if(Actor.IsOnWall())
 			{
@@ -21,7 +22,7 @@ public partial class Walk : StateComponent
 				else
 				{
 					// Is near a ledge
-					StateMachine.ChangeState("GrabLedge");
+					//StateMachine.ChangeState("GrabLedge");
 				}
 			}
 			else
@@ -29,11 +30,11 @@ public partial class Walk : StateComponent
 				StateMachine.ChangeState("Jump");
 			}
 		}
-		else if(Input.IsActionJustPressed(_attackInput))
+		else if(@event.IsAction(Settings.GetActionName("melee")))
 		{
 			StateMachine.ChangeState("MeleeAttack");
 		}
-		else if(Input.IsActionJustPressed(_crouchInput))
+		else if(@event.IsAction(Settings.GetActionName("crouch")))
 		{
 			StateMachine.ChangeState("Crouch");
 		}
@@ -50,13 +51,12 @@ public partial class Walk : StateComponent
 
 		if(movementDirection != 0f)
 		{
-			var rotationContainer = Actor.GetRotationContainer();
-			rotationContainer.Scale = new Vector2(movementDirection < 0f ? -1 : 1, 1f);
+			Actor.SetFacingDirection(movementDirection < 0 ? ActorFacingDirection.Left : ActorFacingDirection.Right);
 
 			var velocity = Actor.Velocity;
 
 			velocity.Y += Gravity * (float) delta;
-			velocity.X = movementDirection * _walkSpeed * (float) delta * 100;
+			velocity.X = movementDirection * _walkSpeed * (float) delta * 60f;
 
 			Actor.Velocity = velocity;
 		}
@@ -71,9 +71,9 @@ public partial class Walk : StateComponent
 		{
 			StateMachine.ChangeState("Fall");
 		}
-		else if(Input.IsActionPressed(_toggleRunInput) || Math.Abs(movementDirection) >= 0.5f)
-		{
-			StateMachine.ChangeState("Run");
-		}
+		//else if(true)
+		//{
+		//	StateMachine.ChangeState("Run");
+		//}
 	}
 }

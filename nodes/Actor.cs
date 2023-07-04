@@ -1,3 +1,4 @@
+using Epilogue.global.enums;
 using Godot;
 using System.Linq;
 
@@ -5,10 +6,7 @@ namespace Epilogue.nodes;
 [GlobalClass]
 public partial class Actor : CharacterBody2D
 {
-	public Node2D GetRotationContainer()
-	{
-		return GetNode<Node2D>("RotationContainer");
-	}
+	public ActorFacingDirection FacingDirection { get; private set; } = ActorFacingDirection.Right;
 
 	/// <summary>
 	///		Checks if the RayCast2D of the character's head is colliding against anything
@@ -54,5 +52,20 @@ public partial class Actor : CharacterBody2D
 		}
 
 		return size;
+	}
+
+	public void SetFacingDirection(ActorFacingDirection newDirection)
+	{
+		var rotationContainer = GetNode<Node2D>("RotationContainer");
+		var scaleX = newDirection switch
+		{
+			ActorFacingDirection.Left => -1,
+			ActorFacingDirection.Right => 1,
+			_ => 1
+		};
+
+		FacingDirection = newDirection;
+
+		rotationContainer.Scale = new Vector2(scaleX, 1f);
 	}
 }

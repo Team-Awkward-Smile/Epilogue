@@ -1,4 +1,5 @@
-using Epilogue.extensions;
+using Epilogue.global.enums;
+using Epilogue.global.singletons;
 using Epilogue.nodes;
 using Godot;
 using System;
@@ -48,11 +49,11 @@ public partial class Run : StateComponent
 	public override void PhysicsUpdate(double delta)
 	{
 		var movementDirection = Input.GetAxis(_moveLeftInput, _moveRightInput);
+		var isWalking = InputDeviceManager.MostRecentInputType == InputType.Keyboard ? !Input.IsActionPressed("toggle_run_modern") : Mathf.Abs(movementDirection) <= 0.5f;
 
 		if(movementDirection != 0f)
 		{
-			var rotationContainer = Actor.GetRotationContainer();
-			rotationContainer.Scale = new Vector2(movementDirection < 0f ? -1 : 1, 1f);
+			Actor.SetFacingDirection(movementDirection < 0 ? ActorFacingDirection.Left : ActorFacingDirection.Right);
 
 			var velocity = Actor.Velocity;
 
@@ -72,7 +73,7 @@ public partial class Run : StateComponent
 		{
 			StateMachine.ChangeState("Fall");
 		}
-		else if(!Input.IsActionPressed(_toggleRunInput) && Math.Abs(movementDirection) < 0.5f)
+		else if(isWalking)
 		{
 			StateMachine.ChangeState("Walk");
 		}

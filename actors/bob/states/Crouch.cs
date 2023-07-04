@@ -1,5 +1,6 @@
 using Epilogue.nodes;
 using Godot;
+using System.Threading.Tasks;
 
 namespace Epilogue.actors.hestmor.states;
 public partial class Crouch : StateComponent
@@ -17,9 +18,12 @@ public partial class Crouch : StateComponent
 		}
 	}
 
-	public override void OnLeave()
+	public override async Task OnLeaveAsync()
 	{
 		AnimPlayer.PlayBackwards("Bob/Crouching");
-		AnimPlayer.AnimationFinished += (StringName animName) => EmitSignal(SignalName.StateFinished);
+
+		await ToSignal(AnimPlayer, "animation_finished");
+
+		EmitSignal(SignalName.StateFinished);
 	}
 }

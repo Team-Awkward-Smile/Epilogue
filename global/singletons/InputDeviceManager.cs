@@ -4,9 +4,13 @@ using Godot;
 namespace Epilogue.global.singletons;
 public partial class InputDeviceManager : Node
 {
-	public InputType MostRecentInputType { get; set; }
+	public static InputType MostRecentInputType { get; set; }
 	public float LeftJoystickDeadzone { get; set; } = 0.1f;
 	public float RightJoystickDeadzone { get; set; } = 0.1f;
+
+	private InputType? _oldInputType = null;
+
+	[Signal] public delegate void InputTypeChangedEventHandler(InputType inputType);
 
 	public override void _Input(InputEvent @event)
 	{
@@ -30,5 +34,12 @@ public partial class InputDeviceManager : Node
 			InputEventJoypadMotion => InputType.Controller,
 			_ => InputType.Keyboard
 		};
+
+		if(MostRecentInputType != _oldInputType)
+		{
+			_oldInputType = MostRecentInputType;
+
+			EmitSignal(SignalName.InputTypeChanged, (int) MostRecentInputType);
+		}
 	}
 }

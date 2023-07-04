@@ -11,7 +11,10 @@ public partial class AudioPlayerBase : Node
 	/// </summary>
 	protected virtual Dictionary<string, AudioStream> GenericSfxList { get; set; }
 
+	protected virtual Dictionary<string, AudioStream> FootstepSfxList { get; set; }
+
 	private AudioStreamPlayer2D _genericSfxPlayer;
+	private AudioStreamPlayer2D _footstepSfxPlayer;
 
 	public override void _Ready()
 	{
@@ -20,11 +23,24 @@ public partial class AudioPlayerBase : Node
 		{
 			_genericSfxPlayer = new AudioStreamPlayer2D()
 			{
+				Name = "GenericSFXPlayer",
 				MaxPolyphony = 1,
 				Bus = "SFX"
 			};
 
 			AddChild(_genericSfxPlayer);
+		}
+
+		if(FootstepSfxList.Any())
+		{
+			_footstepSfxPlayer = new AudioStreamPlayer2D()
+			{
+				Name = "FootstepSFXPlayer",
+				MaxPolyphony = 3,
+				Bus = "SFX"
+			};
+
+			AddChild(_footstepSfxPlayer);
 		}
 	}
 
@@ -38,6 +54,19 @@ public partial class AudioPlayerBase : Node
 		else
 		{
 			GD.PushWarning($"SFX [{sfxName}] not found for Actor [{Owner.Name}]");
+		}
+	}
+
+	public void PlayFootstep(string sfxName)
+	{
+		if(FootstepSfxList.TryGetValue(sfxName, out var sfx))
+		{
+			_footstepSfxPlayer.Stream = sfx;
+			_footstepSfxPlayer.Play();
+		}
+		else
+		{
+			GD.PushWarning($"Footstep [{sfxName}] not found for Actor [{Owner.Name}]");
 		}
 	}
 }

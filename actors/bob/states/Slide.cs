@@ -1,3 +1,4 @@
+using Epilogue.global.enums;
 using Epilogue.nodes;
 using Godot;
 
@@ -5,7 +6,7 @@ namespace Epilogue.actors.hestmor.states;
 public partial class Slide : StateComponent
 {
 	[Export] private float _slideTime = 0.5f;
-	[Export] private float _slideSpeedBonus = 0.1f;
+	[Export] private float _slideSpeed = 220f;
 
 	private double _timer = 0f;
 	private bool _slideFinished = false;
@@ -32,9 +33,11 @@ public partial class Slide : StateComponent
 		_slideFinished = false;
 		_timer = 0f;
 
+		var direction = Actor.FacingDirection == ActorFacingDirection.Left ? -1 : 1;
+
 		Actor.FloorSnapLength = 10f;
 		Actor.FloorConstantSpeed = false;
-		Actor.Velocity = new Vector2(Actor.Velocity.X * (1f + _slideSpeedBonus), Actor.Velocity.Y);
+		Actor.Velocity = new Vector2(_slideSpeed * direction, Actor.Velocity.Y);
 		AnimPlayer.Play("Bob/Slide_start");
 		AudioPlayer.PlaySfx("Slide");
 	}
@@ -66,7 +69,7 @@ public partial class Slide : StateComponent
 
 	private void EndSlide(StringName animName)
 	{
-		StateMachine.ChangeState("Idle");
 		AnimPlayer.AnimationFinished -= EndSlide;
+		StateMachine.ChangeState("Idle");
 	}
 }

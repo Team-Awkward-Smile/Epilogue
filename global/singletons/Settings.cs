@@ -10,4 +10,9 @@ public partial class Settings : Node
 	{
 		GD.Print($"Control Scheme: {ControlScheme}");
 	}
+
+	public static string GetActionName(string action)
+	{
+		return $"{action}_{(ControlScheme == ControlScheme.Modern ? "modern" : "retro")}";
+	}
 }

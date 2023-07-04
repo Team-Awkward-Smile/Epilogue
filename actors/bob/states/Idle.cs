@@ -1,3 +1,5 @@
+using Epilogue.global.enums;
+using Epilogue.global.singletons;
 using Epilogue.nodes;
 using Godot;
 using System;
@@ -18,6 +20,10 @@ public partial class Idle : StateComponent
 		else if(Input.IsActionJustPressed(_attackInput))
 		{
 			StateMachine.ChangeState("MeleeAttack");
+		}
+		else if(Input.IsActionJustPressed(_slideInput))
+		{
+			StateMachine.ChangeState("Slide");
 		}
 	}
 
@@ -43,7 +49,9 @@ public partial class Idle : StateComponent
 				return;
 			}
 
-			StateMachine.ChangeState(Math.Abs(movement) < 0.5f ? "Walk" : "Run");
+			var isWalking = InputDeviceManager.MostRecentInputType == InputType.Keyboard ? !Input.IsActionPressed("toggle_run_modern") : Mathf.Abs(movement) <= 0.5f;
+			
+			StateMachine.ChangeState(isWalking ? "Walk" : "Run");
 			return;
 		}
 
