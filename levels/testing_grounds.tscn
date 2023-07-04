@@ -46,6 +46,7 @@ sources/3 = SubResource("TileSetAtlasSource_8qghg")
 script = ExtResource("1_v2a15")
 _playerSpeed = true
 _aimQuadrants = true
+_inputType = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="DebugInfo"]
 anchors_preset = 12

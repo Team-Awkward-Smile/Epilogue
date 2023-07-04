@@ -4,42 +4,40 @@ using Godot;
 namespace Epilogue.global.singletons;
 public partial class InputDeviceManager : Node
 {
-	public static InputType MostRecentInputType { get; set; }
-	public float LeftJoystickDeadzone { get; set; } = 0.1f;
-	public float RightJoystickDeadzone { get; set; } = 0.1f;
+	public static InputTypeEnum MostRecentInputType { get; set; } = InputTypeEnum.Keyboard;
+	public float LeftJoystickDeadzone { get; set; } = 0.3f;
+	public float RightJoystickDeadzone { get; set; } = 0.3f;
 
-	private InputType? _oldInputType = null;
-
-	[Signal] public delegate void InputTypeChangedEventHandler(InputType inputType);
+	private InputTypeEnum _newInputType;
 
 	public override void _Input(InputEvent @event)
 	{
 		if(@event is InputEventJoypadMotion motionEvent)
 		{
-			if((motionEvent.Axis is JoyAxis.LeftX or JoyAxis.LeftY) && motionEvent.AxisValue < LeftJoystickDeadzone)
+			if((motionEvent.Axis is JoyAxis.LeftX or JoyAxis.LeftY) && Mathf.Abs(motionEvent.AxisValue) < LeftJoystickDeadzone)
 			{
 				GetViewport().SetInputAsHandled();
 				return;
 			}
-			else if((motionEvent.Axis is JoyAxis.RightX or JoyAxis.RightY) && motionEvent.AxisValue < RightJoystickDeadzone)
+			else if((motionEvent.Axis is JoyAxis.RightX or JoyAxis.RightY) && Mathf.Abs(motionEvent.AxisValue) < RightJoystickDeadzone)
 			{
 				GetViewport().SetInputAsHandled();
 				return;
 			}
 		}
 
-		MostRecentInputType = @event switch
+		_newInputType = @event switch
 		{
-			InputEventJoypadButton => InputType.Controller,
-			InputEventJoypadMotion => InputType.Controller,
-			_ => InputType.Keyboard
+			InputEventJoypadButton => InputTypeEnum.Controller,
+			InputEventJoypadMotion => InputTypeEnum.Controller,
+			_ => InputTypeEnum.Keyboard
 		};
 
-		if(MostRecentInputType != _oldInputType)
+		if(_newInputType != MostRecentInputType)
 		{
-			_oldInputType = MostRecentInputType;
+			MostRecentInputType = _newInputType;
 
-			EmitSignal(SignalName.InputTypeChanged, (int) MostRecentInputType);
+			GetTree().CallGroup("InputType", "InputTypeUpdate", (int) MostRecentInputType);
 		}
 	}
 }

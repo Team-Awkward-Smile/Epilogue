@@ -7,6 +7,7 @@ public partial class DebugInfo : Node
 	[Export] private bool _playerSpeed;
 	[Export] private bool _branchName = true;
 	[Export] private bool _aimQuadrants = false;
+	[Export] private bool _inputType = false;
 
 	public override void _Ready()
 	{
@@ -26,6 +27,11 @@ public partial class DebugInfo : Node
 		if(_branchName)
 		{
 			hContainer.AddChild(new BranchName());
+		}
+
+		if(_inputType)
+		{
+			hContainer.AddChild(new InputType());
 		}
 	}
 

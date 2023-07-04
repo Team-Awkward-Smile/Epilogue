@@ -1,9 +1,10 @@
 using Epilogue.global.enums;
 using Epilogue.nodes;
 using Godot;
+using System;
 
 namespace Epilogue.actors.hestmor.aim;
-public partial class MouseAim : Node
+public partial class StickAim : Node
 {
 	private Actor _actor;
 	private Aim _aim;
@@ -16,31 +17,26 @@ public partial class MouseAim : Node
 
 	public override void _Process(double delta)
 	{
-		var mousePosition = GetViewport().GetMousePosition();
-		var screenSize = DisplayServer.WindowGetSize();
+		var aimVector = Input.GetVector("aim_left_controller_modern", "aim_right_controller_modern", "aim_down_controller_modern", "aim_up_controller_modern");
 		var flagX = AimDirectionEnum.None;
 		var flagY = AimDirectionEnum.None;
 
-		switch((int) mousePosition.X / (screenSize.X / 3))
+		if(aimVector.X <= -0.5f)
 		{
-			case 0:
-				flagX = AimDirectionEnum.Left;
-				break;
-
-			case 2:
-				flagX = AimDirectionEnum.Right;
-				break;
+			flagX = AimDirectionEnum.Left;
+		}
+		else if(aimVector.X >= 0.5f)
+		{
+			flagX = AimDirectionEnum.Right;
 		}
 
-		switch((int) mousePosition.Y / (screenSize.Y / 3))
+		if(aimVector.Y <= -0.5f)
 		{
-			case 0:
-				flagY = AimDirectionEnum.Up;
-				break;
-
-			case 2:
-				flagY = AimDirectionEnum.Down;
-				break;
+			flagY = AimDirectionEnum.Down;
+		}
+		else if(aimVector.Y >= 0.5)
+		{
+			flagY = AimDirectionEnum.Up;
 		}
 
 		if((flagX | flagY) == AimDirectionEnum.None)

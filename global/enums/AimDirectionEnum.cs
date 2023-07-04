@@ -2,7 +2,7 @@ using System;
 
 namespace Epilogue.global.enums;
 [Flags]
-public enum AimDirection
+public enum AimDirectionEnum
 {
 	None = 0,
 	Left = 1,

@@ -1,5 +1,4 @@
 using Epilogue.global.enums;
-using Epilogue.global.singletons;
 using Epilogue.nodes;
 using Godot;
 
@@ -8,9 +7,11 @@ public partial class Walk : StateComponent
 {
 	[Export] private float _walkSpeed = 100f;
 
+	private bool _runToggled = false;
+
 	public override void OnInput(InputEvent @event)
 	{
-		if(@event.IsAction(Settings.GetActionName("jump")))
+		if(Input.IsActionJustPressed(_jumpInput))
 		{
 			if(Actor.IsOnWall())
 			{
@@ -30,18 +31,27 @@ public partial class Walk : StateComponent
 				StateMachine.ChangeState("Jump");
 			}
 		}
-		else if(@event.IsAction(Settings.GetActionName("melee")))
+		else if(Input.IsActionJustPressed(_attackInput))
 		{
 			StateMachine.ChangeState("MeleeAttack");
 		}
-		else if(@event.IsAction(Settings.GetActionName("crouch")))
+		else if(Input.IsActionJustPressed(_crouchInput))
 		{
 			StateMachine.ChangeState("Crouch");
+		}
+		else if(Input.IsActionJustPressed(_toggleRunInput))
+		{
+			_runToggled = !_runToggled;
+		}
+		else if(Input.IsActionJustPressed(_slideInput))
+		{
+			StateMachine.ChangeState("Slide");
 		}
 	}
 
 	public override void OnEnter()
 	{
+		_runToggled = false;
 		AnimPlayer.Play("Bob/Walking");
 	}
 
@@ -51,7 +61,7 @@ public partial class Walk : StateComponent
 
 		if(movementDirection != 0f)
 		{
-			Actor.SetFacingDirection(movementDirection < 0 ? ActorFacingDirection.Left : ActorFacingDirection.Right);
+			Actor.SetFacingDirection(movementDirection < 0 ? ActorFacingDirectionEnum.Left : ActorFacingDirectionEnum.Right);
 
 			var velocity = Actor.Velocity;
 
@@ -71,9 +81,9 @@ public partial class Walk : StateComponent
 		{
 			StateMachine.ChangeState("Fall");
 		}
-		//else if(true)
-		//{
-		//	StateMachine.ChangeState("Run");
-		//}
+		else if(_runToggled)
+		{
+			StateMachine.ChangeState("Run");
+		}
 	}
 }

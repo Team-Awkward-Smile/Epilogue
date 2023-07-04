@@ -49,9 +49,7 @@ public partial class Idle : StateComponent
 				return;
 			}
 
-			var isWalking = InputDeviceManager.MostRecentInputType == InputType.Keyboard ? !Input.IsActionPressed("toggle_run_modern") : Mathf.Abs(movement) <= 0.5f;
-			
-			StateMachine.ChangeState(isWalking ? "Walk" : "Run");
+			StateMachine.ChangeState(Input.IsActionPressed(_toggleRunInput) ? "Run" : "Walk");
 			return;
 		}
 

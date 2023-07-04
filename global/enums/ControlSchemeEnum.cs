@@ -1,5 +1,5 @@
 namespace Epilogue.global.enums;
-public enum ControlScheme
+public enum ControlSchemeEnum
 {
 	Modern,
 	Retro

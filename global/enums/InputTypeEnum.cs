@@ -1,5 +1,5 @@
 namespace Epilogue.global.enums;
-public enum InputType
+public enum InputTypeEnum
 {
 	Keyboard,
 	Controller

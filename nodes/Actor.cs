@@ -6,7 +6,7 @@ namespace Epilogue.nodes;
 [GlobalClass]
 public partial class Actor : CharacterBody2D
 {
-	public ActorFacingDirection FacingDirection { get; private set; } = ActorFacingDirection.Right;
+	public ActorFacingDirectionEnum FacingDirection { get; private set; } = ActorFacingDirectionEnum.Right;
 
 	/// <summary>
 	///		Checks if the RayCast2D of the character's head is colliding against anything
@@ -54,13 +54,13 @@ public partial class Actor : CharacterBody2D
 		return size;
 	}
 
-	public void SetFacingDirection(ActorFacingDirection newDirection)
+	public void SetFacingDirection(ActorFacingDirectionEnum newDirection)
 	{
 		var rotationContainer = GetNode<Node2D>("RotationContainer");
 		var scaleX = newDirection switch
 		{
-			ActorFacingDirection.Left => -1,
-			ActorFacingDirection.Right => 1,
+			ActorFacingDirectionEnum.Left => -1,
+			ActorFacingDirectionEnum.Right => 1,
 			_ => 1
 		};
 

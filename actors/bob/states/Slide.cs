@@ -33,7 +33,7 @@ public partial class Slide : StateComponent
 		_slideFinished = false;
 		_timer = 0f;
 
-		var direction = Actor.FacingDirection == ActorFacingDirection.Left ? -1 : 1;
+		var direction = Actor.FacingDirection == ActorFacingDirectionEnum.Left ? -1 : 1;
 
 		Actor.FloorSnapLength = 10f;
 		Actor.FloorConstantSpeed = false;
