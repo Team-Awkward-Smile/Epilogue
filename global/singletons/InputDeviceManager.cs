@@ -4,7 +4,7 @@ using Godot;
 namespace Epilogue.global.singletons;
 public partial class InputDeviceManager : Node
 {
-	public static InputTypeEnum MostRecentInputType { get; set; } = InputTypeEnum.Keyboard;
+	public static InputTypeEnum? MostRecentInputType { get; set; }
 	public float LeftJoystickDeadzone { get; set; } = 0.3f;
 	public float RightJoystickDeadzone { get; set; } = 0.3f;
 

@@ -204,6 +204,7 @@ script = ExtResource("9_yw8k3")
 
 [node name="Crouch" type="Node" parent="StateMachineComponent"]
 script = ExtResource("10_4c7jh")
+_cameraMovementDistance = 75
 
 [node name="MeleeAttack" type="Node" parent="StateMachineComponent"]
 script = ExtResource("11_mxqvw")

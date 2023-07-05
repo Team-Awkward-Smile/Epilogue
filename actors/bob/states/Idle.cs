@@ -1,8 +1,5 @@
-using Epilogue.global.enums;
-using Epilogue.global.singletons;
 using Epilogue.nodes;
 using Godot;
-using System;
 
 namespace Epilogue.actors.hestmor.states;
 public partial class Idle : StateComponent

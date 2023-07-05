@@ -5,22 +5,51 @@ using System.Threading.Tasks;
 namespace Epilogue.actors.hestmor.states;
 public partial class Crouch : StateComponent
 {
+	[Export] private float _cameraMovementDelay = 0.5f;
+	[Export] private int _cameraMovementDistance = 50;
+
+	private float _timer;
+	private Tween _cameraMovementTween;
+	private Vector2 _cameraAnchorOriginalPosition;
+	private bool _isCameraMoving;
+	private Node2D _cameraAnchor;
+
+	public override void OnInput(InputEvent @event)
+	{
+		if(Input.IsActionJustReleased(_crouchInput))
+		{
+			_cameraMovementTween?.Stop();
+
+			StateMachine.ChangeState("Idle");
+		}
+	}
+
 	public override void OnEnter()
 	{
+		_timer = 0f;
+		_isCameraMoving = false;
+		_cameraAnchor = Actor.GetNode<Node2D>("CameraAnchor");
+
 		AnimPlayer.Play("Bob/Crouching");
 	}
 
 	public override void Update(double delta)
 	{
-		if(Input.IsActionJustReleased(_crouchInput))
+		_timer += (float) delta;
+
+		if(_timer >= _cameraMovementDelay && !_isCameraMoving)
 		{
-			StateMachine.ChangeState("Idle");
+			_isCameraMoving = true;
+
+			_cameraMovementTween = GetTree().CreateTween();
+			_cameraMovementTween.TweenProperty(_cameraAnchor, "position", new Vector2(_cameraAnchor.Position.X, _cameraAnchor.Position.Y + _cameraMovementDistance), 0.5f);
 		}
 	}
 
 	public override async Task OnLeaveAsync()
 	{
 		AnimPlayer.PlayBackwards("Bob/Crouching");
+		GetTree().CreateTween().TweenProperty(_cameraAnchor, "position", _cameraAnchorOriginalPosition, 0.2f);
 
 		await ToSignal(AnimPlayer, "animation_finished");
 
