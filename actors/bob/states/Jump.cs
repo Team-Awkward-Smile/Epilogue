@@ -12,7 +12,6 @@ public partial class Jump : StateComponent
 	{
 		AnimPlayer.AnimationFinished -= StartJump;
 		Actor.Velocity = new Vector2(_horizontalVelocity, _jumpSpeed);
-		GD.Print(AnimPlayer.GetSignalConnectionList("animation_finished").Count);
 	}
 
 	public override void OnEnter()
@@ -41,7 +40,7 @@ public partial class Jump : StateComponent
 		}
 		else if(Actor.IsOnWall() && !Actor.IsHeadRayCastColliding())
 		{
-			StateMachine.ChangeState("GrabLedge");
+			//StateMachine.ChangeState("GrabLedge");
 		}
 	}
 }

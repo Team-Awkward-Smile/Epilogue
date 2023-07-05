@@ -22,7 +22,7 @@ public partial class Fall : StateComponent
 		}
 		else if(Actor.IsOnWall() && !Actor.IsHeadRayCastColliding())
 		{
-			StateMachine.ChangeState("GrabLedge");
+			//StateMachine.ChangeState("GrabLedge");
 		}
 	}
 
