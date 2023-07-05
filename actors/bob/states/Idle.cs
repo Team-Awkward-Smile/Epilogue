@@ -25,6 +25,10 @@ public partial class Idle : StateComponent
 		{
 			StateMachine.ChangeState("Slide");
 		}
+		else if(Input.IsActionJustPressed(_lookUpInput))
+		{
+			StateMachine.ChangeState("LookUp");
+		}
 	}
 
 	public override void OnEnter()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://cmrbm1u6fwi67"]
+[gd_scene load_steps=27 format=3 uid="uid://cmrbm1u6fwi67"]
 
 [ext_resource type="Script" path="res://nodes/Actor.cs" id="1_4ygog"]
 [ext_resource type="Texture2D" uid="uid://df2a87s4cukqq" path="res://actors/bob/sprite_sheet/epilogue_bob-Sheet.png" id="2_4dui0"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" path="res://actors/bob/states/ClimbLedge.cs" id="13_r1u62"]
 [ext_resource type="Script" path="res://actors/bob/states/Slide.cs" id="14_oet7d"]
 [ext_resource type="Script" path="res://actors/bob/states/Run.cs" id="15_au56k"]
+[ext_resource type="Script" path="res://actors/bob/states/LookUp.cs" id="16_5gaeg"]
 [ext_resource type="Texture2D" uid="uid://ddjhwyr0eudal" path="res://temp/aim_arrow.png" id="16_c5jfn"]
 [ext_resource type="Script" path="res://actors/bob/AudioPlayer.cs" id="17_hcq10"]
 [ext_resource type="Script" path="res://actors/bob/FootstepFxManager.cs" id="18_wedoc"]
@@ -219,6 +220,9 @@ script = ExtResource("14_oet7d")
 [node name="Run" type="Node" parent="StateMachineComponent"]
 script = ExtResource("15_au56k")
 
+[node name="LookUp" type="Node" parent="StateMachineComponent"]
+script = ExtResource("16_5gaeg")
+
 [node name="AimArrow" type="Sprite2D" parent="."]
 position = Vector2(0, -21)
 rotation = -0.785398
@@ -252,3 +256,7 @@ script = ExtResource("21_tdx1v")
 [node name="StickAim" type="Node" parent="Aim"]
 editor_description = "Node to control aiming with an analog stick"
 script = ExtResource("22_lef84")
+
+[node name="CameraAnchor" type="Node2D" parent="."]
+editor_description = "Node that serves as the anchor for the Camera. Moving this Node also moves the Camera"
+position = Vector2(0, -21)
