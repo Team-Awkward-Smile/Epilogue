@@ -10,7 +10,6 @@ public partial class Slide : StateComponent
 
 	private double _timer = 0f;
 	private bool _slideFinished = false;
-	private float _slopeSnap;
 
 	public override void OnInput(InputEvent @event)
 	{
@@ -29,7 +28,6 @@ public partial class Slide : StateComponent
 	{
 		EmitSignal(SignalName.StateStarted);
 
-		_slopeSnap = Actor.FloorSnapLength;
 		_slideFinished = false;
 		_timer = 0f;
 
@@ -37,6 +35,7 @@ public partial class Slide : StateComponent
 
 		Actor.FloorSnapLength = 10f;
 		Actor.FloorConstantSpeed = false;
+		Actor.FloorMaxAngle = 0f;
 		Actor.Velocity = new Vector2(_slideSpeed * direction, Actor.Velocity.Y);
 		AnimPlayer.Play("Bob/Slide_start");
 		AudioPlayer.PlaySfx("Slide");
@@ -61,8 +60,8 @@ public partial class Slide : StateComponent
 
 	public override void OnLeave()
 	{
-		Actor.FloorSnapLength = _slopeSnap;
 		Actor.FloorConstantSpeed = true;
+		Actor.FloorMaxAngle = 45f;
 
 		EmitSignal(SignalName.StateFinished);
 	}
