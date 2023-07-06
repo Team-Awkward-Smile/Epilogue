@@ -10,6 +10,7 @@ public partial class Slide : StateComponent
 
 	private double _timer = 0f;
 	private bool _slideFinished = false;
+	private float _startingRotation;
 
 	public override void OnInput(InputEvent @event)
 	{
@@ -30,12 +31,14 @@ public partial class Slide : StateComponent
 
 		_slideFinished = false;
 		_timer = 0f;
+		_startingRotation = Actor.Rotation;
 
 		var direction = Actor.FacingDirection == ActorFacingDirectionEnum.Left ? -1 : 1;
 
 		Actor.FloorSnapLength = 10f;
 		Actor.FloorConstantSpeed = false;
 		Actor.FloorMaxAngle = 0f;
+		Actor.FloorBlockOnWall = false;
 		Actor.Velocity = new Vector2(_slideSpeed * direction, Actor.Velocity.Y);
 		AnimPlayer.Play("Bob/Slide_start");
 		AudioPlayer.PlaySfx("Slide");
@@ -44,7 +47,7 @@ public partial class Slide : StateComponent
 	public override void PhysicsUpdate(double delta)
 	{
 		Actor.Velocity = new Vector2(Actor.Velocity.X, Actor.Velocity.Y + Gravity * (float) delta);
-		Actor.MoveAndSlide();
+		Actor.MoveAndSlideWithRotation();
 
 		_timer += delta;
 		
@@ -61,7 +64,9 @@ public partial class Slide : StateComponent
 	public override void OnLeave()
 	{
 		Actor.FloorConstantSpeed = true;
-		Actor.FloorMaxAngle = 45f;
+		Actor.FloorMaxAngle = Mathf.DegToRad(45f);
+		Actor.Rotation = _startingRotation;
+		Actor.FloorBlockOnWall = true;
 
 		EmitSignal(SignalName.StateFinished);
 	}

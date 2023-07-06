@@ -13,7 +13,7 @@ public partial class Actor : CharacterBody2D
 	/// </summary>
 	public bool IsHeadRayCastColliding()
 	{
-		return GetNode<RayCast2D>("RotationContainer/HeadRayCast2D").IsColliding();
+		return GetNode<RayCast2D>("HeadRayCast2D").IsColliding();
 	}
 
 	/// <summary>
@@ -21,7 +21,7 @@ public partial class Actor : CharacterBody2D
 	/// </summary>
 	public bool IsWaistRayCastColliding()
 	{
-		return GetNode<RayCast2D>("RotationContainer/WaistRayCast2D").IsColliding();
+		return GetNode<RayCast2D>("WaistRayCast2D").IsColliding();
 	}
 
 	/// <summary>
@@ -56,7 +56,7 @@ public partial class Actor : CharacterBody2D
 
 	public void SetFacingDirection(ActorFacingDirectionEnum newDirection)
 	{
-		var rotationContainer = GetNode<Node2D>("RotationContainer");
+		var flipNode = GetNode<Node2D>("FlipRoot");
 		var scaleX = newDirection switch
 		{
 			ActorFacingDirectionEnum.Left => -1,
@@ -66,6 +66,26 @@ public partial class Actor : CharacterBody2D
 
 		FacingDirection = newDirection;
 
-		rotationContainer.Scale = new Vector2(scaleX, 1f);
+		flipNode.Scale = new Vector2(scaleX, 1f);
+	}
+
+	/// <summary>
+	///		Just like the regular MoveAndSlide, but rotates the Actor if the movement occurred on a slope
+	/// </summary>
+	public void MoveAndSlideWithRotation()
+	{
+		MoveAndSlide();
+
+		var floorRadianAngle = GetFloorAngle();
+		var floorNormal = GetFloorNormal();
+
+		if(floorRadianAngle is > 0 and < 1)
+		{
+			CreateTween().TweenProperty(this, "rotation", floorRadianAngle * (floorNormal.X > 0 ? 1 : -1), 0.05f);
+		}
+		else if(floorRadianAngle == 0)
+		{
+			CreateTween().TweenProperty(this, "rotation", 0f, 0.05f);
+		}
 	}
 }

@@ -43,7 +43,7 @@ public partial class StateComponent : Node
 			GD.PrintErr($"Animation Player not found for Actor [{Actor.Name}]");
 		}
 
-		HitBoxContainer = Actor.GetNode<Area2D>("RotationContainer/HitBoxContainer");
+		HitBoxContainer = Actor.GetNode<Area2D>("FlipRoot/HitBoxContainer");
 
 		if(HitBoxContainer is null)
 		{

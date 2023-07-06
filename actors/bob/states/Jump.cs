@@ -27,7 +27,7 @@ public partial class Jump : StateComponent
 	public override void PhysicsUpdate(double delta)
 	{
 		Actor.Velocity = new Vector2(Actor.Velocity.X, Actor.Velocity.Y + (Gravity * (float) delta));
-		Actor.MoveAndSlide();
+		Actor.MoveAndSlideWithRotation();
 
 		if(Actor.Velocity.Y > 0)
 		{

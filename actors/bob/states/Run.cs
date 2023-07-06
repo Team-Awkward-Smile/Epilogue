@@ -67,7 +67,7 @@ public partial class Run : StateComponent
 			Actor.Velocity = velocity;
 		}
 
-		Actor.MoveAndSlide();
+		Actor.MoveAndSlideWithRotation();
 
 		if(movementDirection == 0f || Actor.IsOnWall())
 		{

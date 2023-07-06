@@ -1,4 +1,3 @@
-using Epilogue.global.enums;
 using Epilogue.nodes;
 using Godot;
 
@@ -69,7 +68,7 @@ public partial class Walk : StateComponent
 			Actor.Velocity = velocity;
 		}
 
-		Actor.MoveAndSlide();
+		Actor.MoveAndSlideWithRotation();
 
 		if(movementDirection == 0f || Actor.IsOnWall())
 		{
