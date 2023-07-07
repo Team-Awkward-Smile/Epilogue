@@ -20,7 +20,7 @@ public partial class Jump : StateComponent
 
 		AudioPlayer.PlaySfx("Jump");
 		Actor.Velocity = new Vector2(0f, Actor.Velocity.Y);
-		AnimPlayer.Play("Bob/Jumping_ascend");
+		AnimPlayer.Play("jump");
 		AnimPlayer.AnimationFinished += StartJump;
 	}
 
@@ -38,9 +38,9 @@ public partial class Jump : StateComponent
 		{
 			StateMachine.ChangeState("Idle");
 		}
-		else if(Actor.IsOnWall() && !Actor.IsHeadRayCastColliding())
+		else if(Actor.RayCasts["Head"].IsColliding() && !Actor.RayCasts["Ledge"].IsColliding())
 		{
-			//StateMachine.ChangeState("GrabLedge");
+			StateMachine.ChangeState("GrabLedge");
 		}
 	}
 }

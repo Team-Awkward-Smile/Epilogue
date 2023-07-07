@@ -17,7 +17,7 @@ public partial class Run : StateComponent
 		{
 			if(Actor.IsOnWall())
 			{
-				if(Actor.IsHeadRayCastColliding())
+				if(Actor.RayCasts["Head"].IsColliding())
 				{
 					// Is near a wall
 					StateMachine.ChangeState("Jump");
@@ -50,7 +50,7 @@ public partial class Run : StateComponent
 	public override void OnEnter()
 	{
 		_runToggled = true;
-		AnimPlayer.Play("Bob/Walking", -1, 2f);
+		AnimPlayer.Play("walk", -1, 2f);
 	}
 
 	public override void PhysicsUpdate(double delta)

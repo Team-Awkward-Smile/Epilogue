@@ -1,61 +1,43 @@
 using Epilogue.global.enums;
 using Godot;
+using Godot.Collections;
 using System.Linq;
 
 namespace Epilogue.nodes;
 [GlobalClass]
 public partial class Actor : CharacterBody2D
 {
-	public ActorFacingDirectionEnum FacingDirection { get; private set; } = ActorFacingDirectionEnum.Right;
+	/// <summary>
+	///		All RayCast2D's belonging to this Actor, accessed by their names (minus the 'RayCast2D' suffix)
+	/// </summary>
+	public Dictionary<string, RayCast2D> RayCasts { get; set; } = new();
 
 	/// <summary>
-	///		Checks if the RayCast2D of the character's head is colliding against anything
+	///		Direction (Left/Right) this Actor is currently facing
 	/// </summary>
-	public bool IsHeadRayCastColliding()
-	{
-		return GetNode<RayCast2D>("FlipRoot/HeadRayCast2D").IsColliding();
-	}
+    public ActorFacingDirectionEnum FacingDirection { get; private set; } = ActorFacingDirectionEnum.Right;
 
-	/// <summary>
-	///		Checks if the RayCast2D of the character's waist is colliding against anything
-	/// </summary>
-	public bool IsWaistRayCastColliding()
-	{
-		return GetNode<RayCast2D>("FlipRoot/WaistRayCast2D").IsColliding();
-	}
+	public bool CanChangeFacingDirection { get; set; } = true;
 
-	/// <summary>
-	///		Gets the hitbox used for the collisions of the character's body
-	/// </summary>
-	public CollisionShape2D GetMainHitbox()
-	{
-		var hitboxNode = (CollisionShape2D) GetChildren().Where(c => c.IsInGroup("MainHitbox")).FirstOrDefault();
-		return hitboxNode;
-	}
+    public Sprite2D Sprite { get; set; }
 
-	/// <summary>
-	///		Return a Vector2 representing the size of the Main Hitbox.
-	///		The returned Vector's X and Y represent different things, depending on the type of hitbox:
-	///		<list type="bullet">
-	///			<item>RectangleShape2D: <c>Vector2(Size.X, Size.Y)</c></item>
-	///		</list>
-	/// </summary>
-	/// <returns>A Vector2 with the size of the hitbox. The meaning of X and Y depends on the type of hitbox</returns>
-	public Vector2 GetMainHitboxSize()
+    public override void _Ready()
 	{
-		var hitbox = GetMainHitbox().Shape;
-		var size = new Vector2();
-
-		if(hitbox is RectangleShape2D)
+		GetNode<Node2D>("FlipRoot").GetChildren().OfType<RayCast2D>().ToList().ForEach(r =>
 		{
-			size = (Vector2) hitbox.Get("size");
-		}
+			RayCasts.Add(r.Name.ToString().Replace("RayCast2D", ""), r);
+		});
 
-		return size;
+		Sprite = GetNode<Node2D>("FlipRoot").GetChildren().OfType<Sprite2D>().Where(c => c.IsInGroup("MainSprite")).FirstOrDefault();
 	}
 
 	public void SetFacingDirection(ActorFacingDirectionEnum newDirection)
 	{
+		if(!CanChangeFacingDirection)
+		{
+			return;
+		}
+
 		var flipNode = GetNode<Node2D>("FlipRoot");
 		var scaleX = newDirection switch
 		{

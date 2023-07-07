@@ -8,7 +8,8 @@ public partial class Fall : StateComponent
 {
 	public override void OnEnter()
 	{
-		AnimPlayer.Play("Bob/Jumping_descend");
+		AnimPlayer.Play("fall");
+		Actor.CanChangeFacingDirection = true;
 	}
 
 	public override void PhysicsUpdate(double delta)
@@ -20,16 +21,16 @@ public partial class Fall : StateComponent
 		{
 			StateMachine.ChangeState("Idle");
 		}
-		else if(Actor.IsOnWall() && !Actor.IsHeadRayCastColliding())
+		else if(Actor.RayCasts["Head"].IsColliding() && !Actor.RayCasts["Ledge"].IsColliding())
 		{
-			//StateMachine.ChangeState("GrabLedge");
+			StateMachine.ChangeState("GrabLedge");
 		}
 	}
 
 	public override async Task OnLeaveAsync()
 	{
 		AudioPlayer.PlaySfx("Land");
-		AnimPlayer.Play("Bob/Jumping_land");
+		AnimPlayer.Play("fall_land");
 
 		await ToSignal(AnimPlayer, "animation_finished");
 	}

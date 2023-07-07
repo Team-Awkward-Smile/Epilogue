@@ -31,7 +31,7 @@ public partial class Idle : StateComponent
 	public override void OnEnter()
 	{
 		Actor.Velocity = new Vector2(0f, 0f);
-		AnimPlayer.Play("Bob/Idle");
+		AnimPlayer.Play("idle");
 	}
 
 	public override void PhysicsUpdate(double delta)

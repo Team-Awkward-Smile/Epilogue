@@ -12,18 +12,9 @@ public partial class Walk : StateComponent
 	{
 		if(Input.IsActionJustPressed(_jumpInput))
 		{
-			if(Actor.IsOnWall())
+			if(Actor.RayCasts["Head"].IsColliding() && !Actor.RayCasts["Ledge"].IsColliding())
 			{
-				if(Actor.IsHeadRayCastColliding())
-				{
-					// Is near a wall
-					StateMachine.ChangeState("Jump");
-				}
-				else
-				{
-					// Is near a ledge
-					//StateMachine.ChangeState("GrabLedge");
-				}
+				StateMachine.ChangeState("GrabLedge");
 			}
 			else
 			{
@@ -51,7 +42,7 @@ public partial class Walk : StateComponent
 	public override void OnEnter()
 	{
 		_runToggled = false;
-		AnimPlayer.Play("Bob/Walking");
+		AnimPlayer.Play("walk");
 	}
 
 	public override void PhysicsUpdate(double delta)

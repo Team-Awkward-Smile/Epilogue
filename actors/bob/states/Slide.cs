@@ -20,7 +20,7 @@ public partial class Slide : StateComponent
 		}
 		else if(Input.IsActionJustPressed(_cancelSlideInput))
 		{
-			AnimPlayer.Play("Bob/Slide_end");
+			AnimPlayer.Play("slide_end");
 			AnimPlayer.AnimationFinished += EndSlide; 
 		}
 	}
@@ -40,7 +40,7 @@ public partial class Slide : StateComponent
 		Actor.FloorMaxAngle = 0f;
 		Actor.FloorBlockOnWall = false;
 		Actor.Velocity = new Vector2(_slideSpeed * direction, Actor.Velocity.Y);
-		AnimPlayer.Play("Bob/Slide_start");
+		AnimPlayer.Play("slide_start");
 		AudioPlayer.PlaySfx("Slide");
 	}
 
@@ -56,7 +56,7 @@ public partial class Slide : StateComponent
 			_slideFinished = true;
 
 			Actor.Velocity = new Vector2(Actor.Velocity.X / 2, Actor.Velocity.Y);
-			AnimPlayer.Play("Bob/Slide_end");
+			AnimPlayer.Play("slide_end");
 			AnimPlayer.AnimationFinished += EndSlide; 
 		}
 	}

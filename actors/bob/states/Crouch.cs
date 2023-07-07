@@ -30,7 +30,7 @@ public partial class Crouch : StateComponent
 		_isCameraMoving = false;
 		_cameraAnchor = Actor.GetNode<Node2D>("CameraAnchor");
 
-		AnimPlayer.Play("Bob/Crouching");
+		AnimPlayer.Play("crouch");
 	}
 
 	public override void Update(double delta)
@@ -48,7 +48,7 @@ public partial class Crouch : StateComponent
 
 	public override async Task OnLeaveAsync()
 	{
-		AnimPlayer.PlayBackwards("Bob/Crouching");
+		AnimPlayer.PlayBackwards("crouch");
 		GetTree().CreateTween().TweenProperty(_cameraAnchor, "position", _cameraAnchorOriginalPosition, 0.2f);
 
 		await ToSignal(AnimPlayer, "animation_finished");
