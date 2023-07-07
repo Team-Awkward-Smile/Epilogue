@@ -13,7 +13,7 @@ public partial class Actor : CharacterBody2D
 	/// </summary>
 	public bool IsHeadRayCastColliding()
 	{
-		return GetNode<RayCast2D>("HeadRayCast2D").IsColliding();
+		return GetNode<RayCast2D>("FlipRoot/HeadRayCast2D").IsColliding();
 	}
 
 	/// <summary>
@@ -21,7 +21,7 @@ public partial class Actor : CharacterBody2D
 	/// </summary>
 	public bool IsWaistRayCastColliding()
 	{
-		return GetNode<RayCast2D>("WaistRayCast2D").IsColliding();
+		return GetNode<RayCast2D>("FlipRoot/WaistRayCast2D").IsColliding();
 	}
 
 	/// <summary>

@@ -1,17 +1,17 @@
 [gd_scene load_steps=11 format=3 uid="uid://b3eq6wabf2x2g"]
 
-[ext_resource type="Script" path="res://nodes/Actor.cs" id="1_k80t5"]
-[ext_resource type="Texture2D" uid="uid://cqbkcvypwkowq" path="res://temp/tupois_spritesheet.png" id="2_hmcm8"]
-[ext_resource type="Shader" path="res://actors/tupois/shaders/tupois.gdshader" id="3_dm3ku"]
-[ext_resource type="Script" path="res://nodes/StateMachineComponent.cs" id="4_835x8"]
-[ext_resource type="Script" path="res://actors/tupois/states/Walk.cs" id="5_dijmt"]
-[ext_resource type="AnimationLibrary" uid="uid://cnmfd8eqihs1g" path="res://actors/tupois/animation/tupois.res" id="6_3qnda"]
+[ext_resource type="Script" path="res://nodes/Actor.cs" id="1_biuvm"]
+[ext_resource type="Texture2D" uid="uid://cqbkcvypwkowq" path="res://temp/tupois_spritesheet.png" id="2_5p1tx"]
+[ext_resource type="Shader" path="res://actors/tupois/shaders/tupois.gdshader" id="3_vlogp"]
+[ext_resource type="Script" path="res://nodes/StateMachineComponent.cs" id="4_isgb4"]
+[ext_resource type="Script" path="res://actors/tupois/states/Walk.cs" id="5_xrsn5"]
+[ext_resource type="AnimationLibrary" uid="uid://cnmfd8eqihs1g" path="res://actors/tupois/animation/tupois.res" id="6_frx8t"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_whc85"]
 radius = 15.0333
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_s3tkk"]
-shader = ExtResource("3_dm3ku")
+shader = ExtResource("3_vlogp")
 shader_parameter/force = 0.006
 shader_parameter/center = Vector2(0.5, 0.5)
 
@@ -38,12 +38,12 @@ _data = {
 [node name="Tupois" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 8
-script = ExtResource("1_k80t5")
+script = ExtResource("1_biuvm")
 
 [node name="Sprite2D2" type="Sprite2D" parent="."]
 position = Vector2(0, -2)
 scale = Vector2(0.339744, 0.339744)
-texture = ExtResource("2_hmcm8")
+texture = ExtResource("2_5p1tx")
 vframes = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -53,19 +53,19 @@ shape = SubResource("CircleShape2D_whc85")
 material = SubResource("ShaderMaterial_s3tkk")
 position = Vector2(0, -2)
 scale = Vector2(0.339744, 0.339744)
-texture = ExtResource("2_hmcm8")
+texture = ExtResource("2_5p1tx")
 vframes = 3
 
 [node name="StateMachineComponent" type="Node" parent="."]
-script = ExtResource("4_835x8")
+script = ExtResource("4_isgb4")
 
 [node name="Walk" type="Node" parent="StateMachineComponent"]
-script = ExtResource("5_dijmt")
+script = ExtResource("5_xrsn5")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_u6jmk"),
-"tupois": ExtResource("6_3qnda")
+"tupois": ExtResource("6_frx8t")
 }
 
 [node name="FlipRoot" type="Node2D" parent="."]
