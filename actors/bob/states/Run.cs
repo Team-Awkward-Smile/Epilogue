@@ -50,7 +50,10 @@ public partial class Run : StateComponent
 	public override void OnEnter()
 	{
 		_runToggled = true;
+
 		AnimPlayer.Play("walk", -1, 2f);
+
+		Actor.CanChangeFacingDirection = true;
 	}
 
 	public override void PhysicsUpdate(double delta)
@@ -63,6 +66,12 @@ public partial class Run : StateComponent
 
 			velocity.Y += Gravity * (float) delta;
 			velocity.X = movementDirection * _runSpeed;
+
+			if(movementDirection > 0 && Actor.FacingDirection == ActorFacingDirectionEnum.Left ||
+				movementDirection < 0 && Actor.FacingDirection == ActorFacingDirectionEnum.Right)
+			{
+				velocity.X /= 2;
+			}
 
 			Actor.Velocity = velocity;
 		}

@@ -18,6 +18,7 @@ public partial class StateComponent : Node
 	protected readonly string _lookUpInput = InputUtils.GetInputActionName("look_up");
 	protected readonly string _slideInput = InputUtils.GetInputActionName("slide");
 	protected readonly string _cancelSlideInput = InputUtils.GetInputActionName("cancel_slide");
+	protected readonly string _growlInput = InputUtils.GetInputActionName("growl");
 
 	protected StateMachineComponent StateMachine { get; private set; }
 	protected Actor Actor { get; private set; }

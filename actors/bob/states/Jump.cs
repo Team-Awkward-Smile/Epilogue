@@ -19,7 +19,10 @@ public partial class Jump : StateComponent
 		_horizontalVelocity = Actor.Velocity.X;
 
 		AudioPlayer.PlaySfx("Jump");
+
 		Actor.Velocity = new Vector2(0f, Actor.Velocity.Y);
+		Actor.CanChangeFacingDirection = false;
+
 		AnimPlayer.Play("jump");
 		AnimPlayer.AnimationFinished += StartJump;
 	}

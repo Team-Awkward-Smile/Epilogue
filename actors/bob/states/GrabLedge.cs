@@ -22,6 +22,7 @@ public partial class GrabLedge : StateComponent
 	{
 		Actor.Velocity = new Vector2(0f, 0f);
 		Actor.CanChangeFacingDirection = false;
+
 		AnimPlayer.Play("grab_ledge");
 		AnimPlayer.AnimationFinished += StayOnEdge;
 	}
@@ -35,7 +36,8 @@ public partial class GrabLedge : StateComponent
 	private void MoveToTop(StringName animName)
 	{
 		AnimPlayer.AnimationFinished -= MoveToTop;
-		Actor.GlobalPosition = new Vector2(Actor.Sprite.GlobalPosition.X, Actor.Sprite.GlobalPosition.Y + 30f);
+		Actor.GlobalPosition = Actor.Sprite.GetNode<Node2D>("LedgeAnchor").GlobalPosition; 
+
 		StateMachine.ChangeState("Idle");
 	}
 

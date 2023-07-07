@@ -17,7 +17,7 @@ public partial class MeleeAttack : StateComponent
 		_hitbox = (CollisionShape2D) HitBoxContainer.GetChild(0);
 		_hitbox.Shape = hitboxShape;
 
-		AnimPlayer.Play("Bob/melee_attack");
+		AnimPlayer.Play("melee_attack");
 		AnimPlayer.AnimationFinished += FinishAttack;
 	}
 

@@ -1,3 +1,4 @@
+using Epilogue.global.enums;
 using Epilogue.nodes;
 using Godot;
 
@@ -42,7 +43,10 @@ public partial class Walk : StateComponent
 	public override void OnEnter()
 	{
 		_runToggled = false;
+
 		AnimPlayer.Play("walk");
+
+		Actor.CanChangeFacingDirection = true;
 	}
 
 	public override void PhysicsUpdate(double delta)
@@ -55,6 +59,12 @@ public partial class Walk : StateComponent
 
 			velocity.Y += Gravity * (float) delta;
 			velocity.X = movementDirection * _walkSpeed * (float) delta * 60f;
+
+			if(movementDirection > 0 && Actor.FacingDirection == ActorFacingDirectionEnum.Left ||
+				movementDirection < 0 && Actor.FacingDirection == ActorFacingDirectionEnum.Right)
+			{
+				velocity.X /= 2;
+			}
 
 			Actor.Velocity = velocity;
 		}

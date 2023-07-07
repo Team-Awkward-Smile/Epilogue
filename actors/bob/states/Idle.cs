@@ -8,7 +8,14 @@ public partial class Idle : StateComponent
 	{
 		if(Input.IsActionJustPressed(_jumpInput))
 		{
-			StateMachine.ChangeState("Jump");
+			if(Actor.IsOnWall() && !Actor.RayCasts["Head"].IsColliding() && !Actor.RayCasts["Ledge"].IsColliding())
+			{
+				StateMachine.ChangeState("Vault");
+			}
+			else
+			{
+				StateMachine.ChangeState("Jump");
+			}
 		}
 		else if(Input.IsActionJustPressed(_crouchInput))
 		{
@@ -26,11 +33,16 @@ public partial class Idle : StateComponent
 		{
 			StateMachine.ChangeState("LookUp");
 		}
+		else if(Input.IsActionJustPressed(_growlInput))
+		{
+			StateMachine.ChangeState("Growl");
+		}
 	}
 
 	public override void OnEnter()
 	{
-		Actor.Velocity = new Vector2(0f, 0f);
+		Actor.CanChangeFacingDirection = true;
+
 		AnimPlayer.Play("idle");
 	}
 

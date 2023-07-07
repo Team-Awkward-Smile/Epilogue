@@ -40,7 +40,10 @@ public partial class Slide : StateComponent
 		Actor.FloorMaxAngle = 0f;
 		Actor.FloorBlockOnWall = false;
 		Actor.Velocity = new Vector2(_slideSpeed * direction, Actor.Velocity.Y);
+		Actor.CanChangeFacingDirection = false;
+
 		AnimPlayer.Play("slide_start");
+
 		AudioPlayer.PlaySfx("Slide");
 	}
 

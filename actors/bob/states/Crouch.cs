@@ -26,9 +26,12 @@ public partial class Crouch : StateComponent
 
 	public override void OnEnter()
 	{
+		Actor.CanChangeFacingDirection = false;
+
 		_timer = 0f;
 		_isCameraMoving = false;
 		_cameraAnchor = Actor.GetNode<Node2D>("CameraAnchor");
+		_cameraAnchorOriginalPosition = _cameraAnchor.GlobalPosition;
 
 		AnimPlayer.Play("crouch");
 	}
@@ -42,14 +45,14 @@ public partial class Crouch : StateComponent
 			_isCameraMoving = true;
 
 			_cameraMovementTween = GetTree().CreateTween();
-			_cameraMovementTween.TweenProperty(_cameraAnchor, "position", new Vector2(_cameraAnchor.Position.X, _cameraAnchor.Position.Y + _cameraMovementDistance), 0.5f);
+			_cameraMovementTween.TweenProperty(_cameraAnchor, "global_position", new Vector2(_cameraAnchor.GlobalPosition.X, _cameraAnchor.GlobalPosition.Y + _cameraMovementDistance), 0.5f);
 		}
 	}
 
 	public override async Task OnLeaveAsync()
 	{
 		AnimPlayer.PlayBackwards("crouch");
-		GetTree().CreateTween().TweenProperty(_cameraAnchor, "position", _cameraAnchorOriginalPosition, 0.2f);
+		GetTree().CreateTween().TweenProperty(_cameraAnchor, "global_position", _cameraAnchorOriginalPosition, 0.2f);
 
 		await ToSignal(AnimPlayer, "animation_finished");
 
