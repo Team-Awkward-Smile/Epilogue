@@ -1,6 +1,16 @@
-<Project Sdk="Godot.NET.Sdk/4.0.3">
+<Project Sdk="Godot.NET.Sdk/4.1.0-dev.4">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <EnableDynamicLoading>true</EnableDynamicLoading>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="script_templates\node\State.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.6.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="script_templates\node\" />
+  </ItemGroup>
 </Project>
