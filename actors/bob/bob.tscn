@@ -658,7 +658,7 @@ frame = 22
 editor_description = "Node used by the Ledge Grab State to move the character to the correct place"
 position = Vector2(5, 13)
 
-[node name="FootstepFx" type="Node2D" parent="FlipRoot"]
+[node name="FootstepFx" type="Node" parent="FlipRoot"]
 script = ExtResource("21_6yh5e")
 
 [node name="LeftFoot" type="Node2D" parent="FlipRoot/FootstepFx"]
