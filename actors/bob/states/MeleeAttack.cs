@@ -2,15 +2,13 @@ using Epilogue.nodes;
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
-public partial class MeleeAttack : StateComponent
+public partial class MeleeAttack : PlayerState
 {
 	CollisionShape2D _hitbox;
 
 	public override void OnEnter()
 	{
 		// The attack audio is controlled by the animation
-
-		EmitSignal(SignalName.StateStarted);
 
 		var hitboxShape = (CircleShape2D) GD.Load("res://actors/bob/hitboxes/melee_1.tres");
 
@@ -30,7 +28,5 @@ public partial class MeleeAttack : StateComponent
 	public override void OnLeave()
 	{
 		_hitbox.Shape = null;
-
-		EmitSignal(SignalName.StateFinished);
 	}
 }

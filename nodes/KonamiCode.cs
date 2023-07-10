@@ -2,6 +2,9 @@ using Godot;
 using System.Collections.Generic;
 
 namespace Epilogue.nodes;
+/// <summary>
+///		Node used to read inputs from the player and unlocking secrets when the Konami Code is read
+/// </summary>
 [GlobalClass]
 public partial class KonamiCode : Node
 {
@@ -10,6 +13,7 @@ public partial class KonamiCode : Node
 	private float _timer = 0f;
 	private List<InputEvent> _cheatBuffer = new();
 
+	// Predefined cheat: up up down down left right left right RMB LMB Enter
 	private static string[] _cheat = { 
 		"cheat_up", 
 		"cheat_up", 
@@ -26,6 +30,7 @@ public partial class KonamiCode : Node
 
 	public override void _UnhandledInput(InputEvent @event)
 	{
+		// Ignores any input that's not from the Keyboard/Mouse or from the D-Pad
 		if((@event is not (InputEventKey or InputEventJoypadButton or InputEventMouseButton)) || @event.IsReleased())
 		{
 			return;
@@ -62,6 +67,7 @@ public partial class KonamiCode : Node
 				}
 			}
 
+			// TODO: actually unlock stuff when the code is entered correctly
 			GD.Print("Konami Code activated");
 			QueueFree();
 		}

@@ -2,7 +2,7 @@ using Epilogue.nodes;
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
-public partial class Idle : StateComponent
+public partial class Idle : PlayerState
 {
 	public override void OnInput(InputEvent @event)
 	{
@@ -55,6 +55,7 @@ public partial class Idle : StateComponent
 		}
 
 		var movement = Input.GetAxis(_moveLeftInput, _moveRightInput);
+
 		if(movement != 0f)
 		{
 			if(Actor.IsOnWall() && movement == -Actor.GetWallNormal().X)

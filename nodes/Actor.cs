@@ -4,6 +4,9 @@ using Godot.Collections;
 using System.Linq;
 
 namespace Epilogue.nodes;
+/// <summary>
+///		Base class for all Actors (i.e. Player Characters, NPCs, etc.)
+/// </summary>
 [GlobalClass]
 public partial class Actor : CharacterBody2D
 {
@@ -17,10 +20,19 @@ public partial class Actor : CharacterBody2D
 	/// </summary>
     public ActorFacingDirectionEnum FacingDirection { get; private set; } = ActorFacingDirectionEnum.Right;
 
+	/// <summary>
+	///		Can this actor currently change it's facing direction?
+	/// </summary>
 	public bool CanChangeFacingDirection { get; set; } = true;
 
+	/// <summary>
+	///		Main Sprite
+	/// </summary>
     public Sprite2D Sprite { get; set; }
 
+	/// <summary>
+	///		Health Node
+	/// </summary>
     public Health Health { get; set; }
 
     public override void _Ready()
@@ -34,6 +46,10 @@ public partial class Actor : CharacterBody2D
 		Health = GetChildren().OfType<Health>().FirstOrDefault();
 	}
 
+	/// <summary>
+	///		Sets a new facing direction for this Actor. If <see cref="CanChangeFacingDirection"/> is false, this method does nothing
+	/// </summary>
+	/// <param name="newDirection">The new direction</param>
 	public void SetFacingDirection(ActorFacingDirectionEnum newDirection)
 	{
 		if(!CanChangeFacingDirection)

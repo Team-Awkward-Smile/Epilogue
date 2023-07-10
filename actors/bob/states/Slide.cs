@@ -3,7 +3,7 @@ using Epilogue.nodes;
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
-public partial class Slide : StateComponent
+public partial class Slide : PlayerState
 {
 	[Export] private float _slideTime = 0.5f;
 	[Export] private float _slideSpeed = 220f;
@@ -27,8 +27,6 @@ public partial class Slide : StateComponent
 
 	public override void OnEnter()
 	{
-		EmitSignal(SignalName.StateStarted);
-
 		_slideFinished = false;
 		_timer = 0f;
 		_startingRotation = Actor.Rotation;
@@ -44,7 +42,7 @@ public partial class Slide : StateComponent
 
 		AnimPlayer.Play("slide_start");
 
-		AudioPlayer.PlaySfx("Slide");
+		AudioPlayer.PlayGenericSfx("Slide");
 	}
 
 	public override void PhysicsUpdate(double delta)
@@ -70,8 +68,6 @@ public partial class Slide : StateComponent
 		Actor.FloorMaxAngle = Mathf.DegToRad(45f);
 		Actor.Rotation = _startingRotation;
 		Actor.FloorBlockOnWall = true;
-
-		EmitSignal(SignalName.StateFinished);
 	}
 
 	private void EndSlide(StringName animName)

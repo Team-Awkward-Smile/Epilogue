@@ -2,7 +2,7 @@ using Epilogue.nodes;
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
-public partial class Vault : StateComponent
+public partial class Vault : PlayerState
 {
 	public override void OnEnter()
 	{

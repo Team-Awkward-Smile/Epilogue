@@ -8,6 +8,7 @@ public partial class CameraAnchor : Node2D
 
 	public override void _Ready()
 	{
+		// TODO: replace the hard-coded Actor for a generic target
 		_actor = (Actor) Owner;
 	}
 

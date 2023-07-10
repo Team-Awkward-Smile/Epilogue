@@ -1,10 +1,10 @@
-using Godot;
+using Epilogue.extensions;
 using Epilogue.nodes;
 using Epilogue.util;
-using Epilogue.extensions;
+using Godot;
 
 namespace Epilogue.actors.tupois.states;
-public partial class Walk : StateComponent
+public partial class Walk : State
 {
 	private double _walkDuration = 3f;
 	private double _timer = 0f;
@@ -25,7 +25,6 @@ public partial class Walk : StateComponent
 		Actor.GetNode<Sprite2D>("Sprite2D").SetShaderMaterialParameter("center", pos);
 	}
 
-	// Called once per logic frame (60 times per second, by default)
 	public override void PhysicsUpdate(double delta)
 	{
 		_timer += delta;

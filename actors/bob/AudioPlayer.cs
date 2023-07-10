@@ -3,7 +3,7 @@ using Godot;
 using Godot.Collections;
 
 namespace Epilogue.actors.hestmor;
-public partial class AudioPlayer : AudioPlayerBase
+public partial class AudioPlayer : ActorAudioPlayer
 {
 	private static readonly string path = @"res://actors/bob/sfx";
 
