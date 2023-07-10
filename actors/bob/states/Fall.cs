@@ -1,10 +1,9 @@
-using Epilogue.extensions;
 using Epilogue.nodes;
 using Godot;
 using System.Threading.Tasks;
 
 namespace Epilogue.actors.hestmor.states;
-public partial class Fall : StateComponent
+public partial class Fall : PlayerState
 {
 	public override void OnEnter()
 	{
@@ -29,7 +28,7 @@ public partial class Fall : StateComponent
 
 	public override async Task OnLeaveAsync()
 	{
-		AudioPlayer.PlaySfx("Land");
+		AudioPlayer.PlayGenericSfx("Land");
 		AnimPlayer.Play("fall_land");
 
 		await ToSignal(AnimPlayer, "animation_finished");

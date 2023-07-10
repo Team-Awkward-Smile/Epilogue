@@ -1,6 +1,9 @@
 using Godot;
 
 namespace Epilogue.util;
+/// <summary>
+///		Methods that are useful when dealing with Shaders
+/// </summary>
 public static class ShaderUtils
 {
 	/// <summary>

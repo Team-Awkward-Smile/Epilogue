@@ -3,7 +3,7 @@ using Godot;
 using System.Threading.Tasks;
 
 namespace Epilogue.actors.hestmor.states;
-public partial class Crouch : StateComponent
+public partial class Crouch : PlayerState
 {
 	[Export] private float _cameraMovementDelay = 0.5f;
 	[Export] private int _cameraMovementDistance = 50;
@@ -55,7 +55,5 @@ public partial class Crouch : StateComponent
 		GetTree().CreateTween().TweenProperty(_cameraAnchor, "global_position", _cameraAnchorOriginalPosition, 0.2f);
 
 		await ToSignal(AnimPlayer, "animation_finished");
-
-		EmitSignal(SignalName.StateFinished);
 	}
 }

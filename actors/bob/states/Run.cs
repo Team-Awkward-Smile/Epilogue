@@ -1,11 +1,9 @@
 using Epilogue.global.enums;
-using Epilogue.global.singletons;
 using Epilogue.nodes;
 using Godot;
-using System;
 
 namespace Epilogue.actors.hestmor.states;
-public partial class Run : StateComponent
+public partial class Run : PlayerState
 {
 	[Export] private float _runSpeed = 200f;
 
@@ -51,6 +49,7 @@ public partial class Run : StateComponent
 	{
 		_runToggled = true;
 
+		// TODO: Replace with a proper run animation
 		AnimPlayer.Play("walk", -1, 2f);
 
 		Actor.CanChangeFacingDirection = true;
@@ -67,8 +66,8 @@ public partial class Run : StateComponent
 			velocity.Y += Gravity * (float) delta;
 			velocity.X = movementDirection * _runSpeed;
 
-			if(movementDirection > 0 && Actor.FacingDirection == ActorFacingDirectionEnum.Left ||
-				movementDirection < 0 && Actor.FacingDirection == ActorFacingDirectionEnum.Right)
+			if((movementDirection > 0 && Actor.FacingDirection == ActorFacingDirectionEnum.Left) ||
+				(movementDirection < 0 && Actor.FacingDirection == ActorFacingDirectionEnum.Right))
 			{
 				velocity.X /= 2;
 			}

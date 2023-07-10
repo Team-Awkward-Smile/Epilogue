@@ -1,9 +1,8 @@
-using Epilogue.constants;
 using Epilogue.nodes;
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
-public partial class GrabLedge : StateComponent
+public partial class GrabLedge : PlayerState
 {
 	public override void OnInput(InputEvent @event)
 	{
@@ -36,7 +35,7 @@ public partial class GrabLedge : StateComponent
 	private void MoveToTop(StringName animName)
 	{
 		AnimPlayer.AnimationFinished -= MoveToTop;
-		Actor.GlobalPosition = Actor.Sprite.GetNode<Node2D>("LedgeAnchor").GlobalPosition; 
+		Actor.GlobalPosition = Actor.Sprite.GetNode<Node2D>("LedgeAnchor").GlobalPosition;
 
 		StateMachine.ChangeState("Idle");
 	}
