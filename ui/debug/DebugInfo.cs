@@ -2,6 +2,9 @@ using Godot;
 using System.Linq;
 
 namespace Epilogue.ui.debug;
+/// <summary>
+///		Prints various messages on-screen to help with debugging
+/// </summary>
 public partial class DebugInfo : Node
 {
 	[Export] private bool _playerSpeed;

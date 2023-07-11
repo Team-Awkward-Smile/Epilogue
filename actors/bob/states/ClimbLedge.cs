@@ -3,7 +3,7 @@ using Epilogue.nodes;
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
-public partial class ClimbLedge : StateComponent
+public partial class ClimbLedge : PlayerState
 {
 	public override void OnEnter()
 	{

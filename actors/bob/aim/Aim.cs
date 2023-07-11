@@ -41,6 +41,10 @@ public partial class Aim : Node
 		_actor = (Actor) Owner;
 	}
 
+	/// <summary>
+	///		Sets the direction of the aim system to a new direction, regardless of the input system used
+	/// </summary>
+	/// <param name="direction">The new direction</param>
 	public void SetAimDirection(AimDirectionEnum direction)
 	{
 		if(direction == AimDirectionEnum.None)
@@ -57,6 +61,7 @@ public partial class Aim : Node
 			_actor.SetFacingDirection(ActorFacingDirectionEnum.Right);
 		}
 
+		// TODO: This is just placeholder while we don't have a concrete aiming system
 		GetNode<Sprite2D>("../AimArrow").RotationDegrees = _aimAngles[direction];
 	}
 }

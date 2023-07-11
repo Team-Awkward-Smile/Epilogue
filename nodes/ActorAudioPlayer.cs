@@ -3,14 +3,20 @@ using Godot.Collections;
 using System.Linq;
 
 namespace Epilogue.nodes;
-[GlobalClass]
-public partial class AudioPlayerBase : Node
+/// <summary>
+///		Base class for AudioPlayers used by Actors
+/// </summary>
+[GlobalClass, Tool]
+public partial class ActorAudioPlayer : Node
 {
 	/// <summary>
 	///		List of available generic SFX (grunts, hisses, screams, etc.), to be implemented by each Actor individually
 	/// </summary>
 	protected virtual Dictionary<string, AudioStream> GenericSfxList { get; set; }
 
+	/// <summary>
+	///		List of available footsteps SFX to be implemented by each Actor individually
+	/// </summary>
 	protected virtual Dictionary<string, AudioStream> FootstepSfxList { get; set; }
 
 	private AudioStreamPlayer2D _genericSfxPlayer;
@@ -44,7 +50,11 @@ public partial class AudioPlayerBase : Node
 		}
 	}
 
-	public void PlaySfx(string sfxName)
+	/// <summary>
+	///		Plays a predefined generic SFX from the <see cref="GenericSfxList"/> list belonging to the Actor who owns this Node
+	/// </summary>
+	/// <param name="sfxName">Name of the Generic SFX</param>
+	public void PlayGenericSfx(string sfxName)
 	{
 		if(GenericSfxList.TryGetValue(sfxName, out var sfx))
 		{
@@ -57,7 +67,11 @@ public partial class AudioPlayerBase : Node
 		}
 	}
 
-	public void PlayFootstep(string sfxName)
+	/// <summary>
+	///		Plays a predefined footstep SFX from the <see cref="FootstepSfxList"/> list belonging to the Actor who owns this Node
+	/// </summary>
+	/// <param name="sfxName">Name of the Footstep SFX</param>
+	public void PlayFootstepSfx(string sfxName)
 	{
 		if(FootstepSfxList.TryGetValue(sfxName, out var sfx))
 		{

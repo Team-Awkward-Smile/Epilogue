@@ -7,7 +7,7 @@ using System.Linq;
 namespace Epilogue.actors.hestmor;
 public partial class FootstepFxManager : Node
 {
-	private AudioPlayerBase _audioPlayer;
+	private ActorAudioPlayer _audioPlayer;
 	private Level _level;
 	private Dictionary<string, Node2D> _feet = new();
 
@@ -28,6 +28,6 @@ public partial class FootstepFxManager : Node
 		var pos = new Vector2(foot.GlobalPosition.X, foot.GlobalPosition.Y + 5);
 		var groundType = (string) _level.GetTileDataAtPosition(pos).GetCustomData("ground_type");
 
-		_audioPlayer.PlayFootstep(groundType);
+		_audioPlayer.PlayFootstepSfx(groundType);
 	}
 }

@@ -1,0 +1,39 @@
+using Epilogue.global.enums;
+using Epilogue.nodes;
+using Godot;
+
+namespace Epilogue.actors.rob.states;
+public partial class Chase : NpcState
+{
+	[Export] private float _movementSpeed = 80f;
+
+	private Actor _bob;
+
+	public override void OnEnter()
+	{
+		_bob = GetNode<Actor>("../../../Bob");
+		_navigationAgent.TargetPosition = _bob.Position;
+
+		AnimPlayer.Play("walk");
+	}
+
+	public override void PhysicsUpdate(double delta)
+	{
+		_navigationAgent.TargetPosition = _bob.Position;
+
+		if(_navigationAgent.IsNavigationFinished())
+		{
+			AnimPlayer.Play("idle");
+			return;
+		}
+
+		AnimPlayer.Play("walk");
+
+		var nextPosition = _navigationAgent.GetNextPathPosition();
+		var newVelocity = (nextPosition - Actor.GlobalPosition).Normalized() * _movementSpeed;
+
+		Actor.SetFacingDirection(newVelocity.X < 0 ? ActorFacingDirectionEnum.Left : ActorFacingDirectionEnum.Right);
+		Actor.Velocity = new Vector2(newVelocity.X, Actor.Velocity.Y + Gravity * (float) delta);
+		Actor.MoveAndSlideWithRotation();
+	}
+}

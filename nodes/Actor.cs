@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Epilogue.nodes;
-[GlobalClass, Tool]
+/// <summary>
+///		Base class for all Actors (i.e. Player Characters, NPCs, etc.)
+/// </summary>
+[GlobalClass, Tool, Icon("res://nodes/actor.png")]
 public partial class Actor : CharacterBody2D
 {
 	/// <summary>
@@ -17,40 +20,44 @@ public partial class Actor : CharacterBody2D
 	/// </summary>
     public ActorFacingDirectionEnum FacingDirection { get; private set; } = ActorFacingDirectionEnum.Right;
 
+	/// <summary>
+	///		Can this actor currently change it's facing direction?
+	/// </summary>
 	public bool CanChangeFacingDirection { get; set; } = true;
 
+	/// <summary>
+	///		Main Sprite
+	/// </summary>
     public Sprite2D Sprite { get; set; }
 
+	/// <summary>
+	///		Health Node
+	/// </summary>
     public Health Health { get; set; }
 
 	public override string[] _GetConfigurationWarnings()
 	{
 		var warnings = new List<string>();
+		var children = GetChildren();
 
-		foreach(var c in GetChildren())
-		{
-			GD.Print(c.Name + " " + (c is Health));
-		}
-
-
-		if(!GetChildren().Where(c => c.Name == "FlipRoot").Any())
+		if(!children.Where(c => c.Name == "FlipRoot").Any())
 		{
 			warnings.Add("This Actor has no Flip Root.\nConsider adding a Node2D called FlipRoot to manage children Nodes that need to rotate during the game");
 		}
 
-		if(!GetChildren().OfType<Health>().Any())
+		if(!children.Where(c => c.GetType() == typeof(Health)).Any())
 		{
 			warnings.Add("This Actor has no Health.\nConsider adding a Health Node as a child of this Node to control the Actor's HP during the game");
 		}
 
-		if(!GetChildren().OfType<StateMachineComponent>().Any())
+		if(!children.Where(c => c.GetType() == typeof(StateMachine)).Any())
 		{
 			warnings.Add("This Actor has no State Machine.\nConsider adding a StateMachine Node as a child of this Actor to control the Actor's States during the game");
 		}
 
-		if(!GetChildren().OfType<AudioPlayerBase>().Any())
+		if(!children.Where(c => c.GetType() == typeof(AnimationPlayer)).Any())
 		{
-			warnings.Add("This Actor has no ActorAudioPlayer.\nConsider adding an ActorAudioPlayer Node as a child of this Actor to allow this Actor to play sound effects during the game");
+			warnings.Add("This Actor has no Animation Player.\nConsider adding an AnimationPlayer Node as a child of this Actor to control the Actor's animations during the game");
 		}
 
 		return warnings.ToArray();
@@ -67,6 +74,10 @@ public partial class Actor : CharacterBody2D
 		Health = GetChildren().OfType<Health>().FirstOrDefault();
 	}
 
+	/// <summary>
+	///		Sets a new facing direction for this Actor. If <see cref="CanChangeFacingDirection"/> is false, this method does nothing
+	/// </summary>
+	/// <param name="newDirection">The new direction</param>
 	public void SetFacingDirection(ActorFacingDirectionEnum newDirection)
 	{
 		if(!CanChangeFacingDirection)

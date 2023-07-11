@@ -2,7 +2,7 @@ using Godot;
 using Epilogue.nodes;
 
 namespace Epilogue.actors.hestmot.states;
-public partial class Growl : StateComponent
+public partial class Growl : PlayerState
 {
 	public override void OnEnter()
 	{

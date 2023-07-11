@@ -3,7 +3,7 @@ using Epilogue.nodes;
 using System.Threading.Tasks;
 
 namespace Epilogue.actors.hestmor.states;
-public partial class LookUp : StateComponent
+public partial class LookUp : PlayerState
 {
 	[Export] private float _cameraMovementDelay = 0.5f;
 	[Export] private int _cameraMovementDistance = 100;
@@ -28,8 +28,6 @@ public partial class LookUp : StateComponent
 	// Called when this state becomes active
 	public override void OnEnter()
 	{
-		EmitSignal(SignalName.StateStarted);
-
 		_isCameraMoving = false;
 		_timer = 0f;
 		_cameraAnchor = Actor.GetNode<Node2D>("CameraAnchor");

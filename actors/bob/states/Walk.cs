@@ -3,7 +3,7 @@ using Epilogue.nodes;
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
-public partial class Walk : StateComponent
+public partial class Walk : PlayerState
 {
 	[Export] private float _walkSpeed = 100f;
 

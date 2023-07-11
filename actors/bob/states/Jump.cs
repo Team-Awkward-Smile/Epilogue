@@ -2,7 +2,7 @@ using Epilogue.nodes;
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
-public partial class Jump : StateComponent
+public partial class Jump : PlayerState
 {
 	[Export] private float _jumpSpeed = -400f;
 
@@ -18,7 +18,7 @@ public partial class Jump : StateComponent
 	{
 		_horizontalVelocity = Actor.Velocity.X;
 
-		AudioPlayer.PlaySfx("Jump");
+		AudioPlayer.PlayGenericSfx("Jump");
 
 		Actor.Velocity = new Vector2(0f, Actor.Velocity.Y);
 		Actor.CanChangeFacingDirection = false;
