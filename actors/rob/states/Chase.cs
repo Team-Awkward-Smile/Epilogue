@@ -1,6 +1,7 @@
 using Epilogue.global.enums;
 using Epilogue.nodes;
 using Godot;
+using Godot.Collections;
 
 namespace Epilogue.actors.rob.states;
 public partial class Chase : NpcState
@@ -13,6 +14,7 @@ public partial class Chase : NpcState
 	{
 		_bob = GetNode<Actor>("../../../Bob");
 		_navigationAgent.TargetPosition = _bob.Position;
+		_navigationAgent.LinkReached += MoveToLink;
 
 		AnimPlayer.Play("walk");
 	}
@@ -35,5 +37,10 @@ public partial class Chase : NpcState
 		Actor.SetFacingDirection(newVelocity.X < 0 ? ActorFacingDirectionEnum.Left : ActorFacingDirectionEnum.Right);
 		Actor.Velocity = new Vector2(newVelocity.X, Actor.Velocity.Y + Gravity * (float) delta);
 		Actor.MoveAndSlideWithRotation();
+	}
+
+	private void MoveToLink(Dictionary details)
+	{
+		Actor.Position = (Vector2) details["link_exit_position"];
 	}
 }

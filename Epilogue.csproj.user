@@ -4,6 +4,6 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup>
-    <ActiveDebugProfile>Godot Debug</ActiveDebugProfile>
+    <ActiveDebugProfile>Godot Editor</ActiveDebugProfile>
   </PropertyGroup>
 </Project>
