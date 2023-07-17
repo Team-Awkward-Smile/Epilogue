@@ -26,8 +26,11 @@ public partial class FootstepFxManager : Node
 	{
 		var foot = _feet[nodeName];
 		var pos = new Vector2(foot.GlobalPosition.X, foot.GlobalPosition.Y + 5);
-		var groundType = (string) _level.GetTileDataAtPosition(pos).GetCustomData("ground_type");
+		var groundType = (string) _level.GetTileDataAtPosition(pos)?.GetCustomData("ground_type");
 
-		_audioPlayer.PlayFootstep(groundType);
+		if(groundType is not null)
+		{
+			_audioPlayer.PlayFootstep(groundType);
+		}
 	}
 }

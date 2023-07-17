@@ -1,0 +1,70 @@
+[gd_scene load_steps=5 format=3 uid="uid://bv14n54nl5fpi"]
+
+[ext_resource type="Script" path="res://ui/PauseUI.cs" id="1_3gqlk"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_g8cdf"]
+size = Vector2(10, 10)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_fkwx5"]
+size = Vector2(10, 10)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_lluck"]
+size = Vector2(10, 10)
+
+[node name="PauseUI" type="Control"]
+process_mode = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3gqlk")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -187.0
+offset_right = 162.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 60
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "PAUSED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSlider2" type="HSlider" parent="VBoxContainer"]
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../HSlider")
+focus_next = NodePath("../HSlider")
+focus_previous = NodePath("../HSlider3")
+theme_override_icons/grabber_highlight = SubResource("PlaceholderTexture2D_g8cdf")
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../HSlider2")
+focus_neighbor_bottom = NodePath("../HSlider3")
+focus_next = NodePath("../HSlider3")
+focus_previous = NodePath("../HSlider2")
+theme_override_icons/grabber_highlight = SubResource("PlaceholderTexture2D_fkwx5")
+
+[node name="HSlider3" type="HSlider" parent="VBoxContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../HSlider")
+focus_next = NodePath("../CloseButton")
+focus_previous = NodePath("../HSlider")
+theme_override_icons/grabber_highlight = SubResource("PlaceholderTexture2D_lluck")
+
+[node name="CloseButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../HSlider3")
+focus_next = NodePath("../HSlider2")
+focus_previous = NodePath("../HSlider3")
+text = "Close"

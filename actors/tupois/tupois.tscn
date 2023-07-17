@@ -1,17 +1,18 @@
-[gd_scene load_steps=11 format=3 uid="uid://b3eq6wabf2x2g"]
+[gd_scene load_steps=13 format=3 uid="uid://b3eq6wabf2x2g"]
 
-[ext_resource type="Script" path="res://nodes/Actor.cs" id="1_rqce3"]
-[ext_resource type="Texture2D" uid="uid://cqbkcvypwkowq" path="res://temp/tupois_spritesheet.png" id="2_y2vjp"]
-[ext_resource type="Shader" path="res://actors/tupois/shaders/tupois.gdshader" id="3_12mbm"]
-[ext_resource type="Script" path="res://nodes/StateMachineComponent.cs" id="4_p85m7"]
-[ext_resource type="Script" path="res://actors/tupois/states/Walk.cs" id="5_y73pg"]
-[ext_resource type="AnimationLibrary" uid="uid://cnmfd8eqihs1g" path="res://actors/tupois/animation/tupois.res" id="6_3ajdu"]
+[ext_resource type="Script" path="res://nodes/Actor.cs" id="1_n8pat"]
+[ext_resource type="Texture2D" uid="uid://cqbkcvypwkowq" path="res://temp/tupois_spritesheet.png" id="2_8w68w"]
+[ext_resource type="Shader" path="res://actors/tupois/shaders/tupois.gdshader" id="3_a7j2d"]
+[ext_resource type="Script" path="res://nodes/StateMachineComponent.cs" id="4_ik0qs"]
+[ext_resource type="Script" path="res://actors/tupois/states/Walk.cs" id="5_fs0m3"]
+[ext_resource type="AnimationLibrary" uid="uid://cnmfd8eqihs1g" path="res://actors/tupois/animation/tupois.res" id="6_oa24w"]
+[ext_resource type="Script" path="res://nodes/Health.cs" id="7_mm8lq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_whc85"]
 radius = 15.0333
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_s3tkk"]
-shader = ExtResource("3_12mbm")
+shader = ExtResource("3_a7j2d")
 shader_parameter/force = 0.006
 shader_parameter/center = Vector2(0.5, 0.5)
 
@@ -20,7 +21,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D2:frame")
+tracks/0/path = NodePath("FlipRoot/Sprite2D2:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -35,39 +36,55 @@ _data = {
 "RESET": SubResource("Animation_0dp6l")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ptsbv"]
+radius = 19.105
+
 [node name="Tupois" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 8
-script = ExtResource("1_rqce3")
-
-[node name="Sprite2D2" type="Sprite2D" parent="."]
-position = Vector2(0, -2)
-scale = Vector2(0.339744, 0.339744)
-texture = ExtResource("2_y2vjp")
-vframes = 3
+script = ExtResource("1_n8pat")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_whc85")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 material = SubResource("ShaderMaterial_s3tkk")
 position = Vector2(0, -2)
 scale = Vector2(0.339744, 0.339744)
-texture = ExtResource("2_y2vjp")
+texture = ExtResource("2_8w68w")
 vframes = 3
 
 [node name="StateMachineComponent" type="Node" parent="."]
-script = ExtResource("4_p85m7")
+script = ExtResource("4_ik0qs")
 
 [node name="Walk" type="Node" parent="StateMachineComponent"]
-script = ExtResource("5_y73pg")
+script = ExtResource("5_fs0m3")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_u6jmk"),
-"tupois": ExtResource("6_3ajdu")
+"tupois": ExtResource("6_oa24w")
 }
 
 [node name="FlipRoot" type="Node2D" parent="."]
 
 [node name="HitBoxContainer" type="Area2D" parent="FlipRoot"]
+
+[node name="Sprite2D2" type="Sprite2D" parent="FlipRoot" groups=["MainSprite"]]
+position = Vector2(0, -2)
+scale = Vector2(0.339744, 0.339744)
+texture = ExtResource("2_8w68w")
+vframes = 3
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("7_mm8lq")
+MaxHealth = 1
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 16
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_ptsbv")
+debug_color = Color(0.313726, 0.486275, 0.219608, 0.419608)

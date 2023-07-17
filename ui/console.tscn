@@ -1,8 +1,8 @@
-[gd_scene format=3 uid="uid://bsw4edw1dbxfk"]
+[gd_scene format=3 uid="uid://ddrmydlujtfld"]
 
 [node name="Console" type="Window"]
-initial_position = 1
 title = "Console"
+position = Vector2i(700, 75)
 size = Vector2i(400, 500)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]

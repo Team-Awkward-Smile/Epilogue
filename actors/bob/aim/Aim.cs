@@ -7,6 +7,8 @@ using Godot.Collections;
 namespace Epilogue.actors.hestmor.aim;
 public partial class Aim : Node
 {
+	public int AimAngle { get; private set; }
+
 	private Actor _actor;
 
 	private readonly Dictionary<AimDirectionEnum, int> _aimAngles = new()
@@ -58,5 +60,7 @@ public partial class Aim : Node
 		}
 
 		GetNode<Sprite2D>("../AimArrow").RotationDegrees = _aimAngles[direction];
+
+		AimAngle = _aimAngles[direction];
 	}
 }

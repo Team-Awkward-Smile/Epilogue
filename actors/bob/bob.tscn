@@ -1,30 +1,31 @@
-[gd_scene load_steps=44 format=3 uid="uid://cmrbm1u6fwi67"]
+[gd_scene load_steps=47 format=3 uid="uid://cmrbm1u6fwi67"]
 
-[ext_resource type="Script" path="res://nodes/Actor.cs" id="1_f1lmq"]
-[ext_resource type="Script" path="res://nodes/StateMachineComponent.cs" id="2_eoarh"]
-[ext_resource type="Script" path="res://actors/bob/states/Walk.cs" id="3_0aepx"]
-[ext_resource type="Script" path="res://actors/bob/states/Jump.cs" id="4_pvqe0"]
-[ext_resource type="Script" path="res://actors/bob/states/Idle.cs" id="5_yxr7m"]
-[ext_resource type="Script" path="res://actors/bob/states/Fall.cs" id="6_q7vuq"]
-[ext_resource type="Script" path="res://actors/bob/states/Crouch.cs" id="7_fdfhp"]
-[ext_resource type="Script" path="res://actors/bob/states/MeleeAttack.cs" id="8_orget"]
-[ext_resource type="Script" path="res://actors/bob/states/GrabLedge.cs" id="9_w3l5e"]
-[ext_resource type="Script" path="res://actors/bob/states/Slide.cs" id="10_x1g76"]
-[ext_resource type="Script" path="res://actors/bob/states/Run.cs" id="11_kphyv"]
-[ext_resource type="Script" path="res://actors/bob/states/LookUp.cs" id="12_33arw"]
-[ext_resource type="Texture2D" uid="uid://ddjhwyr0eudal" path="res://temp/aim_arrow.png" id="13_3ood8"]
-[ext_resource type="Script" path="res://actors/bob/states/Vault.cs" id="13_xrv3f"]
-[ext_resource type="Script" path="res://actors/bob/AudioPlayer.cs" id="14_8lar1"]
-[ext_resource type="Script" path="res://actors/bob/states/Growl.cs" id="14_nbjh5"]
-[ext_resource type="Script" path="res://actors/bob/aim/Aim.cs" id="15_umsyi"]
-[ext_resource type="Script" path="res://actors/bob/aim/MouseAim.cs" id="16_1uhw1"]
-[ext_resource type="Script" path="res://actors/bob/aim/ButtonAim.cs" id="17_kakt1"]
-[ext_resource type="Script" path="res://actors/bob/aim/StickAim.cs" id="18_wmr1y"]
-[ext_resource type="Shape2D" uid="uid://3mco74p24h1u" path="res://actors/bob/hitboxes/melee_1.tres" id="19_330aq"]
-[ext_resource type="Script" path="res://actors/bob/CameraAnchor.cs" id="20_dy5ss"]
-[ext_resource type="Texture2D" uid="uid://df2a87s4cukqq" path="res://actors/bob/sprite_sheet/epilogue_bob-Sheet.png" id="20_gkw5s"]
-[ext_resource type="Script" path="res://actors/bob/FootstepFxManager.cs" id="21_6yh5e"]
-[ext_resource type="Script" path="res://nodes/Health.cs" id="25_43v4e"]
+[ext_resource type="Script" path="res://nodes/Actor.cs" id="1_amhws"]
+[ext_resource type="Script" path="res://nodes/StateMachineComponent.cs" id="2_1wb3x"]
+[ext_resource type="Script" path="res://actors/bob/states/Walk.cs" id="3_5wtu0"]
+[ext_resource type="Script" path="res://actors/bob/states/Jump.cs" id="4_0o2qp"]
+[ext_resource type="Script" path="res://actors/bob/states/Idle.cs" id="5_7umf5"]
+[ext_resource type="Script" path="res://actors/bob/states/Fall.cs" id="6_a7aet"]
+[ext_resource type="Script" path="res://actors/bob/states/Crouch.cs" id="7_tuvyk"]
+[ext_resource type="Script" path="res://actors/bob/states/MeleeAttack.cs" id="8_8upsr"]
+[ext_resource type="Script" path="res://actors/bob/states/GrabLedge.cs" id="9_ievmx"]
+[ext_resource type="Script" path="res://actors/bob/states/Slide.cs" id="10_6afml"]
+[ext_resource type="Script" path="res://actors/bob/states/Run.cs" id="11_fxhlu"]
+[ext_resource type="Script" path="res://actors/bob/states/LookUp.cs" id="12_u6acv"]
+[ext_resource type="Script" path="res://actors/bob/states/Vault.cs" id="13_mc4mq"]
+[ext_resource type="Script" path="res://actors/bob/states/Growl.cs" id="14_phu1k"]
+[ext_resource type="Texture2D" uid="uid://ddjhwyr0eudal" path="res://temp/aim_arrow.png" id="15_q461b"]
+[ext_resource type="Script" path="res://actors/bob/AudioPlayer.cs" id="16_wflrc"]
+[ext_resource type="Script" path="res://actors/bob/aim/Aim.cs" id="17_7jjic"]
+[ext_resource type="Script" path="res://actors/bob/aim/MouseAim.cs" id="18_bhulq"]
+[ext_resource type="Script" path="res://actors/bob/aim/ButtonAim.cs" id="19_irxy3"]
+[ext_resource type="Script" path="res://actors/bob/aim/StickAim.cs" id="20_556b3"]
+[ext_resource type="Script" path="res://actors/bob/CameraAnchor.cs" id="21_xdnh8"]
+[ext_resource type="Shape2D" uid="uid://3mco74p24h1u" path="res://actors/bob/hitboxes/melee_1.tres" id="22_ooa6v"]
+[ext_resource type="Texture2D" uid="uid://df2a87s4cukqq" path="res://actors/bob/sprite_sheet/epilogue_bob-Sheet.png" id="23_h0ygs"]
+[ext_resource type="Script" path="res://actors/bob/FootstepFxManager.cs" id="24_6eael"]
+[ext_resource type="Script" path="res://nodes/Health.cs" id="25_augw4"]
+[ext_resource type="Script" path="res://actors/bob/GunSystem.cs" id="26_jnh3l"]
 
 [sub_resource type="Animation" id="Animation_1kqj8"]
 length = 0.001
@@ -111,6 +112,18 @@ tracks/6/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(5, 13)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("../HitBoxContainer/HitBox:disabled")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_tuj5i"]
@@ -223,6 +236,54 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(-17, -14)]
+}
+
+[sub_resource type="Animation" id="Animation_irxtb"]
+resource_name = "growl_medium"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 15), Vector2i(1, 15), Vector2i(2, 15), Vector2i(3, 15), Vector2i(4, 15), Vector2i(5, 15)]
+}
+
+[sub_resource type="Animation" id="Animation_bpqkb"]
+resource_name = "growl_strong"
+length = 1.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 16), Vector2i(1, 16), Vector2i(2, 16), Vector2i(3, 16), Vector2i(4, 16), Vector2i(5, 16), Vector2i(6, 16), Vector2i(7, 16), Vector2i(8, 16), Vector2i(9, 16), Vector2i(1, 17)]
+}
+
+[sub_resource type="Animation" id="Animation_07bhw"]
+resource_name = "growl_weak"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 10), Vector2i(1, 10), Vector2i(2, 10), Vector2i(3, 10), Vector2i(4, 10), Vector2i(5, 10), Vector2i(6, 10)]
 }
 
 [sub_resource type="Animation" id="Animation_gq830"]
@@ -367,6 +428,18 @@ tracks/1/keys = {
 "method": &"PlaySfx"
 }]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../HitBoxContainer/HitBox:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
 
 [sub_resource type="Animation" id="Animation_jnuox"]
 resource_name = "Slide_end"
@@ -458,9 +531,9 @@ tracks/3/keys = {
 "values": [Vector2(9, 0), Vector2(0, 0), Vector2(-12, 0), Vector2(0, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_07bhw"]
-resource_name = "growl_weak"
-length = 0.7
+[sub_resource type="Animation" id="Animation_s2y87"]
+resource_name = "glory_kill"
+length = 0.8
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -468,42 +541,10 @@ tracks/0/path = NodePath(".:frame_coords")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [Vector2i(0, 10), Vector2i(1, 10), Vector2i(2, 10), Vector2i(3, 10), Vector2i(4, 10), Vector2i(5, 10), Vector2i(6, 10)]
-}
-
-[sub_resource type="Animation" id="Animation_irxtb"]
-resource_name = "growl_medium"
-length = 0.6
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [Vector2i(0, 15), Vector2i(1, 15), Vector2i(2, 15), Vector2i(3, 15), Vector2i(4, 15), Vector2i(5, 15)]
-}
-
-[sub_resource type="Animation" id="Animation_bpqkb"]
-resource_name = "growl_strong"
-length = 1.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [Vector2i(0, 16), Vector2i(1, 16), Vector2i(2, 16), Vector2i(3, 16), Vector2i(4, 16), Vector2i(5, 16), Vector2i(6, 16), Vector2i(7, 16), Vector2i(8, 16), Vector2i(9, 16), Vector2i(1, 17)]
+"values": [Vector2i(0, 3), Vector2i(1, 3), Vector2i(2, 3), Vector2i(3, 3), Vector2i(4, 3), Vector2i(5, 3), Vector2i(6, 3), Vector2i(7, 3)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hko5d"]
@@ -512,6 +553,7 @@ _data = {
 "crouch": SubResource("Animation_tuj5i"),
 "fall": SubResource("Animation_q1ggx"),
 "fall_land": SubResource("Animation_pq8q2"),
+"glory_kill": SubResource("Animation_s2y87"),
 "grab_ledge": SubResource("Animation_jdrsw"),
 "growl_medium": SubResource("Animation_irxtb"),
 "growl_strong": SubResource("Animation_bpqkb"),
@@ -530,6 +572,10 @@ _data = {
 radius = 7.0
 height = 44.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0k2f7"]
+radius = 4.0
+height = 46.0
+
 [node name="Bob" type="CharacterBody2D" groups=["Player"]]
 collision_mask = 8
 floor_stop_on_slope = false
@@ -539,7 +585,7 @@ floor_snap_length = 5.0
 platform_on_leave = 2
 platform_floor_layers = 4294901768
 platform_wall_layers = 8
-script = ExtResource("1_f1lmq")
+script = ExtResource("1_amhws")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../FlipRoot/Sprite2D")
@@ -548,78 +594,78 @@ libraries = {
 }
 
 [node name="StateMachineComponent" type="Node" parent="." node_paths=PackedStringArray("InitialState")]
-script = ExtResource("2_eoarh")
+script = ExtResource("2_1wb3x")
 InitialState = NodePath("Idle")
 
 [node name="Walk" type="Node" parent="StateMachineComponent"]
-script = ExtResource("3_0aepx")
+script = ExtResource("3_5wtu0")
 
 [node name="Jump" type="Node" parent="StateMachineComponent"]
-script = ExtResource("4_pvqe0")
+script = ExtResource("4_0o2qp")
 _jumpSpeed = -365.0
 
 [node name="Idle" type="Node" parent="StateMachineComponent"]
-script = ExtResource("5_yxr7m")
+script = ExtResource("5_7umf5")
 
 [node name="Fall" type="Node" parent="StateMachineComponent"]
-script = ExtResource("6_q7vuq")
+script = ExtResource("6_a7aet")
 
 [node name="Crouch" type="Node" parent="StateMachineComponent"]
-script = ExtResource("7_fdfhp")
+script = ExtResource("7_tuvyk")
 _cameraMovementDistance = 75
 
 [node name="MeleeAttack" type="Node" parent="StateMachineComponent"]
-script = ExtResource("8_orget")
+script = ExtResource("8_8upsr")
 
 [node name="GrabLedge" type="Node" parent="StateMachineComponent"]
-script = ExtResource("9_w3l5e")
+script = ExtResource("9_ievmx")
 
 [node name="Slide" type="Node" parent="StateMachineComponent"]
-script = ExtResource("10_x1g76")
+script = ExtResource("10_6afml")
 
 [node name="Run" type="Node" parent="StateMachineComponent"]
-script = ExtResource("11_kphyv")
+script = ExtResource("11_fxhlu")
 
 [node name="LookUp" type="Node" parent="StateMachineComponent"]
-script = ExtResource("12_33arw")
+script = ExtResource("12_u6acv")
 
 [node name="Vault" type="Node" parent="StateMachineComponent"]
-script = ExtResource("13_xrv3f")
+script = ExtResource("13_mc4mq")
 
 [node name="Growl" type="Node" parent="StateMachineComponent"]
-script = ExtResource("14_nbjh5")
+script = ExtResource("14_phu1k")
 
 [node name="AimArrow" type="Sprite2D" parent="."]
 position = Vector2(0, -21)
 rotation = -0.785398
 scale = Vector2(0.0933333, 0.0933333)
-texture = ExtResource("13_3ood8")
+texture = ExtResource("15_q461b")
 offset = Vector2(300, 0)
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-script = ExtResource("14_8lar1")
+script = ExtResource("16_wflrc")
 
 [node name="Aim" type="Node" parent="." groups=["InputType"]]
 editor_description = "Base Node to control the aiming system, regardless of the input method"
-script = ExtResource("15_umsyi")
+script = ExtResource("17_7jjic")
 
 [node name="MouseAim" type="Node" parent="Aim"]
 editor_description = "Node to control aiming with a mouse"
-script = ExtResource("16_1uhw1")
+script = ExtResource("18_bhulq")
 
 [node name="ButtonAim" type="Node" parent="Aim"]
 editor_description = "Node to control aiming with buttons (either from a keyboard or from a controller)"
-script = ExtResource("17_kakt1")
+script = ExtResource("19_irxy3")
 
 [node name="StickAim" type="Node" parent="Aim"]
 editor_description = "Node to control aiming with an analog stick"
-script = ExtResource("18_wmr1y")
+script = ExtResource("20_556b3")
 
 [node name="CameraAnchor" type="Node2D" parent="."]
 editor_description = "Node that serves as the anchor for the Camera. Moving this Node also moves the Camera"
 top_level = true
 position = Vector2(0, -36.5)
-script = ExtResource("20_dy5ss")
+script = ExtResource("21_xdnh8")
 
 [node name="FlipRoot" type="Node2D" parent="."]
 
@@ -631,7 +677,7 @@ input_pickable = false
 
 [node name="HitBox" type="CollisionShape2D" parent="FlipRoot/HitBoxContainer"]
 position = Vector2(19, -31)
-shape = ExtResource("19_330aq")
+shape = ExtResource("22_ooa6v")
 disabled = true
 debug_color = Color(0.929412, 0.231373, 0.341176, 0.419608)
 
@@ -647,9 +693,14 @@ position = Vector2(0, -45)
 target_position = Vector2(8, 0)
 collision_mask = 8
 
+[node name="EnemyRayCast2D" type="RayCast2D" parent="FlipRoot"]
+position = Vector2(0, -20)
+target_position = Vector2(35, 0)
+collision_mask = 2
+
 [node name="Sprite2D" type="Sprite2D" parent="FlipRoot" groups=["MainSprite"]]
 position = Vector2(0, -30)
-texture = ExtResource("20_gkw5s")
+texture = ExtResource("23_h0ygs")
 hframes = 11
 vframes = 19
 frame = 22
@@ -659,7 +710,7 @@ editor_description = "Node used by the Ledge Grab State to move the character to
 position = Vector2(5, 13)
 
 [node name="FootstepFx" type="Node" parent="FlipRoot"]
-script = ExtResource("21_6yh5e")
+script = ExtResource("24_6eael")
 
 [node name="LeftFoot" type="Node2D" parent="FlipRoot/FootstepFx"]
 position = Vector2(-12, 0)
@@ -672,5 +723,17 @@ position = Vector2(0, -22)
 shape = SubResource("CapsuleShape2D_b5eh5")
 
 [node name="Health" type="Node" parent="."]
-script = ExtResource("25_43v4e")
-MaxHealth = 3
+script = ExtResource("25_augw4")
+
+[node name="GunSystem" type="Node2D" parent="."]
+script = ExtResource("26_jnh3l")
+
+[node name="PickupRange" type="Area2D" parent="GunSystem"]
+editor_description = "Area used by the game to detect when a gun is in range to be picked up"
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GunSystem/PickupRange"]
+position = Vector2(0, -4)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_0k2f7")
+debug_color = Color(0.635294, 0.521569, 0.196078, 0.419608)
