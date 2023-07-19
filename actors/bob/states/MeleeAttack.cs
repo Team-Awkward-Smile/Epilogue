@@ -1,3 +1,5 @@
+using Epilogue.global.enums;
+using Epilogue.global.singletons;
 using Epilogue.nodes;
 using Godot;
 
@@ -5,6 +7,8 @@ namespace Epilogue.actors.hestmor.states;
 public partial class MeleeAttack : StateComponent
 {
 	private CollisionShape2D _hitbox;
+	private Events _eventsSingleton;
+	private Actor _enemy;
 
 	public override void OnEnter()
 	{
@@ -12,50 +16,58 @@ public partial class MeleeAttack : StateComponent
 
 		EmitSignal(SignalName.StateStarted);
 
+		StateMachine.CanInteract = false;
+
 		if(Actor.RayCasts["Enemy"].IsColliding())
 		{
-			var enemy = (Actor) Actor.RayCasts["Enemy"].GetCollider();
+			_enemy = (Actor) Actor.RayCasts["Enemy"].GetCollider();
 
-			if(enemy.Health.IsInGloryKillMode)
+			if(_enemy.Health.IsVulnerable)
 			{
-				AnimPlayer.Play("glory_kill");
+				Actor.CanChangeFacingDirection = false;
 
-				enemy.Health.GloryKill();
+				_eventsSingleton = GetNode<Events>("/root/Events");
 
-				GetTree().CreateTimer(1f).Timeout += () => StateMachine.ChangeState("Idle");
+				_eventsSingleton.EmitGlobalSignal("StateAwaitingForGloryKillInput");
+				_eventsSingleton.GloryKillInputReceived += PerformGloryKill;
 
 				return;
 			}
 		}
 
-		var hitboxShape = (CircleShape2D) GD.Load("res://actors/bob/hitboxes/melee_1.tres");
-
-		_hitbox = (CollisionShape2D) HitBoxContainer.GetChild(0);
-		_hitbox.Shape = hitboxShape;
-		HitBoxContainer.AreaEntered += DealDamage;
-
 		AnimPlayer.Play("melee_attack");
 		AnimPlayer.AnimationFinished += FinishAttack;
+	}
+
+	public async void PerformGloryKill(GloryKillSpeed speed)
+	{
+		_eventsSingleton.GloryKillInputReceived -= PerformGloryKill;
+
+		var animation = "glory_kill_" + speed switch
+		{
+			GloryKillSpeed.Slow => "slow",
+			_ => "fast"
+		};
+
+		AnimPlayer.Play(animation);
+
+		await ToSignal(AnimPlayer, "animation_finished");
+
+		// TODO: 68 - temporary solution, we need to think if this can break in the future
+		_enemy.Health.DealDamage(100);
+
+		StateMachine.ChangeState("Idle");
 	}
 
 	private void FinishAttack(StringName animName)
 	{
 		AnimPlayer.AnimationFinished -= FinishAttack;
-		HitBoxContainer.AreaEntered -= DealDamage;
+
 		StateMachine.ChangeState("Idle");
-	}
-
-	private void DealDamage(Area2D hurtbox)
-	{
-		var enemy = (Actor) hurtbox.Owner;
-
-		enemy.Health.ApplyDamage(1);
 	}
 
 	public override void OnLeave()
 	{
-		_hitbox.Shape = null;
-
-		EmitSignal(SignalName.StateFinished);
+		StateMachine.CanInteract = true;
 	}
 }

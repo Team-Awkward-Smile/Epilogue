@@ -16,20 +16,28 @@ public partial class GunSystem : Node2D
 
 	public override void _Input(InputEvent @event)
 	{
-		if(@event.IsAction(InputUtils.GetInputActionName("pickup_gun")) && @event.IsPressed())
+		// If this Node detects this Input, it will be handled and won't reach the rest of the Nodes
+		if(@event.IsAction(InputUtils.GetInputActionName("pickup_or_drop_gun")) && @event.IsPressed())
 		{
 			if(HasGunEquipped)
 			{
 				DropGun();
+				GetViewport().SetInputAsHandled();
 			}
-			else
+			else if(_actor.StateMachine.CanInteract && _pickupArea.GetOverlappingAreas().Any())
 			{
 				PickUpGun();
+				GetViewport().SetInputAsHandled();
 			}
 		}
 		else if(@event.IsAction(InputUtils.GetInputActionName("shoot")) && @event.IsPressed())
 		{
-			Attack();
+			if(HasGunEquipped)
+			{
+				GD.Print("Shooting");
+
+				GetViewport().SetInputAsHandled();
+			}
 		}
 	}
 
@@ -52,28 +60,10 @@ public partial class GunSystem : Node2D
 		_actor = (Actor) Owner;
 	}
 
-	public void Attack()
-	{
-		if(HasGunEquipped)
-		{
-			GD.Print($"Shooting gun at [{_aim.AimAngle}] º");
-		}
-		else
-		{
-
-			GD.Print("Melee Attack");
-		}
-	}
-
 	private void PickUpGun()
 	{
-		var availableGuns = _pickupArea.GetOverlappingAreas();
-
-		if(availableGuns.Any())
-		{
-			HasGunEquipped = true;
-			availableGuns.First().Owner.QueueFree();
-		}
+		HasGunEquipped = true;
+		_pickupArea.GetOverlappingAreas().First().Owner.QueueFree();
 	}
 
 	private void DropGun()

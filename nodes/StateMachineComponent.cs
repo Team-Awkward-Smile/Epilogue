@@ -6,10 +6,11 @@ namespace Epilogue.nodes;
 [GlobalClass]
 public partial class StateMachineComponent : Node
 {
-	[Export]
-	private StateComponent InitialState { get; set; }
+	[Export] private StateComponent InitialState { get; set; }
 
-	private readonly HashSet<StateComponent> _states = new();
+	public bool CanInteract { get; set; } = true;
+
+    private readonly HashSet<StateComponent> _states = new();
 
 	private StateComponent _currentState;
 

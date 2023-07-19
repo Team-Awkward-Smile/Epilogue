@@ -23,6 +23,8 @@ public partial class Actor : CharacterBody2D
 
     public Health Health { get; set; }
 
+    public StateMachineComponent StateMachine { get; set; }
+
     public override void _Ready()
 	{
 		GetNode<Node2D>("FlipRoot").GetChildren().OfType<RayCast2D>().ToList().ForEach(r =>
@@ -32,6 +34,7 @@ public partial class Actor : CharacterBody2D
 
 		Sprite = GetNode<Node2D>("FlipRoot").GetChildren().OfType<Sprite2D>().Where(c => c.IsInGroup("MainSprite")).FirstOrDefault();
 		Health = GetChildren().OfType<Health>().FirstOrDefault();
+		StateMachine = GetChildren().OfType<StateMachineComponent>().FirstOrDefault();
 	}
 
 	public void SetFacingDirection(ActorFacingDirectionEnum newDirection)

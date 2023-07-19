@@ -13,6 +13,7 @@ public partial class AudioPlayer : AudioPlayerBase
 		{ "Jump", GD.Load<AudioStream>($"{path}//JumpingStart_SFX.wav") },
 		{ "Land", GD.Load<AudioStream>($"{path}//JumpingLand_SFX.wav") },
 		{ "Melee", GD.Load<AudioStream>($"{path}//SwipingAttack_SFX.wav") },
+		{ "GloryKill", GD.Load<AudioStream>($"{path}//glory_kill.wav") },
 	};
 
 	protected override Dictionary<string, AudioStream> FootstepSfxList { get; set; } = new()

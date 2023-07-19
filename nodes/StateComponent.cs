@@ -23,7 +23,6 @@ public partial class StateComponent : Node
 	protected StateMachineComponent StateMachine { get; private set; }
 	protected Actor Actor { get; private set; }
 	protected AnimationPlayer AnimPlayer { get; private set; }
-	protected Area2D HitBoxContainer { get; private set; }
 	protected AudioPlayerBase AudioPlayer { get; private set; }
 	protected float Gravity { get; private set; }
 
@@ -44,15 +43,7 @@ public partial class StateComponent : Node
 			GD.PrintErr($"Animation Player not found for Actor [{Actor.Name}]");
 		}
 
-		HitBoxContainer = Actor.GetNode<Area2D>("FlipRoot/HitBoxContainer");
-
-		if(HitBoxContainer is null)
-		{
-			GD.PrintErr($"Hitbox Container not found for Actor [{Actor.Name}]");
-		}
-
 		Gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
-
 		AudioPlayer = Actor.GetChildren().OfType<AudioPlayerBase>().FirstOrDefault();
 
 		if(AudioPlayer is null)
