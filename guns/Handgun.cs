@@ -1,3 +1,4 @@
+using Epilogue.global.singletons;
 using Epilogue.nodes;
 using Godot;
 
@@ -31,6 +32,8 @@ public partial class Handgun : Gun
 			bullet.GlobalTransform = Muzzle.GlobalTransform;
 
 			AudioPlayer.Play();
+
+			Events.EmitGlobalSignal("GunFired", CurrentAmmoCount);
 		}
 	}
 

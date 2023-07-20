@@ -1,3 +1,4 @@
+using Epilogue.global.singletons;
 using Godot;
 using System.Linq;
 
@@ -8,7 +9,7 @@ public abstract partial class Gun : RigidBody2D
     public abstract float ShotsPerMinute { get; set; }
 
     public float TimeSinceLastShot { get; protected set; } = 0f;
-    public int CurrentAmmoCount { get; set; }
+    public int CurrentAmmoCount { get; protected set; }
 
     public bool TriggerIsPressed 
 	{
@@ -30,6 +31,7 @@ public abstract partial class Gun : RigidBody2D
 
     protected Node2D Muzzle { get; set; }
 	protected AudioStreamPlayer AudioPlayer { get; set; }
+    protected Events Events { get; set; }
 
 	private bool _triggerIsPressed;
 
@@ -50,6 +52,8 @@ public abstract partial class Gun : RigidBody2D
 		}
 
 		CurrentAmmoCount = MaxAmmoCount;
+
+		Events = GetNode<Events>("/root/Events");
 	}
 
 	public override void _Process(double delta)

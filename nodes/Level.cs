@@ -8,6 +8,7 @@ namespace Epilogue.nodes;
 public partial class Level : Node2D
 {
 	private PauseUI _pauseUI;
+	private AmmoUI _ammoUI;
 	private Window _console;
 	private GloryKillPrompt _killPrompt;
 	private TileMap _tileMap;
@@ -29,9 +30,11 @@ public partial class Level : Node2D
 
 	public override void _Ready()
 	{
+		// TODO: 68 - Add them all to a List and Instantiate them all at once
 		_pauseUI = GD.Load<PackedScene>("res://ui/pause_ui.tscn").Instantiate() as PauseUI;
 		_console = GD.Load<PackedScene>("res://ui/console.tscn").Instantiate() as Window;
 		_killPrompt = GD.Load<PackedScene>("res://ui/glory_kill_prompt.tscn").Instantiate() as GloryKillPrompt;
+		_ammoUI = GD.Load<PackedScene>("res://ui/ammo_ui.tscn").Instantiate() as AmmoUI;
 
 		// TODO: 68 - Maybe the root CanvasLayer should also be created at run-time?
 		var uiLayer = GetNode<CanvasLayer>("UILayer");
@@ -39,6 +42,7 @@ public partial class Level : Node2D
 		uiLayer.AddChild(_pauseUI);
 		uiLayer.AddChild(_console);
 		uiLayer.AddChild(_killPrompt);
+		uiLayer.AddChild(_ammoUI);
 
 		_pauseUI.Hide();
 		_console.Hide();

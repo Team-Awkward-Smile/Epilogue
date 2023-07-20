@@ -1,5 +1,6 @@
 ﻿using Epilogue.actors.hestmor.aim;
 using Epilogue.global.enums;
+using Epilogue.global.singletons;
 using Epilogue.guns;
 using Epilogue.nodes;
 using Epilogue.util;
@@ -17,6 +18,7 @@ public partial class GunSystem : Node2D
 	private Gun _currentGun;
 	private Node2D _aimingArm;
 	private Node2D _gunAnchor;
+	private Events _events;
 
 	public override void _Input(InputEvent @event)
 	{
@@ -74,6 +76,7 @@ public partial class GunSystem : Node2D
 
 		_aimingArm = GetNode<Node2D>("AimingArm");
 		_gunAnchor = (Node2D) _aimingArm.GetChild(0);
+		_events = GetNode<Events>("/root/Events");
 	}
 
 	private void PickUpGun()
@@ -86,6 +89,8 @@ public partial class GunSystem : Node2D
 		_gunAnchor.AddChild(_currentGun);
 
 		_currentGun.Position = new Vector2(0f, 0f);
+
+		_events.EmitGlobalSignal("PlayerPickedUpGun", _currentGun.CurrentAmmoCount, _currentGun.MaxAmmoCount);
 	}
 
 	private void DropGun()
@@ -99,6 +104,8 @@ public partial class GunSystem : Node2D
 		_currentGun.ApplyImpulse(new Vector2(_actor.FacingDirection == ActorFacingDirectionEnum.Left ? 200f : -200f, -100f));
 
 		_currentGun = null;
+
+		_events.EmitGlobalSignal("GunWasDropped");
 	}
 
 	private void UpdateGunRotation(int angleDegrees)

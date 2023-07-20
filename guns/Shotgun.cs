@@ -38,6 +38,8 @@ public partial class Shotgun : Gun
 				pellet.GlobalTransform = Muzzle.GlobalTransform;
 				pellet.RotationDegrees += rand.RandfRange(-10f, 10f);
 			}
+
+			Events.EmitGlobalSignal("GunFired", CurrentAmmoCount);
 		}
 	}
 }
