@@ -10,6 +10,7 @@ public partial class Level : Node2D
 	private PauseUI _pauseUI;
 	private Window _console;
 	private GloryKillPrompt _killPrompt;
+	private TileMap _tileMap;
 
     public override void _Input(InputEvent @event)
 	{
@@ -46,14 +47,41 @@ public partial class Level : Node2D
 		_console.Size = DisplayServer.WindowGetSize() / 3;
 
 		ProcessMode = ProcessModeEnum.Pausable;
+
 		GetNode<Events>("/root/Events").StateAwaitingForGloryKillInput += () => _killPrompt.Enable();
+
+		_tileMap = GetChildren().OfType<TileMap>().FirstOrDefault();
 	}
 
 	public TileData GetTileDataAtPosition(Vector2 position)
 	{
-		var tileMap = GetChildren().OfType<TileMap>().FirstOrDefault();
-		var localPosition = tileMap.LocalToMap(position);
+		var localPosition = _tileMap.LocalToMap(position);
 
-		return tileMap.GetCellTileData(0, localPosition);
+		return _tileMap.GetCellTileData(0, localPosition);
+	}
+
+	public void DamageTile(Vector2 tilePosition, float damage)
+	{
+		var localPosition = _tileMap.LocalToMap(tilePosition);
+		var tileData = _tileMap.GetCellTileData(0, localPosition);
+
+		if(tileData is null)
+		{
+			return;
+		}
+
+		if(tileData.GetCustomData("destructible").AsBool())
+		{
+			var currentHp = tileData.GetCustomData("tile_hp").AsDouble() - damage;
+
+			if(currentHp <= 0)
+			{
+				_tileMap.EraseCell(0, localPosition);
+			}
+			else
+			{
+				tileData.SetCustomData("tile_hp", currentHp);
+			}
+		}
 	}
 }

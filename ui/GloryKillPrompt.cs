@@ -1,5 +1,6 @@
 using Epilogue.global.enums;
 using Epilogue.global.singletons;
+using Epilogue.util;
 using Godot;
 
 namespace Epilogue.ui;
@@ -7,12 +8,12 @@ public partial class GloryKillPrompt : Control
 {
 	public override void _Input(InputEvent @event)
 	{
-		if(@event.IsAction("glory_kill_slow") && @event.IsPressed())
+		if(@event.IsAction(InputUtils.GetInputActionName("execute_slow")) && @event.IsPressed())
 		{
 			GetNode<Events>("/root/Events").EmitGlobalSignal("GloryKillInputReceived", (int) GloryKillSpeed.Slow);
 			Disable();
 		}
-		else if(@event.IsAction("glory_kill_fast") && @event.IsPressed())
+		else if(@event.IsAction(InputUtils.GetInputActionName("execute_fast")) && @event.IsPressed())
 		{
 			GetNode<Events>("/root/Events").EmitGlobalSignal("GloryKillInputReceived", (int) GloryKillSpeed.Fast);
 			Disable();

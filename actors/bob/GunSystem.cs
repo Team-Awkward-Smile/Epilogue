@@ -1,5 +1,6 @@
 ﻿using Epilogue.actors.hestmor.aim;
 using Epilogue.global.enums;
+using Epilogue.guns;
 using Epilogue.nodes;
 using Epilogue.util;
 using Godot;
@@ -8,11 +9,14 @@ using System.Linq;
 namespace Epilogue.actors.hestmor;
 public partial class GunSystem : Node2D
 {
-	public bool HasGunEquipped { get; private set; }
+	public bool HasGunEquipped => _currentGun is not null;
 
 	private Aim _aim;
 	private Area2D _pickupArea;
 	private Actor _actor;
+	private Gun _currentGun;
+	private Node2D _aimingArm;
+	private Node2D _gunAnchor;
 
 	public override void _Input(InputEvent @event)
 	{
@@ -30,11 +34,18 @@ public partial class GunSystem : Node2D
 				GetViewport().SetInputAsHandled();
 			}
 		}
-		else if(@event.IsAction(InputUtils.GetInputActionName("shoot")) && @event.IsPressed())
+		else if(@event.IsAction(InputUtils.GetInputActionName("shoot")))
 		{
 			if(HasGunEquipped)
 			{
-				GD.Print("Shooting");
+				if(_currentGun.CurrentAmmoCount > 0)
+				{
+					_currentGun.TriggerIsPressed = @event.IsPressed();
+				}
+				else
+				{
+					DropGun();
+				}
 
 				GetViewport().SetInputAsHandled();
 			}
@@ -58,24 +69,40 @@ public partial class GunSystem : Node2D
 		}
 
 		_actor = (Actor) Owner;
+
+		_aim.AimAngleUpdated += UpdateGunRotation;
+
+		_aimingArm = GetNode<Node2D>("AimingArm");
+		_gunAnchor = (Node2D) _aimingArm.GetChild(0);
 	}
 
 	private void PickUpGun()
 	{
-		HasGunEquipped = true;
-		_pickupArea.GetOverlappingAreas().First().Owner.QueueFree();
+		_currentGun = (Gun) _pickupArea.GetOverlappingAreas().First().Owner;
+		_currentGun.GetParent().RemoveChild(_currentGun);
+		_currentGun.Freeze = true;
+		_currentGun.RotationDegrees = 0f;
+
+		_gunAnchor.AddChild(_currentGun);
+
+		_currentGun.Position = new Vector2(0f, 0f);
 	}
 
 	private void DropGun()
 	{
-		HasGunEquipped = false;
+		_currentGun.GetParent().RemoveChild(_currentGun);
 
-		var gun = GD.Load<PackedScene>("res://temp/temp_gun.tscn").Instantiate() as RigidBody2D;
+		GetTree().Root.AddChild(_currentGun);
 
-		GetTree().Root.AddChild(gun);
+		_currentGun.GlobalPosition = _gunAnchor.GlobalPosition;
+		_currentGun.Freeze = false;
+		_currentGun.ApplyImpulse(new Vector2(_actor.FacingDirection == ActorFacingDirectionEnum.Left ? 200f : -200f, -100f));
 
-		gun.GlobalPosition = GlobalPosition - new Vector2(0f, 20f);
+		_currentGun = null;
+	}
 
-		gun.ApplyImpulse(new Vector2(_actor.FacingDirection == ActorFacingDirectionEnum.Left ? 200f : -200f, -100f));
+	private void UpdateGunRotation(int angleDegrees)
+	{
+		_aimingArm.RotationDegrees = angleDegrees;
 	}
 }

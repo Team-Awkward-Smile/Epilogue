@@ -8,17 +8,22 @@ namespace Epilogue.nodes;
 [GlobalClass, Tool]
 public partial class AttackHitBox : Area2D
 {
+	[Export] private float HitBoxDamage { get; set; }
+
 	private CollisionShape2D _collisionShape;
-	private int _hitBoxDamage;
 
 	public override void _EnterTree()
 	{
 		CollisionLayer = 1 << 4;
 		CollisionMask = 1 << 5;
-		AreaEntered += DealDamage;
+
+		if(!Engine.IsEditorHint())
+		{
+			AreaEntered += DealDamage;
+		}
 	}
 
-	public void SpawnHitBox(string resourcePath, int hitBoxDamage)
+	public void SpawnHitBox(string resourcePath)
 	{
 		_collisionShape = new CollisionShape2D()
 		{ 
@@ -26,8 +31,6 @@ public partial class AttackHitBox : Area2D
 		};
 
 		AddChild(_collisionShape);
-
-		_hitBoxDamage = hitBoxDamage;
 	}
 
 	public void DestroyHitBox()
@@ -39,7 +42,7 @@ public partial class AttackHitBox : Area2D
 	{
 		if(area.Owner is Actor enemy)
 		{
-			enemy.Health.DealDamage(_hitBoxDamage);
+			enemy.Health.DealDamage(HitBoxDamage);
 		}
 	}
 }

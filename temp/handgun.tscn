@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://dulc4vm30o030"]
+
+[ext_resource type="Script" path="res://guns/Handgun.cs" id="1_j57s2"]
+[ext_resource type="Texture2D" uid="uid://b36gdcpttbmd" path="res://temp/handgun.png" id="2_sjqyk"]
+[ext_resource type="AudioStream" uid="uid://culv4am0q6vgd" path="res://temp/handgun.mp3" id="3_box16"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2riue"]
+size = Vector2(26.5528, 17.6798)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a0c6f"]
+
+[node name="Handgun" type="RigidBody2D"]
+collision_layer = 4
+collision_mask = 8
+script = ExtResource("1_j57s2")
+MaxAmmoCount = 16
+ShotsPerMinute = 400.0
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("2_sjqyk")
+offset = Vector2(159.917, 7.24439)
+flip_h = true
+
+[node name="Muzzle" type="Node2D" parent="."]
+position = Vector2(21.5222, -5.9678)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(7.88246, 0.347313)
+shape = SubResource("RectangleShape2D_2riue")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 64
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(7.85722, -0.0701542)
+shape = SubResource("CircleShape2D_a0c6f")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_box16")
+max_polyphony = 5

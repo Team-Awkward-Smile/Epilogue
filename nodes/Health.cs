@@ -1,5 +1,6 @@
 using Epilogue.global.enums;
 using Godot;
+using System.Linq;
 
 namespace Epilogue.nodes;
 /// <summary>
@@ -8,41 +9,64 @@ namespace Epilogue.nodes;
 [GlobalClass]
 public partial class Health : Node
 {
-	// TODO: 68 - Implement an Editor Plugin to show/hide the Glory Kill variables when this property is set
-	[Export] private ActorType ActorType { get; set; }
 	[Export] private float MaxHealth { get; set; }
-	[Export] private float GloryKillThreshold { get; set; }
 
-	/// <summary>
-	///		Current HP of this Actor. On NPCs, setting this value to a number equal to or lower than GloryKillThreshold will automatically set IsVulnerable to true
-	/// </summary>
 	public float CurrentHealth 
 	{ 
-		get => _currentHealth; 
-		private set
+		get => _currentHealth;
+		set
 		{
 			_currentHealth = value;
-
-			if(ActorType != ActorType.Player)
-			{
-				IsVulnerable = _currentHealth <= GloryKillThreshold;
-			}
-		}
+			UpdateHealthSprite();
+		} 
 	}
 
-	/// <summary>
-	///		Defines if this Actor is vulnerable or not. Different elements can interact with a vulnerable Actor is specific ways
-	/// </summary>
-	public bool IsVulnerable { get; private set; } = false;
+	protected Actor _actor;
 
-	private Actor _actor;
 	private float _currentHealth;
+	private PackedScene _heartSprite;
+	private HBoxContainer _heartContainer;
 
     public override void _Ready()
 	{
 		_actor = (Actor) Owner;
+		_heartSprite = GD.Load<PackedScene>("res://temp/heart_sprite.tscn");
+		_heartContainer = new HBoxContainer();
+
+		_heartContainer.AddThemeConstantOverride("separation", 15);
+
+		AddChild(_heartContainer);
 
 		CurrentHealth = MaxHealth;
+	}
+
+	private void UpdateHealthSprite()
+	{
+		_heartContainer.GetChildren().ToList().ForEach(c => c.QueueFree());
+
+		var temp = CurrentHealth;
+
+		for(var i = 0; i < MaxHealth; i++)
+		{
+			var heart = _heartSprite.Instantiate() as Control;
+
+			_heartContainer.AddChild(heart);
+
+			((Sprite2D) heart.GetChild(0)).Frame = temp > 0 ? temp switch 
+			{
+				0.25f => 3,
+				0.5f => 2,
+				0.75f => 1,
+				_ => 0
+			} : 4;
+
+			temp--;
+		}
+	}
+
+	public override void _PhysicsProcess(double delta)
+	{
+		_heartContainer.GlobalPosition = _actor.GlobalPosition - new Vector2(0f, 30f);
 	}
 
 	public virtual void DealDamage(float damage)
@@ -60,10 +84,6 @@ public partial class Health : Node
 			_actor.QueueFree();
 		}
 
-		if(IsVulnerable)
-		{
-			_actor.StateMachine.ChangeState("Vulnerable");
-		}
 	}
 
 	public virtual void ApplyHealth(float health) 

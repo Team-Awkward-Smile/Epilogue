@@ -11,7 +11,12 @@ public partial class Walk : StateComponent
 
 	public override void OnInput(InputEvent @event)
 	{
-		if(Input.IsActionJustPressed(_jumpInput))
+		if(!@event.IsPressed())
+		{
+			return;
+		}
+
+		if(@event.IsAction(_jumpInput))
 		{
 			if(Actor.RayCasts["Head"].IsColliding() && !Actor.RayCasts["Ledge"].IsColliding())
 			{
@@ -22,19 +27,19 @@ public partial class Walk : StateComponent
 				StateMachine.ChangeState("Jump");
 			}
 		}
-		else if(Input.IsActionJustPressed(_attackInput))
+		else if(@event.IsAction(_attackInput))
 		{
 			StateMachine.ChangeState("MeleeAttack");
 		}
-		else if(Input.IsActionJustPressed(_crouchInput))
+		else if(@event.IsAction(_crouchInput))
 		{
 			StateMachine.ChangeState("Crouch");
 		}
-		else if(Input.IsActionJustPressed(_toggleRunInput))
+		else if(@event.IsAction(_toggleRunInput))
 		{
 			_runToggled = !_runToggled;
 		}
-		else if(Input.IsActionJustPressed(_slideInput))
+		else if(@event.IsAction(_slideInput))
 		{
 			StateMachine.ChangeState("Slide");
 		}

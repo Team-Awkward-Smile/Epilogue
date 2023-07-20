@@ -22,14 +22,14 @@ public partial class MeleeAttack : StateComponent
 		{
 			_enemy = (Actor) Actor.RayCasts["Enemy"].GetCollider();
 
-			if(_enemy.Health.IsVulnerable)
+			if(((NPCHealth) _enemy.Health).IsVulnerable)
 			{
 				Actor.CanChangeFacingDirection = false;
 
 				_eventsSingleton = GetNode<Events>("/root/Events");
 
 				_eventsSingleton.EmitGlobalSignal("StateAwaitingForGloryKillInput");
-				_eventsSingleton.GloryKillInputReceived += PerformGloryKill;
+				_eventsSingleton.GloryKillInputReceived += PerformExecution;
 
 				return;
 			}
@@ -39,9 +39,9 @@ public partial class MeleeAttack : StateComponent
 		AnimPlayer.AnimationFinished += FinishAttack;
 	}
 
-	public async void PerformGloryKill(GloryKillSpeed speed)
+	public async void PerformExecution(GloryKillSpeed speed)
 	{
-		_eventsSingleton.GloryKillInputReceived -= PerformGloryKill;
+		_eventsSingleton.GloryKillInputReceived -= PerformExecution;
 
 		var animation = "glory_kill_" + speed switch
 		{
