@@ -5,8 +5,8 @@ using System.Linq;
 namespace Epilogue.nodes;
 public abstract partial class Gun : RigidBody2D
 {
-    public abstract int MaxAmmoCount { get; set; }
-    public abstract float ShotsPerMinute { get; set; }
+    [Export] public int MaxAmmoCount { get; set; }
+    [Export] public float ShotsPerMinute { get; set; }
 
     public float TimeSinceLastShot { get; protected set; } = 0f;
     public int CurrentAmmoCount { get; protected set; }

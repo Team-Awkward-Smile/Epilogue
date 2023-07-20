@@ -1,30 +1,30 @@
 [gd_scene load_steps=47 format=3 uid="uid://cmrbm1u6fwi67"]
 
-[ext_resource type="Script" path="res://nodes/Actor.cs" id="1_a6v40"]
-[ext_resource type="Script" path="res://nodes/StateMachineComponent.cs" id="2_nonl2"]
-[ext_resource type="Script" path="res://actors/bob/states/Walk.cs" id="3_e7l4h"]
-[ext_resource type="Script" path="res://actors/bob/states/Jump.cs" id="4_wpaty"]
-[ext_resource type="Script" path="res://actors/bob/states/Idle.cs" id="5_jgku2"]
-[ext_resource type="Script" path="res://actors/bob/states/Fall.cs" id="6_unypc"]
-[ext_resource type="Script" path="res://actors/bob/states/Crouch.cs" id="7_j1pck"]
-[ext_resource type="Script" path="res://actors/bob/states/MeleeAttack.cs" id="8_fxxru"]
-[ext_resource type="Script" path="res://actors/bob/states/GrabLedge.cs" id="9_8tgq0"]
-[ext_resource type="Script" path="res://actors/bob/states/Slide.cs" id="10_wml1q"]
-[ext_resource type="Script" path="res://actors/bob/states/Run.cs" id="11_n1xvg"]
-[ext_resource type="Script" path="res://actors/bob/states/LookUp.cs" id="12_w0k51"]
-[ext_resource type="Script" path="res://actors/bob/states/Vault.cs" id="13_ngxch"]
-[ext_resource type="Script" path="res://actors/bob/states/Growl.cs" id="14_mlvx8"]
-[ext_resource type="Script" path="res://actors/bob/AudioPlayer.cs" id="15_ta4us"]
-[ext_resource type="Script" path="res://actors/bob/aim/Aim.cs" id="16_b56pi"]
-[ext_resource type="Script" path="res://actors/bob/aim/MouseAim.cs" id="17_oq4in"]
-[ext_resource type="Script" path="res://actors/bob/aim/ButtonAim.cs" id="18_xtwud"]
-[ext_resource type="Script" path="res://actors/bob/aim/StickAim.cs" id="19_8264y"]
-[ext_resource type="Script" path="res://actors/bob/CameraAnchor.cs" id="20_xxohu"]
-[ext_resource type="Texture2D" uid="uid://df2a87s4cukqq" path="res://actors/bob/sprite_sheet/epilogue_bob-Sheet.png" id="21_5pjjm"]
-[ext_resource type="Script" path="res://actors/bob/FootstepFxManager.cs" id="22_durlh"]
-[ext_resource type="Script" path="res://nodes/AttackHitBox.cs" id="23_sluoc"]
-[ext_resource type="Script" path="res://nodes/Health.cs" id="24_25ih3"]
-[ext_resource type="Script" path="res://actors/bob/GunSystem.cs" id="25_1acgl"]
+[ext_resource type="Script" path="res://nodes/Actor.cs" id="1_du1kj"]
+[ext_resource type="Script" path="res://nodes/StateMachineComponent.cs" id="2_a1feq"]
+[ext_resource type="Script" path="res://actors/bob/states/Walk.cs" id="3_thwy0"]
+[ext_resource type="Script" path="res://actors/bob/states/Jump.cs" id="4_5k3l8"]
+[ext_resource type="Script" path="res://actors/bob/states/Idle.cs" id="5_7g1yb"]
+[ext_resource type="Script" path="res://actors/bob/states/Fall.cs" id="6_l306w"]
+[ext_resource type="Script" path="res://actors/bob/states/Crouch.cs" id="7_g5ksf"]
+[ext_resource type="Script" path="res://actors/bob/states/MeleeAttack.cs" id="8_qgrqs"]
+[ext_resource type="Script" path="res://actors/bob/states/GrabLedge.cs" id="9_nbfjm"]
+[ext_resource type="Script" path="res://actors/bob/states/Slide.cs" id="10_u6585"]
+[ext_resource type="Script" path="res://actors/bob/states/Run.cs" id="11_15uej"]
+[ext_resource type="Script" path="res://actors/bob/states/LookUp.cs" id="12_a8j0g"]
+[ext_resource type="Script" path="res://actors/bob/states/Vault.cs" id="13_66iaj"]
+[ext_resource type="Script" path="res://actors/bob/states/Growl.cs" id="14_l27lc"]
+[ext_resource type="Script" path="res://actors/bob/AudioPlayer.cs" id="15_5ro63"]
+[ext_resource type="Script" path="res://actors/bob/aim/Aim.cs" id="16_yah7b"]
+[ext_resource type="Script" path="res://actors/bob/aim/MouseAim.cs" id="17_wpb7q"]
+[ext_resource type="Script" path="res://actors/bob/aim/ButtonAim.cs" id="18_lvug0"]
+[ext_resource type="Script" path="res://actors/bob/aim/StickAim.cs" id="19_bct8a"]
+[ext_resource type="Script" path="res://actors/bob/CameraAnchor.cs" id="20_83ci1"]
+[ext_resource type="Texture2D" uid="uid://df2a87s4cukqq" path="res://actors/bob/sprite_sheet/epilogue_bob-Sheet.png" id="21_bhwk3"]
+[ext_resource type="Script" path="res://actors/bob/FootstepFxManager.cs" id="22_my0co"]
+[ext_resource type="Script" path="res://nodes/AttackHitBox.cs" id="23_5c1yv"]
+[ext_resource type="Script" path="res://nodes/Health.cs" id="24_8lsfm"]
+[ext_resource type="Script" path="res://actors/bob/GunSystem.cs" id="25_o4fwr"]
 
 [sub_resource type="Animation" id="Animation_1kqj8"]
 length = 0.001
@@ -634,7 +634,7 @@ floor_snap_length = 5.0
 platform_on_leave = 2
 platform_floor_layers = 4294901768
 platform_wall_layers = 8
-script = ExtResource("1_a6v40")
+script = ExtResource("1_du1kj")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../FlipRoot/Sprite2D")
@@ -643,71 +643,71 @@ libraries = {
 }
 
 [node name="StateMachineComponent" type="Node" parent="." node_paths=PackedStringArray("InitialState")]
-script = ExtResource("2_nonl2")
+script = ExtResource("2_a1feq")
 InitialState = NodePath("Idle")
 
 [node name="Walk" type="Node" parent="StateMachineComponent"]
-script = ExtResource("3_e7l4h")
+script = ExtResource("3_thwy0")
 
 [node name="Jump" type="Node" parent="StateMachineComponent"]
-script = ExtResource("4_wpaty")
+script = ExtResource("4_5k3l8")
 _jumpSpeed = -365.0
 
 [node name="Idle" type="Node" parent="StateMachineComponent"]
-script = ExtResource("5_jgku2")
+script = ExtResource("5_7g1yb")
 
 [node name="Fall" type="Node" parent="StateMachineComponent"]
-script = ExtResource("6_unypc")
+script = ExtResource("6_l306w")
 
 [node name="Crouch" type="Node" parent="StateMachineComponent"]
-script = ExtResource("7_j1pck")
+script = ExtResource("7_g5ksf")
 _cameraMovementDistance = 75
 
 [node name="MeleeAttack" type="Node" parent="StateMachineComponent"]
-script = ExtResource("8_fxxru")
+script = ExtResource("8_qgrqs")
 
 [node name="GrabLedge" type="Node" parent="StateMachineComponent"]
-script = ExtResource("9_8tgq0")
+script = ExtResource("9_nbfjm")
 
 [node name="Slide" type="Node" parent="StateMachineComponent"]
-script = ExtResource("10_wml1q")
+script = ExtResource("10_u6585")
 
 [node name="Run" type="Node" parent="StateMachineComponent"]
-script = ExtResource("11_n1xvg")
+script = ExtResource("11_15uej")
 
 [node name="LookUp" type="Node" parent="StateMachineComponent"]
-script = ExtResource("12_w0k51")
+script = ExtResource("12_a8j0g")
 
 [node name="Vault" type="Node" parent="StateMachineComponent"]
-script = ExtResource("13_ngxch")
+script = ExtResource("13_66iaj")
 
 [node name="Growl" type="Node" parent="StateMachineComponent"]
-script = ExtResource("14_mlvx8")
+script = ExtResource("14_l27lc")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-script = ExtResource("15_ta4us")
+script = ExtResource("15_5ro63")
 
 [node name="Aim" type="Node" parent="." groups=["InputType"]]
 editor_description = "Base Node to control the aiming system, regardless of the input method"
-script = ExtResource("16_b56pi")
+script = ExtResource("16_yah7b")
 
 [node name="MouseAim" type="Node" parent="Aim"]
 editor_description = "Node to control aiming with a mouse"
-script = ExtResource("17_oq4in")
+script = ExtResource("17_wpb7q")
 
 [node name="ButtonAim" type="Node" parent="Aim"]
 editor_description = "Node to control aiming with buttons (either from a keyboard or from a controller)"
-script = ExtResource("18_xtwud")
+script = ExtResource("18_lvug0")
 
 [node name="StickAim" type="Node" parent="Aim"]
 editor_description = "Node to control aiming with an analog stick"
-script = ExtResource("19_8264y")
+script = ExtResource("19_bct8a")
 
 [node name="CameraAnchor" type="Node2D" parent="."]
 editor_description = "Node that serves as the anchor for the Camera. Moving this Node also moves the Camera"
 top_level = true
 position = Vector2(0, -36.5)
-script = ExtResource("20_xxohu")
+script = ExtResource("20_83ci1")
 
 [node name="FlipRoot" type="Node2D" parent="."]
 
@@ -730,7 +730,7 @@ collision_mask = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="FlipRoot" groups=["MainSprite"]]
 position = Vector2(0, -30)
-texture = ExtResource("21_5pjjm")
+texture = ExtResource("21_bhwk3")
 hframes = 11
 vframes = 19
 frame = 22
@@ -740,7 +740,7 @@ editor_description = "Node used by the Ledge Grab State to move the character to
 position = Vector2(5, 13)
 
 [node name="FootstepFx" type="Node" parent="FlipRoot"]
-script = ExtResource("22_durlh")
+script = ExtResource("22_my0co")
 
 [node name="LeftFoot" type="Node2D" parent="FlipRoot/FootstepFx"]
 position = Vector2(-12, 0)
@@ -752,7 +752,7 @@ position = Vector2(-21, 0)
 position = Vector2(18, -34)
 collision_layer = 16
 collision_mask = 32
-script = ExtResource("23_sluoc")
+script = ExtResource("23_5c1yv")
 HitBoxDamage = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["MainHitbox"]]
@@ -760,11 +760,11 @@ position = Vector2(0, -22)
 shape = SubResource("CapsuleShape2D_b5eh5")
 
 [node name="Health" type="Node2D" parent="."]
-script = ExtResource("24_25ih3")
+script = ExtResource("24_8lsfm")
 MaxHealth = 3.0
 
 [node name="GunSystem" type="Node2D" parent="."]
-script = ExtResource("25_1acgl")
+script = ExtResource("25_o4fwr")
 
 [node name="PickupRange" type="Area2D" parent="GunSystem"]
 editor_description = "Area used by the game to detect when a gun is in range to be picked up"

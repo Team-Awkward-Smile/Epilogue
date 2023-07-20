@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://crvtk6qhessyc"]
 
-[ext_resource type="Script" path="res://nodes/Projectile.cs" id="1_q5iss"]
+[ext_resource type="Script" path="res://nodes/Projectile.cs" id="1_objfu"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_v8vg4"]
 size = Vector2(3, 3)
@@ -14,10 +14,11 @@ collision_mask = 40
 collision_priority = 100.0
 input_pickable = false
 priority = 100
-script = ExtResource("1_q5iss")
+script = ExtResource("1_objfu")
 Speed = 1000.0
 Damage = 1.0
 DamageType = 1
+LifeTime = 1.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = SubResource("PlaceholderTexture2D_v8vg4")

@@ -13,6 +13,5 @@ public partial class Events : Node
 	public void EmitGlobalSignal(StringName signalName, params Variant[] args)
 	{
 		EmitSignal(signalName, args);
-		GD.Print($"Signal [{signalName}] emmitted with args [{string.Join(", ", args)}]");
 	}
 }

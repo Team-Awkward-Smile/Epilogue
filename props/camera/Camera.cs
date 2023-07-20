@@ -7,7 +7,7 @@ public partial class Camera : Camera2D
 
 	public override void _Ready()
 	{
-		_cameraTarget = GetNode<Node2D>("../Bob/CameraAnchor");
+		_cameraTarget = GetNode<Node2D>("../../Bob/CameraAnchor");
 	}
 
 	public override void _PhysicsProcess(double delta)

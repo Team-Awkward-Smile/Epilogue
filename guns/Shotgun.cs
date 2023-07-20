@@ -4,9 +4,6 @@ using Godot;
 namespace Epilogue.guns;
 public partial class Shotgun : Gun
 {
-	[Export] public override int MaxAmmoCount { get; set; }
-	[Export] public override float ShotsPerMinute { get; set; }
-
 	private PackedScene _pelletScene;
 
 	public override void _Ready()

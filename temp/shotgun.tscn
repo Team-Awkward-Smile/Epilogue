@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://di5pn4kqpf3t7"]
 
-[ext_resource type="Script" path="res://guns/Shotgun.cs" id="1_4em5i"]
-[ext_resource type="Texture2D" uid="uid://c76ulfenl7jjy" path="res://temp/shotgun.png" id="2_3nac5"]
-[ext_resource type="AudioStream" uid="uid://drvj7sous3tct" path="res://temp/shotgun.mp3" id="3_ua25l"]
+[ext_resource type="Script" path="res://guns/Shotgun.cs" id="1_8bd78"]
+[ext_resource type="Texture2D" uid="uid://c76ulfenl7jjy" path="res://temp/shotgun.png" id="2_pm2vl"]
+[ext_resource type="AudioStream" uid="uid://drvj7sous3tct" path="res://temp/shotgun.mp3" id="3_jp8l1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_aofev"]
 size = Vector2(38, 10)
@@ -14,13 +14,13 @@ height = 38.0
 [node name="Shotgun" type="RigidBody2D"]
 collision_layer = 4
 collision_mask = 8
-script = ExtResource("1_4em5i")
+script = ExtResource("1_8bd78")
 MaxAmmoCount = 6
 ShotsPerMinute = 30.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.06, 0.06)
-texture = ExtResource("2_3nac5")
+texture = ExtResource("2_pm2vl")
 offset = Vector2(200, -50)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -39,4 +39,4 @@ shape = SubResource("CapsuleShape2D_swae0")
 position = Vector2(32, -6)
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_ua25l")
+stream = ExtResource("3_jp8l1")

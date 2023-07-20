@@ -33,21 +33,29 @@ public partial class Projectile : Area2D
     /// </summary>
     [Export] public float VerticalForce { get; set; } = 0f;
 
+    /// <summary>
+    ///     This projectile will be destroyed if it doesn't hit anything in this ammount of time
+    /// </summary>
+    [Export] public float LifeTime { get; set; }
+
+    private float _timer;
+
 	public override void _Ready()
 	{
-		if(DestroyOnHit)
-        {
-            AreaEntered += (Area2D area) => 
+		AreaEntered += (Area2D area) => 
+		{
+			DamageActor(area);
+
+            if(DestroyOnHit)
             {
-                DamageActor(area);
-                QueueFree();
-            };
-            BodyEntered += (Node2D body) =>
-            {
-                DamageWorld();
-                QueueFree();
-            };
-        }
+			    QueueFree();
+            }
+		};
+		BodyEntered += (Node2D body) =>
+		{
+			DamageWorld();
+			QueueFree();
+		};
 	}
 
     private void DamageActor(Area2D area)
@@ -65,6 +73,13 @@ public partial class Projectile : Area2D
 
 	public override void _PhysicsProcess(double delta)
 	{
+        _timer += (float) delta;
+
+        if(_timer >= LifeTime)
+        {
+            QueueFree();
+        }
+
         Position += Transform.X * Speed * (float) delta;
 	}
 }
