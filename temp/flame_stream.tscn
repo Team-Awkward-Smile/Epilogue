@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dhl366anx3a11"]
 
-[ext_resource type="Texture2D" uid="uid://ccgi2d6wcgg8x" path="res://temp/fire_texture.png" id="1_v0vtx"]
-[ext_resource type="Script" path="res://temp/FlameStream.cs" id="2_y5t27"]
+[ext_resource type="Texture2D" uid="uid://ccgi2d6wcgg8x" path="res://temp/fire_texture.png" id="1_chc4k"]
+[ext_resource type="Script" path="res://temp/FlameStream.cs" id="2_0lqph"]
 
 [sub_resource type="Curve" id="Curve_u4l5r"]
 _data = [Vector2(0, 0.210526), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -15,9 +15,9 @@ points = PackedVector2Array(0, 0, 46, 114, 176, 39)
 width = 20.0
 width_curve = SubResource("Curve_u4l5r")
 gradient = SubResource("Gradient_46a4i")
-texture = ExtResource("1_v0vtx")
+texture = ExtResource("1_chc4k")
 texture_mode = 2
 joint_mode = 2
 end_cap_mode = 2
 sharp_limit = 1.355
-script = ExtResource("2_y5t27")
+script = ExtResource("2_0lqph")
