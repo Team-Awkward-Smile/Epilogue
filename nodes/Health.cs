@@ -66,7 +66,7 @@ public partial class Health : Node
 
 	public override void _PhysicsProcess(double delta)
 	{
-		_heartContainer.GlobalPosition = _actor.GlobalPosition - new Vector2(0f, 30f);
+		_heartContainer.GlobalPosition = _actor.GlobalPosition - new Vector2(_heartContainer.Size.X / 2, _actor.Sprite.GetRect().Size.Y * _actor.Sprite.Scale.Y);
 	}
 
 	public virtual void DealDamage(float damage)

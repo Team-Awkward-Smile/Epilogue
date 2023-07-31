@@ -1,3 +1,4 @@
+using Epilogue.global.enums;
 using Epilogue.nodes;
 using Godot;
 
@@ -16,7 +17,7 @@ public partial class Jump : StateComponent
 
 	public override void OnEnter()
 	{
-		_horizontalVelocity = Actor.Velocity.X;
+		_horizontalVelocity = 100f * (Actor.FacingDirection == ActorFacingDirectionEnum.Left ? -1 : 1);
 
 		AudioPlayer.PlaySfx("Jump");
 
