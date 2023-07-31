@@ -54,7 +54,13 @@ public partial class Idle : StateComponent
 			return;
 		}
 
-		var movement = Input.GetAxis(_moveLeftInput, _moveRightInput);
+		var movement = Input.GetAxis(_moveLeftDigitalInput, _moveRightDigitalInput);
+
+		if(movement == 0f)
+		{
+			movement = Input.GetAxis(_moveLeftAnalogInput, _moveRightAnalogInput);
+		}
+
 		if(movement != 0f)
 		{
 			if(Actor.IsOnWall() && movement == -Actor.GetWallNormal().X)

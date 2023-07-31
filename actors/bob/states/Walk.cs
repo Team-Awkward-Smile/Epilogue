@@ -49,7 +49,12 @@ public partial class Walk : StateComponent
 
 	public override void PhysicsUpdate(double delta)
 	{
-		var movementDirection = Input.GetAxis(_moveLeftInput, _moveRightInput);
+		var movementDirection = Input.GetAxis(_moveLeftDigitalInput, _moveRightDigitalInput);
+
+		if(movementDirection == 0f)
+		{
+			movementDirection = Input.GetAxis(_moveLeftAnalogInput, _moveRightAnalogInput);
+		}
 
 		if(movementDirection != 0f)
 		{

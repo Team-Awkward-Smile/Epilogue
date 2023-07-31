@@ -12,8 +12,10 @@ public partial class StateComponent : Node
 	protected readonly string _jumpInput = InputUtils.GetInputActionName("jump");
 	protected readonly string _attackInput = InputUtils.GetInputActionName("melee");
 	protected readonly string _crouchInput = InputUtils.GetInputActionName("crouch");
-	protected readonly string _moveLeftInput = InputUtils.GetInputActionName("move_left");
-	protected readonly string _moveRightInput = InputUtils.GetInputActionName("move_right");
+	protected readonly string _moveLeftDigitalInput = InputUtils.GetInputActionName("move_left_digital");
+	protected readonly string _moveRightDigitalInput = InputUtils.GetInputActionName("move_right_digital");
+	protected readonly string _moveLeftAnalogInput = InputUtils.GetInputActionName("move_left_analog");
+	protected readonly string _moveRightAnalogInput = InputUtils.GetInputActionName("move_right_analog");
 	protected readonly string _toggleRunInput = InputUtils.GetInputActionName("toggle_run");
 	protected readonly string _lookUpInput = InputUtils.GetInputActionName("look_up");
 	protected readonly string _slideInput = InputUtils.GetInputActionName("slide");
@@ -56,6 +58,9 @@ public partial class StateComponent : Node
 
 	public virtual void PhysicsUpdate(double delta) { }
 
+	/// <summary>
+	///		Code to execute when an Actors enters this State
+	/// </summary>
 	public virtual void OnEnter() => EmitSignal(SignalName.StateStarted);
 
 	public virtual void OnLeave() => EmitSignal(SignalName.StateFinished);

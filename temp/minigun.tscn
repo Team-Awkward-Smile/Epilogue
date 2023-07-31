@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://8sw5jwntdfl1"]
 
-[ext_resource type="Script" path="res://temp/Minigun.cs" id="1_lm78r"]
-[ext_resource type="Texture2D" uid="uid://e6rw58kaffak" path="res://temp/minigun.png" id="2_k2nny"]
+[ext_resource type="Script" path="res://temp/Minigun.cs" id="1_2rop6"]
+[ext_resource type="Texture2D" uid="uid://e6rw58kaffak" path="res://temp/minigun.png" id="2_54paf"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ug5ec"]
 height = 44.0
@@ -12,13 +12,13 @@ radius = 16.0312
 [node name="Minigun" type="RigidBody2D"]
 collision_layer = 4
 collision_mask = 8
-script = ExtResource("1_lm78r")
+script = ExtResource("1_2rop6")
 MaxAmmoCount = 1500
 ShotsPerMinute = 100.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.06, 0.06)
-texture = ExtResource("2_k2nny")
+texture = ExtResource("2_54paf")
 offset = Vector2(316.667, 83.3333)
 
 [node name="Muzzle" type="Node2D" parent="."]
