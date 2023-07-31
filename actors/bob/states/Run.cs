@@ -1,15 +1,11 @@
 using Epilogue.global.enums;
-using Epilogue.global.singletons;
 using Epilogue.nodes;
 using Godot;
-using System;
 
 namespace Epilogue.actors.hestmor.states;
 public partial class Run : StateComponent
 {
 	[Export] private float _runSpeed = 200f;
-
-	private bool _runToggled;
 
 	public override void OnInput(InputEvent @event)
 	{
@@ -41,14 +37,10 @@ public partial class Run : StateComponent
 		{
 			StateMachine.ChangeState("Slide");
 		}
-
-		_runToggled = Input.IsActionPressed(_toggleRunInput);
 	}
 
 	public override void OnEnter()
 	{
-		_runToggled = true;
-
 		AnimPlayer.Play("walk", -1, 2f);
 
 		Actor.CanChangeFacingDirection = true;
@@ -70,8 +62,8 @@ public partial class Run : StateComponent
 			velocity.Y += Gravity * (float) delta;
 			velocity.X = movementDirection * _runSpeed;
 
-			if(movementDirection > 0 && Actor.FacingDirection == ActorFacingDirectionEnum.Left ||
-				movementDirection < 0 && Actor.FacingDirection == ActorFacingDirectionEnum.Right)
+			if((movementDirection > 0 && Actor.FacingDirection == ActorFacingDirectionEnum.Left) ||
+				(movementDirection < 0 && Actor.FacingDirection == ActorFacingDirectionEnum.Right))
 			{
 				velocity.X /= 2;
 			}
@@ -89,7 +81,7 @@ public partial class Run : StateComponent
 		{
 			StateMachine.ChangeState("Fall");
 		}
-		else if(!_runToggled)
+		else if(!Player.MovementInputManager.RunEnabled)
 		{
 			StateMachine.ChangeState("Walk");
 		}

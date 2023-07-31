@@ -7,8 +7,6 @@ public partial class Walk : StateComponent
 {
 	[Export] private float _walkSpeed = 100f;
 
-	private bool _runToggled = false;
-
 	public override void OnInput(InputEvent @event)
 	{
 		if(Input.IsActionJustPressed(_jumpInput))
@@ -34,14 +32,10 @@ public partial class Walk : StateComponent
 		{
 			StateMachine.ChangeState("Slide");
 		}
-
-		_runToggled = Input.IsActionPressed(_toggleRunInput);
 	}
 
 	public override void OnEnter()
 	{
-		_runToggled = false;
-
 		AnimPlayer.Play("walk");
 
 		Actor.CanChangeFacingDirection = true;
@@ -82,7 +76,7 @@ public partial class Walk : StateComponent
 		{
 			StateMachine.ChangeState("Fall");
 		}
-		else if(_runToggled)
+		else if(Player.MovementInputManager.RunEnabled)
 		{
 			StateMachine.ChangeState("Run");
 		}

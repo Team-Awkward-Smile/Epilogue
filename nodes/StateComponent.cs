@@ -14,9 +14,9 @@ public partial class StateComponent : Node
 	protected readonly string _crouchInput = InputUtils.GetInputActionName("crouch");
 	protected readonly string _moveLeftDigitalInput = InputUtils.GetInputActionName("move_left_digital");
 	protected readonly string _moveRightDigitalInput = InputUtils.GetInputActionName("move_right_digital");
-	protected readonly string _moveLeftAnalogInput = InputUtils.GetInputActionName("move_left_analog");
-	protected readonly string _moveRightAnalogInput = InputUtils.GetInputActionName("move_right_analog");
-	protected readonly string _toggleRunInput = InputUtils.GetInputActionName("toggle_run");
+	protected readonly string _moveLeftAnalogInput = "move_left_analog_modern";
+	protected readonly string _moveRightAnalogInput = "move_right_analog_modern";
+	protected readonly string _runModifierInput = InputUtils.GetInputActionName("run_modifier");
 	protected readonly string _lookUpInput = InputUtils.GetInputActionName("look_up");
 	protected readonly string _slideInput = InputUtils.GetInputActionName("slide");
 	protected readonly string _cancelSlideInput = InputUtils.GetInputActionName("cancel_slide");
@@ -24,6 +24,7 @@ public partial class StateComponent : Node
 
 	protected StateMachineComponent StateMachine { get; private set; }
 	protected Actor Actor { get; private set; }
+	protected Player Player { get; private set; }
 	protected AnimationPlayer AnimPlayer { get; private set; }
 	protected AudioPlayerBase AudioPlayer { get; private set; }
 	protected float Gravity { get; private set; }
@@ -38,6 +39,12 @@ public partial class StateComponent : Node
 		}
 
 		Actor = (Actor) StateMachine.GetParent();
+
+		if(Actor is Player player)
+		{
+			Player = player;
+		}
+
 		AnimPlayer = Actor.GetChildren().OfType<AnimationPlayer>().FirstOrDefault();
 
 		if(AnimPlayer is null)

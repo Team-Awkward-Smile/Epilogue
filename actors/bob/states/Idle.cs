@@ -68,7 +68,7 @@ public partial class Idle : StateComponent
 				return;
 			}
 
-			StateMachine.ChangeState(Input.IsActionPressed(_toggleRunInput) ? "Run" : "Walk");
+			StateMachine.ChangeState(Player.MovementInputManager.RunEnabled ? "Run" : "Walk");
 			return;
 		}
 
