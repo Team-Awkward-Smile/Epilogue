@@ -17,7 +17,14 @@ public partial class Jump : StateComponent
 
 	public override void OnEnter()
 	{
-		_horizontalVelocity = 100f * (Actor.FacingDirection == ActorFacingDirectionEnum.Left ? -1 : 1);
+		if(Player.Velocity.X == 0)
+		{
+			_horizontalVelocity = 100f * (Actor.FacingDirection == ActorFacingDirectionEnum.Left ? -1 : 1);
+		}
+		else
+		{
+			_horizontalVelocity = 100f * (Player.Velocity.X > 0 ? 1 : -1);
+		}
 
 		AudioPlayer.PlaySfx("Jump");
 

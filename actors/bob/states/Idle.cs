@@ -42,6 +42,7 @@ public partial class Idle : StateComponent
 	public override void OnEnter()
 	{
 		Actor.CanChangeFacingDirection = true;
+		Player.Velocity = new Vector2(0f, 0f);
 
 		AnimPlayer.Play("idle");
 	}
