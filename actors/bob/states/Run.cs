@@ -41,10 +41,8 @@ public partial class Run : StateComponent
 		{
 			StateMachine.ChangeState("Slide");
 		}
-		else if(Input.IsActionJustPressed(_toggleRunInput))
-		{
-			_runToggled = !_runToggled;
-		}
+
+		_runToggled = Input.IsActionPressed(_toggleRunInput);
 	}
 
 	public override void OnEnter()

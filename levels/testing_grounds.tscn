@@ -1,24 +1,24 @@
 [gd_scene load_steps=21 format=3 uid="uid://cn2lbtkt6ntnt"]
 
-[ext_resource type="Script" path="res://nodes/Level.cs" id="1_ghuq1"]
-[ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_ooha2"]
-[ext_resource type="Texture2D" uid="uid://dtit4hbwjn673" path="res://temp/ground_3.png" id="3_2xli7"]
-[ext_resource type="Texture2D" uid="uid://bfiq0j0jyexqd" path="res://temp/ground_2.png" id="4_g37b6"]
-[ext_resource type="Texture2D" uid="uid://d3w3kkhlni18i" path="res://temp/ground_1.png" id="5_o5h4j"]
-[ext_resource type="Script" path="res://props/camera/Camera.cs" id="6_8gdr8"]
-[ext_resource type="PackedScene" uid="uid://cmrbm1u6fwi67" path="res://actors/bob/bob.tscn" id="7_35prc"]
-[ext_resource type="Texture2D" uid="uid://cqowtu0xysn6n" path="res://temp/checkerboard_small_slope.png" id="8_dxq6x"]
-[ext_resource type="Texture2D" uid="uid://iwr2v70okfhc" path="res://temp/checkerboard.png" id="9_t3bex"]
-[ext_resource type="Texture2D" uid="uid://dh4ef3r7apig" path="res://temp/checkerboard_slope.png" id="10_clqqi"]
-[ext_resource type="Script" path="res://nodes/KonamiCode.cs" id="11_77y7d"]
-[ext_resource type="PackedScene" uid="uid://b3eq6wabf2x2g" path="res://actors/tupois/tupois.tscn" id="12_fwwvj"]
-[ext_resource type="PackedScene" uid="uid://dulc4vm30o030" path="res://temp/handgun.tscn" id="13_t7evv"]
-[ext_resource type="PackedScene" uid="uid://di5pn4kqpf3t7" path="res://temp/shotgun.tscn" id="14_uv80f"]
-[ext_resource type="PackedScene" uid="uid://dkxb60ljnimb7" path="res://temp/flamethrower.tscn" id="15_ywsb3"]
-[ext_resource type="PackedScene" uid="uid://8sw5jwntdfl1" path="res://temp/minigun.tscn" id="16_vjjtc"]
+[ext_resource type="Script" path="res://nodes/Level.cs" id="1_wvw1p"]
+[ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_0g3go"]
+[ext_resource type="Texture2D" uid="uid://dtit4hbwjn673" path="res://temp/ground_3.png" id="3_qacve"]
+[ext_resource type="Texture2D" uid="uid://bfiq0j0jyexqd" path="res://temp/ground_2.png" id="4_40wk5"]
+[ext_resource type="Texture2D" uid="uid://d3w3kkhlni18i" path="res://temp/ground_1.png" id="5_pbxwm"]
+[ext_resource type="Script" path="res://props/camera/Camera.cs" id="6_e6h3d"]
+[ext_resource type="PackedScene" uid="uid://cmrbm1u6fwi67" path="res://actors/bob/bob.tscn" id="7_453w8"]
+[ext_resource type="Texture2D" uid="uid://cqowtu0xysn6n" path="res://temp/checkerboard_small_slope.png" id="8_hq8mt"]
+[ext_resource type="Texture2D" uid="uid://iwr2v70okfhc" path="res://temp/checkerboard.png" id="9_m2lep"]
+[ext_resource type="Texture2D" uid="uid://dh4ef3r7apig" path="res://temp/checkerboard_slope.png" id="10_savgp"]
+[ext_resource type="Script" path="res://nodes/KonamiCode.cs" id="11_56bkj"]
+[ext_resource type="PackedScene" uid="uid://b3eq6wabf2x2g" path="res://actors/tupois/tupois.tscn" id="12_1ryf7"]
+[ext_resource type="PackedScene" uid="uid://dulc4vm30o030" path="res://temp/handgun.tscn" id="13_qlp7q"]
+[ext_resource type="PackedScene" uid="uid://di5pn4kqpf3t7" path="res://temp/shotgun.tscn" id="14_554ah"]
+[ext_resource type="PackedScene" uid="uid://dkxb60ljnimb7" path="res://temp/flamethrower.tscn" id="15_gogwe"]
+[ext_resource type="PackedScene" uid="uid://8sw5jwntdfl1" path="res://temp/minigun.tscn" id="16_sipsy"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pyu23"]
-texture = ExtResource("8_dxq6x")
+texture = ExtResource("8_hq8mt")
 texture_region_size = Vector2i(64, 32)
 use_texture_padding = false
 0:0/0 = 0
@@ -30,7 +30,7 @@ use_texture_padding = false
 0:0/0/physics_layer_1/angular_velocity = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rgkj0"]
-texture = ExtResource("9_t3bex")
+texture = ExtResource("9_m2lep")
 texture_region_size = Vector2i(32, 32)
 0:0/next_alternative_id = 4
 0:0/0 = 0
@@ -60,7 +60,7 @@ texture_region_size = Vector2i(32, 32)
 0:0/3/custom_data_2 = true
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8qghg"]
-texture = ExtResource("10_clqqi")
+texture = ExtResource("10_savgp")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -86,10 +86,10 @@ sources/3 = SubResource("TileSetAtlasSource_8qghg")
 sources/0 = SubResource("TileSetAtlasSource_pyu23")
 
 [node name="Root" type="Node2D"]
-script = ExtResource("1_ghuq1")
+script = ExtResource("1_wvw1p")
 
 [node name="DebugInfo" type="CanvasLayer" parent="."]
-script = ExtResource("2_ooha2")
+script = ExtResource("2_0g3go")
 _playerSpeed = true
 _aimQuadrants = true
 _inputType = true
@@ -115,27 +115,27 @@ motion_scale = Vector2(1.2, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3"]
 position = Vector2(437, -97)
-texture = ExtResource("3_2xli7")
+texture = ExtResource("3_qacve")
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2(1.15, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
 position = Vector2(437, -78)
-texture = ExtResource("4_g37b6")
+texture = ExtResource("4_40wk5")
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2(1.1, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
 position = Vector2(418, -108)
-texture = ExtResource("5_o5h4j")
+texture = ExtResource("5_pbxwm")
 
 [node name="Camera2D" type="Camera2D" parent="ParallaxBackground"]
 zoom = Vector2(3, 3)
-script = ExtResource("6_8gdr8")
+script = ExtResource("6_e6h3d")
 
-[node name="Bob" parent="." instance=ExtResource("7_35prc")]
+[node name="Bob" parent="." instance=ExtResource("7_453w8")]
 position = Vector2(374, -173)
 
 [node name="Ground" type="TileMap" parent="."]
@@ -144,24 +144,24 @@ format = 2
 layer_0/tile_data = PackedInt32Array(-131072, 1, 0, -131071, 1, 0, -131070, 1, 0, -131069, 1, 0, -131068, 1, 0, -131067, 1, 0, -131066, 1, 0, -131065, 1, 0, -131064, 1, 0, -131063, 1, 0, -131062, 1, 0, -131061, 1, 0, -131060, 1, 0, -131059, 1, 0, -131058, 1, 0, -131057, 1, 0, -131056, 1, 0, -131055, 1, 0, -131054, 1, 0, -131053, 1, 0, -131052, 1, 0, -131051, 1, 0, -131050, 1, 0, -131049, 1, 131072, -131048, 1, 131072, -131047, 1, 131072, -131046, 1, 131072, -131045, 1, 131072, -131044, 1, 0, -65537, 1, 0, -65538, 1, 0, -65539, 1, 0, -196608, 1, 0, -262144, 1, 0, -327680, 1, 0, -393216, 1, 0, -458752, 1, 0, -524288, 1, 0, -589824, 1, 0, -655360, 1, 0, -720896, 1, 0, -720895, 1, 0, -720894, 1, 0, -720893, 1, 0, -720892, 1, 0, -720891, 1, 0, -720890, 1, 0, -720889, 1, 0, -720888, 1, 0, -720887, 1, 0, -720886, 1, 0, -720885, 1, 0, -655361, 1, 0, -655362, 1, 0, -655363, 1, 0, -589827, 1, 0, -524291, 1, 0, -458755, 1, 0, -393219, 1, 0, -327683, 1, 0, -262147, 1, 0, -196611, 1, 0, -131075, 1, 0, -131074, 1, 0, -131073, 1, 0, -196609, 1, 0, -262145, 1, 0, -327681, 1, 0, -393217, 1, 0, -458753, 1, 0, -524289, 1, 0, -589825, 1, 0, -589826, 1, 0, -524290, 1, 0, -458754, 1, 0, -393218, 1, 0, -327682, 1, 0, -262146, 1, 0, -196610, 1, 0, -196580, 1, 0, -196579, 1, 0, -196578, 1, 0, -131042, 1, 0, 65566, 1, 131072, 65567, 1, 131072, 65568, 1, 0, 65569, 1, 0, 65570, 1, 0, 34, 1, 0, 35, 1, 0, -65501, 1, 0, -65500, 1, 0, -131036, 1, 0, -131035, 1, 0, -196571, 1, 0, -196570, 1, 0, -262106, 1, 0, -262105, 1, 0, -327641, 1, 0, -327640, 1, 0, 65565, 3, 0, 131100, 3, 0, 196635, 3, 0, 262170, 3, 0, 327705, 3, 0, 327706, 1, 0, 327707, 1, 0, 327708, 1, 0, 327709, 1, 0, 327710, 1, 0, 327711, 1, 0, 262175, 1, 0, 196639, 1, 0, 131103, 1, 0, 131102, 1, 0, 131101, 1, 0, 196636, 1, 0, 196637, 1, 0, 196638, 1, 0, 262174, 1, 0, 262173, 1, 0, 262172, 1, 0, 262171, 1, 0, 393240, 1, 0, 393239, 1, 0, 393238, 1, 0, 393237, 1, 0, 393236, 1, 0, 393235, 1, 131072, 393234, 1, 131072, 393233, 1, 131072, 393232, 1, 0, 393241, 1, 0, 393242, 1, 0, 393243, 1, 0, 393244, 1, 0, 393245, 1, 0, 393246, 1, 0, 393247, 1, 0, -327679, 0, 0, -262141, 0, 0, -196603, 0, 0, -262143, 1, 0, -262142, 1, 0, -196606, 1, 0, -196607, 1, 0, -196605, 1, 0, -196604, 1, 0, -327655, 1, 0, -327656, 1, 0, -327657, 1, 0, -327658, 1, 0, -327659, 1, 0, -327660, 1, 0, -327661, 1, 0, -393197, 1, 0, -458733, 1, 0, -524269, 1, 0, -524268, 1, 0, -524267, 1, 0, -524266, 1, 0, -589804, 1, 0, -589805, 1, 0, -589806, 1, 0, -589807, 1, 0, -589808, 1, 0, -589809, 1, 0, -655345, 1, 0, -720881, 1, 0, -786417, 1, 0, -786416, 1, 0, -786415, 1, 0, -262125, 1, 196608, -196589, 1, 196608, 393231, 1, 0, 393230, 1, 0, 393229, 1, 0, 393228, 1, 0, 393227, 1, 0, 393226, 1, 0, 393225, 1, 0, 393224, 1, 0, 393223, 1, 0, 393222, 1, 0, 393221, 1, 0, 393220, 1, 0, 393219, 1, 0, 393218, 1, 0, 393217, 1, 0, 393216, 1, 0, 458751, 1, 0, 393215, 1, 0, 393214, 1, 0, 393213, 1, 0, 458750, 1, 0, 458749, 1, 0, 327677, 1, 0, 262141, 1, 0, 196605, 1, 0, 131069, 1, 0, 65533, 1, 0, -3, 1, 0)
 
 [node name="KonamiCode" type="Node" parent="."]
-script = ExtResource("11_77y7d")
+script = ExtResource("11_56bkj")
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 
-[node name="Tupois" parent="." instance=ExtResource("12_fwwvj")]
+[node name="Tupois" parent="." instance=ExtResource("12_1ryf7")]
 position = Vector2(256, -94)
 
-[node name="Tupois2" parent="." instance=ExtResource("12_fwwvj")]
+[node name="Tupois2" parent="." instance=ExtResource("12_1ryf7")]
 position = Vector2(562, -86)
 
-[node name="Handgun" parent="." instance=ExtResource("13_t7evv")]
+[node name="Handgun" parent="." instance=ExtResource("13_qlp7q")]
 position = Vector2(476, -139)
 
-[node name="Shotgun" parent="." instance=ExtResource("14_uv80f")]
+[node name="Shotgun" parent="." instance=ExtResource("14_554ah")]
 position = Vector2(166, -155)
 
-[node name="Flamethrower" parent="." instance=ExtResource("15_ywsb3")]
+[node name="Flamethrower" parent="." instance=ExtResource("15_gogwe")]
 position = Vector2(700, -86)
 
-[node name="Minigun" parent="." instance=ExtResource("16_vjjtc")]
+[node name="Minigun" parent="." instance=ExtResource("16_sipsy")]
 position = Vector2(427.5, -84.5)

@@ -30,14 +30,12 @@ public partial class Walk : StateComponent
 		{
 			StateMachine.ChangeState("Crouch");
 		}
-		else if(Input.IsActionJustPressed(_toggleRunInput))
-		{
-			_runToggled = !_runToggled;
-		}
 		else if(Input.IsActionJustPressed(_slideInput))
 		{
 			StateMachine.ChangeState("Slide");
 		}
+
+		_runToggled = Input.IsActionPressed(_toggleRunInput);
 	}
 
 	public override void OnEnter()

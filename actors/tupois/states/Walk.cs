@@ -22,7 +22,7 @@ public partial class Walk : StateComponent
 
 		var pos = ShaderUtils.GetCanvasItemPositionInScreenUV(Actor);
 
-		Actor.Sprite.SetShaderMaterialParameter("center", pos);
+		//Actor.Sprite.SetShaderMaterialParameter("center", pos);
 	}
 }
 
