@@ -6,7 +6,13 @@
     "Godot Debug": {
       "commandName": "Executable",
       "executablePath": "C:\\Users\\Vitor\\Documents\\Godot 4 C#\\Godot_v4.1-dev4_mono_win64.exe",
-      "commandLineArgs": "--path . --verboce",
+      "commandLineArgs": "--path . --verbose",
+      "workingDirectory": "C:\\Users\\Vitor\\Documents\\Godot Stuff\\Epilogue"
+    },
+    "Godot Editor": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\Vitor\\Documents\\Godot 4 C#\\Godot_v4.1-dev4_mono_win64.exe",
+      "commandLineArgs": "--path . --verbose . --editor",
       "workingDirectory": "C:\\Users\\Vitor\\Documents\\Godot Stuff\\Epilogue"
     }
   }

@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=3 uid="uid://c7cpj3m2vojlm"]
+
+[ext_resource type="Script" path="res://nodes/Actor.cs" id="1_pp1wu"]
+[ext_resource type="Script" path="res://nodes/Health.cs" id="2_hkycv"]
+[ext_resource type="Texture2D" uid="uid://d1lxx2st8ps7w" path="res://actors/rob/sprite_sheet/rob-sheet.png" id="3_ioh7w"]
+[ext_resource type="Script" path="res://nodes/StateMachine.cs" id="4_dywsa"]
+[ext_resource type="Script" path="res://actors/rob/states/Chase.cs" id="5_oiyfh"]
+[ext_resource type="AnimationLibrary" uid="uid://bvtr6toko864t" path="res://actors/rob/animations/animations.res" id="6_o158t"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rm8xs"]
+height = 44.0
+
+[node name="Rob" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 24
+script = ExtResource("1_pp1wu")
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("2_hkycv")
+MaxHealth = 3
+
+[node name="FlipRoot" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="FlipRoot"]
+position = Vector2(0, -29)
+texture = ExtResource("3_ioh7w")
+hframes = 11
+vframes = 19
+frame = 11
+
+[node name="HitBoxContainer" type="Area2D" parent="FlipRoot"]
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("4_dywsa")
+
+[node name="Chase" type="Node" parent="StateMachine"]
+script = ExtResource("5_oiyfh")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": ExtResource("6_o158t")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -22)
+shape = SubResource("CapsuleShape2D_rm8xs")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+navigation_layers = 3
+debug_enabled = true

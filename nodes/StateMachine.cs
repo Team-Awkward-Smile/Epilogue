@@ -6,7 +6,7 @@ namespace Epilogue.nodes;
 /// <summary>
 ///		Node that controls the PlayerState Machine of an Actor, defining it's current PlayerState and the code that will run
 /// </summary>
-[GlobalClass]
+[GlobalClass, Tool, Icon("res://nodes/state_machine.png")]
 public partial class StateMachine : Node
 {
 	/// <summary>

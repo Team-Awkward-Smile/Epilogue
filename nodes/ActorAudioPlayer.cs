@@ -6,7 +6,7 @@ namespace Epilogue.nodes;
 /// <summary>
 ///		Base class for AudioPlayers used by Actors
 /// </summary>
-[GlobalClass]
+[GlobalClass, Tool]
 public partial class ActorAudioPlayer : Node
 {
 	/// <summary>

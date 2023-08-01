@@ -1,0 +1,18 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://d22b2146tad8y"]
+
+[ext_resource type="Texture2D" uid="uid://bsalrgxy2uh11" path="res://temp/jump_trigger.png" id="1_jq2f1"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hnw5d"]
+texture = ExtResource("1_jq2f1")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/custom_data_0 = "jump_start"
+1:0/0 = 0
+1:0/0/custom_data_0 = "jump_end"
+2:0/0 = 0
+
+[resource]
+tile_size = Vector2i(32, 32)
+custom_data_layer_0/name = "trigger_type"
+custom_data_layer_0/type = 4
+sources/0 = SubResource("TileSetAtlasSource_hnw5d")

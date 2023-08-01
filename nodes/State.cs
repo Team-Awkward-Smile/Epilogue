@@ -6,6 +6,7 @@ namespace Epilogue.nodes;
 /// <summary>
 ///		Node representing a State that an Actor can assume when using a State Machine
 /// </summary>
+[GlobalClass, Icon("res://nodes/state.png")]
 public partial class State : Node
 {
 	protected StateMachine StateMachine { get; private set; }

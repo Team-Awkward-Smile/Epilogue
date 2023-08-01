@@ -5,7 +5,7 @@ namespace Epilogue.nodes;
 /// <summary>
 ///		Base class for all Levels (GUIs are not Levels)
 /// </summary>
-[GlobalClass]
+[GlobalClass, Icon("res://nodes/level.png")]
 public partial class Level : Node2D
 {
 	/// <summary>

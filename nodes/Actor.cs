@@ -1,13 +1,13 @@
 using Epilogue.global.enums;
 using Godot;
-using Godot.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Epilogue.nodes;
 /// <summary>
 ///		Base class for all Actors (i.e. Player Characters, NPCs, etc.)
 /// </summary>
-[GlobalClass]
+[GlobalClass, Tool, Icon("res://nodes/actor.png")]
 public partial class Actor : CharacterBody2D
 {
 	/// <summary>
@@ -35,7 +35,35 @@ public partial class Actor : CharacterBody2D
 	/// </summary>
     public Health Health { get; set; }
 
-    public override void _Ready()
+	public override string[] _GetConfigurationWarnings()
+	{
+		var warnings = new List<string>();
+		var children = GetChildren();
+
+		if(!children.Where(c => c.Name == "FlipRoot").Any())
+		{
+			warnings.Add("This Actor has no Flip Root.\nConsider adding a Node2D called FlipRoot to manage children Nodes that need to rotate during the game");
+		}
+
+		if(!children.Where(c => c.GetType() == typeof(Health)).Any())
+		{
+			warnings.Add("This Actor has no Health.\nConsider adding a Health Node as a child of this Node to control the Actor's HP during the game");
+		}
+
+		if(!children.Where(c => c.GetType() == typeof(StateMachine)).Any())
+		{
+			warnings.Add("This Actor has no State Machine.\nConsider adding a StateMachine Node as a child of this Actor to control the Actor's States during the game");
+		}
+
+		if(!children.Where(c => c.GetType() == typeof(AnimationPlayer)).Any())
+		{
+			warnings.Add("This Actor has no Animation Player.\nConsider adding an AnimationPlayer Node as a child of this Actor to control the Actor's animations during the game");
+		}
+
+		return warnings.ToArray();
+	}
+
+	public override void _Ready()
 	{
 		GetNode<Node2D>("FlipRoot").GetChildren().OfType<RayCast2D>().ToList().ForEach(r =>
 		{
