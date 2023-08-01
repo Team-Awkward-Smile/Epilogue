@@ -7,6 +7,7 @@ public partial class Walk : StateComponent
 {
 	[Export] private float _walkSpeed = 100f;
 
+	/// <inheritdoc/>
 	public override void OnInput(InputEvent @event)
 	{
 		if(Input.IsActionJustPressed(_jumpInput))
@@ -34,6 +35,7 @@ public partial class Walk : StateComponent
 		}
 	}
 
+	/// <inheritdoc/>
 	public override void OnEnter()
 	{
 		AnimPlayer.Play("walk");
@@ -41,12 +43,14 @@ public partial class Walk : StateComponent
 		Actor.CanChangeFacingDirection = true;
 	}
 
+	/// <inheritdoc/>
 	public override void PhysicsUpdate(double delta)
 	{
 		var movementDirection = Input.GetAxis(_moveLeftDigitalInput, _moveRightDigitalInput);
 
 		if(movementDirection == 0f)
 		{
+			// KNOWN: 68 - The analog movement works even in Retro Mode
 			movementDirection = Input.GetAxis(_moveLeftAnalogInput, _moveRightAnalogInput);
 		}
 

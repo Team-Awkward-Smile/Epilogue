@@ -61,22 +61,42 @@ public partial class StateComponent : Node
 		}
 	}
 
+	/// <summary>
+	///		Method executed at every frame
+	/// </summary>
+	/// <param name="delta">Time in seconds since the last frame</param>
 	public virtual void Update(double delta) { }
 
+	/// <summary>
+	///		Method executed at every physical frame (usually 60 times per second, regardless of framerate)
+	/// </summary>
+	/// <param name="delta">Time in secondssince last frame</param>
+	/// <inheritdoc/>
 	public virtual void PhysicsUpdate(double delta) { }
 
 	/// <summary>
-	///		Code to execute when an Actors enters this State
+	///		Method executed when this State becomes active. Note that this method runs every time the State becomes active, so it's not a replacement for <see cref="_Ready"/>
 	/// </summary>
 	public virtual void OnEnter() => EmitSignal(SignalName.StateStarted);
 
+	/// <summary>
+	///		Synchronous method executed when a State is replaced by another one. If a State needs to run async operations when leaving the State Machine, use <see cref="OnLeaveAsync"/>
+	/// </summary>
 	public virtual void OnLeave() => EmitSignal(SignalName.StateFinished);
 
+	/// <summary>
+	///		Async method executed when a State is replaced by another one. The State Machine will await for this method before continuing the change
+	/// </summary>
+	/// <returns></returns>
 	public async virtual Task OnLeaveAsync()
 	{
 		EmitSignal(SignalName.StateFinished);
 		await Task.CompletedTask;
 	}
 
+	/// <summary>
+	///		Method executed when an Unhandled Input is received
+	/// </summary>
+	/// <param name="event"></param>
 	public virtual void OnInput(InputEvent @event) { }
 }
