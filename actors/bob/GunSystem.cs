@@ -38,6 +38,7 @@ public partial class GunSystem : Node2D
 		}
 		else if(@event.IsAction(InputUtils.GetInputActionName("shoot")))
 		{
+			// KNOWN: 68 - Attacking with LMB without a gun equipped usually drops the input and do nothing
 			if(HasGunEquipped)
 			{
 				if(_currentGun.CurrentAmmoCount > 0)
