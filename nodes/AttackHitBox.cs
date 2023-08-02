@@ -12,6 +12,7 @@ public partial class AttackHitBox : Area2D
 
 	private CollisionShape2D _collisionShape;
 
+	/// <inheritdoc/>
 	public override void _EnterTree()
 	{
 		CollisionLayer = 1 << 4;
@@ -23,6 +24,10 @@ public partial class AttackHitBox : Area2D
 		}
 	}
 
+	/// <summary>
+	///		Spawns a new HitBox from the specified path
+	/// </summary>
+	/// <param name="resourcePath">The path of the Resource defining the HitBox</param>
 	public void SpawnHitBox(string resourcePath)
 	{
 		_collisionShape = new CollisionShape2D()
@@ -33,14 +38,14 @@ public partial class AttackHitBox : Area2D
 		AddChild(_collisionShape);
 	}
 
-	public void DestroyHitBox()
-	{
-		_collisionShape.QueueFree();
-	}
+	/// <summary>
+	///		Destroys the current HitBox
+	/// </summary>
+	public void DestroyHitBox() => _collisionShape.QueueFree();
 
 	private void DealDamage(Node2D area)
 	{
-		if(area.Owner is Actor enemy)
+		if(area.Owner is Npc enemy)
 		{
 			enemy.Health.DealDamage(HitBoxDamage);
 		}

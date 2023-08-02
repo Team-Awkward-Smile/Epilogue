@@ -6,7 +6,7 @@ namespace Epilogue.nodes;
 /// <summary>
 ///		Node for controlling an Actor's HP
 /// </summary>
-[GlobalClass]
+[GlobalClass, Icon("res://nodes/icons/health.png")]
 public partial class Health : Node
 {
 	[Export] private float MaxHealth { get; set; }

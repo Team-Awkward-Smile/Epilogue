@@ -1,10 +1,11 @@
 using Epilogue.nodes;
+
 using Godot;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Epilogue.guns;
+/// <summary>
+///		Flamethrower used for testing purposes
+/// </summary>
 public partial class Flamethrower : Gun
 {
 	private PackedScene _flameScene;
@@ -12,15 +13,14 @@ public partial class Flamethrower : Gun
 	private PackedScene _streamScene;
 	private FlameStream _flameStream;
 
-	public override void _Ready()
+	/// <inheritdoc/>
+	private protected override void AfterReady()
 	{
-		base._Ready();
-
 		_flameScene = GD.Load<PackedScene>("res://temp/flame.tscn");
 		_streamScene = GD.Load<PackedScene>("res://temp/flame_stream.tscn");
 	}
 
-	public override void OnTriggerHeld(double delta)
+	private protected override void OnTriggerHeld(double delta)
 	{
 		if(TimeSinceLastShot >= _shotDelay)
 		{
@@ -33,13 +33,13 @@ public partial class Flamethrower : Gun
 
 			flame.GlobalTransform = Muzzle.GlobalTransform;
 
-			Events.EmitGlobalSignal("GunFired", CurrentAmmoCount);
+			GunEvents.EmitGlobalSignal("GunFired", CurrentAmmoCount);
 
 			_flameStream.AddProjectile(flame);
 		}
 	}
 
-	public override void OnTriggerPress()
+	private protected override void OnTriggerPress()
 	{
 		_shotDelay = 1 / (ShotsPerMinute / 60);
 

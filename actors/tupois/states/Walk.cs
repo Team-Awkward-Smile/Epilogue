@@ -1,28 +1,23 @@
-using Godot;
 using Epilogue.nodes;
-using Epilogue.util;
-using Epilogue.extensions;
 
 namespace Epilogue.actors.tupois.states;
-public partial class Walk : StateComponent
+/// <summary>
+///		State that allows the Tupois to move around the map
+/// </summary>
+public partial class Walk : NpcState
 {
 	private double _walkDuration = 3f;
 	private double _timer = 0f;
 	private float _walkSpeed = -50f;
 	private double _shaderTimer = 0f;
 
-	public override void OnEnter()
+	internal override void OnEnter()
 	{
 		AnimPlayer.Play("tupois/Walk");
 	}
 
-	public override void Update(double delta)
+	internal override void Update(double delta)
 	{
-		_shaderTimer += delta;
-
-		var pos = ShaderUtils.GetCanvasItemPositionInScreenUV(Actor);
-
-		//Actor.Sprite.SetShaderMaterialParameter("center", pos);
 	}
 }
 

@@ -3,16 +3,18 @@ using Epilogue.nodes;
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
-public partial class Walk : StateComponent
+/// <summary>
+///		State that allows Hestmor to walk
+/// </summary>
+public partial class Walk : PlayerState
 {
 	[Export] private float _walkSpeed = 100f;
 
-	/// <inheritdoc/>
-	public override void OnInput(InputEvent @event)
+	internal override void OnInput(InputEvent @event)
 	{
-		if(Input.IsActionJustPressed(_jumpInput))
+		if(@event.IsActionPressed(JumpInput))
 		{
-			if(Actor.RayCasts["Head"].IsColliding() && !Actor.RayCasts["Ledge"].IsColliding())
+			if(Player.RayCasts["Head"].IsColliding() && !Player.RayCasts["Ledge"].IsColliding())
 			{
 				StateMachine.ChangeState("GrabLedge");
 			}
@@ -21,66 +23,64 @@ public partial class Walk : StateComponent
 				StateMachine.ChangeState("Jump");
 			}
 		}
-		else if(Input.IsActionJustPressed(_attackInput))
-		{
-			StateMachine.ChangeState("MeleeAttack");
-		}
-		else if(Input.IsActionJustPressed(_crouchInput))
+		else if(@event.IsActionPressed(CrouchInput))
 		{
 			StateMachine.ChangeState("Crouch");
 		}
-		else if(Input.IsActionJustPressed(_slideInput))
+		else if(@event.IsActionPressed(SlideInput))
 		{
 			StateMachine.ChangeState("Slide");
 		}
+		else if(@event.IsActionPressed(MeleeAttackInput))
+		{
+			StateMachine.ChangeState("MeleeAttack");
+		}
 	}
 
-	/// <inheritdoc/>
-	public override void OnEnter()
+	internal override void OnEnter()
 	{
 		AnimPlayer.Play("walk");
 
-		Actor.CanChangeFacingDirection = true;
+		Player.CanChangeFacingDirection = true;
 	}
 
-	/// <inheritdoc/>
-	public override void PhysicsUpdate(double delta)
+	internal override void PhysicsUpdate(double delta)
 	{
-		var movementDirection = Input.GetAxis(_moveLeftDigitalInput, _moveRightDigitalInput);
+		var movementDirection = Input.GetAxis(MoveLeftDigitalInput, MoveRightDigitalInput);
 
 		if(movementDirection == 0f)
 		{
 			// KNOWN: 68 - The analog movement works even in Retro Mode
-			movementDirection = Input.GetAxis(_moveLeftAnalogInput, _moveRightAnalogInput);
+			movementDirection = Input.GetAxis(MoveLeftAnalogInput, MoveRightAnalogInput);
 		}
 
 		if(movementDirection != 0f)
 		{
-			var velocity = Actor.Velocity;
+			var velocity = Player.Velocity;
 
 			velocity.Y += Gravity * (float) delta;
 			velocity.X = movementDirection * _walkSpeed * (float) delta * 60f;
 
-			if(movementDirection > 0 && Actor.FacingDirection == ActorFacingDirectionEnum.Left ||
-				movementDirection < 0 && Actor.FacingDirection == ActorFacingDirectionEnum.Right)
+			if(movementDirection > 0 && Player.FacingDirection == ActorFacingDirection.Left ||
+				movementDirection < 0 && Player.FacingDirection == ActorFacingDirection.Right)
 			{
 				velocity.X /= 2;
 			}
 
-			Actor.Velocity = velocity;
+			Player.Velocity = velocity;
 		}
 
-		Actor.MoveAndSlideWithRotation();
+		Player.MoveAndSlideWithRotation();
 
-		if(movementDirection == 0f || Actor.IsOnWall())
+		if(movementDirection == 0f || Player.IsOnWall())
 		{
 			StateMachine.ChangeState("Idle");
 		}
-		else if(!Actor.IsOnFloor())
+		else if(!Player.IsOnFloor())
 		{
 			StateMachine.ChangeState("Fall");
 		}
-		else if(Player.MovementInputManager.RunEnabled)
+		else if(Player.RunEnabled)
 		{
 			StateMachine.ChangeState("Run");
 		}

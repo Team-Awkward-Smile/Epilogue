@@ -2,21 +2,25 @@ using Epilogue.global.singletons;
 using Godot;
 
 namespace Epilogue.ui;
+/// <summary>
+///		UI Screen responsible for displaying the ammo information of the current gun (if any)
+/// </summary>
 public partial class AmmoUI : Control
 {
 	private int _maxAmmo;
 	private int _currentAmmo;
-	private Events _events;
+	private GunEvents _gunEvents;
 	private Label _ammoUI;
 
+	/// <inheritdoc/>
 	public override void _Ready()
 	{
-		_events = GetNode<Events>("/root/Events");
+		_gunEvents = GetNode<GunEvents>("/root/GunEvents");
 		_ammoUI = (Label) GetChild(0);
 
 		_ammoUI.Hide();
 
-		_events.PlayerPickedUpGun += (int currentAmmo, int maxAmmo) =>
+		_gunEvents.PlayerPickedUpGun += (int currentAmmo, int maxAmmo) =>
 		{
 			_currentAmmo = currentAmmo;
 			_maxAmmo = maxAmmo;
@@ -24,12 +28,12 @@ public partial class AmmoUI : Control
 			_ammoUI.Show();
 		};
 
-		_events.GunFired += (int currentAmmo) =>
+		_gunEvents.GunFired += (int currentAmmo) =>
 		{
 			_currentAmmo = currentAmmo;
 			_ammoUI.Text = $"{_currentAmmo.ToString().PadLeft(2, '0')} / {_maxAmmo.ToString().PadLeft(2, '0')}";
 		};
 
-		_events.GunWasDropped += () => _ammoUI.Hide();
+		_gunEvents.GunWasDropped += () => _ammoUI.Hide();
 	}
 }

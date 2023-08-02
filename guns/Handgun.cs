@@ -1,23 +1,23 @@
-using Epilogue.global.singletons;
 using Epilogue.nodes;
+
 using Godot;
 
 namespace Epilogue.guns;
+/// <summary>
+///		Handgun used for testing purposes
+/// </summary>
 public partial class Handgun : Gun
 {
-	private float _shotDelay;
 	private PackedScene _bulletScene;
 
-	public override void _Ready()
+	private protected override void AfterReady()
 	{
-		base._Ready();
-
 		_bulletScene = GD.Load<PackedScene>("res://temp/handgun_bullet.tscn");
 	}
 
-	public override void OnTriggerHeld(double delta)
+	private protected override void OnTriggerHeld(double delta)
 	{
-		if(CurrentAmmoCount > 0 && TimeSinceLastShot >= _shotDelay)
+		if(CurrentAmmoCount > 0 && TimeSinceLastShot >= ShotDelayPerSecond)
 		{
 			TimeSinceLastShot = 0;
 			CurrentAmmoCount--;
@@ -30,12 +30,7 @@ public partial class Handgun : Gun
 
 			AudioPlayer.Play();
 
-			Events.EmitGlobalSignal("GunFired", CurrentAmmoCount);
+			GunEvents.EmitGlobalSignal("GunFired", CurrentAmmoCount);
 		}
-	}
-
-	public override void OnTriggerPress()
-	{
-		_shotDelay = 1 / (ShotsPerMinute / 60);
 	}
 }

@@ -1,23 +1,69 @@
 using Epilogue.actors.hestmor;
+using Epilogue.global.singletons;
+using Epilogue.util;
+
 using Godot;
-using System.Linq;
 
 namespace Epilogue.nodes;
 /// <summary>
 ///		Node used exclusively by the Player Character
 /// </summary>
-[GlobalClass]
+[GlobalClass, Icon("res://nodes/icons/player.png")]
 public partial class Player : Actor
 {
+	private bool _retroModeEnabled;
+	private PlayerEvents _playerEvents;
+	private GunSystem _gunSystem;
+
 	/// <summary>
-	///     Reference to the ToggleRunRetro Node
+	///		Defines if the player toggled the Run mode while playing in Retro Mode
 	/// </summary>
-	public MovementInputManager MovementInputManager { get; set; }
+	public bool RunEnabled { get; set; } = false;
 
-	public override void _Ready()
+	/// <summary>
+	///		Handles every input related to the player and directs it to the correct place. If the input matches nothing, it is send to the currently active State for further handling
+	/// </summary>
+	public override void _UnhandledInput(InputEvent @event)
 	{
-		base._Ready();
+		if(@event.IsEcho())
+		{
+			return;
+		}
 
-		MovementInputManager = (MovementInputManager) GetNode<Node>("MovementInputManager");
+		if(_retroModeEnabled && @event.IsAction(InputUtils.GetInputActionName("toggle_walk_run")))
+		{
+			RunEnabled = !RunEnabled;
+		}
+		else if(@event.IsAction(InputUtils.GetInputActionName("run_modifier")))
+		{
+			RunEnabled = @event.IsPressed();
+		}
+		else if(_gunSystem.HasGunEquipped && @event.IsAction(InputUtils.GetInputActionName("shoot")))
+		{
+			_gunSystem.TryFireGun(@event.IsPressed());
+		}
+		else if((_gunSystem.IsAnyGunNearby || _gunSystem.HasGunEquipped) && @event.IsActionPressed(InputUtils.GetInputActionName("pickup_or_drop_gun")))
+		{
+			_gunSystem.InteractWithGun();
+		}
+		else
+		{
+			StateMachine.PropagateInputToState(@event);
+		}
+	}
+
+	/// <summary>
+	///		Health Node belonging to the player character
+	/// </summary>
+    public Health Health { get; set; }
+
+    private protected override void AfterReady()
+	{
+		// TODO: 68 - Reset this value when the Input Mode is changed during gameplay
+		_retroModeEnabled = !ProjectSettings.GetSetting("global/use_modern_controls").AsBool();
+		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
+		_gunSystem = GetNode<GunSystem>("GunSystem");
+
+		Health = GetNode<Health>("Health");
 	}
 }

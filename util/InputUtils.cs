@@ -2,6 +2,9 @@ using Epilogue.global.enums;
 using Epilogue.global.singletons;
 
 namespace Epilogue.util;
+/// <summary>
+///		Methods that are useful when dealing with Inputs
+/// </summary>
 public static class InputUtils
 {
 	/// <summary>

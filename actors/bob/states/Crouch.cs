@@ -3,7 +3,10 @@ using Godot;
 using System.Threading.Tasks;
 
 namespace Epilogue.actors.hestmor.states;
-public partial class Crouch : StateComponent
+/// <summary>
+///		State that allows Hestmor to crouch
+/// </summary>
+public partial class Crouch : PlayerState
 {
 	[Export] private float _cameraMovementDelay = 0.5f;
 	[Export] private int _cameraMovementDistance = 50;
@@ -14,9 +17,9 @@ public partial class Crouch : StateComponent
 	private bool _isCameraMoving;
 	private Node2D _cameraAnchor;
 
-	public override void OnInput(InputEvent @event)
+	internal override void OnInput(InputEvent @event)
 	{
-		if(Input.IsActionJustReleased(_crouchInput))
+		if(@event.IsActionReleased(CrouchInput))
 		{
 			_cameraMovementTween?.Stop();
 
@@ -24,19 +27,19 @@ public partial class Crouch : StateComponent
 		}
 	}
 
-	public override void OnEnter()
+	internal override void OnEnter()
 	{
-		Actor.CanChangeFacingDirection = false;
+		Player.CanChangeFacingDirection = false;
 
 		_timer = 0f;
 		_isCameraMoving = false;
-		_cameraAnchor = Actor.GetNode<Node2D>("CameraAnchor");
+		_cameraAnchor = Player.GetNode<Node2D>("CameraAnchor");
 		_cameraAnchorOriginalPosition = _cameraAnchor.GlobalPosition;
 
 		AnimPlayer.Play("crouch");
 	}
 
-	public override void Update(double delta)
+	internal override void Update(double delta)
 	{
 		_timer += (float) delta;
 
@@ -49,13 +52,11 @@ public partial class Crouch : StateComponent
 		}
 	}
 
-	public override async Task OnLeaveAsync()
+	internal override async Task OnLeaveAsync()
 	{
 		AnimPlayer.PlayBackwards("crouch");
 		GetTree().CreateTween().TweenProperty(_cameraAnchor, "global_position", _cameraAnchorOriginalPosition, 0.2f);
 
 		await ToSignal(AnimPlayer, "animation_finished");
-
-		EmitSignal(SignalName.StateFinished);
 	}
 }

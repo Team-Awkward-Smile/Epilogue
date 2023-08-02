@@ -1,4 +1,7 @@
 namespace Epilogue.constants;
+/// <summary>
+///		Constants that can be used anywhere
+/// </summary>
 public static class Constants
 {
 	/// <summary>

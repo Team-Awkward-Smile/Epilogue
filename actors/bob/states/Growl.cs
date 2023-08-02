@@ -2,13 +2,16 @@ using Godot;
 using Epilogue.nodes;
 
 namespace Epilogue.actors.hestmot.states;
-public partial class Growl : StateComponent
+/// <summary>
+///		State that allows Hestmor to growl and taunt nearby enemies
+/// </summary>
+public partial class Growl : PlayerState
 {
-	public override void OnEnter()
+	internal override void OnEnter()
 	{
-		Actor.CanChangeFacingDirection = false;
+		Player.CanChangeFacingDirection = false;
 
-		var animation = Actor.Health.CurrentHealth switch
+		var animation = Player.Health.CurrentHealth switch
 		{
 			1 => "growl_strong",
 			2 => "growl_medium",

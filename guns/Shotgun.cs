@@ -2,22 +2,21 @@ using Epilogue.nodes;
 using Godot;
 
 namespace Epilogue.guns;
+/// <summary>
+///		Shotgun used for testing purposes
+/// </summary>
 public partial class Shotgun : Gun
 {
 	private PackedScene _pelletScene;
 
-	public override void _Ready()
+	private protected override void AfterReady()
 	{
-		base._Ready();
-
 		_pelletScene = GD.Load<PackedScene>("res://temp/shotgun_pellet.tscn");
 	}
 
-	public override void OnTriggerPress()
+	private protected override void OnTriggerPress()
 	{
-		var shotDelay = 1 / (ShotsPerMinute / 60);
-
-		if(TimeSinceLastShot >= shotDelay)
+		if(TimeSinceLastShot >= ShotDelayPerSecond)
 		{
 			AudioPlayer.Play();
 
@@ -36,7 +35,7 @@ public partial class Shotgun : Gun
 				pellet.RotationDegrees += rand.RandfRange(-10f, 10f);
 			}
 
-			Events.EmitGlobalSignal("GunFired", CurrentAmmoCount);
+			GunEvents.EmitGlobalSignal("GunFired", CurrentAmmoCount);
 		}
 	}
 }

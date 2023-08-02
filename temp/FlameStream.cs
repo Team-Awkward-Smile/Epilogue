@@ -2,6 +2,10 @@ using Godot;
 using Epilogue.nodes;
 using System.Collections.Generic;
 
+namespace Epilogue.guns;
+/// <summary>
+///		Temporary projectile used for testing purposes
+/// </summary>
 public partial class FlameStream : Line2D
 {
 	public List<Projectile> Projectiles { get; set; } = new();

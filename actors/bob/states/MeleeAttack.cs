@@ -4,32 +4,33 @@ using Epilogue.nodes;
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
-public partial class MeleeAttack : StateComponent
+/// <summary>
+///		State that allows Hestmor to perform melee attacks and Executions
+/// </summary>
+public partial class MeleeAttack : PlayerState
 {
 	private CollisionShape2D _hitbox;
-	private Events _eventsSingleton;
-	private Actor _enemy;
+	private PlayerEvents _eventsSingleton;
+	private Npc _enemy;
 
-	public override void OnEnter()
+	internal override void OnEnter()
 	{
 		// The attack audio is controlled by the animation
 
-		EmitSignal(SignalName.StateStarted);
-
 		StateMachine.CanInteract = false;
 
-		if(Actor.RayCasts["Enemy"].IsColliding())
+		if(Player.RayCasts["Enemy"].IsColliding())
 		{
-			_enemy = (Actor) Actor.RayCasts["Enemy"].GetCollider();
+			_enemy = (Npc) Player.RayCasts["Enemy"].GetCollider();
 
-			if(((NPCHealth) _enemy.Health).IsVulnerable)
+			if(_enemy.Health.IsVulnerable)
 			{
-				Actor.CanChangeFacingDirection = false;
+				Player.CanChangeFacingDirection = false;
 
-				_eventsSingleton = GetNode<Events>("/root/Events");
+				_eventsSingleton = GetNode<PlayerEvents>("/root/PlayerEvents");
 
-				_eventsSingleton.EmitGlobalSignal("StateAwaitingForGloryKillInput");
-				_eventsSingleton.GloryKillInputReceived += PerformExecution;
+				_eventsSingleton.EmitGlobalSignal("StateAwaitingForExecutionSpeed");
+				_eventsSingleton.ExecutionSpeedSelected += PerformExecution;
 
 				return;
 			}
@@ -39,13 +40,13 @@ public partial class MeleeAttack : StateComponent
 		AnimPlayer.AnimationFinished += FinishAttack;
 	}
 
-	public async void PerformExecution(GloryKillSpeed speed)
+	private async void PerformExecution(ExecutionSpeed speed)
 	{
-		_eventsSingleton.GloryKillInputReceived -= PerformExecution;
+		_eventsSingleton.ExecutionSpeedSelected -= PerformExecution;
 
 		var animation = "glory_kill_" + speed switch
 		{
-			GloryKillSpeed.Slow => "slow",
+			ExecutionSpeed.Slow => "slow",
 			_ => "fast"
 		};
 
@@ -66,7 +67,7 @@ public partial class MeleeAttack : StateComponent
 		StateMachine.ChangeState("Idle");
 	}
 
-	public override void OnLeave()
+	internal override void OnLeave()
 	{
 		StateMachine.CanInteract = true;
 	}

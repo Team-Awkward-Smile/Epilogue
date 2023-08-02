@@ -1,22 +1,24 @@
 using Epilogue.nodes;
-using Godot;
-using System;
 
+using Godot;
+
+namespace Epilogue.guns;
+/// <summary>
+///		Minigun for testing purposes
+/// </summary>
 public partial class Minigun : Gun
 {
 	private PackedScene _bulletScene;
 	private float _timeShooting;
 	private float _baseShotsPerMinute;
 
-	public override void _Ready()
+	private protected override void AfterReady()
 	{
-		base._Ready();
-
 		_bulletScene = GD.Load<PackedScene>("res://temp/minigun_bullet.tscn");
 		_baseShotsPerMinute = ShotsPerMinute;
 	}
 
-	public override void OnTriggerHeld(double delta)
+	private protected override void OnTriggerHeld(double delta)
 	{
 		_timeShooting += (float) delta;
 
@@ -38,11 +40,11 @@ public partial class Minigun : Gun
 
 			CurrentAmmoCount--;
 
-			Events.EmitGlobalSignal("GunFired", CurrentAmmoCount);
+			GunEvents.EmitGlobalSignal("GunFired", CurrentAmmoCount);
 		}
 	}
 
-	public override void OnTriggerRelease()
+	private protected override void OnTriggerRelease()
 	{
 		_timeShooting = 0f;
 		ShotsPerMinute = _baseShotsPerMinute;

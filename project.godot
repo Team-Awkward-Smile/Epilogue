@@ -23,7 +23,8 @@ buses/default_bus_layout=""
 
 Settings="*res://global/singletons/Settings.cs"
 InputDeviceManager="*res://global/singletons/InputDeviceManager.cs"
-Events="*res://global/singletons/Events.cs"
+PlayerEvents="*res://global/singletons/PlayerEvents.cs"
+GunEvents="*res://global/singletons/GunEvents.cs"
 
 [debug]
 
@@ -41,7 +42,7 @@ movie_writer/fps=20
 
 [editor_plugins]
 
-enabled=PackedStringArray()
+enabled=PackedStringArray("res://addons/navigationtilemap/plugin.cfg")
 
 [filesystem]
 
@@ -345,13 +346,22 @@ toggle_walk_run={
 
 [layer_names]
 
+2d_render/layer_1="Regular"
+2d_render/layer_2="Triggers"
 2d_physics/layer_1="Player"
+2d_navigation/layer_1="Ground"
 2d_physics/layer_2="Enemies"
+2d_navigation/layer_2="Jump"
 2d_physics/layer_3="Props"
+2d_navigation/layer_3="Crawl"
 2d_physics/layer_4="World"
 2d_physics/layer_5="Hitboxes"
 2d_physics/layer_6="Hurtboxes"
 2d_physics/layer_7="Guns"
+
+[navigation]
+
+2d/default_link_connection_radius=20
 
 [rendering]
 

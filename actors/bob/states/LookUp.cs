@@ -3,7 +3,10 @@ using Epilogue.nodes;
 using System.Threading.Tasks;
 
 namespace Epilogue.actors.hestmor.states;
-public partial class LookUp : StateComponent
+/// <summary>
+///		State that allows Hestmor to look up
+/// </summary>
+public partial class LookUp : PlayerState
 {
 	[Export] private float _cameraMovementDelay = 0.5f;
 	[Export] private int _cameraMovementDistance = 100;
@@ -14,10 +17,9 @@ public partial class LookUp : StateComponent
 	private bool _isCameraMoving = false;
 	private float _timer = 0f;
 
-	// Called whenever an unhandled input is detected
-	public override void OnInput(InputEvent @event)
+	internal override void OnInput(InputEvent @event)
 	{
-		if(Input.IsActionJustReleased(_lookUpInput))
+		if(@event.IsActionReleased(LookUpInput))
 		{
 			_raiseCameraTween?.Stop();
 
@@ -25,18 +27,14 @@ public partial class LookUp : StateComponent
 		}
 	}
 
-	// Called when this state becomes active
-	public override void OnEnter()
+	internal override void OnEnter()
 	{
-		EmitSignal(SignalName.StateStarted);
-
 		_isCameraMoving = false;
 		_timer = 0f;
-		_cameraAnchor = Actor.GetNode<Node2D>("CameraAnchor");
+		_cameraAnchor = Player.GetNode<Node2D>("CameraAnchor");
 	}
 
-	// Called once per frame
-	public override void Update(double delta)
+	internal override void Update(double delta)
 	{
 		_timer += (float) delta;
 
@@ -49,8 +47,7 @@ public partial class LookUp : StateComponent
 		}
 	}
 
-	// Called when this state is replaced by another one
-	public override async Task OnLeaveAsync()
+	internal override async Task OnLeaveAsync()
 	{
 		var tween = GetTree().CreateTween();
 

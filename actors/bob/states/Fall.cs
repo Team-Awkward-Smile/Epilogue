@@ -1,35 +1,37 @@
-using Epilogue.extensions;
 using Epilogue.nodes;
 using Godot;
 using System.Threading.Tasks;
 
 namespace Epilogue.actors.hestmor.states;
-public partial class Fall : StateComponent
+/// <summary>
+///		State that allows Hestmor to fall from high places
+/// </summary>
+public partial class Fall : PlayerState
 {
-	public override void OnEnter()
+	internal override void OnEnter()
 	{
 		AnimPlayer.Play("fall");
-		Actor.CanChangeFacingDirection = true;
+		Player.CanChangeFacingDirection = true;
 	}
 
-	public override void PhysicsUpdate(double delta)
+	internal override void PhysicsUpdate(double delta)
 	{
-		Actor.Velocity = new Vector2(Actor.Velocity.X, Actor.Velocity.Y + (Gravity * (float) delta));
-		Actor.MoveAndSlideWithRotation();
+		Player.Velocity = new Vector2(Player.Velocity.X, Player.Velocity.Y + (Gravity * (float) delta));
+		Player.MoveAndSlideWithRotation();
 
-		if(Actor.IsOnFloor())
+		if(Player.IsOnFloor())
 		{
 			StateMachine.ChangeState("Idle");
 		}
-		else if(Actor.RayCasts["Head"].IsColliding() && !Actor.RayCasts["Ledge"].IsColliding())
+		else if(Player.RayCasts["Head"].IsColliding() && !Player.RayCasts["Ledge"].IsColliding())
 		{
 			StateMachine.ChangeState("GrabLedge");
 		}
 	}
 
-	public override async Task OnLeaveAsync()
+	internal override async Task OnLeaveAsync()
 	{
-		AudioPlayer.PlaySfx("Land");
+		AudioPlayer.PlayGenericSfx("Land");
 		AnimPlayer.Play("fall_land");
 
 		await ToSignal(AnimPlayer, "animation_finished");

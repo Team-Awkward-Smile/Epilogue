@@ -2,13 +2,16 @@ using Epilogue.nodes;
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
-public partial class Idle : StateComponent
+/// <summary>
+///		State that allows Hestmor to stay still
+/// </summary>
+public partial class Idle : PlayerState
 {
-	public override void OnInput(InputEvent @event)
+	internal override void OnInput(InputEvent @event)
 	{
-		if(Input.IsActionJustPressed(_jumpInput))
+		if(@event.IsActionPressed(JumpInput))
 		{
-			if(Actor.IsOnWall() && !Actor.RayCasts["Head"].IsColliding() && !Actor.RayCasts["Ledge"].IsColliding())
+			if(Player.IsOnWall() && !Player.RayCasts["Head"].IsColliding() && !Player.RayCasts["Ledge"].IsColliding())
 			{
 				StateMachine.ChangeState("Vault");
 			}
@@ -17,63 +20,63 @@ public partial class Idle : StateComponent
 				StateMachine.ChangeState("Jump");
 			}
 		}
-		else if(Input.IsActionJustPressed(_crouchInput))
+		else if(@event.IsActionPressed(CrouchInput))
 		{
 			StateMachine.ChangeState("Crouch");
 		}
-		else if(Input.IsActionJustPressed(_attackInput))
-		{
-			StateMachine.ChangeState("MeleeAttack");
-		}
-		else if(Input.IsActionJustPressed(_slideInput))
+		else if(@event.IsActionPressed(SlideInput))
 		{
 			StateMachine.ChangeState("Slide");
 		}
-		else if(Input.IsActionJustPressed(_lookUpInput))
+		else if(@event.IsActionPressed(LookUpInput))
 		{
 			StateMachine.ChangeState("LookUp");
 		}
-		else if(Input.IsActionJustPressed(_growlInput))
+		else if(@event.IsActionPressed(MeleeAttackInput))
+		{
+			StateMachine.ChangeState("MeleeAttack");
+		}
+		else if(@event.IsActionPressed(GrowlInput))
 		{
 			StateMachine.ChangeState("Growl");
 		}
 	}
 
-	public override void OnEnter()
+	internal override void OnEnter()
 	{
-		Actor.CanChangeFacingDirection = true;
+		Player.CanChangeFacingDirection = true;
 		Player.Velocity = new Vector2(0f, 0f);
 
 		AnimPlayer.Play("idle");
 	}
 
-	public override void PhysicsUpdate(double delta)
+	internal override void PhysicsUpdate(double delta)
 	{
-		if(!Actor.IsOnFloor())
+		if(!Player.IsOnFloor())
 		{
 			StateMachine.ChangeState("Fall");
 			return;
 		}
 
-		var movement = Input.GetAxis(_moveLeftDigitalInput, _moveRightDigitalInput);
+		var movement = Input.GetAxis(MoveLeftDigitalInput, MoveRightDigitalInput);
 
 		if(movement == 0f)
 		{
-			movement = Input.GetAxis(_moveLeftAnalogInput, _moveRightAnalogInput);
+			movement = Input.GetAxis(MoveLeftAnalogInput, MoveRightAnalogInput);
 		}
 
 		if(movement != 0f)
 		{
-			if(Actor.IsOnWall() && movement == -Actor.GetWallNormal().X)
+			if(Player.IsOnWall() && movement == -Player.GetWallNormal().X)
 			{
 				return;
 			}
 
-			StateMachine.ChangeState(Player.MovementInputManager.RunEnabled ? "Run" : "Walk");
+			StateMachine.ChangeState(Player.RunEnabled ? "Run" : "Walk");
 			return;
 		}
 
-		if(Input.IsActionPressed(_crouchInput))
+		if(Input.IsActionPressed(CrouchInput))
 		{
 			StateMachine.ChangeState("Crouch");
 			return;

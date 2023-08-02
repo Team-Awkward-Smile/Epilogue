@@ -4,7 +4,10 @@ using Godot;
 using System.Linq;
 
 namespace Epilogue.nodes;
-[GlobalClass]
+/// <summary>
+///		Base Node for every level in the game (UIs are not Levels, keep that in mind)
+/// </summary>
+[GlobalClass, Icon("res://nodes/icons/level.png")]
 public partial class Level : Node2D
 {
 	private PauseUI _pauseUI;
@@ -13,6 +16,7 @@ public partial class Level : Node2D
 	private GloryKillPrompt _killPrompt;
 	private TileMap _tileMap;
 
+	/// <inheritdoc/>
     public override void _Input(InputEvent @event)
 	{
 		if(@event.IsAction("pause_game") && @event.IsPressed())
@@ -28,6 +32,7 @@ public partial class Level : Node2D
 		}
 	}
 
+	/// <inheritdoc/>
 	public override void _Ready()
 	{
 		// TODO: 68 - Add them all to a List and Instantiate them all at once
@@ -52,11 +57,16 @@ public partial class Level : Node2D
 
 		ProcessMode = ProcessModeEnum.Pausable;
 
-		GetNode<Events>("/root/Events").StateAwaitingForGloryKillInput += () => _killPrompt.Enable();
+		GetNode<PlayerEvents>("/root/PlayerEvents").StateAwaitingForExecutionSpeed += () => _killPrompt.Enable();
 
 		_tileMap = GetChildren().OfType<TileMap>().FirstOrDefault();
 	}
 
+	/// <summary>
+	///		Gets the TileData of the Tile at the selected position
+	/// </summary>
+	/// <param name="position">Position of the desired tile, in GridMap units</param>
+	/// <returns>The TileData of the corresponding Tile, or null if no Tiles are present at that position</returns>
 	public TileData GetTileDataAtPosition(Vector2 position)
 	{
 		var localPosition = _tileMap.LocalToMap(position);
@@ -64,6 +74,11 @@ public partial class Level : Node2D
 		return _tileMap.GetCellTileData(0, localPosition);
 	}
 
+	/// <summary>
+	///		Deals damage to a Tile at the selected position
+	/// </summary>
+	/// <param name="tilePosition">Position of the Tile, in GridMap units</param>
+	/// <param name="damage">Damage to be dealt</param>
 	public void DamageTile(Vector2 tilePosition, float damage)
 	{
 		var localPosition = _tileMap.LocalToMap(tilePosition);

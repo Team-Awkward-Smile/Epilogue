@@ -3,10 +3,14 @@ using Godot;
 using Godot.Collections;
 
 namespace Epilogue.actors.hestmor;
-public partial class AudioPlayer : AudioPlayerBase
+/// <summary>
+///		Collection of sound effects used by Hestmor
+/// </summary>
+public partial class AudioPlayer : ActorAudioPlayer
 {
 	private static readonly string path = @"res://actors/bob/sfx";
 
+	/// <inheritdoc/>
 	protected override Dictionary<string, AudioStream> GenericSfxList { get; set; } = new()
 	{
 		{ "Slide", GD.Load<AudioStream>($"{path}//Slide_SFX.wav") },
@@ -16,6 +20,7 @@ public partial class AudioPlayer : AudioPlayerBase
 		{ "GloryKill", GD.Load<AudioStream>($"{path}//glory_kill.wav") },
 	};
 
+	/// <inheritdoc/>
 	protected override Dictionary<string, AudioStream> FootstepSfxList { get; set; } = new()
 	{
 		{ "Blood", GD.Load<AudioStream>($"{path}//blood.mp3") }

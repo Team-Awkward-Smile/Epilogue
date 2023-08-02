@@ -4,6 +4,9 @@ using Godot.Collections;
 using System.Linq;
 
 namespace Epilogue.nodes;
+/// <summary>
+///		Base class for all Actors in the game. Instead of using this one, you probably should use either <see cref="Player"/> or <see cref="Npc"/>
+/// </summary>
 [GlobalClass]
 public partial class Actor : CharacterBody2D
 {
@@ -15,16 +18,24 @@ public partial class Actor : CharacterBody2D
 	/// <summary>
 	///		Direction (Left/Right) this Actor is currently facing
 	/// </summary>
-    public ActorFacingDirectionEnum FacingDirection { get; private set; } = ActorFacingDirectionEnum.Right;
+    public ActorFacingDirection FacingDirection { get; private set; } = ActorFacingDirection.Right;
 
+	/// <summary>
+	///		Defines if this Actor can change the direction it is facing
+	/// </summary>
 	public bool CanChangeFacingDirection { get; set; } = true;
 
+	/// <summary>
+	///		Reference to the main Sprite used by the Actor
+	/// </summary>
     public Sprite2D Sprite { get; set; }
 
-    public Health Health { get; set; }
+	/// <summary>
+	///		Reference to the State Machine used by the Actor
+	/// </summary>
+    public StateMachine StateMachine { get; set; }
 
-    public StateMachineComponent StateMachine { get; set; }
-
+	/// <inheritdoc/>
     public override void _Ready()
 	{
 		GetNode<Node2D>("FlipRoot").GetChildren().OfType<RayCast2D>().ToList().ForEach(r =>
@@ -33,11 +44,21 @@ public partial class Actor : CharacterBody2D
 		});
 
 		Sprite = GetNode<Node2D>("FlipRoot").GetChildren().OfType<Sprite2D>().Where(c => c.IsInGroup("MainSprite")).FirstOrDefault();
-		Health = GetChildren().OfType<Health>().FirstOrDefault();
-		StateMachine = GetChildren().OfType<StateMachineComponent>().FirstOrDefault();
+		StateMachine = GetChildren().OfType<StateMachine>().FirstOrDefault();
+
+		AfterReady();
 	}
 
-	public void SetFacingDirection(ActorFacingDirectionEnum newDirection)
+	/// <summary>
+	///		Method to allow an Actor to initialize custom logic in <see cref="_Ready"/> without overriding any of the existing code
+	/// </summary>
+	private protected virtual void AfterReady() { }
+
+	/// <summary>
+	///		Sets a new facing direction for this Actor, if the informed direction is valid and <see cref="CanChangeFacingDirection"/> is true
+	/// </summary>
+	/// <param name="newDirection">The flag enum representing the new direction</param>
+	public void SetFacingDirection(ActorFacingDirection newDirection)
 	{
 		if(!CanChangeFacingDirection)
 		{
@@ -47,8 +68,8 @@ public partial class Actor : CharacterBody2D
 		var flipNode = GetNode<Node2D>("FlipRoot");
 		var scaleX = newDirection switch
 		{
-			ActorFacingDirectionEnum.Left => -1,
-			ActorFacingDirectionEnum.Right => 1,
+			ActorFacingDirection.Left => -1,
+			ActorFacingDirection.Right => 1,
 			_ => 1
 		};
 

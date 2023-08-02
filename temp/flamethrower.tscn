@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dkxb60ljnimb7"]
 
-[ext_resource type="Script" path="res://guns/Flamethrower.cs" id="1_4h7p5"]
-[ext_resource type="Texture2D" uid="uid://85bmt5bxov4o" path="res://temp/flamethrower.png" id="2_ha4dw"]
+[ext_resource type="Script" path="res://guns/Flamethrower.cs" id="1_swnl4"]
+[ext_resource type="Texture2D" uid="uid://85bmt5bxov4o" path="res://temp/flamethrower.png" id="2_2e0al"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_j2hbo"]
 radius = 4.0
@@ -11,13 +11,13 @@ radius = 4.0
 [node name="Flamethrower" type="RigidBody2D"]
 collision_layer = 4
 collision_mask = 8
-script = ExtResource("1_4h7p5")
+script = ExtResource("1_swnl4")
 MaxAmmoCount = 1000
 ShotsPerMinute = 1500.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.02, 0.02)
-texture = ExtResource("2_ha4dw")
+texture = ExtResource("2_2e0al")
 offset = Vector2(550, 50)
 flip_h = true
 

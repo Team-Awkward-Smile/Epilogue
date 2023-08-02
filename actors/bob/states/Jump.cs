@@ -3,7 +3,10 @@ using Epilogue.nodes;
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
-public partial class Jump : StateComponent
+/// <summary>
+///		State that allows Hestmor to start a jump
+/// </summary>
+public partial class Jump : PlayerState
 {
 	[Export] private float _jumpSpeed = -400f;
 
@@ -12,44 +15,44 @@ public partial class Jump : StateComponent
 	private void StartJump(StringName animName)
 	{
 		AnimPlayer.AnimationFinished -= StartJump;
-		Actor.Velocity = new Vector2(_horizontalVelocity, _jumpSpeed);
+		Player.Velocity = new Vector2(_horizontalVelocity, _jumpSpeed);
 	}
 
-	public override void OnEnter()
+	internal override void OnEnter()
 	{
 		if(Player.Velocity.X == 0)
 		{
-			_horizontalVelocity = 100f * (Actor.FacingDirection == ActorFacingDirectionEnum.Left ? -1 : 1);
+			_horizontalVelocity = 100f * (Player.FacingDirection == ActorFacingDirection.Left ? -1 : 1);
 		}
 		else
 		{
 			_horizontalVelocity = 100f * (Player.Velocity.X > 0 ? 1 : -1);
 		}
 
-		AudioPlayer.PlaySfx("Jump");
+		AudioPlayer.PlayGenericSfx("Jump");
 
-		Actor.Velocity = new Vector2(0f, Actor.Velocity.Y);
-		Actor.CanChangeFacingDirection = false;
+		Player.Velocity = new Vector2(0f, Player.Velocity.Y);
+		Player.CanChangeFacingDirection = false;
 
 		AnimPlayer.Play("jump");
 		AnimPlayer.AnimationFinished += StartJump;
 	}
 
-	public override void PhysicsUpdate(double delta)
+	internal override void PhysicsUpdate(double delta)
 	{
-		Actor.Velocity = new Vector2(Actor.Velocity.X, Actor.Velocity.Y + (Gravity * (float) delta));
-		Actor.MoveAndSlideWithRotation();
+		Player.Velocity = new Vector2(Player.Velocity.X, Player.Velocity.Y + (Gravity * (float) delta));
+		Player.MoveAndSlideWithRotation();
 
-		if(Actor.Velocity.Y > 0)
+		if(Player.Velocity.Y > 0)
 		{
 			StateMachine.ChangeState("Fall");
 			return;
 		}
-		else if(Actor.IsOnFloor() && Actor.Velocity.Y < 0)
+		else if(Player.IsOnFloor() && Player.Velocity.Y < 0)
 		{
 			StateMachine.ChangeState("Idle");
 		}
-		else if(Actor.RayCasts["Head"].IsColliding() && !Actor.RayCasts["Ledge"].IsColliding())
+		else if(Player.RayCasts["Head"].IsColliding() && !Player.RayCasts["Ledge"].IsColliding())
 		{
 			StateMachine.ChangeState("GrabLedge");
 		}

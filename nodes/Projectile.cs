@@ -5,7 +5,7 @@ namespace Epilogue.nodes;
 /// <summary>
 ///     Node used as the base for all projectiles
 /// </summary>
-[GlobalClass]
+[GlobalClass, Icon("res://nodes/icons/projectile.png")]
 public partial class Projectile : Area2D
 {
     /// <summary>
@@ -40,6 +40,7 @@ public partial class Projectile : Area2D
 
     private float _timer;
 
+	/// <inheritdoc/>
 	public override void _Ready()
 	{
 		AreaEntered += (Area2D area) => 
@@ -51,6 +52,7 @@ public partial class Projectile : Area2D
 			    QueueFree();
             }
 		};
+
 		BodyEntered += (Node2D body) =>
 		{
 			DamageWorld();
@@ -60,7 +62,7 @@ public partial class Projectile : Area2D
 
     private void DamageActor(Area2D area)
     {
-        if(area.Owner is Actor enemy && enemy.Health is NPCHealth npcHealth)
+        if(area.Owner is Npc enemy && enemy.Health is NpcHealth npcHealth)
         {
 		    npcHealth.DealDamage(Damage);
         }
@@ -71,6 +73,7 @@ public partial class Projectile : Area2D
         GetTree().Root.GetChildren().OfType<Level>().FirstOrDefault().DamageTile(GlobalPosition, Damage);
     }
 
+	/// <inheritdoc/>
 	public override void _PhysicsProcess(double delta)
 	{
         _timer += (float) delta;
