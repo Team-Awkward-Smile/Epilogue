@@ -61,22 +61,20 @@ public partial class GunSystem : Node2D
 	}
 
 	/// <summary>
-	///		Method called whenever an input is detected to fire an equipped gun. If the gun is empty, it will be dropped instead
+	///		Method called whenever an input is detected to press/release the trigger of the equipped gun 
 	/// </summary>
-	/// <param name="isTriggerPressed">Is the input pressed or released?</param>
-	public void TryFireGun(bool isTriggerPressed)
+	/// <param name="triggerIsPressed">Is the input pressed or released?</param>
+	/// <returns><c>true</c>, if the gun had ammo to operate when the trigger is activated; <c>false</c>, otherwise</returns>
+	public bool InteractWithTrigger(bool triggerIsPressed)
 	{
-		if(HasGunEquipped)
+		if(triggerIsPressed && _currentGun.CurrentAmmoCount == 0)
 		{
-			if(_currentGun.CurrentAmmoCount > 0)
-			{
-				_currentGun.TriggerIsPressed = isTriggerPressed;
-			}
-			else
-			{
-				DropGun();
-			}
+			return false;
 		}
+
+		_currentGun.TriggerIsPressed = triggerIsPressed;
+
+		return true;
 	}
 
 	/// <summary>
@@ -108,24 +106,53 @@ public partial class GunSystem : Node2D
 		_gunEvents.EmitGlobalSignal("PlayerPickedUpGun", _currentGun.CurrentAmmoCount, _currentGun.MaxAmmoCount);
 	}
 
+	/// <summary>
+	///		Throws the equipped gun in the direction the player is aiming at
+	/// </summary>
+	public void ThrowGun()
+	{
+		var oldGun = UnequipGun(true);
+
+		oldGun.TransformIntoProjectile();
+	}
+
+	/// <summary>
+	///		Drops the equipped gun at the player's current position, without adding any impulse or altering it's properties
+	/// </summary>
 	private void DropGun()
 	{
+		var oldGun = UnequipGun();
+
+		if(oldGun.CurrentAmmoCount == 0)
+		{
+			oldGun.SelfDestruct();
+		}
+	}
+
+	/// <summary>
+	///		Unequips the current gun by removing it from the Player scene and adding it to the Tree as an independent Node
+	/// </summary>
+	/// <returns>A reference to the unequipped gun to be used for further interactions</returns>
+	private Gun UnequipGun(bool keepRotation = true)
+	{
+		var gun = _currentGun;
+
 		_currentGun.GetParent().RemoveChild(_currentGun);
 
 		GetTree().Root.AddChild(_currentGun);
 
-		_currentGun.GlobalPosition = _gunAnchor.GlobalPosition;
-		_currentGun.Freeze = false;
-		_currentGun.ApplyImpulse(new Vector2(_actor.FacingDirection == ActorFacingDirection.Left ? 200f : -200f, -100f));
-
-		if(_currentGun.CurrentAmmoCount == 0)
+		if(keepRotation)
 		{
-			_currentGun.SelfDestruct();
+			_currentGun.Rotation = _aimingArm.Rotation;
 		}
 
+		_currentGun.GlobalPosition = _gunAnchor.GlobalPosition;
+		_currentGun.Freeze = false;
 		_currentGun = null;
 
 		_gunEvents.EmitGlobalSignal("GunWasDropped");
+
+		return gun;
 	}
 
 	private void UpdateGunRotation(int angleDegrees)

@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://8sw5jwntdfl1"]
 
-[ext_resource type="Script" path="res://temp/Minigun.cs" id="1_byapv"]
-[ext_resource type="Material" uid="uid://bdt7ee1dy5yrr" path="res://temp/gun_material.tres" id="2_3rp32"]
-[ext_resource type="Texture2D" uid="uid://e6rw58kaffak" path="res://temp/minigun.png" id="3_3ofsw"]
+[ext_resource type="Script" path="res://temp/Minigun.cs" id="1_xo37y"]
+[ext_resource type="Material" uid="uid://bdt7ee1dy5yrr" path="res://temp/gun_material.tres" id="2_mthep"]
+[ext_resource type="Texture2D" uid="uid://e6rw58kaffak" path="res://temp/minigun.png" id="3_ejdqs"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ug5ec"]
 height = 44.0
@@ -13,14 +13,15 @@ radius = 16.0312
 [node name="Minigun" type="RigidBody2D"]
 collision_layer = 4
 collision_mask = 8
-script = ExtResource("1_byapv")
-MaxAmmoCount = 1500
+mass = 10.0
+script = ExtResource("1_xo37y")
+MaxAmmoCount = 150
 ShotsPerMinute = 100.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-material = ExtResource("2_3rp32")
+material = ExtResource("2_mthep")
 scale = Vector2(0.06, 0.06)
-texture = ExtResource("3_3ofsw")
+texture = ExtResource("3_ejdqs")
 offset = Vector2(316.667, 83.3333)
 
 [node name="Muzzle" type="Node2D" parent="."]

@@ -38,6 +38,7 @@ project/assembly_name="Epilogue"
 
 movie_writer/mix_rate=24000
 movie_writer/movie_file="C:/Users/Vitor/Documents/Godot Stuff/Epilogue/temp/movie.avi"
+movie_writer/disable_vsync=true
 movie_writer/fps=20
 
 [editor_plugins]
@@ -357,7 +358,7 @@ toggle_walk_run={
 2d_physics/layer_4="World"
 2d_physics/layer_5="Hitboxes"
 2d_physics/layer_6="Hurtboxes"
-2d_physics/layer_7="Guns"
+2d_physics/layer_7="Interactives"
 
 [navigation]
 

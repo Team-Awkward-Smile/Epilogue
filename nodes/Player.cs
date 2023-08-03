@@ -40,7 +40,11 @@ public partial class Player : Actor
 		}
 		else if(_gunSystem.HasGunEquipped && @event.IsAction(InputUtils.GetInputActionName("shoot")))
 		{
-			_gunSystem.TryFireGun(@event.IsPressed());
+			// Tries to press/release the trigger of the equipped gun. If the gun is empty when the trigger is pressed, throw it instead
+			if(!_gunSystem.InteractWithTrigger(@event.IsPressed()))
+			{
+				_gunSystem.ThrowGun();
+			}
 		}
 		else if((_gunSystem.IsAnyGunNearby || _gunSystem.HasGunEquipped) && @event.IsActionPressed(InputUtils.GetInputActionName("pickup_or_drop_gun")))
 		{

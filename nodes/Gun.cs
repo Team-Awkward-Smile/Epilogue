@@ -1,4 +1,5 @@
 using Epilogue.extensions;
+using Epilogue.global.enums;
 using Epilogue.global.singletons;
 using Godot;
 using System.Linq;
@@ -144,10 +145,10 @@ public partial class Gun : RigidBody2D
 	///		Method called whenever an empty gun is dropped. Can be overriden to implement custom logic with custom parameters
 	/// </summary>
 	/// <param name="args">Any parameters needed by the method</param>
-	public virtual void SelfDestruct(params string[] args)
+	public virtual void SelfDestruct(params Variant[] args)
 	{
 		// Disables the collision against the player so this gun cannot be picked up while the animation plays
-		CollisionLayer = 0;
+		GetChildren().OfType<Area2D>().First().QueueFree();
 
 		Sprite.Material = Sprite.Material.Duplicate() as Material;
 
@@ -157,5 +158,36 @@ public partial class Gun : RigidBody2D
 				Sprite.SetShaderMaterialParameter("dissolveState", value);
 			}), 0f, 1f, 1f)
 			.Finished += QueueFree;
+	}
+
+	/// <summary>
+	///		Transforms this gun into a projectile, allowing it to collide against HurtBoxes and deal damage to them
+	/// </summary>
+	public virtual void TransformIntoProjectile(params Variant[] args)
+	{
+		var pickupArea = GetChildren().OfType<Area2D>().First();
+
+		pickupArea.CollisionLayer = (int) CollisionLayerName.HitBoxes;
+		pickupArea.CollisionMask = (int) (CollisionLayerName.HurtBoxes | CollisionLayerName.World);
+		pickupArea.Priority = 5;
+
+		var impulseDirection = new Vector2(Mathf.RadToDeg(Transform[0].X), Mathf.RadToDeg(Transform[0].Y));
+
+		ApplyImpulse(impulseDirection.Normalized() * 1000f);
+
+		pickupArea.AreaEntered += (Area2D area) =>
+		{
+			if(area.Owner is Npc enemy)
+			{
+				enemy.Health.DealDamage(1f);
+			}
+
+			QueueFree();
+		};
+
+		pickupArea.BodyEntered += (Node2D body) =>
+		{
+			SelfDestruct();
+		};
 	}
 }
