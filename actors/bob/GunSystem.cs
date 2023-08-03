@@ -118,6 +118,11 @@ public partial class GunSystem : Node2D
 		_currentGun.Freeze = false;
 		_currentGun.ApplyImpulse(new Vector2(_actor.FacingDirection == ActorFacingDirection.Left ? 200f : -200f, -100f));
 
+		if(_currentGun.CurrentAmmoCount == 0)
+		{
+			_currentGun.SelfDestruct();
+		}
+
 		_currentGun = null;
 
 		_gunEvents.EmitGlobalSignal("GunWasDropped");

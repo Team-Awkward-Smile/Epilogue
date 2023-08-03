@@ -1,3 +1,4 @@
+using Epilogue.extensions;
 using Epilogue.global.singletons;
 using Godot;
 using System.Linq;
@@ -75,6 +76,11 @@ public partial class Gun : RigidBody2D
 	/// </summary>
 	protected GunEvents GunEvents { get; set; }
 
+	/// <summary>
+	///		Main sprite used by the gun
+	/// </summary>
+	protected Sprite2D Sprite { get; set; }
+
 	private bool _triggerIsPressed;
 
 	/// <inheritdoc/>
@@ -98,6 +104,7 @@ public partial class Gun : RigidBody2D
 		ShotDelayPerSecond = 1 / (ShotsPerMinute / 60);
 
 		GunEvents = GetNode<GunEvents>("/root/GunEvents");
+		Sprite = GetChildren().OfType<Sprite2D>().FirstOrDefault();
 
 		AfterReady();
 	}
@@ -132,4 +139,23 @@ public partial class Gun : RigidBody2D
 	///		Method called after <see cref="_Ready"/> finishes. Used for initializing aspects unique to a specific gun
 	/// </summary>
 	private protected virtual void AfterReady() { }
+
+	/// <summary>
+	///		Method called whenever an empty gun is dropped. Can be overriden to implement custom logic with custom parameters
+	/// </summary>
+	/// <param name="args">Any parameters needed by the method</param>
+	public virtual void SelfDestruct(params string[] args)
+	{
+		// Disables the collision against the player so this gun cannot be picked up while the animation plays
+		CollisionLayer = 0;
+
+		Sprite.Material = Sprite.Material.Duplicate() as Material;
+
+		GetTree().CreateTween().TweenMethod(Callable.From(
+			(float value) => 
+			{
+				Sprite.SetShaderMaterialParameter("dissolveState", value);
+			}), 0f, 1f, 1f)
+			.Finished += QueueFree;
+	}
 }

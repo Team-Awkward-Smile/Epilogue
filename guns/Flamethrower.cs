@@ -13,7 +13,6 @@ public partial class Flamethrower : Gun
 	private PackedScene _streamScene;
 	private FlameStream _flameStream;
 
-	/// <inheritdoc/>
 	private protected override void AfterReady()
 	{
 		_flameScene = GD.Load<PackedScene>("res://temp/flame.tscn");
