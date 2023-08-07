@@ -23,7 +23,7 @@ public partial class MeleeAttack : PlayerState
 		{
 			_enemy = (Npc) Player.RayCasts["Enemy"].GetCollider();
 
-			if(_enemy.Health.IsVulnerable)
+			if(_enemy.IsVulnerable)
 			{
 				Player.CanChangeFacingDirection = false;
 
@@ -55,7 +55,7 @@ public partial class MeleeAttack : PlayerState
 		await ToSignal(AnimPlayer, "animation_finished");
 
 		// TODO: 68 - temporary solution, we need to think if this can break in the future
-		_enemy.Health.DealDamage(100);
+		_enemy.DealDamage(100);
 
 		StateMachine.ChangeState("Idle");
 	}

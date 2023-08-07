@@ -21,7 +21,7 @@ public partial class Flamethrower : Gun
 
 	private protected override void OnTriggerHeld(double delta)
 	{
-		if(TimeSinceLastShot >= _shotDelay)
+		if(TimeSinceLastShot >= _shotDelay && CurrentAmmoCount > 0)
 		{
 			TimeSinceLastShot = 0;
 			CurrentAmmoCount--;

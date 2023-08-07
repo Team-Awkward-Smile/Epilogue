@@ -11,7 +11,7 @@ public partial class Growl : PlayerState
 	{
 		Player.CanChangeFacingDirection = false;
 
-		var animation = Player.Health.CurrentHealth switch
+		var animation = Player.CurrentHealth switch
 		{
 			1 => "growl_strong",
 			2 => "growl_medium",

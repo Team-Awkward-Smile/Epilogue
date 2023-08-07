@@ -8,8 +8,18 @@ namespace Epilogue.nodes;
 ///		Base class for all Actors in the game. Instead of using this one, you probably should use either <see cref="Player"/> or <see cref="Npc"/>
 /// </summary>
 [GlobalClass]
-public partial class Actor : CharacterBody2D
+public abstract partial class Actor : CharacterBody2D
 {
+	/// <summary>
+	///		Max HP of this Actor
+	/// </summary>
+    [Export] public float MaxHealth { get; private protected set; }
+
+	/// <summary>
+	///		Current HP of this Actor
+	/// </summary>
+    [Export] public float CurrentHealth { get; private protected set; }
+
 	/// <summary>
 	///		All RayCast2D's belonging to this Actor, accessed by their names (minus the 'RayCast2D' suffix)
 	/// </summary>
@@ -35,7 +45,11 @@ public partial class Actor : CharacterBody2D
 	/// </summary>
     public StateMachine StateMachine { get; set; }
 
-	/// <inheritdoc/>
+	private protected AnimationPlayer AnimationPlayer { get; set; }
+
+	private protected HurtBox HurtBox { get; set; }
+
+    /// <inheritdoc/>
     public override void _Ready()
 	{
 		GetNode<Node2D>("FlipRoot").GetChildren().OfType<RayCast2D>().ToList().ForEach(r =>
@@ -45,7 +59,18 @@ public partial class Actor : CharacterBody2D
 
 		Sprite = GetNode<Node2D>("FlipRoot").GetChildren().OfType<Sprite2D>().Where(c => c.IsInGroup("MainSprite")).FirstOrDefault();
 		StateMachine = GetChildren().OfType<StateMachine>().FirstOrDefault();
+		AnimationPlayer = GetChildren().OfType<AnimationPlayer>().FirstOrDefault();
+		HurtBox = GetChildren().OfType<HurtBox>().FirstOrDefault();
 
+		HurtBox.AreaEntered += (Area2D area) =>
+		{
+			if(area is HitBox hitbox)
+			{
+				GD.Print($"Dealing [{hitbox.Damage}] to [{Name}]");
+				DealDamage(hitbox.Damage);
+			}
+		};
+		
 		AfterReady();
 	}
 
@@ -97,4 +122,16 @@ public partial class Actor : CharacterBody2D
 			CreateTween().TweenProperty(this, "rotation", 0f, 0.05f);
 		}
 	}
+
+	/// <summary>
+	///		Deals the indicated ammount of damage to this Actor
+	/// </summary>
+	/// <param name="damage">The ammount of damage to deal to this Actor</param>
+	public abstract void DealDamage(float damage);
+
+	/// <summary>
+	///		Heals the indicated ammount of HP to this Actor.
+	/// </summary>
+	/// <param name="health">The ammount of HP to recover</param>
+	public abstract void ApplyHealth(float health);
 }

@@ -62,9 +62,9 @@ public partial class Projectile : Area2D
 
     private void DamageActor(Area2D area)
     {
-        if(area.Owner is Npc enemy && enemy.Health is NpcHealth npcHealth)
+        if(area.Owner is Npc enemy)
         {
-		    npcHealth.DealDamage(Damage);
+		    enemy.DealDamage(Damage);
         }
     }
 

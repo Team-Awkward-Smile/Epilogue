@@ -25,7 +25,7 @@ public partial class Vulnerable : NpcState
 
 		if(_timer >= StunnedTime)
 		{
-			Npc.Health.ApplyHealth(1);
+			Npc.ApplyHealth(1);
 			StateMachine.ChangeState("Walk");
 		}
 	}

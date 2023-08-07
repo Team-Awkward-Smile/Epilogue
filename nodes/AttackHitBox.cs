@@ -47,7 +47,7 @@ public partial class AttackHitBox : Area2D
 	{
 		if(area.Owner is Npc enemy)
 		{
-			enemy.Health.DealDamage(HitBoxDamage);
+			enemy.DealDamage(HitBoxDamage);
 		}
 	}
 }

@@ -1,8 +1,12 @@
 using Epilogue.actors.hestmor;
+using Epilogue.extensions;
+using Epilogue.global.enums;
 using Epilogue.global.singletons;
 using Epilogue.util;
 
 using Godot;
+
+using System.Linq;
 
 namespace Epilogue.nodes;
 /// <summary>
@@ -56,18 +60,44 @@ public partial class Player : Actor
 		}
 	}
 
-	/// <summary>
-	///		Health Node belonging to the player character
-	/// </summary>
-    public Health Health { get; set; }
-
     private protected override void AfterReady()
 	{
 		// TODO: 68 - Reset this value when the Input Mode is changed during gameplay
 		_retroModeEnabled = !ProjectSettings.GetSetting("global/use_modern_controls").AsBool();
 		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
 		_gunSystem = GetNode<GunSystem>("GunSystem");
+	}
 
-		Health = GetNode<Health>("Health");
+	/// <inheritdoc/>
+	public override void DealDamage(float damage)
+	{
+		CurrentHealth -= damage;
+
+		if(CurrentHealth <= 0)
+		{
+			StateMachine.ChangeState("Die");
+			return;
+		}
+		else
+		{
+			StateMachine.ChangeState("TakeDamage");
+		}
+
+		Sprite.SetShaderMaterialParameter("iframeActive", true);
+
+		GetChildren().OfType<HurtBox>().First().CollisionMask = 0;
+
+		GetTree().CreateTimer(1f).Timeout += () =>
+		{
+			Sprite.SetShaderMaterialParameter("iframeActive", false);
+
+			GetChildren().OfType<HurtBox>().First().CollisionMask = (int) CollisionLayerName.HitBoxes;
+		};
+	}
+
+	/// <inheritdoc/>
+	public override void ApplyHealth(float health)
+	{
+		CurrentHealth += health;
 	}
 }

@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://bdt7ee1dy5yrr"]
 
-[ext_resource type="Shader" path="res://temp/gun_rust.gdshader" id="1_iudx6"]
+[ext_resource type="Shader" path="res://temp/gun_rust.gdshader" id="1_emjft"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_m5jvn"]
 noise_type = 0
@@ -10,6 +10,6 @@ frequency = 0.0224
 noise = SubResource("FastNoiseLite_m5jvn")
 
 [resource]
-shader = ExtResource("1_iudx6")
+shader = ExtResource("1_emjft")
 shader_parameter/dissolveState = 0.0
 shader_parameter/dissolveNoise = SubResource("NoiseTexture2D_xjjjl")

@@ -179,7 +179,7 @@ public partial class Gun : RigidBody2D
 		{
 			if(area.Owner is Npc enemy)
 			{
-				enemy.Health.DealDamage(1f);
+				enemy.DealDamage(1f);
 			}
 
 			QueueFree();

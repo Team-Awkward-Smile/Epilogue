@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://p04b2bqvsxwy"
-path="res://.godot/imported/1342893_artixium_heart-sprites.png-00ff7559dd10a1c028b8f234566d034f.ctex"
+uid="uid://dv8i8cyrioyus"
+path="res://.godot/imported/spikes.png-08d638abc10645d70b2801104a439d47.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://temp/1342893_artixium_heart-sprites.png"
-dest_files=["res://.godot/imported/1342893_artixium_heart-sprites.png-00ff7559dd10a1c028b8f234566d034f.ctex"]
+source_file="res://temp/spikes.png"
+dest_files=["res://.godot/imported/spikes.png-08d638abc10645d70b2801104a439d47.ctex"]
 
 [params]
 
