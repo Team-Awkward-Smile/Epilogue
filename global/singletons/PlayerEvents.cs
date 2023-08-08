@@ -18,4 +18,9 @@ public partial class PlayerEvents : GlobalEvents
 	/// </summary>
 	/// <param name="speed">Selected Execution speed</param>
 	[Signal] public delegate void ExecutionSpeedSelectedEventHandler(ExecutionSpeed speed);
+
+	/// <summary>
+	///		Event triggered whenever the player dies
+	/// </summary>
+	[Signal] public delegate void PlayerDiedEventHandler();
 }

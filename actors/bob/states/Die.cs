@@ -1,5 +1,7 @@
 using Epilogue.nodes;
 
+using Godot;
+
 namespace Epilogue.actors.hestmor.states;
 /// <summary>
 ///		State that makes Hestmor die and trigger the approprate events
@@ -11,5 +13,9 @@ public partial class Die : PlayerState
 		Player.CanChangeFacingDirection = false;
 
 		AnimPlayer.Play("die");
+		AnimPlayer.AnimationFinished += (StringName animationName) =>
+		{
+			GetTree().CreateTimer(2f).Timeout += () => PlayerEvents.EmitGlobalSignal("PlayerDied");
+		};
 	}
 }

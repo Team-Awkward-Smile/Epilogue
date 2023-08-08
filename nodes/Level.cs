@@ -15,6 +15,7 @@ public partial class Level : Node2D
 	private Window _console;
 	private GloryKillPrompt _killPrompt;
 	private TileMap _tileMap;
+	private PlayerEvents _playerEvents;
 
 	/// <inheritdoc/>
     public override void _Input(InputEvent @event)
@@ -40,6 +41,14 @@ public partial class Level : Node2D
 		_console = GD.Load<PackedScene>("res://ui/console.tscn").Instantiate() as Window;
 		_killPrompt = GD.Load<PackedScene>("res://ui/glory_kill_prompt.tscn").Instantiate() as GloryKillPrompt;
 		_ammoUI = GD.Load<PackedScene>("res://ui/ammo_ui.tscn").Instantiate() as AmmoUI;
+
+		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
+
+		// TODO: 68 - Create a proper method to reload the scene and spawn the player at the correct checkpoint
+		_playerEvents.PlayerDied += () =>
+		{
+			GetTree().ReloadCurrentScene();
+		};
 
 		// TODO: 68 - Maybe the root CanvasLayer should also be created at run-time?
 		var uiLayer = GetNode<CanvasLayer>("UILayer");
