@@ -637,7 +637,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [Vector2(0, -30), Vector2(5, -33), Vector2(17, -36), Vector2(18, -36), Vector2(18, -40), Vector2(21, -45)]
+"values": [Vector2(0, -29), Vector2(5, -32), Vector2(17, -35), Vector2(20, -35), Vector2(18, -37), Vector2(21, -44)]
 }
 
 [sub_resource type="Animation" id="Animation_ebhnp"]
@@ -832,13 +832,13 @@ script = ExtResource("22_lp3l7")
 
 [node name="HeadRayCast2D" type="RayCast2D" parent="FlipRoot"]
 editor_description = "RayCast used to test collisions against walls. Alongside the regular CharacterBody2D, can be used to determine is the character is near a ledge"
-position = Vector2(0, -40)
+position = Vector2(0, -41)
 target_position = Vector2(8, 0)
 collision_mask = 8
 
 [node name="LedgeRayCast2D" type="RayCast2D" parent="FlipRoot"]
 editor_description = "RayCast used to test collisions against walls. Alongside the regular CharacterBody2D, can be used to determine is the character is near a ledge"
-position = Vector2(0, -42)
+position = Vector2(0, -45)
 target_position = Vector2(8, 0)
 collision_mask = 8
 

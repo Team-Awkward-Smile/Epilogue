@@ -11,9 +11,22 @@ public partial class Idle : PlayerState
 	{
 		if(@event.IsActionPressed(JumpInput))
 		{
-			if(Player.IsOnWall() && !Player.RayCasts["Head"].IsColliding() && !Player.RayCasts["Ledge"].IsColliding() && Player.RayCasts["Feet"].IsColliding())
+			if(!Player.RayCasts["Head"].IsColliding() && Player.RayCasts["Feet"].IsColliding())
 			{
-				StateMachine.ChangeState("Vault");
+				var raycast = Player.RayCasts["Ledge"];
+				var originalPosition = raycast.Position;
+
+				// TODO: set this value to the size of the tilemap
+				raycast.Position = new Vector2(0f, -19f);
+
+				raycast.ForceRaycastUpdate();
+
+				if(!raycast.IsColliding())
+				{
+					StateMachine.ChangeState("Vault");
+				}
+
+				raycast.Position = originalPosition;
 			}
 			else
 			{

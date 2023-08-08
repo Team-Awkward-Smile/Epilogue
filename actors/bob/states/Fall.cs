@@ -18,7 +18,6 @@ public partial class Fall : PlayerState
 
 	internal override void PhysicsUpdate(double delta)
 	{
-		// KNOWN: 68 - grabbing ledges sometimes doesn't work. Walls seem to work fine
 		if(Player.RayCasts["Head"].IsColliding() && !Player.RayCasts["Ledge"].IsColliding())
 		{
 			_playLandingAnimation = false;
