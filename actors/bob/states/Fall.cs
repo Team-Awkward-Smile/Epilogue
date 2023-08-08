@@ -8,6 +8,8 @@ namespace Epilogue.actors.hestmor.states;
 /// </summary>
 public partial class Fall : PlayerState
 {
+	private bool _playLandingAnimation = true;
+
 	internal override void OnEnter()
 	{
 		AnimPlayer.Play("fall");
@@ -16,6 +18,15 @@ public partial class Fall : PlayerState
 
 	internal override void PhysicsUpdate(double delta)
 	{
+		// KNOWN: 68 - grabbing ledges sometimes doesn't work. Walls seem to work fine
+		if(Player.RayCasts["Head"].IsColliding() && !Player.RayCasts["Ledge"].IsColliding())
+		{
+			_playLandingAnimation = false;
+
+			StateMachine.ChangeState("GrabLedge");
+			return;
+		}
+
 		Player.Velocity = new Vector2(Player.Velocity.X, Player.Velocity.Y + (Gravity * (float) delta));
 		Player.MoveAndSlideWithRotation();
 
@@ -23,14 +34,15 @@ public partial class Fall : PlayerState
 		{
 			StateMachine.ChangeState("Idle");
 		}
-		else if(Player.RayCasts["Head"].IsColliding() && !Player.RayCasts["Ledge"].IsColliding())
-		{
-			StateMachine.ChangeState("GrabLedge");
-		}
 	}
 
 	internal override async Task OnLeaveAsync()
 	{
+		if(!_playLandingAnimation)
+		{
+			return;
+		}
+
 		AudioPlayer.PlayGenericSfx("Land");
 		AnimPlayer.Play("fall_land");
 

@@ -25,8 +25,15 @@ public partial class GrabLedge : PlayerState
 		Player.Velocity = new Vector2(0f, 0f);
 		Player.CanChangeFacingDirection = false;
 
-		AnimPlayer.Play("grab_ledge");
-		AnimPlayer.AnimationFinished += StayOnEdge;
+		if(Player.RayCasts["Feet"].IsColliding())
+		{
+			AnimPlayer.Play("grab_wall");
+			AnimPlayer.AnimationFinished += StayOnEdge;
+		}
+		else
+		{
+			AnimPlayer.Play("grab_ledge");
+		}
 	}
 
 	private void StayOnEdge(StringName animName)

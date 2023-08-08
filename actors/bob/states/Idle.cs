@@ -11,7 +11,7 @@ public partial class Idle : PlayerState
 	{
 		if(@event.IsActionPressed(JumpInput))
 		{
-			if(Player.IsOnWall() && !Player.RayCasts["Head"].IsColliding() && !Player.RayCasts["Ledge"].IsColliding())
+			if(Player.IsOnWall() && !Player.RayCasts["Head"].IsColliding() && !Player.RayCasts["Ledge"].IsColliding() && Player.RayCasts["Feet"].IsColliding())
 			{
 				StateMachine.ChangeState("Vault");
 			}

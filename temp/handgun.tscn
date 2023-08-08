@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://dulc4vm30o030"]
 
-[ext_resource type="Script" path="res://guns/Handgun.cs" id="1_rct6p"]
-[ext_resource type="Material" uid="uid://bdt7ee1dy5yrr" path="res://temp/gun_material.tres" id="2_1rheg"]
-[ext_resource type="Texture2D" uid="uid://b36gdcpttbmd" path="res://temp/handgun.png" id="3_bkvo2"]
-[ext_resource type="AudioStream" uid="uid://culv4am0q6vgd" path="res://temp/handgun.mp3" id="4_orqcq"]
+[ext_resource type="Script" path="res://guns/Handgun.cs" id="1_o02j4"]
+[ext_resource type="Material" uid="uid://bdt7ee1dy5yrr" path="res://temp/gun_material.tres" id="2_wtuev"]
+[ext_resource type="Texture2D" uid="uid://b36gdcpttbmd" path="res://temp/handgun.png" id="3_ul5yl"]
+[ext_resource type="AudioStream" uid="uid://culv4am0q6vgd" path="res://temp/handgun.mp3" id="4_c3eei"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2riue"]
 size = Vector2(26.5528, 17.6798)
@@ -14,14 +14,14 @@ size = Vector2(26.5528, 17.6798)
 collision_layer = 4
 collision_mask = 8
 mass = 0.3
-script = ExtResource("1_rct6p")
+script = ExtResource("1_o02j4")
 MaxAmmoCount = 16
 ShotsPerMinute = 400.0
 
 [node name="Sprite" type="Sprite2D" parent="."]
-material = ExtResource("2_1rheg")
+material = ExtResource("2_wtuev")
 scale = Vector2(0.05, 0.05)
-texture = ExtResource("3_bkvo2")
+texture = ExtResource("3_ul5yl")
 offset = Vector2(159.917, 7.24439)
 flip_h = true
 
@@ -41,5 +41,5 @@ position = Vector2(7.85722, -0.0701542)
 shape = SubResource("CircleShape2D_a0c6f")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_orqcq")
+stream = ExtResource("4_c3eei")
 max_polyphony = 5

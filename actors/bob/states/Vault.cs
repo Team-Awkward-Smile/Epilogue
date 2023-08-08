@@ -11,7 +11,7 @@ public partial class Vault : PlayerState
 	{
 		Player.CanChangeFacingDirection = false;
 
-		AnimPlayer.Play("ledge_climb");
+		AnimPlayer.Play("vault");
 		AnimPlayer.AnimationFinished += MoveToTop;
 	}
 

@@ -40,21 +40,22 @@ public partial class Jump : PlayerState
 
 	internal override void PhysicsUpdate(double delta)
 	{
+		if(Player.RayCasts["Head"].IsColliding() && !Player.RayCasts["Ledge"].IsColliding())
+		{
+			StateMachine.ChangeState("GrabLedge");
+			return;
+		}
+
 		Player.Velocity = new Vector2(Player.Velocity.X, Player.Velocity.Y + (Gravity * (float) delta));
 		Player.MoveAndSlideWithRotation();
 
 		if(Player.Velocity.Y > 0)
 		{
 			StateMachine.ChangeState("Fall");
-			return;
 		}
 		else if(Player.IsOnFloor() && Player.Velocity.Y < 0)
 		{
 			StateMachine.ChangeState("Idle");
-		}
-		else if(Player.RayCasts["Head"].IsColliding() && !Player.RayCasts["Ledge"].IsColliding())
-		{
-			StateMachine.ChangeState("GrabLedge");
 		}
 	}
 }

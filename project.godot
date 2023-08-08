@@ -30,6 +30,10 @@ GunEvents="*res://global/singletons/GunEvents.cs"
 
 file_logging/enable_file_logging=true
 
+[display]
+
+window/vsync/vsync_mode=0
+
 [dotnet]
 
 project/assembly_name="Epilogue"
