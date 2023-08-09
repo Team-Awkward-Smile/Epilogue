@@ -7,9 +7,14 @@ namespace Epilogue.actors.hestmor.states;
 /// </summary>
 public partial class Vault : PlayerState
 {
+	private Vector2 _spriteOriginalPosition;
+
 	internal override void OnEnter()
 	{
+		_spriteOriginalPosition = Player.Sprite.Position;
+
 		Player.CanChangeFacingDirection = false;
+		Player.Velocity = Vector2.Zero;
 
 		AnimPlayer.Play("vault");
 		AnimPlayer.AnimationFinished += MoveToTop;
@@ -20,6 +25,7 @@ public partial class Vault : PlayerState
 		AnimPlayer.AnimationFinished -= MoveToTop;
 
 		Player.GlobalPosition = Player.Sprite.GetNode<Node2D>("LedgeAnchor").GlobalPosition;
+		Player.Sprite.Position = _spriteOriginalPosition;
 
 		StateMachine.ChangeState("Fall");
 	}

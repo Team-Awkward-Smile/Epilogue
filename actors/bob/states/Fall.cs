@@ -1,3 +1,4 @@
+using Epilogue.constants;
 using Epilogue.nodes;
 using Godot;
 using System.Threading.Tasks;
@@ -9,20 +10,35 @@ namespace Epilogue.actors.hestmor.states;
 public partial class Fall : PlayerState
 {
 	private bool _playLandingAnimation = true;
+	private bool _canGrabLedge;
 
 	internal override void OnEnter()
 	{
+		_canGrabLedge = false;
+
 		AnimPlayer.Play("fall");
 		Player.CanChangeFacingDirection = true;
+
+		GetTree().CreateTimer(0.1f).Timeout += () => _canGrabLedge = true;
 	}
 
 	internal override void PhysicsUpdate(double delta)
 	{
-		if(Player.RayCasts["Head"].IsColliding() && !Player.RayCasts["Ledge"].IsColliding())
+		if(_canGrabLedge && Player.IsOnWall() && Player.SweepForLedge(out var ledgePosition))
 		{
-			_playLandingAnimation = false;
+			var offset = Player.RayCasts["Head"].GlobalPosition.Y - ledgePosition.Y;
 
-			StateMachine.ChangeState("GrabLedge");
+			if(offset < -20)
+			{
+				Player.Position = new Vector2(Player.Position.X, ledgePosition.Y + Constants.MAP_TILE_SIZE);
+				StateMachine.ChangeState("Vault");
+			}
+			else
+			{
+				Player.Position -= new Vector2(0f, offset);
+				StateMachine.ChangeState("GrabLedge");
+			}
+
 			return;
 		}
 

@@ -14,14 +14,7 @@ public partial class Walk : PlayerState
 	{
 		if(@event.IsActionPressed(JumpInput))
 		{
-			if(Player.RayCasts["Head"].IsColliding() && !Player.RayCasts["Ledge"].IsColliding())
-			{
-				StateMachine.ChangeState("GrabLedge");
-			}
-			else
-			{
-				StateMachine.ChangeState("Jump");
-			}
+			StateMachine.ChangeState("Jump");
 		}
 		else if(@event.IsActionPressed(CrouchInput))
 		{

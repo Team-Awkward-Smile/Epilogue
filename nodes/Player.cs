@@ -100,4 +100,58 @@ public partial class Player : Actor
 	{
 		CurrentHealth += health;
 	}
+
+	/// <summary>
+	///		Sweeps HeadRayCast and LedgeRayCast in search of a ledge, starting at their original positions near Hestmor's head and going down.
+	/// </summary>
+	/// <param name="ledgePosition">Position of the detected ledge, only valid if the method returned <c>true</c></param>
+	/// <param name="sweepUntil">Y position where the sweep will stop. By default, the sweep will go down until position 0, at the pivot of Hestmor (must be a negative value)</param>
+	/// <returns><c>true</c>, if a ledge is detected (in this case, <paramref name="ledgePosition"/> will contain the position of the ledge); <c>false</c>, otherwise</returns>
+	public bool SweepForLedge(out Vector2 ledgePosition, int sweepUntil = 0)
+	{
+		var headRaycast = RayCasts["Head"];
+		var ledgeRaycast = RayCasts["Ledge"];
+		var originalPositions = new Vector2(headRaycast.Position.Y, ledgeRaycast.Position.Y);
+		var offset = originalPositions.Y - originalPositions.X;
+
+		ledgePosition = new Vector2(0f, 0f);
+
+		for(var i = originalPositions.X; i <= sweepUntil; i++)
+		{
+			headRaycast.Position = new Vector2(0f, i);
+			ledgeRaycast.Position = new Vector2(0f, headRaycast.Position.Y + offset);
+
+			headRaycast.ForceRaycastUpdate();
+			ledgeRaycast.ForceRaycastUpdate();
+
+			if(headRaycast.IsColliding() && !ledgeRaycast.IsColliding())
+			{
+				var feetRaycast = RayCasts["Feet"];
+				var originalTarget = feetRaycast.TargetPosition;
+
+				feetRaycast.TargetPosition = new Vector2(0f, 30f);
+				feetRaycast.ForceRaycastUpdate();
+
+				if(feetRaycast.IsColliding())
+				{
+					feetRaycast.TargetPosition = originalTarget;
+
+					continue;
+				}
+
+				ledgePosition = headRaycast.GlobalPosition;
+
+				headRaycast.Position = new Vector2(0f, originalPositions.X);
+				ledgeRaycast.Position = new Vector2(0f, originalPositions.Y);
+				feetRaycast.TargetPosition = originalTarget;
+
+				return true;
+			}
+		}
+
+		headRaycast.Position = new Vector2(0f, originalPositions.X);
+		ledgeRaycast.Position = new Vector2(0f, originalPositions.Y);
+
+		return false;
+	}
 }

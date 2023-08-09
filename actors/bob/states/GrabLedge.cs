@@ -24,6 +24,7 @@ public partial class GrabLedge : PlayerState
 	{
 		Player.Velocity = new Vector2(0f, 0f);
 		Player.CanChangeFacingDirection = false;
+		Player.RayCasts["Feet"].ForceRaycastUpdate();
 
 		if(Player.RayCasts["Feet"].IsColliding())
 		{

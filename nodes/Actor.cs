@@ -110,14 +110,21 @@ public abstract partial class Actor : CharacterBody2D
 	{
 		MoveAndSlide();
 
-		var floorRadianAngle = GetFloorAngle();
-		var floorNormal = GetFloorNormal();
-
-		if(floorRadianAngle is > 0 and < 1)
+		if(IsOnFloor())
 		{
-			CreateTween().TweenProperty(this, "rotation", floorRadianAngle * (floorNormal.X > 0 ? 1 : -1), 0.05f);
+			var floorRadianAngle = GetFloorAngle();
+			var floorNormal = GetFloorNormal();
+
+			if(floorRadianAngle is > 0 and < 1)
+			{
+				CreateTween().TweenProperty(this, "rotation", floorRadianAngle * (floorNormal.X > 0 ? 1 : -1), 0.05f);
+			}
+			else if(floorRadianAngle == 0)
+			{
+				CreateTween().TweenProperty(this, "rotation", 0f, 0.05f);
+			}
 		}
-		else if(floorRadianAngle == 0)
+		else
 		{
 			CreateTween().TweenProperty(this, "rotation", 0f, 0.05f);
 		}

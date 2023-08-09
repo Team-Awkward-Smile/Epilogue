@@ -1,27 +1,27 @@
 [gd_scene load_steps=19 format=3 uid="uid://cn2lbtkt6ntnt"]
 
-[ext_resource type="Script" path="res://nodes/Level.cs" id="1_16ix6"]
-[ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_vfb2a"]
-[ext_resource type="Texture2D" uid="uid://dtit4hbwjn673" path="res://temp/ground_3.png" id="3_8lm1p"]
-[ext_resource type="Texture2D" uid="uid://bfiq0j0jyexqd" path="res://temp/ground_2.png" id="4_62mlv"]
-[ext_resource type="Texture2D" uid="uid://d3w3kkhlni18i" path="res://temp/ground_1.png" id="5_ucglk"]
-[ext_resource type="Script" path="res://props/camera/Camera.cs" id="6_6modw"]
-[ext_resource type="PackedScene" uid="uid://cmrbm1u6fwi67" path="res://actors/bob/bob.tscn" id="7_g112p"]
-[ext_resource type="Script" path="res://nodes/KonamiCode.cs" id="8_kl8j0"]
-[ext_resource type="PackedScene" uid="uid://dulc4vm30o030" path="res://temp/handgun.tscn" id="9_k67jh"]
-[ext_resource type="PackedScene" uid="uid://di5pn4kqpf3t7" path="res://temp/shotgun.tscn" id="10_g5jvd"]
-[ext_resource type="PackedScene" uid="uid://dkxb60ljnimb7" path="res://temp/flamethrower.tscn" id="11_8762v"]
-[ext_resource type="PackedScene" uid="uid://8sw5jwntdfl1" path="res://temp/minigun.tscn" id="12_yxfpo"]
-[ext_resource type="Texture2D" uid="uid://dv8i8cyrioyus" path="res://temp/spikes.png" id="13_hqoa0"]
-[ext_resource type="Script" path="res://nodes/HitBox.cs" id="14_mawo1"]
-[ext_resource type="Texture2D" uid="uid://ce28v6b0ipo0k" path="res://temp/tile_small.png" id="15_qbm4e"]
+[ext_resource type="Script" path="res://nodes/Level.cs" id="1_tysuy"]
+[ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_18hbo"]
+[ext_resource type="Texture2D" uid="uid://dtit4hbwjn673" path="res://temp/ground_3.png" id="3_icib3"]
+[ext_resource type="Texture2D" uid="uid://bfiq0j0jyexqd" path="res://temp/ground_2.png" id="4_y7c1q"]
+[ext_resource type="Texture2D" uid="uid://d3w3kkhlni18i" path="res://temp/ground_1.png" id="5_q2f0w"]
+[ext_resource type="Script" path="res://props/camera/Camera.cs" id="6_rncgg"]
+[ext_resource type="PackedScene" uid="uid://cmrbm1u6fwi67" path="res://actors/bob/bob.tscn" id="7_prx21"]
+[ext_resource type="Script" path="res://nodes/KonamiCode.cs" id="8_huvpr"]
+[ext_resource type="PackedScene" uid="uid://dulc4vm30o030" path="res://temp/handgun.tscn" id="9_g4u7h"]
+[ext_resource type="PackedScene" uid="uid://di5pn4kqpf3t7" path="res://temp/shotgun.tscn" id="10_veot7"]
+[ext_resource type="PackedScene" uid="uid://dkxb60ljnimb7" path="res://temp/flamethrower.tscn" id="11_nnbmp"]
+[ext_resource type="PackedScene" uid="uid://8sw5jwntdfl1" path="res://temp/minigun.tscn" id="12_2u3ny"]
+[ext_resource type="Texture2D" uid="uid://dv8i8cyrioyus" path="res://temp/spikes.png" id="13_1dljq"]
+[ext_resource type="Script" path="res://nodes/HitBox.cs" id="14_mwx7p"]
+[ext_resource type="Texture2D" uid="uid://ce28v6b0ipo0k" path="res://temp/tile_small.png" id="15_soghc"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nkpyu"]
 radius = 13.0
 height = 42.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bicm4"]
-texture = ExtResource("15_qbm4e")
+texture = ExtResource("15_soghc")
 texture_region_size = Vector2i(18, 18)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -35,10 +35,10 @@ physics_layer_0/collision_mask = 71
 sources/0 = SubResource("TileSetAtlasSource_bicm4")
 
 [node name="Root" type="Node2D"]
-script = ExtResource("1_16ix6")
+script = ExtResource("1_tysuy")
 
 [node name="DebugInfo" type="CanvasLayer" parent="."]
-script = ExtResource("2_vfb2a")
+script = ExtResource("2_18hbo")
 _playerSpeed = true
 _aimQuadrants = true
 _inputType = true
@@ -64,59 +64,59 @@ motion_scale = Vector2(1.2, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3"]
 position = Vector2(437, -97)
-texture = ExtResource("3_8lm1p")
+texture = ExtResource("3_icib3")
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2(1.15, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
 position = Vector2(437, -78)
-texture = ExtResource("4_62mlv")
+texture = ExtResource("4_y7c1q")
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2(1.1, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
 position = Vector2(418, -108)
-texture = ExtResource("5_ucglk")
+texture = ExtResource("5_q2f0w")
 
 [node name="Camera2D" type="Camera2D" parent="ParallaxBackground"]
 zoom = Vector2(3, 3)
-script = ExtResource("6_6modw")
+script = ExtResource("6_rncgg")
 
-[node name="Bob" parent="." instance=ExtResource("7_g112p")]
+[node name="Bob" parent="." instance=ExtResource("7_prx21")]
 position = Vector2(374, -173)
 MaxHealth = 3.0
 CurrentHealth = 3.0
 
 [node name="KonamiCode" type="Node" parent="."]
-script = ExtResource("8_kl8j0")
+script = ExtResource("8_huvpr")
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 
-[node name="Handgun" parent="." instance=ExtResource("9_k67jh")]
+[node name="Handgun" parent="." instance=ExtResource("9_g4u7h")]
 position = Vector2(476, -139)
 
-[node name="Shotgun" parent="." instance=ExtResource("10_g5jvd")]
+[node name="Shotgun" parent="." instance=ExtResource("10_veot7")]
 position = Vector2(166, -155)
 
-[node name="Flamethrower" parent="." instance=ExtResource("11_8762v")]
+[node name="Flamethrower" parent="." instance=ExtResource("11_nnbmp")]
 position = Vector2(700, -86)
 
-[node name="Minigun" parent="." instance=ExtResource("12_yxfpo")]
+[node name="Minigun" parent="." instance=ExtResource("12_2u3ny")]
 position = Vector2(427.5, -84.5)
 
 [node name="Spikes" type="Node2D" parent="."]
-position = Vector2(292, -74)
+position = Vector2(173, -64)
 
 [node name="Sprite2D" type="Sprite2D" parent="Spikes"]
 scale = Vector2(0.05, 0.05)
-texture = ExtResource("13_hqoa0")
+texture = ExtResource("13_1dljq")
 
 [node name="HitBox" type="Area2D" parent="Spikes"]
 collision_layer = 16
 collision_mask = 32
-script = ExtResource("14_mawo1")
+script = ExtResource("14_mwx7p")
 Damage = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Spikes/HitBox"]

@@ -1,6 +1,9 @@
+using Epilogue.constants;
 using Epilogue.global.enums;
 using Epilogue.nodes;
 using Godot;
+
+using Microsoft.CodeAnalysis.Operations;
 
 namespace Epilogue.actors.hestmor.states;
 /// <summary>
@@ -40,9 +43,21 @@ public partial class Jump : PlayerState
 
 	internal override void PhysicsUpdate(double delta)
 	{
-		if(Player.RayCasts["Head"].IsColliding() && !Player.RayCasts["Ledge"].IsColliding())
+		if(Player.IsOnWall() && Player.SweepForLedge(out var ledgePosition))
 		{
-			StateMachine.ChangeState("GrabLedge");
+			var offset = Player.RayCasts["Head"].GlobalPosition.Y - ledgePosition.Y;
+
+			if(offset < -30)
+			{
+				Player.Position = new Vector2(Player.Position.X, ledgePosition.Y + Constants.MAP_TILE_SIZE);
+				StateMachine.ChangeState("Vault");
+			}
+			else
+			{
+				Player.Position -= new Vector2(0f, offset);
+				StateMachine.ChangeState("GrabLedge");
+			}
+
 			return;
 		}
 
