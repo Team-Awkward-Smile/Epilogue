@@ -10,7 +10,7 @@ public partial class TakeDamage : PlayerState
 	{
 		Player.CanChangeFacingDirection = false;
 
-		AnimPlayer.Play("take_damage");
+		AnimPlayer.Play("Combat/take_damage");
 		AnimPlayer.AnimationFinished += FinishAnimation;
 	}
 

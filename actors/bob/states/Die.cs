@@ -12,7 +12,7 @@ public partial class Die : PlayerState
 	{
 		Player.CanChangeFacingDirection = false;
 
-		AnimPlayer.Play("die");
+		AnimPlayer.Play("Combat/die");
 		AnimPlayer.AnimationFinished += (StringName animationName) =>
 		{
 			GetTree().CreateTimer(2f).Timeout += () => PlayerEvents.EmitGlobalSignal("PlayerDied");

@@ -18,7 +18,7 @@ public partial class Growl : PlayerState
 			_ => "growl_weak"
 		};
 
-		AnimPlayer.Play(animation);
+		AnimPlayer.Play($"Growl/{animation}");
 		AnimPlayer.AnimationFinished += EndGrowl;
 	}
 

@@ -36,7 +36,7 @@ public partial class MeleeAttack : PlayerState
 			}
 		}
 
-		AnimPlayer.Play("melee_attack");
+		AnimPlayer.Play("Combat/melee_attack");
 		AnimPlayer.AnimationFinished += FinishAttack;
 	}
 
@@ -44,7 +44,7 @@ public partial class MeleeAttack : PlayerState
 	{
 		_eventsSingleton.ExecutionSpeedSelected -= PerformExecution;
 
-		var animation = "glory_kill_" + speed switch
+		var animation = "Combat/execution_" + speed switch
 		{
 			ExecutionSpeed.Slow => "slow",
 			_ => "fast"

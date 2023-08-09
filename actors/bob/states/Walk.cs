@@ -77,5 +77,9 @@ public partial class Walk : PlayerState
 		{
 			StateMachine.ChangeState("Run");
 		}
+		else if(Player.RotationDegrees >= 40f)
+		{
+			StateMachine.ChangeState("Crawl");
+		}
 	}
 }
