@@ -1,30 +1,30 @@
 [gd_scene load_steps=25 format=3 uid="uid://cn2lbtkt6ntnt"]
 
-[ext_resource type="Script" path="res://nodes/Level.cs" id="1_tysuy"]
-[ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_18hbo"]
-[ext_resource type="Texture2D" uid="uid://dtit4hbwjn673" path="res://temp/ground_3.png" id="3_icib3"]
-[ext_resource type="Texture2D" uid="uid://bfiq0j0jyexqd" path="res://temp/ground_2.png" id="4_y7c1q"]
-[ext_resource type="Texture2D" uid="uid://d3w3kkhlni18i" path="res://temp/ground_1.png" id="5_q2f0w"]
-[ext_resource type="Script" path="res://props/camera/Camera.cs" id="6_rncgg"]
-[ext_resource type="PackedScene" uid="uid://cmrbm1u6fwi67" path="res://actors/bob/bob.tscn" id="7_prx21"]
-[ext_resource type="Script" path="res://nodes/KonamiCode.cs" id="8_huvpr"]
-[ext_resource type="PackedScene" uid="uid://dulc4vm30o030" path="res://temp/handgun.tscn" id="9_g4u7h"]
-[ext_resource type="PackedScene" uid="uid://di5pn4kqpf3t7" path="res://temp/shotgun.tscn" id="10_veot7"]
-[ext_resource type="PackedScene" uid="uid://dkxb60ljnimb7" path="res://temp/flamethrower.tscn" id="11_nnbmp"]
-[ext_resource type="PackedScene" uid="uid://8sw5jwntdfl1" path="res://temp/minigun.tscn" id="12_2u3ny"]
-[ext_resource type="Texture2D" uid="uid://dv8i8cyrioyus" path="res://temp/spikes.png" id="13_1dljq"]
-[ext_resource type="Script" path="res://nodes/HitBox.cs" id="14_mwx7p"]
-[ext_resource type="Texture2D" uid="uid://ce28v6b0ipo0k" path="res://temp/tile_small.png" id="15_soghc"]
-[ext_resource type="Texture2D" uid="uid://k4r63nlwrd0g" path="res://temp/slope_45.png" id="16_cs5wo"]
-[ext_resource type="Texture2D" uid="uid://jw7jobgsk5uu" path="res://temp/slope_small.png" id="17_tfutd"]
-[ext_resource type="Texture2D" uid="uid://d0tb3r6vpuxr6" path="res://temp/slope_steep.png" id="18_4jl5n"]
+[ext_resource type="Script" path="res://nodes/Level.cs" id="1_n2322"]
+[ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_3gbiy"]
+[ext_resource type="Texture2D" uid="uid://dtit4hbwjn673" path="res://temp/ground_3.png" id="3_s6uae"]
+[ext_resource type="Texture2D" uid="uid://bfiq0j0jyexqd" path="res://temp/ground_2.png" id="4_vc3gp"]
+[ext_resource type="Texture2D" uid="uid://d3w3kkhlni18i" path="res://temp/ground_1.png" id="5_x1yi7"]
+[ext_resource type="Script" path="res://props/camera/Camera.cs" id="6_nrwn5"]
+[ext_resource type="PackedScene" uid="uid://cmrbm1u6fwi67" path="res://actors/bob/bob.tscn" id="7_057kq"]
+[ext_resource type="Script" path="res://nodes/KonamiCode.cs" id="8_74681"]
+[ext_resource type="PackedScene" uid="uid://dulc4vm30o030" path="res://temp/handgun.tscn" id="9_vkjpm"]
+[ext_resource type="PackedScene" uid="uid://di5pn4kqpf3t7" path="res://temp/shotgun.tscn" id="10_msxhu"]
+[ext_resource type="PackedScene" uid="uid://dkxb60ljnimb7" path="res://temp/flamethrower.tscn" id="11_kkmd0"]
+[ext_resource type="PackedScene" uid="uid://8sw5jwntdfl1" path="res://temp/minigun.tscn" id="12_kc01j"]
+[ext_resource type="Texture2D" uid="uid://dv8i8cyrioyus" path="res://temp/spikes.png" id="13_apj03"]
+[ext_resource type="Script" path="res://nodes/HitBox.cs" id="14_wxd0h"]
+[ext_resource type="Texture2D" uid="uid://ce28v6b0ipo0k" path="res://temp/tile_small.png" id="15_rjtp2"]
+[ext_resource type="Texture2D" uid="uid://k4r63nlwrd0g" path="res://temp/slope_45.png" id="16_fwkpw"]
+[ext_resource type="Texture2D" uid="uid://jw7jobgsk5uu" path="res://temp/slope_small.png" id="17_biymy"]
+[ext_resource type="Texture2D" uid="uid://d0tb3r6vpuxr6" path="res://temp/slope_steep.png" id="18_kjtwt"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nkpyu"]
 radius = 13.0
 height = 42.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bicm4"]
-texture = ExtResource("15_soghc")
+texture = ExtResource("15_rjtp2")
 texture_region_size = Vector2i(18, 18)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -32,7 +32,7 @@ texture_region_size = Vector2i(18, 18)
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-9, -9, -9, 9, 9, 9, 9, -9)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tarpj"]
-texture = ExtResource("16_cs5wo")
+texture = ExtResource("16_fwkpw")
 texture_region_size = Vector2i(18, 18)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -40,7 +40,7 @@ texture_region_size = Vector2i(18, 18)
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-9, -9, -9, 9, 9, 9)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yknkh"]
-texture = ExtResource("17_tfutd")
+texture = ExtResource("17_biymy")
 texture_region_size = Vector2i(36, 18)
 0:0/0 = 0
 0:0/0/texture_origin = Vector2i(-9, 0)
@@ -49,7 +49,7 @@ texture_region_size = Vector2i(36, 18)
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-9, -9, -9, 9, 27, 9)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wnspm"]
-texture = ExtResource("18_4jl5n")
+texture = ExtResource("18_kjtwt")
 texture_region_size = Vector2i(18, 36)
 0:0/0 = 0
 0:0/0/texture_origin = Vector2i(0, -9)
@@ -67,10 +67,10 @@ sources/2 = SubResource("TileSetAtlasSource_yknkh")
 sources/3 = SubResource("TileSetAtlasSource_wnspm")
 
 [node name="Root" type="Node2D"]
-script = ExtResource("1_tysuy")
+script = ExtResource("1_n2322")
 
 [node name="DebugInfo" type="CanvasLayer" parent="."]
-script = ExtResource("2_18hbo")
+script = ExtResource("2_3gbiy")
 _playerSpeed = true
 _aimQuadrants = true
 _inputType = true
@@ -96,46 +96,46 @@ motion_scale = Vector2(1.2, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3"]
 position = Vector2(437, -97)
-texture = ExtResource("3_icib3")
+texture = ExtResource("3_s6uae")
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2(1.15, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
 position = Vector2(437, -78)
-texture = ExtResource("4_y7c1q")
+texture = ExtResource("4_vc3gp")
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2(1.1, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
 position = Vector2(418, -108)
-texture = ExtResource("5_q2f0w")
+texture = ExtResource("5_x1yi7")
 
 [node name="Camera2D" type="Camera2D" parent="ParallaxBackground"]
 zoom = Vector2(3, 3)
-script = ExtResource("6_rncgg")
+script = ExtResource("6_nrwn5")
 
-[node name="Bob" parent="." instance=ExtResource("7_prx21")]
+[node name="Bob" parent="." instance=ExtResource("7_057kq")]
 position = Vector2(374, -173)
 MaxHealth = 3.0
 CurrentHealth = 3.0
 
 [node name="KonamiCode" type="Node" parent="."]
-script = ExtResource("8_huvpr")
+script = ExtResource("8_74681")
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 
-[node name="Handgun" parent="." instance=ExtResource("9_g4u7h")]
+[node name="Handgun" parent="." instance=ExtResource("9_vkjpm")]
 position = Vector2(476, -139)
 
-[node name="Shotgun" parent="." instance=ExtResource("10_veot7")]
+[node name="Shotgun" parent="." instance=ExtResource("10_msxhu")]
 position = Vector2(166, -155)
 
-[node name="Flamethrower" parent="." instance=ExtResource("11_nnbmp")]
+[node name="Flamethrower" parent="." instance=ExtResource("11_kkmd0")]
 position = Vector2(700, -86)
 
-[node name="Minigun" parent="." instance=ExtResource("12_2u3ny")]
+[node name="Minigun" parent="." instance=ExtResource("12_kc01j")]
 position = Vector2(427.5, -84.5)
 
 [node name="Spikes" type="Node2D" parent="."]
@@ -143,12 +143,12 @@ position = Vector2(105, -64)
 
 [node name="Sprite2D" type="Sprite2D" parent="Spikes"]
 scale = Vector2(0.05, 0.05)
-texture = ExtResource("13_1dljq")
+texture = ExtResource("13_apj03")
 
 [node name="HitBox" type="Area2D" parent="Spikes"]
 collision_layer = 16
 collision_mask = 32
-script = ExtResource("14_mwx7p")
+script = ExtResource("14_wxd0h")
 Damage = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Spikes/HitBox"]
@@ -161,4 +161,4 @@ debug_color = Color(0.933333, 0.219608, 0.333333, 0.419608)
 texture_filter = 1
 tile_set = SubResource("TileSet_m4uua")
 format = 2
-layer_0/tile_data = PackedInt32Array(-196596, 0, 0, -196595, 0, 0, -196594, 0, 0, -196593, 0, 0, -196592, 0, 0, -196591, 0, 0, -196590, 0, 0, -196589, 0, 0, -196588, 0, 0, -196587, 0, 0, -196586, 0, 0, -196585, 0, 0, -196584, 0, 0, -196583, 0, 0, -196582, 0, 0, -196581, 0, 0, -196580, 0, 0, -196579, 0, 0, -196578, 0, 0, -196577, 0, 0, -196576, 0, 0, -196575, 0, 0, -196574, 0, 0, -196573, 0, 0, -196572, 0, 0, -196571, 0, 0, -262117, 0, 0, -327652, 0, 0, -262116, 0, 0, -196597, 0, 0, -196598, 0, 0, -196599, 0, 0, -196600, 0, 0, -196601, 0, 0, -262137, 0, 0, -327673, 0, 0, -393209, 0, 0, -458745, 0, 0, -458746, 0, 0, -458747, 0, 0, -458748, 0, 0, -196570, 0, 0, -196569, 0, 0, -196568, 0, 0, -262102, 0, 0, -327638, 0, 0, -393174, 0, 0, -393173, 0, 0, -393172, 0, 0, -393171, 0, 0, -458715, 0, 0, -458716, 0, 0, -458717, 0, 0, -458718, 0, 0, -458719, 0, 0, -458720, 0, 0, -524256, 0, 0, -589792, 0, 0, -655328, 0, 0, -655327, 0, 0, -655326, 0, 0, -720862, 0, 0, -786398, 0, 0, -196567, 0, 0, -196566, 0, 0, -327651, 1, 0, -262114, 1, 0, -262115, 0, 0, -458744, 1, 0, -393207, 1, 0, -327670, 1, 0, -262133, 1, 0, -393208, 0, 0, -327672, 0, 0, -262136, 0, 0, -262135, 0, 0, -327671, 0, 0, -262134, 0, 0, -196602, 0, 0, -196603, 0, 0, -196604, 0, 0, -196605, 0, 0, -196606, 0, 0, -196607, 0, 0, -196608, 0, 0, -262144, 2, 0, -262146, 2, 0, -196610, 0, 0, -131074, 0, 0, -131073, 0, 0, -196609, 0, 0, -393219, 3, 0, -524292, 3, 0, -655365, 3, 0, -524293, 0, 0, -458757, 0, 0, -393221, 0, 0, -327685, 0, 0, -262149, 0, 0, -262148, 0, 0, -196612, 0, 0, -131076, 0, 0, -131077, 0, 0, -196613, 0, 0, -131075, 0, 0, -196611, 0, 0, -262147, 0, 0, -327684, 0, 0, -393220, 0, 0)
+layer_0/tile_data = PackedInt32Array(-196596, 0, 0, -196595, 0, 0, -196594, 0, 0, -196593, 0, 0, -196592, 0, 0, -196591, 0, 0, -196590, 0, 0, -196589, 0, 0, -196588, 0, 0, -196587, 0, 0, -196586, 0, 0, -196585, 0, 0, -196584, 0, 0, -196583, 0, 0, -196582, 0, 0, -196581, 0, 0, -196580, 0, 0, -196579, 0, 0, -196578, 0, 0, -196577, 0, 0, -196576, 0, 0, -196575, 0, 0, -196574, 0, 0, -196573, 0, 0, -196572, 0, 0, -196571, 0, 0, -262117, 0, 0, -327652, 0, 0, -262116, 0, 0, -196597, 0, 0, -196598, 0, 0, -196599, 0, 0, -196600, 0, 0, -196601, 0, 0, -262137, 0, 0, -327673, 0, 0, -393209, 0, 0, -458745, 0, 0, -458746, 0, 0, -458747, 0, 0, -458748, 0, 0, -196570, 0, 0, -196569, 0, 0, -196568, 0, 0, -262102, 0, 0, -327638, 0, 0, -393174, 0, 0, -393173, 0, 0, -393172, 0, 0, -393171, 0, 0, -458715, 0, 0, -458716, 0, 0, -458717, 0, 0, -458718, 0, 0, -458719, 0, 0, -458720, 0, 0, -524256, 0, 0, -589792, 0, 0, -655328, 0, 0, -655327, 0, 0, -655326, 0, 0, -720862, 0, 0, -786398, 0, 0, -196567, 0, 0, -196566, 0, 0, -327651, 1, 0, -262114, 1, 0, -262115, 0, 0, -458744, 1, 0, -393207, 1, 0, -327670, 1, 0, -262133, 1, 0, -393208, 0, 0, -327672, 0, 0, -262136, 0, 0, -262135, 0, 0, -327671, 0, 0, -262134, 0, 0, -196602, 0, 0, -196603, 0, 0, -196604, 0, 0, -196605, 0, 0, -196606, 0, 0, -196607, 0, 0, -196608, 0, 0, -262144, 2, 0, -262146, 2, 0, -196610, 0, 0, -131074, 0, 0, -131073, 0, 0, -196609, 0, 0, -262149, 0, 0, -262148, 0, 0, -196612, 0, 0, -131076, 0, 0, -131077, 0, 0, -196613, 0, 0, -131075, 0, 0, -196611, 0, 0, -262147, 0, 0, -327683, 1, 0, -393220, 1, 0, -458757, 1, 0, -393221, 0, 0, -327685, 0, 0, -327684, 0, 0, -589830, 3, 0, -720903, 3, 0, -851976, 3, 0, -720904, 0, 0, -655368, 0, 0, -589832, 0, 0, -524296, 0, 0, -458760, 0, 0, -393224, 0, 0, -327688, 0, 0, -262152, 0, 0, -196616, 0, 0, -196615, 0, 0, -131079, 0, 0, -131080, 0, 0, -131078, 0, 0, -196614, 0, 0, -262150, 0, 0, -327686, 0, 0, -393222, 0, 0, -458758, 0, 0, -458759, 0, 0, -524295, 0, 0, -589831, 0, 0, -393223, 0, 0, -327687, 0, 0, -262151, 0, 0, -458707, 0, 0, -524243, 0, 0, -589779, 0, 0, -655315, 0, 0, -655316, 0, 0, -655317, 0, 0, -720853, 0, 0, -786389, 0, 0, -851925, 0, 0, -917461, 0, 0, -982997, 0, 0, -1048533, 0, 0, -1114069, 0, 0)

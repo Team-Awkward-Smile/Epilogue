@@ -15,6 +15,7 @@ public partial class Fall : PlayerState
 	internal override void OnEnter()
 	{
 		_canGrabLedge = false;
+		_playLandingAnimation = true;
 
 		AnimPlayer.Play("fall");
 		Player.CanChangeFacingDirection = true;
@@ -27,6 +28,8 @@ public partial class Fall : PlayerState
 		if(_canGrabLedge && Player.IsOnWall() && Player.SweepForLedge(out var ledgePosition))
 		{
 			var offset = Player.RayCasts["Head"].GlobalPosition.Y - ledgePosition.Y;
+
+			_playLandingAnimation = false;
 
 			if(offset < -20)
 			{

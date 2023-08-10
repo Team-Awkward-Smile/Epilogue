@@ -1,4 +1,5 @@
 using Epilogue.global.enums;
+using Epilogue.global.singletons;
 using Epilogue.nodes;
 using Godot;
 
@@ -9,6 +10,8 @@ namespace Epilogue.actors.hestmor.states;
 public partial class Run : PlayerState
 {
 	[Export] private float _runSpeed = 200f;
+
+	private bool _canUseAnalogControls;
 
 	internal override void OnInput(InputEvent @event)
 	{
@@ -47,13 +50,15 @@ public partial class Run : PlayerState
 		AnimPlayer.Play("walk", -1, 2f);
 
 		Player.CanChangeFacingDirection = true;
+
+		_canUseAnalogControls = Settings.ControlScheme == ControlSchemeEnum.Modern;
 	}
 
 	internal override void PhysicsUpdate(double delta)
 	{
 		var movementDirection = Input.GetAxis(MoveLeftDigitalInput, MoveRightDigitalInput);
 
-		if(movementDirection == 0f)
+		if(movementDirection == 0f && _canUseAnalogControls)
 		{
 			movementDirection = Input.GetAxis(MoveLeftAnalogInput, MoveRightAnalogInput);
 		}
@@ -76,6 +81,9 @@ public partial class Run : PlayerState
 
 		Player.MoveAndSlideWithRotation();
 
+		var floorNormal = Player.GetFloorNormal();
+		var goingDownSlope = (movementDirection < 0 && floorNormal.X < 0) || (movementDirection > 0 && floorNormal.X > 0);
+
 		if(movementDirection == 0f || Player.IsOnWall())
 		{
 			StateMachine.ChangeState("Idle");
@@ -88,7 +96,7 @@ public partial class Run : PlayerState
 		{
 			StateMachine.ChangeState("Walk");
 		}
-		else if(Player.RotationDegrees >= 40f)
+		else if(Player.RotationDegrees >= 40f && !goingDownSlope)
 		{
 			StateMachine.ChangeState("Crawl");
 		}

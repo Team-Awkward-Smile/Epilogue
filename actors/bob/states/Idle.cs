@@ -1,3 +1,6 @@
+using Epilogue.constants;
+using Epilogue.global.enums;
+using Epilogue.global.singletons;
 using Epilogue.nodes;
 using Godot;
 
@@ -7,6 +10,8 @@ namespace Epilogue.actors.hestmor.states;
 /// </summary>
 public partial class Idle : PlayerState
 {
+	private bool _canUseAnalogControls;
+
 	internal override void OnInput(InputEvent @event)
 	{
 		if(@event.IsActionPressed(JumpInput))
@@ -16,8 +21,7 @@ public partial class Idle : PlayerState
 				var raycast = Player.RayCasts["Ledge"];
 				var originalPosition = raycast.Position;
 
-				// TODO: set this value to the size of the tilemap
-				raycast.Position = new Vector2(0f, -19f);
+				raycast.Position = new Vector2(0f, -Constants.MAP_TILE_SIZE - 1);
 
 				raycast.ForceRaycastUpdate();
 
@@ -61,6 +65,8 @@ public partial class Idle : PlayerState
 		Player.Velocity = new Vector2(0f, 0f);
 
 		AnimPlayer.Play("idle");
+
+		_canUseAnalogControls = Settings.ControlScheme == ControlSchemeEnum.Modern;
 	}
 
 	internal override void PhysicsUpdate(double delta)
@@ -73,7 +79,7 @@ public partial class Idle : PlayerState
 
 		var movement = Input.GetAxis(MoveLeftDigitalInput, MoveRightDigitalInput);
 
-		if(movement == 0f)
+		if(movement == 0f && _canUseAnalogControls)
 		{
 			movement = Input.GetAxis(MoveLeftAnalogInput, MoveRightAnalogInput);
 		}

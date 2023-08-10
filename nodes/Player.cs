@@ -34,7 +34,7 @@ public partial class Player : Actor
 			return;
 		}
 
-		if(_retroModeEnabled && @event.IsAction(InputUtils.GetInputActionName("toggle_walk_run")))
+		if(_retroModeEnabled && @event.IsAction("toggle_walk_run") && @event.IsPressed())
 		{
 			RunEnabled = !RunEnabled;
 		}

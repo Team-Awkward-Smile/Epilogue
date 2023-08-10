@@ -1,34 +1,34 @@
 [gd_scene load_steps=60 format=3 uid="uid://cmrbm1u6fwi67"]
 
-[ext_resource type="Script" path="res://nodes/Player.cs" id="1_ed2t8"]
-[ext_resource type="Script" path="res://nodes/StateMachine.cs" id="2_12hb1"]
-[ext_resource type="Script" path="res://actors/bob/states/Walk.cs" id="3_wccgt"]
-[ext_resource type="Script" path="res://actors/bob/states/Jump.cs" id="4_wik3q"]
-[ext_resource type="Script" path="res://actors/bob/states/Idle.cs" id="5_4gngv"]
-[ext_resource type="Script" path="res://actors/bob/states/Fall.cs" id="6_pyhue"]
-[ext_resource type="Script" path="res://actors/bob/states/Crouch.cs" id="7_xo07j"]
-[ext_resource type="Script" path="res://actors/bob/states/MeleeAttack.cs" id="8_d0ufk"]
-[ext_resource type="Script" path="res://actors/bob/states/GrabLedge.cs" id="9_wdx8f"]
-[ext_resource type="Script" path="res://actors/bob/states/Slide.cs" id="10_a3btt"]
-[ext_resource type="Script" path="res://actors/bob/states/Run.cs" id="11_dt774"]
-[ext_resource type="Script" path="res://actors/bob/states/LookUp.cs" id="12_hc5et"]
-[ext_resource type="Script" path="res://actors/bob/states/Vault.cs" id="13_uvy4r"]
-[ext_resource type="Script" path="res://actors/bob/states/Growl.cs" id="14_d5l05"]
-[ext_resource type="Script" path="res://actors/bob/states/Die.cs" id="15_y1eo6"]
-[ext_resource type="Script" path="res://actors/bob/states/TakeDamage.cs" id="16_wmpwn"]
-[ext_resource type="Script" path="res://actors/bob/AudioPlayer.cs" id="17_f8edp"]
-[ext_resource type="Script" path="res://actors/bob/states/Crawl.cs" id="17_gvyub"]
-[ext_resource type="Script" path="res://actors/bob/aim/Aim.cs" id="18_yejaj"]
-[ext_resource type="Script" path="res://actors/bob/aim/MouseAim.cs" id="19_7ag4d"]
-[ext_resource type="Script" path="res://actors/bob/aim/ButtonAim.cs" id="20_hwj2m"]
-[ext_resource type="Script" path="res://actors/bob/aim/StickAim.cs" id="21_nbxtm"]
-[ext_resource type="Script" path="res://actors/bob/CameraAnchor.cs" id="22_204s2"]
-[ext_resource type="Shader" path="res://actors/bob/iframes.gdshader" id="23_y6cki"]
-[ext_resource type="Texture2D" uid="uid://df2a87s4cukqq" path="res://actors/bob/sprite_sheet/epilogue_bob-Sheet.png" id="24_5goyb"]
-[ext_resource type="Script" path="res://actors/bob/FootstepFxManager.cs" id="25_1caj2"]
-[ext_resource type="Script" path="res://nodes/AttackHitBox.cs" id="26_llvhi"]
-[ext_resource type="Script" path="res://actors/bob/GunSystem.cs" id="27_nghh6"]
-[ext_resource type="Script" path="res://nodes/HurtBox.cs" id="28_jhlsc"]
+[ext_resource type="Script" path="res://nodes/Player.cs" id="1_m7s7x"]
+[ext_resource type="Script" path="res://nodes/StateMachine.cs" id="2_fnmj4"]
+[ext_resource type="Script" path="res://actors/bob/states/Walk.cs" id="3_1syfh"]
+[ext_resource type="Script" path="res://actors/bob/states/Jump.cs" id="4_b6hgc"]
+[ext_resource type="Script" path="res://actors/bob/states/Idle.cs" id="5_hrbv4"]
+[ext_resource type="Script" path="res://actors/bob/states/Fall.cs" id="6_ohy4m"]
+[ext_resource type="Script" path="res://actors/bob/states/Crouch.cs" id="7_xjdb7"]
+[ext_resource type="Script" path="res://actors/bob/states/MeleeAttack.cs" id="8_vs3fa"]
+[ext_resource type="Script" path="res://actors/bob/states/GrabLedge.cs" id="9_d6nsc"]
+[ext_resource type="Script" path="res://actors/bob/states/Slide.cs" id="10_ay2v8"]
+[ext_resource type="Script" path="res://actors/bob/states/Run.cs" id="11_gtdcx"]
+[ext_resource type="Script" path="res://actors/bob/states/LookUp.cs" id="12_xuhwu"]
+[ext_resource type="Script" path="res://actors/bob/states/Vault.cs" id="13_jdfmv"]
+[ext_resource type="Script" path="res://actors/bob/states/Growl.cs" id="14_bww8p"]
+[ext_resource type="Script" path="res://actors/bob/states/Die.cs" id="15_1tj36"]
+[ext_resource type="Script" path="res://actors/bob/states/TakeDamage.cs" id="16_j65ne"]
+[ext_resource type="Script" path="res://actors/bob/states/Crawl.cs" id="17_r1bk5"]
+[ext_resource type="Script" path="res://actors/bob/AudioPlayer.cs" id="18_x02kp"]
+[ext_resource type="Script" path="res://actors/bob/aim/Aim.cs" id="19_ipbj6"]
+[ext_resource type="Script" path="res://actors/bob/aim/MouseAim.cs" id="20_qw1ll"]
+[ext_resource type="Script" path="res://actors/bob/aim/ButtonAim.cs" id="21_qexlf"]
+[ext_resource type="Script" path="res://actors/bob/aim/StickAim.cs" id="22_oi6rp"]
+[ext_resource type="Script" path="res://actors/bob/CameraAnchor.cs" id="23_xlgkk"]
+[ext_resource type="Shader" path="res://actors/bob/iframes.gdshader" id="24_gly01"]
+[ext_resource type="Texture2D" uid="uid://df2a87s4cukqq" path="res://actors/bob/sprite_sheet/epilogue_bob-Sheet.png" id="25_kd4r6"]
+[ext_resource type="Script" path="res://actors/bob/FootstepFxManager.cs" id="26_h2d66"]
+[ext_resource type="Script" path="res://nodes/AttackHitBox.cs" id="27_07xbh"]
+[ext_resource type="Script" path="res://actors/bob/GunSystem.cs" id="28_rm1vu"]
+[ext_resource type="Script" path="res://nodes/HurtBox.cs" id="29_jiae6"]
 
 [sub_resource type="Animation" id="Animation_1kqj8"]
 length = 0.001
@@ -115,6 +115,23 @@ tracks/6/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(5, 13)]
+}
+
+[sub_resource type="Animation" id="Animation_woke4"]
+resource_name = "crawl"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 22), Vector2i(1, 22), Vector2i(2, 22), Vector2i(3, 22), Vector2i(4, 22), Vector2i(5, 22)]
 }
 
 [sub_resource type="Animation" id="Animation_tuj5i"]
@@ -500,23 +517,6 @@ tracks/3/keys = {
 "values": [Vector2(9, 0), Vector2(0, 0), Vector2(-12, 0), Vector2(0, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_woke4"]
-resource_name = "crawl"
-length = 0.5
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [Vector2i(0, 22), Vector2i(1, 22), Vector2i(2, 22), Vector2i(3, 22), Vector2i(4, 22), Vector2i(5, 22)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hko5d"]
 _data = {
 "RESET": SubResource("Animation_1kqj8"),
@@ -562,6 +562,66 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, -28)]
+}
+
+[sub_resource type="Animation" id="Animation_6bxxv"]
+resource_name = "glory_kill_fast"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../AudioStreamPlayer2D")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["Melee"],
+"method": &"PlaySfx"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_earni"]
+resource_name = "glory_kill_slow"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 3), Vector2i(1, 3), Vector2i(2, 3), Vector2i(3, 3), Vector2i(4, 3), Vector2i(5, 3), Vector2i(6, 3), Vector2i(7, 3)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../AudioStreamPlayer2D")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["GloryKill"],
+"method": &"PlaySfx"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_2kxuw"]
@@ -639,66 +699,6 @@ tracks/0/keys = {
 "values": [Vector2i(0, 21)]
 }
 
-[sub_resource type="Animation" id="Animation_6bxxv"]
-resource_name = "glory_kill_fast"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [Vector2i(0, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5)]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../../AudioStreamPlayer2D")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.2),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": ["Melee"],
-"method": &"PlaySfx"
-}]
-}
-
-[sub_resource type="Animation" id="Animation_earni"]
-resource_name = "glory_kill_slow"
-length = 0.8
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [Vector2i(0, 3), Vector2i(1, 3), Vector2i(2, 3), Vector2i(3, 3), Vector2i(4, 3), Vector2i(5, 3), Vector2i(6, 3), Vector2i(7, 3)]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../../AudioStreamPlayer2D")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.4),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": ["GloryKill"],
-"method": &"PlaySfx"
-}]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ty2th"]
 _data = {
 "die": SubResource("Animation_2sw5o"),
@@ -764,7 +764,7 @@ _data = {
 }
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yy212"]
-shader = ExtResource("23_y6cki")
+shader = ExtResource("24_gly01")
 shader_parameter/iframeActive = false
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b5eh5"]
@@ -786,7 +786,7 @@ floor_snap_length = 5.0
 platform_on_leave = 2
 platform_floor_layers = 4294901768
 platform_wall_layers = 8
-script = ExtResource("1_ed2t8")
+script = ExtResource("1_m7s7x")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../FlipRoot/Sprite2D")
@@ -797,80 +797,80 @@ libraries = {
 }
 
 [node name="StateMachine" type="Node" parent="."]
-script = ExtResource("2_12hb1")
+script = ExtResource("2_fnmj4")
 
 [node name="Walk" type="Node" parent="StateMachine"]
-script = ExtResource("3_wccgt")
+script = ExtResource("3_1syfh")
 
 [node name="Jump" type="Node" parent="StateMachine"]
-script = ExtResource("4_wik3q")
+script = ExtResource("4_b6hgc")
 _jumpSpeed = -365.0
 
 [node name="Idle" type="Node" parent="StateMachine"]
-script = ExtResource("5_4gngv")
+script = ExtResource("5_hrbv4")
 
 [node name="Fall" type="Node" parent="StateMachine"]
-script = ExtResource("6_pyhue")
+script = ExtResource("6_ohy4m")
 
 [node name="Crouch" type="Node" parent="StateMachine"]
-script = ExtResource("7_xo07j")
+script = ExtResource("7_xjdb7")
 _cameraMovementDistance = 75
 
 [node name="MeleeAttack" type="Node" parent="StateMachine"]
-script = ExtResource("8_d0ufk")
+script = ExtResource("8_vs3fa")
 
 [node name="GrabLedge" type="Node" parent="StateMachine"]
-script = ExtResource("9_wdx8f")
+script = ExtResource("9_d6nsc")
 
 [node name="Slide" type="Node" parent="StateMachine"]
-script = ExtResource("10_a3btt")
+script = ExtResource("10_ay2v8")
 
 [node name="Run" type="Node" parent="StateMachine"]
-script = ExtResource("11_dt774")
+script = ExtResource("11_gtdcx")
 
 [node name="LookUp" type="Node" parent="StateMachine"]
-script = ExtResource("12_hc5et")
+script = ExtResource("12_xuhwu")
 
 [node name="Vault" type="Node" parent="StateMachine"]
-script = ExtResource("13_uvy4r")
+script = ExtResource("13_jdfmv")
 
 [node name="Growl" type="Node" parent="StateMachine"]
-script = ExtResource("14_d5l05")
+script = ExtResource("14_bww8p")
 
 [node name="Die" type="Node" parent="StateMachine"]
-script = ExtResource("15_y1eo6")
+script = ExtResource("15_1tj36")
 
 [node name="TakeDamage" type="Node" parent="StateMachine"]
-script = ExtResource("16_wmpwn")
+script = ExtResource("16_j65ne")
 
 [node name="Crawl" type="Node" parent="StateMachine"]
-script = ExtResource("17_gvyub")
+script = ExtResource("17_r1bk5")
 _crawlSpeed = 50.0
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-script = ExtResource("17_f8edp")
+script = ExtResource("18_x02kp")
 
 [node name="Aim" type="Node" parent="." groups=["InputType"]]
 editor_description = "Base Node to control the aiming system, regardless of the input method"
-script = ExtResource("18_yejaj")
+script = ExtResource("19_ipbj6")
 
 [node name="MouseAim" type="Node" parent="Aim"]
 editor_description = "Node to control aiming with a mouse"
-script = ExtResource("19_7ag4d")
+script = ExtResource("20_qw1ll")
 
 [node name="ButtonAim" type="Node" parent="Aim"]
 editor_description = "Node to control aiming with buttons (either from a keyboard or from a controller)"
-script = ExtResource("20_hwj2m")
+script = ExtResource("21_qexlf")
 
 [node name="StickAim" type="Node" parent="Aim"]
 editor_description = "Node to control aiming with an analog stick"
-script = ExtResource("21_nbxtm")
+script = ExtResource("22_oi6rp")
 
 [node name="CameraAnchor" type="Node2D" parent="."]
 editor_description = "Node that serves as the anchor for the Camera. Moving this Node also moves the Camera"
 top_level = true
 position = Vector2(18, -18)
-script = ExtResource("22_204s2")
+script = ExtResource("23_xlgkk")
 
 [node name="FlipRoot" type="Node2D" parent="."]
 
@@ -901,7 +901,7 @@ collision_mask = 8
 [node name="Sprite2D" type="Sprite2D" parent="FlipRoot" groups=["MainSprite"]]
 material = SubResource("ShaderMaterial_yy212")
 position = Vector2(0, -30)
-texture = ExtResource("24_5goyb")
+texture = ExtResource("25_kd4r6")
 hframes = 11
 vframes = 23
 frame = 22
@@ -911,7 +911,7 @@ editor_description = "Node used by the Ledge Grab State to move the character to
 position = Vector2(5, 13)
 
 [node name="FootstepFx" type="Node" parent="FlipRoot"]
-script = ExtResource("25_1caj2")
+script = ExtResource("26_h2d66")
 
 [node name="LeftFoot" type="Node2D" parent="FlipRoot/FootstepFx"]
 position = Vector2(-12, 0)
@@ -923,7 +923,7 @@ position = Vector2(-21, 0)
 position = Vector2(18, -34)
 collision_layer = 16
 collision_mask = 32
-script = ExtResource("26_llvhi")
+script = ExtResource("27_07xbh")
 HitBoxDamage = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["MainHitbox"]]
@@ -931,7 +931,7 @@ position = Vector2(0, -22)
 shape = SubResource("CapsuleShape2D_b5eh5")
 
 [node name="GunSystem" type="Node2D" parent="."]
-script = ExtResource("27_nghh6")
+script = ExtResource("28_rm1vu")
 
 [node name="PickupRange" type="Area2D" parent="GunSystem"]
 editor_description = "Area used by the game to detect when a gun is in range to be picked up"
@@ -952,7 +952,7 @@ position = Vector2(18, -1)
 [node name="HurtBox" type="Area2D" parent="."]
 collision_layer = 32
 collision_mask = 16
-script = ExtResource("28_jhlsc")
+script = ExtResource("29_jiae6")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="HurtBox"]
 visibility_layer = 2

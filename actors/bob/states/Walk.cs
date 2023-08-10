@@ -1,4 +1,5 @@
 using Epilogue.global.enums;
+using Epilogue.global.singletons;
 using Epilogue.nodes;
 using Godot;
 
@@ -9,6 +10,8 @@ namespace Epilogue.actors.hestmor.states;
 public partial class Walk : PlayerState
 {
 	[Export] private float _walkSpeed = 100f;
+
+	private bool _canUseAnalogControls;
 
 	internal override void OnInput(InputEvent @event)
 	{
@@ -28,6 +31,8 @@ public partial class Walk : PlayerState
 		{
 			StateMachine.ChangeState("MeleeAttack");
 		}
+
+		_canUseAnalogControls = Settings.ControlScheme == ControlSchemeEnum.Modern;
 	}
 
 	internal override void OnEnter()
@@ -41,9 +46,8 @@ public partial class Walk : PlayerState
 	{
 		var movementDirection = Input.GetAxis(MoveLeftDigitalInput, MoveRightDigitalInput);
 
-		if(movementDirection == 0f)
+		if(movementDirection == 0f && _canUseAnalogControls)
 		{
-			// KNOWN: 68 - The analog movement works even in Retro Mode
 			movementDirection = Input.GetAxis(MoveLeftAnalogInput, MoveRightAnalogInput);
 		}
 
@@ -65,6 +69,9 @@ public partial class Walk : PlayerState
 
 		Player.MoveAndSlideWithRotation();
 
+		var floorNormal = Player.GetFloorNormal();
+		var goingDownSlope = (movementDirection < 0 && floorNormal.X < 0) || (movementDirection > 0 && floorNormal.X > 0);
+
 		if(movementDirection == 0f || Player.IsOnWall())
 		{
 			StateMachine.ChangeState("Idle");
@@ -77,7 +84,7 @@ public partial class Walk : PlayerState
 		{
 			StateMachine.ChangeState("Run");
 		}
-		else if(Player.RotationDegrees >= 40f)
+		else if(Player.RotationDegrees >= 40f && !goingDownSlope)
 		{
 			StateMachine.ChangeState("Crawl");
 		}
