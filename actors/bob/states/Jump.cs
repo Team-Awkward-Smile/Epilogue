@@ -1,3 +1,4 @@
+using Epilogue.global.singletons;
 using Epilogue.nodes;
 using Godot;
 
@@ -7,6 +8,14 @@ public partial class Jump : PlayerState
 	[Export] private float _jumpSpeed = -400f;
 
 	private float _horizontalVelocity;
+	private Achievements _achievements;
+
+	public override void _Ready()
+	{
+		base._Ready();
+
+		_achievements = GetNode<Achievements>("/root/Achievements");
+	}
 
 	private void StartJump(StringName animName)
 	{
@@ -25,6 +34,8 @@ public partial class Jump : PlayerState
 
 		AnimPlayer.Play("jump");
 		AnimPlayer.AnimationFinished += StartJump;
+
+		_achievements.JumpCount++;
 	}
 
 	public override void PhysicsUpdate(double delta)

@@ -23,6 +23,7 @@ buses/default_bus_layout=""
 
 Settings="*res://global/singletons/Settings.cs"
 InputDeviceManager="*res://global/singletons/InputDeviceManager.cs"
+Achievements="*res://global/singletons/Achievements.cs"
 
 [debug]
 
@@ -46,6 +47,10 @@ enabled=PackedStringArray("res://addons/navigationtilemap/plugin.cfg")
 
 import/blender/enabled=false
 import/fbx/enabled=false
+
+[general]
+
+achievments=0
 
 [global]
 
