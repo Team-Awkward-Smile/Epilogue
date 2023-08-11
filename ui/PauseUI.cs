@@ -21,6 +21,7 @@ public partial class PauseUI : Control
 	{
 		GetNode<Slider>("VBoxContainer/HSlider2").CallDeferred("grab_focus");
 		GetNode<Button>("VBoxContainer/CloseButton").Pressed += Unpause;
+		GetNode<Button>("VBoxContainer/QuitButton").Pressed += () => GetTree().Quit();
 	}
 
 	private void Unpause()

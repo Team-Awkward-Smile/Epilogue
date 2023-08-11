@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bv14n54nl5fpi"]
 
-[ext_resource type="Script" path="res://ui/PauseUI.cs" id="1_uwq5c"]
+[ext_resource type="Script" path="res://ui/PauseUI.cs" id="1_173uc"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_g8cdf"]
 size = Vector2(10, 10)
@@ -19,7 +19,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_uwq5c")
+script = ExtResource("1_173uc")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -68,3 +68,10 @@ focus_neighbor_top = NodePath("../HSlider3")
 focus_next = NodePath("../HSlider2")
 focus_previous = NodePath("../HSlider3")
 text = "Close"
+
+[node name="QuitButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../HSlider3")
+focus_next = NodePath("../HSlider2")
+focus_previous = NodePath("../HSlider3")
+text = "Quit"

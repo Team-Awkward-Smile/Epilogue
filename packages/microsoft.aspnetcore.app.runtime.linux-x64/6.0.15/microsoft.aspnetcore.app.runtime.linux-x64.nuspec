@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.AspNetCore.App.Runtime.linux-x64</id>
+    <version>6.0.15</version>
+    <authors>Microsoft</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <icon>Icon.png</icon>
+    <projectUrl>https://asp.net/</projectUrl>
+    <description>Provides a default set of APIs for building an ASP.NET Core application. Contains assets used for self-contained deployments.
+
+This package is an internal implementation of the .NET Core SDK and is not meant to be used as a normal PackageReference.
+    
+
+This package was built from the source code at https://github.com/dotnet/aspnetcore/tree/6a6d775f49623bbd742c02f89d373630668547bb</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>aspnetcore shared-framework</tags>
+    <serviceable>true</serviceable>
+    <packageTypes>
+      <packageType name="DotnetPlatform" />
+    </packageTypes>
+    <repository type="git" url="https://github.com/dotnet/aspnetcore" commit="6a6d775f49623bbd742c02f89d373630668547bb" />
+  </metadata>
+</package>
