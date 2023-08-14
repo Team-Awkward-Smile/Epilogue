@@ -1,0 +1,115 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3fpxyxkl46k6"]
+
+[ext_resource type="Script" path="res://ui/RemapControls.cs" id="1_uhvpn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mee3d"]
+bg_color = Color(0.788235, 0.54902, 0.0705882, 1)
+corner_detail = 20
+
+[node name="RemapControls" type="Control"]
+process_mode = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_uhvpn")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="TabContainer" type="TabContainer" parent="ScrollContainer"]
+layout_mode = 2
+clip_tabs = false
+
+[node name="Modern" type="GridContainer" parent="ScrollContainer/TabContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 25
+theme_override_constants/v_separation = 20
+columns = 3
+
+[node name="ACTION" type="Label" parent="ScrollContainer/TabContainer/Modern"]
+layout_mode = 2
+text = "ACTION"
+horizontal_alignment = 1
+
+[node name="PRIMARY" type="Label" parent="ScrollContainer/TabContainer/Modern"]
+layout_mode = 2
+text = "PRIMARY"
+horizontal_alignment = 1
+
+[node name="SECONDARY" type="Label" parent="ScrollContainer/TabContainer/Modern"]
+layout_mode = 2
+text = "SECONDARY"
+horizontal_alignment = 1
+
+[node name="Retro" type="GridContainer" parent="ScrollContainer/TabContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/h_separation = 25
+theme_override_constants/v_separation = 20
+columns = 3
+
+[node name="ACTION" type="Label" parent="ScrollContainer/TabContainer/Retro"]
+layout_mode = 2
+text = "ACTION"
+horizontal_alignment = 1
+
+[node name="PRIMARY" type="Label" parent="ScrollContainer/TabContainer/Retro"]
+layout_mode = 2
+text = "PRIMARY"
+horizontal_alignment = 1
+
+[node name="SECONDARY" type="Label" parent="ScrollContainer/TabContainer/Retro"]
+layout_mode = 2
+text = "SECONDARY"
+horizontal_alignment = 1
+
+[node name="PopupPanel" type="PopupPanel" parent="."]
+unique_name_in_owner = true
+handle_input_locally = false
+initial_position = 1
+size = Vector2i(269, 100)
+mouse_passthrough = true
+theme_override_styles/panel = SubResource("StyleBoxFlat_mee3d")
+
+[node name="Label" type="Label" parent="PopupPanel"]
+offset_right = 269.0
+offset_bottom = 100.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -30.5
+offset_top = -31.0
+offset_right = 30.5
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 435
+
+[node name="Return" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Return"
+
+[node name="Default" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Reset to Default
+"
