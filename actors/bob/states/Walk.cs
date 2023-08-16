@@ -53,6 +53,8 @@ public partial class Walk : PlayerState
 
 		if(movementDirection != 0f)
 		{
+			movementDirection = movementDirection > 0 ? 1 : -1;
+
 			var velocity = Player.Velocity;
 
 			velocity.Y += Gravity * (float) delta;

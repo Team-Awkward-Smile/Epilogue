@@ -1,30 +1,30 @@
 [gd_scene load_steps=25 format=3 uid="uid://cn2lbtkt6ntnt"]
 
-[ext_resource type="Script" path="res://nodes/Level.cs" id="1_epx8n"]
-[ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_jd7hy"]
-[ext_resource type="Texture2D" uid="uid://dtit4hbwjn673" path="res://temp/ground_3.png" id="3_o8tys"]
-[ext_resource type="Texture2D" uid="uid://bfiq0j0jyexqd" path="res://temp/ground_2.png" id="4_rc5ys"]
-[ext_resource type="Texture2D" uid="uid://d3w3kkhlni18i" path="res://temp/ground_1.png" id="5_a8tpx"]
-[ext_resource type="Script" path="res://props/camera/Camera.cs" id="6_28ub8"]
-[ext_resource type="PackedScene" uid="uid://cmrbm1u6fwi67" path="res://actors/bob/bob.tscn" id="7_v7oft"]
-[ext_resource type="Script" path="res://nodes/KonamiCode.cs" id="8_4nbt2"]
-[ext_resource type="PackedScene" uid="uid://dulc4vm30o030" path="res://temp/handgun.tscn" id="9_8cjmg"]
-[ext_resource type="PackedScene" uid="uid://di5pn4kqpf3t7" path="res://temp/shotgun.tscn" id="10_qkxws"]
-[ext_resource type="PackedScene" uid="uid://dkxb60ljnimb7" path="res://temp/flamethrower.tscn" id="11_v4d1j"]
-[ext_resource type="PackedScene" uid="uid://8sw5jwntdfl1" path="res://temp/minigun.tscn" id="12_lddmc"]
-[ext_resource type="Texture2D" uid="uid://dv8i8cyrioyus" path="res://temp/spikes.png" id="13_prv1s"]
-[ext_resource type="Script" path="res://nodes/HitBox.cs" id="14_wp3jj"]
-[ext_resource type="Texture2D" uid="uid://ce28v6b0ipo0k" path="res://temp/tile_small.png" id="15_oobjc"]
-[ext_resource type="Texture2D" uid="uid://k4r63nlwrd0g" path="res://temp/slope_45.png" id="16_21klm"]
-[ext_resource type="Texture2D" uid="uid://jw7jobgsk5uu" path="res://temp/slope_small.png" id="17_hmh8o"]
-[ext_resource type="Texture2D" uid="uid://d0tb3r6vpuxr6" path="res://temp/slope_steep.png" id="18_84dxd"]
+[ext_resource type="Script" path="res://nodes/Level.cs" id="1_4tqkj"]
+[ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_h31r3"]
+[ext_resource type="Texture2D" uid="uid://dtit4hbwjn673" path="res://temp/ground_3.png" id="3_505tp"]
+[ext_resource type="Texture2D" uid="uid://bfiq0j0jyexqd" path="res://temp/ground_2.png" id="4_5stc3"]
+[ext_resource type="Texture2D" uid="uid://d3w3kkhlni18i" path="res://temp/ground_1.png" id="5_8mqfc"]
+[ext_resource type="Script" path="res://props/camera/Camera.cs" id="6_c4ead"]
+[ext_resource type="PackedScene" uid="uid://cmrbm1u6fwi67" path="res://actors/bob/bob.tscn" id="7_m8nrj"]
+[ext_resource type="Script" path="res://nodes/KonamiCode.cs" id="8_tjp1p"]
+[ext_resource type="PackedScene" uid="uid://dulc4vm30o030" path="res://temp/handgun.tscn" id="9_dluke"]
+[ext_resource type="PackedScene" uid="uid://di5pn4kqpf3t7" path="res://temp/shotgun.tscn" id="10_3nge2"]
+[ext_resource type="PackedScene" uid="uid://dkxb60ljnimb7" path="res://temp/flamethrower.tscn" id="11_jjj1e"]
+[ext_resource type="PackedScene" uid="uid://8sw5jwntdfl1" path="res://temp/minigun.tscn" id="12_yer55"]
+[ext_resource type="Texture2D" uid="uid://dv8i8cyrioyus" path="res://temp/spikes.png" id="13_fak5i"]
+[ext_resource type="Script" path="res://nodes/HitBox.cs" id="14_2r7xq"]
+[ext_resource type="Texture2D" uid="uid://ce28v6b0ipo0k" path="res://temp/tile_small.png" id="15_jdhx7"]
+[ext_resource type="Texture2D" uid="uid://k4r63nlwrd0g" path="res://temp/slope_45.png" id="16_pih8y"]
+[ext_resource type="Texture2D" uid="uid://jw7jobgsk5uu" path="res://temp/slope_small.png" id="17_0acdf"]
+[ext_resource type="Texture2D" uid="uid://d0tb3r6vpuxr6" path="res://temp/slope_steep.png" id="18_my53c"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nkpyu"]
 radius = 13.0
 height = 42.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bicm4"]
-texture = ExtResource("15_oobjc")
+texture = ExtResource("15_jdhx7")
 texture_region_size = Vector2i(18, 18)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -32,7 +32,7 @@ texture_region_size = Vector2i(18, 18)
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-9, -9, -9, 9, 9, 9, 9, -9)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tarpj"]
-texture = ExtResource("16_21klm")
+texture = ExtResource("16_pih8y")
 texture_region_size = Vector2i(18, 18)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -40,7 +40,7 @@ texture_region_size = Vector2i(18, 18)
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-9, -9, -9, 9, 9, 9)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yknkh"]
-texture = ExtResource("17_hmh8o")
+texture = ExtResource("17_0acdf")
 texture_region_size = Vector2i(36, 18)
 0:0/0 = 0
 0:0/0/texture_origin = Vector2i(-9, 0)
@@ -49,7 +49,7 @@ texture_region_size = Vector2i(36, 18)
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-9, -9, -9, 9, 27, 9)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wnspm"]
-texture = ExtResource("18_84dxd")
+texture = ExtResource("18_my53c")
 texture_region_size = Vector2i(18, 36)
 0:0/0 = 0
 0:0/0/texture_origin = Vector2i(0, -9)
@@ -67,10 +67,10 @@ sources/2 = SubResource("TileSetAtlasSource_yknkh")
 sources/3 = SubResource("TileSetAtlasSource_wnspm")
 
 [node name="Root" type="Node2D"]
-script = ExtResource("1_epx8n")
+script = ExtResource("1_4tqkj")
 
 [node name="DebugInfo" type="CanvasLayer" parent="."]
-script = ExtResource("2_jd7hy")
+script = ExtResource("2_h31r3")
 _branchName = false
 
 [node name="HBoxContainer" type="HBoxContainer" parent="DebugInfo"]
@@ -94,33 +94,33 @@ motion_scale = Vector2(1.2, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3"]
 position = Vector2(437, -97)
-texture = ExtResource("3_o8tys")
+texture = ExtResource("3_505tp")
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2(1.15, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
 position = Vector2(437, -78)
-texture = ExtResource("4_rc5ys")
+texture = ExtResource("4_5stc3")
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2(1.1, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
 position = Vector2(418, -108)
-texture = ExtResource("5_a8tpx")
+texture = ExtResource("5_8mqfc")
 
 [node name="Camera2D" type="Camera2D" parent="ParallaxBackground"]
 zoom = Vector2(3, 3)
-script = ExtResource("6_28ub8")
+script = ExtResource("6_c4ead")
 
-[node name="Bob" parent="." instance=ExtResource("7_v7oft")]
+[node name="Bob" parent="." instance=ExtResource("7_m8nrj")]
 position = Vector2(374, -173)
 MaxHealth = 3.0
 CurrentHealth = 3.0
 
 [node name="KonamiCode" type="Node" parent="."]
-script = ExtResource("8_4nbt2")
+script = ExtResource("8_tjp1p")
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 
@@ -149,16 +149,16 @@ text = "No assets used in this version are final.
 Features present in this version are being tested and may change or be removed before release"
 horizontal_alignment = 2
 
-[node name="Handgun" parent="." instance=ExtResource("9_8cjmg")]
+[node name="Handgun" parent="." instance=ExtResource("9_dluke")]
 position = Vector2(476, -139)
 
-[node name="Shotgun" parent="." instance=ExtResource("10_qkxws")]
+[node name="Shotgun" parent="." instance=ExtResource("10_3nge2")]
 position = Vector2(166, -155)
 
-[node name="Flamethrower" parent="." instance=ExtResource("11_v4d1j")]
+[node name="Flamethrower" parent="." instance=ExtResource("11_jjj1e")]
 position = Vector2(700, -86)
 
-[node name="Minigun" parent="." instance=ExtResource("12_lddmc")]
+[node name="Minigun" parent="." instance=ExtResource("12_yer55")]
 position = Vector2(427.5, -84.5)
 
 [node name="Spikes" type="Node2D" parent="."]
@@ -166,12 +166,12 @@ position = Vector2(105, -64)
 
 [node name="Sprite2D" type="Sprite2D" parent="Spikes"]
 scale = Vector2(0.05, 0.05)
-texture = ExtResource("13_prv1s")
+texture = ExtResource("13_fak5i")
 
 [node name="HitBox" type="Area2D" parent="Spikes"]
 collision_layer = 16
 collision_mask = 32
-script = ExtResource("14_wp3jj")
+script = ExtResource("14_2r7xq")
 Damage = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Spikes/HitBox"]
