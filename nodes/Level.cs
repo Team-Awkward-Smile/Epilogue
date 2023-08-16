@@ -1,13 +1,17 @@
+using Epilogue.global.enums;
 using Epilogue.global.singletons;
+using Epilogue.props.camera;
 using Epilogue.ui;
 using Godot;
+
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Epilogue.nodes;
 /// <summary>
 ///		Base Node for every level in the game (UIs are not Levels, keep that in mind)
 /// </summary>
-[GlobalClass, Icon("res://nodes/icons/level.png")]
+[GlobalClass, Icon("res://nodes/icons/level.png"), Tool]
 public partial class Level : Node2D
 {
 	private PauseUI _pauseUI;
@@ -16,15 +20,43 @@ public partial class Level : Node2D
 	private GloryKillPrompt _killPrompt;
 	private TileMap _tileMap;
 	private PlayerEvents _playerEvents;
+	private List<Checkpoint> _checkpoints = new();
+	private Player _player;
+	private Camera _camera;
+	private CheckpointManager _checkpointManager;
 
 	/// <inheritdoc/>
-    public override void _Input(InputEvent @event)
+	public override string[] _GetConfigurationWarnings()
+	{
+		var warnings = new List<string>();
+
+		var checkpoints = GetNodeOrNull("Checkpoints");
+
+		if(checkpoints is null || checkpoints.GetChildCount() == 0)
+		{
+			warnings.Add("This Level has no Checkpoints set.\nTo set a Checkpoint, add a Node2D called 'Checkpoints' as a child of this Level, and add the Checkpoints as children of it");
+		}
+		else if(!checkpoints.GetChildren().OfType<Checkpoint>().Where(c => c.FirstCheckpoint).Any())
+		{
+			warnings.Add("This Level has no default Checkpoint set.\nThe first Checkpoint found will be used");
+		}
+		else if(checkpoints.GetChildren().OfType<Checkpoint>().Where(c => c.FirstCheckpoint).Count() > 1)
+		{
+			var firstCheckpoints = (checkpoints.GetChildren().OfType<Checkpoint>().Where(c => c.FirstCheckpoint));
+			warnings.Add($"This Level has {firstCheckpoints.Count()} Checkpoint set as the First ({string.Join(", ", firstCheckpoints.Select(c => c.Name))}).\nOnly 1 Checkpoint should be set as the First");
+		}
+
+		return warnings.ToArray();
+	}
+
+	/// <inheritdoc/>
+	public override void _Input(InputEvent @event)
 	{
 		if(@event.IsAction("pause_game") && @event.IsPressed())
 		{
 			_pauseUI.Show();
-			GetTree().Paused =  true;
 
+			GetTree().Paused =  true;
 			GetViewport().SetInputAsHandled();
 		}
 		else if(@event.IsAction("console") && @event.IsPressed())
@@ -36,6 +68,11 @@ public partial class Level : Node2D
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
+		if(Engine.IsEditorHint())
+		{
+			return;
+		}
+
 		// TODO: 68 - Add them all to a List and Instantiate them all at once
 		_pauseUI = GD.Load<PackedScene>("res://ui/pause_ui.tscn").Instantiate() as PauseUI;
 		_console = GD.Load<PackedScene>("res://ui/console.tscn").Instantiate() as Window;
@@ -43,12 +80,11 @@ public partial class Level : Node2D
 		_ammoUI = GD.Load<PackedScene>("res://ui/ammo_ui.tscn").Instantiate() as AmmoUI;
 
 		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
+		_checkpointManager = GetNode<CheckpointManager>("/root/CheckpointManager");
 
-		// TODO: 68 - Create a proper method to reload the scene and spawn the player at the correct checkpoint
-		_playerEvents.PlayerDied += () =>
-		{
-			GetTree().ReloadCurrentScene();
-		};
+		_playerEvents.PlayerDied += RespawnPlayer;
+		_playerEvents.StateAwaitingForExecutionSpeed += () => _killPrompt.Enable();
+		_tileMap = GetChildren().OfType<TileMap>().FirstOrDefault();
 
 		// TODO: 68 - Maybe the root CanvasLayer should also be created at run-time?
 		var uiLayer = GetNode<CanvasLayer>("UILayer");
@@ -66,9 +102,80 @@ public partial class Level : Node2D
 
 		ProcessMode = ProcessModeEnum.Pausable;
 
-		GetNode<PlayerEvents>("/root/PlayerEvents").StateAwaitingForExecutionSpeed += () => _killPrompt.Enable();
+		var checkpointParent = GetNodeOrNull("Checkpoints");
 
-		_tileMap = GetChildren().OfType<TileMap>().FirstOrDefault();
+		if(checkpointParent is not null)
+		{
+			var i = 0;
+
+			// Setting every Checkpoint present in the Level
+			foreach(var checkpoint in checkpointParent.GetChildren().OfType<Checkpoint>())
+			{
+				_checkpoints.Add(checkpoint);
+
+				checkpoint.CheckpointTriggered += () => SetNewCheckpoint(checkpoint);
+				checkpoint.ID = i++;
+
+				// Marking the Checkpoint as Used if the player already touched it
+				if(_checkpointManager.UsedCheckpointsIDs.Contains(checkpoint.ID))
+				{
+					checkpoint.Monitoring = false;
+					checkpoint.SetCheckpointState(CheckpointState.Used);
+				}
+			}
+
+			// Setting the current Checkpoint from the CheckpointManager singleton
+			if(_checkpointManager.CurrentCheckpointID is not null)
+			{
+				_checkpoints.Where(c => c.ID == _checkpointManager.CurrentCheckpointID).First().Current = true;
+			}
+			else if(_checkpoints.Count > 0)
+			{
+				// If the singleton has no current Checkpoint, set the current one to the First
+				_checkpoints.Where(c => c.FirstCheckpoint).First().Current = true;
+				
+				if(!_checkpoints.Any(c => c.Current))
+				{
+					_checkpoints.First().Current = true;
+				}
+			}
+		}
+
+		_camera = GetViewport().GetCamera2D() as Camera;
+		_player = GD.Load<PackedScene>("res://actors/bob/bob.tscn").Instantiate() as Player;
+
+		AddChild(_player);
+
+		_player.Position = _checkpoints.Where(c => c.Current).FirstOrDefault().Position;
+		_camera.Position = _player.Position;
+		_camera.SetCameraTarget(_player.GetNode<Node2D>("CameraAnchor"));
+	}
+
+	private void RespawnPlayer()
+	{
+		_playerEvents.PlayerDied -= RespawnPlayer;
+		GetTree().ReloadCurrentScene();
+	}
+
+	/// <summary>
+	///		Sets the new current Checkpoint triggered by the player, deactivating the old one
+	/// </summary>
+	/// <param name="triggeredCheckpoint">New Checkpoint triggered</param>
+	private void SetNewCheckpoint(Checkpoint triggeredCheckpoint)
+	{
+		var oldCheckpoint = _checkpoints.Where(c => c.Current).First();
+
+		oldCheckpoint.SetCheckpointState(CheckpointState.Used);
+		oldCheckpoint.Current = false;
+
+		var newCheckpoint = _checkpoints.Where(c => c == triggeredCheckpoint).First();
+
+		newCheckpoint.Current = true;
+		newCheckpoint.SetDeferred("monitoring", false);
+		newCheckpoint.SetCheckpointState(CheckpointState.Current);
+
+		_checkpointManager.CurrentCheckpointID = newCheckpoint.ID;
+		_checkpointManager.UsedCheckpointsIDs.Add(oldCheckpoint.ID);
 	}
 
 	/// <summary>

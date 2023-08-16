@@ -1,30 +1,30 @@
 [gd_scene load_steps=25 format=3 uid="uid://cn2lbtkt6ntnt"]
 
-[ext_resource type="Script" path="res://nodes/Level.cs" id="1_4tqkj"]
-[ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_h31r3"]
-[ext_resource type="Texture2D" uid="uid://dtit4hbwjn673" path="res://temp/ground_3.png" id="3_505tp"]
-[ext_resource type="Texture2D" uid="uid://bfiq0j0jyexqd" path="res://temp/ground_2.png" id="4_5stc3"]
-[ext_resource type="Texture2D" uid="uid://d3w3kkhlni18i" path="res://temp/ground_1.png" id="5_8mqfc"]
-[ext_resource type="Script" path="res://props/camera/Camera.cs" id="6_c4ead"]
-[ext_resource type="PackedScene" uid="uid://cmrbm1u6fwi67" path="res://actors/bob/bob.tscn" id="7_m8nrj"]
-[ext_resource type="Script" path="res://nodes/KonamiCode.cs" id="8_tjp1p"]
-[ext_resource type="PackedScene" uid="uid://dulc4vm30o030" path="res://temp/handgun.tscn" id="9_dluke"]
-[ext_resource type="PackedScene" uid="uid://di5pn4kqpf3t7" path="res://temp/shotgun.tscn" id="10_3nge2"]
-[ext_resource type="PackedScene" uid="uid://dkxb60ljnimb7" path="res://temp/flamethrower.tscn" id="11_jjj1e"]
-[ext_resource type="PackedScene" uid="uid://8sw5jwntdfl1" path="res://temp/minigun.tscn" id="12_yer55"]
-[ext_resource type="Texture2D" uid="uid://dv8i8cyrioyus" path="res://temp/spikes.png" id="13_fak5i"]
-[ext_resource type="Script" path="res://nodes/HitBox.cs" id="14_2r7xq"]
-[ext_resource type="Texture2D" uid="uid://ce28v6b0ipo0k" path="res://temp/tile_small.png" id="15_jdhx7"]
-[ext_resource type="Texture2D" uid="uid://k4r63nlwrd0g" path="res://temp/slope_45.png" id="16_pih8y"]
-[ext_resource type="Texture2D" uid="uid://jw7jobgsk5uu" path="res://temp/slope_small.png" id="17_0acdf"]
-[ext_resource type="Texture2D" uid="uid://d0tb3r6vpuxr6" path="res://temp/slope_steep.png" id="18_my53c"]
+[ext_resource type="Script" path="res://nodes/Level.cs" id="1_xmean"]
+[ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_tbauw"]
+[ext_resource type="Texture2D" uid="uid://dtit4hbwjn673" path="res://temp/ground_3.png" id="3_jn13n"]
+[ext_resource type="Texture2D" uid="uid://bfiq0j0jyexqd" path="res://temp/ground_2.png" id="4_m2i8s"]
+[ext_resource type="Texture2D" uid="uid://d3w3kkhlni18i" path="res://temp/ground_1.png" id="5_qb1y1"]
+[ext_resource type="Script" path="res://props/camera/Camera.cs" id="6_7bws6"]
+[ext_resource type="Script" path="res://nodes/KonamiCode.cs" id="7_7vdhx"]
+[ext_resource type="PackedScene" uid="uid://dulc4vm30o030" path="res://temp/handgun.tscn" id="8_gmrk2"]
+[ext_resource type="PackedScene" uid="uid://di5pn4kqpf3t7" path="res://temp/shotgun.tscn" id="9_jhuwx"]
+[ext_resource type="PackedScene" uid="uid://dkxb60ljnimb7" path="res://temp/flamethrower.tscn" id="10_m86k1"]
+[ext_resource type="PackedScene" uid="uid://8sw5jwntdfl1" path="res://temp/minigun.tscn" id="11_cfm5o"]
+[ext_resource type="Texture2D" uid="uid://dv8i8cyrioyus" path="res://temp/spikes.png" id="12_njb7c"]
+[ext_resource type="Script" path="res://nodes/HitBox.cs" id="13_oje2b"]
+[ext_resource type="Texture2D" uid="uid://ce28v6b0ipo0k" path="res://temp/tile_small.png" id="14_rjvk4"]
+[ext_resource type="Texture2D" uid="uid://k4r63nlwrd0g" path="res://temp/slope_45.png" id="15_hanwi"]
+[ext_resource type="Texture2D" uid="uid://jw7jobgsk5uu" path="res://temp/slope_small.png" id="16_5xs0l"]
+[ext_resource type="Texture2D" uid="uid://d0tb3r6vpuxr6" path="res://temp/slope_steep.png" id="17_i0uau"]
+[ext_resource type="PackedScene" uid="uid://cegk1cph0llpn" path="res://props/checkpoint/checkpoint.tscn" id="18_35hdb"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nkpyu"]
 radius = 13.0
 height = 42.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bicm4"]
-texture = ExtResource("15_jdhx7")
+texture = ExtResource("14_rjvk4")
 texture_region_size = Vector2i(18, 18)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -32,7 +32,7 @@ texture_region_size = Vector2i(18, 18)
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-9, -9, -9, 9, 9, 9, 9, -9)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tarpj"]
-texture = ExtResource("16_pih8y")
+texture = ExtResource("15_hanwi")
 texture_region_size = Vector2i(18, 18)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -40,7 +40,7 @@ texture_region_size = Vector2i(18, 18)
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-9, -9, -9, 9, 9, 9)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yknkh"]
-texture = ExtResource("17_0acdf")
+texture = ExtResource("16_5xs0l")
 texture_region_size = Vector2i(36, 18)
 0:0/0 = 0
 0:0/0/texture_origin = Vector2i(-9, 0)
@@ -49,7 +49,7 @@ texture_region_size = Vector2i(36, 18)
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-9, -9, -9, 9, 27, 9)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wnspm"]
-texture = ExtResource("18_my53c")
+texture = ExtResource("17_i0uau")
 texture_region_size = Vector2i(18, 36)
 0:0/0 = 0
 0:0/0/texture_origin = Vector2i(0, -9)
@@ -67,10 +67,10 @@ sources/2 = SubResource("TileSetAtlasSource_yknkh")
 sources/3 = SubResource("TileSetAtlasSource_wnspm")
 
 [node name="Root" type="Node2D"]
-script = ExtResource("1_4tqkj")
+script = ExtResource("1_xmean")
 
 [node name="DebugInfo" type="CanvasLayer" parent="."]
-script = ExtResource("2_h31r3")
+script = ExtResource("2_tbauw")
 _branchName = false
 
 [node name="HBoxContainer" type="HBoxContainer" parent="DebugInfo"]
@@ -94,33 +94,28 @@ motion_scale = Vector2(1.2, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3"]
 position = Vector2(437, -97)
-texture = ExtResource("3_505tp")
+texture = ExtResource("3_jn13n")
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2(1.15, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
 position = Vector2(437, -78)
-texture = ExtResource("4_5stc3")
+texture = ExtResource("4_m2i8s")
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2(1.1, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
 position = Vector2(418, -108)
-texture = ExtResource("5_8mqfc")
+texture = ExtResource("5_qb1y1")
 
 [node name="Camera2D" type="Camera2D" parent="ParallaxBackground"]
 zoom = Vector2(3, 3)
-script = ExtResource("6_c4ead")
-
-[node name="Bob" parent="." instance=ExtResource("7_m8nrj")]
-position = Vector2(374, -173)
-MaxHealth = 3.0
-CurrentHealth = 3.0
+script = ExtResource("6_7bws6")
 
 [node name="KonamiCode" type="Node" parent="."]
-script = ExtResource("8_tjp1p")
+script = ExtResource("7_7vdhx")
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 
@@ -149,16 +144,16 @@ text = "No assets used in this version are final.
 Features present in this version are being tested and may change or be removed before release"
 horizontal_alignment = 2
 
-[node name="Handgun" parent="." instance=ExtResource("9_dluke")]
+[node name="Handgun" parent="." instance=ExtResource("8_gmrk2")]
 position = Vector2(476, -139)
 
-[node name="Shotgun" parent="." instance=ExtResource("10_3nge2")]
+[node name="Shotgun" parent="." instance=ExtResource("9_jhuwx")]
 position = Vector2(166, -155)
 
-[node name="Flamethrower" parent="." instance=ExtResource("11_jjj1e")]
+[node name="Flamethrower" parent="." instance=ExtResource("10_m86k1")]
 position = Vector2(700, -86)
 
-[node name="Minigun" parent="." instance=ExtResource("12_yer55")]
+[node name="Minigun" parent="." instance=ExtResource("11_cfm5o")]
 position = Vector2(427.5, -84.5)
 
 [node name="Spikes" type="Node2D" parent="."]
@@ -166,12 +161,12 @@ position = Vector2(105, -64)
 
 [node name="Sprite2D" type="Sprite2D" parent="Spikes"]
 scale = Vector2(0.05, 0.05)
-texture = ExtResource("13_fak5i")
+texture = ExtResource("12_njb7c")
 
 [node name="HitBox" type="Area2D" parent="Spikes"]
 collision_layer = 16
 collision_mask = 32
-script = ExtResource("14_2r7xq")
+script = ExtResource("13_oje2b")
 Damage = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Spikes/HitBox"]
@@ -184,4 +179,38 @@ debug_color = Color(0.933333, 0.219608, 0.333333, 0.419608)
 texture_filter = 1
 tile_set = SubResource("TileSet_m4uua")
 format = 2
-layer_0/tile_data = PackedInt32Array(-196596, 0, 0, -196595, 0, 0, -196594, 0, 0, -196593, 0, 0, -196592, 0, 0, -196591, 0, 0, -196590, 0, 0, -196589, 0, 0, -196588, 0, 0, -196587, 0, 0, -196586, 0, 0, -196585, 0, 0, -196584, 0, 0, -196583, 0, 0, -196582, 0, 0, -196581, 0, 0, -196580, 0, 0, -196579, 0, 0, -196578, 0, 0, -196577, 0, 0, -196576, 0, 0, -196575, 0, 0, -196574, 0, 0, -196573, 0, 0, -196572, 0, 0, -196571, 0, 0, -262117, 0, 0, -327652, 0, 0, -262116, 0, 0, -196597, 0, 0, -196598, 0, 0, -196599, 0, 0, -196600, 0, 0, -196601, 0, 0, -262137, 0, 0, -327673, 0, 0, -393209, 0, 0, -458745, 0, 0, -458746, 0, 0, -458747, 0, 0, -458748, 0, 0, -196570, 0, 0, -196569, 0, 0, -196568, 0, 0, -262102, 0, 0, -327638, 0, 0, -393174, 0, 0, -393173, 0, 0, -393172, 0, 0, -393171, 0, 0, -458715, 0, 0, -458716, 0, 0, -458717, 0, 0, -458718, 0, 0, -458719, 0, 0, -458720, 0, 0, -524256, 0, 0, -589792, 0, 0, -655328, 0, 0, -655327, 0, 0, -655326, 0, 0, -720862, 0, 0, -786398, 0, 0, -196567, 0, 0, -196566, 0, 0, -327651, 1, 0, -262114, 1, 0, -262115, 0, 0, -458744, 1, 0, -393207, 1, 0, -327670, 1, 0, -262133, 1, 0, -393208, 0, 0, -327672, 0, 0, -262136, 0, 0, -262135, 0, 0, -327671, 0, 0, -262134, 0, 0, -196602, 0, 0, -196603, 0, 0, -196604, 0, 0, -196605, 0, 0, -196606, 0, 0, -196607, 0, 0, -196608, 0, 0, -262144, 2, 0, -262146, 2, 0, -196610, 0, 0, -131074, 0, 0, -131073, 0, 0, -196609, 0, 0, -262149, 0, 0, -262148, 0, 0, -196612, 0, 0, -131076, 0, 0, -131077, 0, 0, -196613, 0, 0, -131075, 0, 0, -196611, 0, 0, -262147, 0, 0, -327683, 1, 0, -393220, 1, 0, -458757, 1, 0, -393221, 0, 0, -327685, 0, 0, -327684, 0, 0, -589830, 3, 0, -720903, 3, 0, -851976, 3, 0, -720904, 0, 0, -655368, 0, 0, -589832, 0, 0, -524296, 0, 0, -458760, 0, 0, -393224, 0, 0, -327688, 0, 0, -262152, 0, 0, -196616, 0, 0, -196615, 0, 0, -131079, 0, 0, -131080, 0, 0, -131078, 0, 0, -196614, 0, 0, -262150, 0, 0, -327686, 0, 0, -393222, 0, 0, -458758, 0, 0, -458759, 0, 0, -524295, 0, 0, -589831, 0, 0, -393223, 0, 0, -327687, 0, 0, -262151, 0, 0, -458707, 0, 0, -524243, 0, 0, -589779, 0, 0, -655315, 0, 0, -655316, 0, 0, -655317, 0, 0, -720853, 0, 0, -786389, 0, 0, -851925, 0, 0, -917461, 0, 0, -982997, 0, 0, -1048533, 0, 0, -1114069, 0, 0)
+layer_0/tile_data = PackedInt32Array(-196596, 0, 0, -196595, 0, 0, -196594, 0, 0, -196593, 0, 0, -196592, 0, 0, -196591, 0, 0, -196587, 0, 0, -196586, 0, 0, -196585, 0, 0, -196584, 0, 0, -196583, 0, 0, -196582, 0, 0, -196581, 0, 0, -196580, 0, 0, -196579, 0, 0, -196578, 0, 0, -196577, 0, 0, -196576, 0, 0, -196575, 0, 0, -196574, 0, 0, -196573, 0, 0, -196572, 0, 0, -196571, 0, 0, -262117, 0, 0, -327652, 0, 0, -262116, 0, 0, -196597, 0, 0, -196598, 0, 0, -196599, 0, 0, -196600, 0, 0, -196601, 0, 0, -262137, 0, 0, -327673, 0, 0, -393209, 0, 0, -458745, 0, 0, -458746, 0, 0, -458747, 0, 0, -458748, 0, 0, -196570, 0, 0, -196569, 0, 0, -196568, 0, 0, -262102, 0, 0, -327638, 0, 0, -393174, 0, 0, -393173, 0, 0, -393172, 0, 0, -393171, 0, 0, -458715, 0, 0, -458716, 0, 0, -458717, 0, 0, -458718, 0, 0, -458719, 0, 0, -458720, 0, 0, -524256, 0, 0, -589792, 0, 0, -655328, 0, 0, -655327, 0, 0, -655326, 0, 0, -720862, 0, 0, -786398, 0, 0, -196567, 0, 0, -196566, 0, 0, -327651, 1, 0, -262114, 1, 0, -262115, 0, 0, -458744, 1, 0, -393207, 1, 0, -327670, 1, 0, -262133, 1, 0, -393208, 0, 0, -327672, 0, 0, -262136, 0, 0, -262135, 0, 0, -327671, 0, 0, -262134, 0, 0, -196602, 0, 0, -196603, 0, 0, -196604, 0, 0, -196605, 0, 0, -196606, 0, 0, -196607, 0, 0, -196608, 0, 0, -262144, 2, 0, -262146, 2, 0, -196610, 0, 0, -131074, 0, 0, -131073, 0, 0, -196609, 0, 0, -262149, 0, 0, -262148, 0, 0, -196612, 0, 0, -131076, 0, 0, -131077, 0, 0, -196613, 0, 0, -131075, 0, 0, -196611, 0, 0, -262147, 0, 0, -327683, 1, 0, -393220, 1, 0, -458757, 1, 0, -393221, 0, 0, -327685, 0, 0, -327684, 0, 0, -589830, 3, 0, -720903, 3, 0, -851976, 3, 0, -720904, 0, 0, -655368, 0, 0, -589832, 0, 0, -524296, 0, 0, -458760, 0, 0, -393224, 0, 0, -327688, 0, 0, -262152, 0, 0, -196616, 0, 0, -196615, 0, 0, -131079, 0, 0, -131080, 0, 0, -131078, 0, 0, -196614, 0, 0, -262150, 0, 0, -327686, 0, 0, -393222, 0, 0, -458758, 0, 0, -458759, 0, 0, -524295, 0, 0, -589831, 0, 0, -393223, 0, 0, -327687, 0, 0, -262151, 0, 0, -458707, 0, 0, -524243, 0, 0, -589779, 0, 0, -655315, 0, 0, -655316, 0, 0, -655317, 0, 0, -720853, 0, 0, -786389, 0, 0, -851925, 0, 0, -917461, 0, 0, -982997, 0, 0, -1048533, 0, 0, -1114069, 0, 0, -131055, 0, 0, -131054, 0, 0, -131053, 0, 0, -131052, 0, 0, -131051, 0, 0)
+
+[node name="Checkpoints" type="Node2D" parent="."]
+
+[node name="Checkpoint" parent="Checkpoints" instance=ExtResource("18_35hdb")]
+position = Vector2(134, -136)
+
+[node name="Checkpoint2" parent="Checkpoints" instance=ExtResource("18_35hdb")]
+position = Vector2(766, -118)
+FirstCheckpoint = true
+
+[node name="Checkpoint3" parent="Checkpoints" instance=ExtResource("18_35hdb")]
+position = Vector2(652, -64)
+
+[node name="Checkpoint4" parent="Checkpoints" instance=ExtResource("18_35hdb")]
+position = Vector2(590, -66)
+
+[node name="Spikes2" type="Node2D" parent="."]
+position = Vector2(351, -46)
+
+[node name="Sprite2D" type="Sprite2D" parent="Spikes2"]
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("12_njb7c")
+
+[node name="HitBox" type="Area2D" parent="Spikes2"]
+collision_layer = 16
+collision_mask = 32
+script = ExtResource("13_oje2b")
+Damage = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Spikes2/HitBox"]
+position = Vector2(0, 2)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_nkpyu")
+debug_color = Color(0.933333, 0.219608, 0.333333, 0.419608)

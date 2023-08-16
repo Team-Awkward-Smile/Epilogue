@@ -25,10 +25,12 @@ Settings="*res://global/singletons/Settings.cs"
 InputDeviceManager="*res://global/singletons/InputDeviceManager.cs"
 PlayerEvents="*res://global/singletons/PlayerEvents.cs"
 GunEvents="*res://global/singletons/GunEvents.cs"
+CheckpointManager="*res://global/singletons/CheckpointManager.cs"
 
 [debug]
 
 file_logging/enable_file_logging=true
+show_checkpoints=true
 
 [display]
 
@@ -363,6 +365,7 @@ toggle_walk_run={
 2d_physics/layer_5="Hitboxes"
 2d_physics/layer_6="Hurtboxes"
 2d_physics/layer_7="Interactives"
+2d_physics/layer_8="Checkpoints"
 
 [navigation]
 
