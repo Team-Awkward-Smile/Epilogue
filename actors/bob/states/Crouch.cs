@@ -13,9 +13,8 @@ public partial class Crouch : PlayerState
 
 	private float _timer;
 	private Tween _cameraMovementTween;
-	private Vector2 _cameraAnchorOriginalPosition;
 	private bool _isCameraMoving;
-	private Node2D _cameraAnchor;
+	private CameraAnchor _cameraAnchor;
 
 	internal override void OnInput(InputEvent @event)
 	{
@@ -33,8 +32,7 @@ public partial class Crouch : PlayerState
 
 		_timer = 0f;
 		_isCameraMoving = false;
-		_cameraAnchor = Player.GetNode<Node2D>("CameraAnchor");
-		_cameraAnchorOriginalPosition = _cameraAnchor.GlobalPosition;
+		_cameraAnchor = Player.GetNode<CameraAnchor>("CameraAnchor");
 
 		AnimPlayer.Play("crouch");
 	}
@@ -46,6 +44,7 @@ public partial class Crouch : PlayerState
 		if(_timer >= _cameraMovementDelay && !_isCameraMoving)
 		{
 			_isCameraMoving = true;
+			_cameraAnchor.FollowPlayer = false;
 
 			_cameraMovementTween = GetTree().CreateTween();
 			_cameraMovementTween.TweenProperty(_cameraAnchor, "global_position", new Vector2(_cameraAnchor.GlobalPosition.X, _cameraAnchor.GlobalPosition.Y + _cameraMovementDistance), 0.5f);
@@ -55,7 +54,8 @@ public partial class Crouch : PlayerState
 	internal override async Task OnLeaveAsync()
 	{
 		AnimPlayer.PlayBackwards("crouch");
-		GetTree().CreateTween().TweenProperty(_cameraAnchor, "global_position", _cameraAnchorOriginalPosition, 0.2f);
+
+		_cameraAnchor.FollowPlayer = true;
 
 		await ToSignal(AnimPlayer, "animation_finished");
 	}
