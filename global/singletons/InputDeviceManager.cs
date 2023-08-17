@@ -1,10 +1,13 @@
 using Epilogue.global.enums;
+using Epilogue.input_icons;
+
 using Godot;
 
 namespace Epilogue.global.singletons;
 /// <summary>
 ///		Singleton that controls inputs read from the player
 /// </summary>
+[Tool]
 public partial class InputDeviceManager : Node
 {
 	/// <summary>
@@ -55,5 +58,28 @@ public partial class InputDeviceManager : Node
 			// Calls every Node from the "InputType" group, telling them to run their respectives update routines
 			GetTree().CallGroup("InputType", "InputTypeUpdate", (int) MostRecentInputType);
 		}
+	}
+
+	public override void _Ready()
+	{
+		ProjectSettings.AddPropertyInfo(new Godot.Collections.Dictionary()
+		{
+			{ "name", "controls/controller_type" },
+			{ "type", (int) Variant.Type.Int },
+			{ "hint", (int) PropertyHint.Enum },
+			{ "hint_string", "PlayStation,XBox,Nintendo Switch" }
+		});
+	}
+
+	public CompressedTexture2D GetKeyIcon(InputEvent @event)
+	{
+		if(@event is InputEventKey)
+		{
+			return PcIconMapper.GetIconForEvent(@event);
+		}
+
+		var brand = (InputDeviceBrand) ProjectSettings.GetSetting("controls/controller_type").AsInt16();
+
+		return ControllerInputMapper.GetIconForEvent(brand, @event);
 	}
 }

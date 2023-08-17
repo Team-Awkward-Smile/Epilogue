@@ -1,3 +1,5 @@
+using Epilogue.global.singletons;
+
 using Godot;
 
 namespace Epilogue.ui;
@@ -5,6 +7,7 @@ public partial class RemapButton : Button
 {
 	private InputEvent _inputEvent;
 	private PopupPanel _popup;
+	private InputDeviceManager _deviceManager;
 
     public string ActionName { get; set; }
     public InputEvent InputEvent
@@ -13,13 +16,14 @@ public partial class RemapButton : Button
 		set
 		{
 			_inputEvent = value;
-			Text = _inputEvent.AsText().Replace("(Physical)", "");
+			Icon = _deviceManager.GetKeyIcon(value);
 		}
 	}
 
 	public override void _Ready()
 	{
 		_popup = GetNode<PopupPanel>("../../../../PopupPanel");
+		_deviceManager = GetNode<InputDeviceManager>("/root/InputDeviceManager");
 
 		ButtonDown += () =>
 		{
@@ -30,6 +34,9 @@ public partial class RemapButton : Button
 			_popup.PopupHide += HidePopup;
 			_popup.Exclusive = false;
 		};
+
+		Size = new Vector2(350f, 30f);
+		TextOverrunBehavior = TextServer.OverrunBehavior.TrimEllipsis;
 	}
 
 	private void HidePopup()

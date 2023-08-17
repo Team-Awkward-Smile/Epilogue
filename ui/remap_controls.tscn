@@ -1,20 +1,23 @@
-[gd_scene load_steps=3 format=3 uid="uid://b3fpxyxkl46k6"]
+[gd_scene load_steps=4 format=3 uid="uid://b3fpxyxkl46k6"]
 
-[ext_resource type="Script" path="res://ui/RemapControls.cs" id="1_uhvpn"]
+[ext_resource type="Script" path="res://ui/RemapControls.cs" id="1_oy3ay"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_piiux"]
+font_size = 36
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mee3d"]
 bg_color = Color(0.788235, 0.54902, 0.0705882, 1)
 corner_detail = 20
 
 [node name="RemapControls" type="Control"]
-process_mode = 2
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_uhvpn")
+script = ExtResource("1_oy3ay")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 1
@@ -22,12 +25,15 @@ anchors_preset = 13
 anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 1.0
+offset_left = -313.0
+offset_right = 317.0
 grow_horizontal = 2
 grow_vertical = 2
 horizontal_scroll_mode = 0
 
 [node name="TabContainer" type="TabContainer" parent="ScrollContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 clip_tabs = false
 
 [node name="Modern" type="GridContainer" parent="ScrollContainer/TabContainer"]
@@ -39,16 +45,21 @@ columns = 3
 
 [node name="ACTION" type="Label" parent="ScrollContainer/TabContainer/Modern"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
 text = "ACTION"
+label_settings = SubResource("LabelSettings_piiux")
 horizontal_alignment = 1
 
 [node name="PRIMARY" type="Label" parent="ScrollContainer/TabContainer/Modern"]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "PRIMARY"
 horizontal_alignment = 1
 
 [node name="SECONDARY" type="Label" parent="ScrollContainer/TabContainer/Modern"]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "SECONDARY"
 horizontal_alignment = 1
 
@@ -62,16 +73,19 @@ columns = 3
 
 [node name="ACTION" type="Label" parent="ScrollContainer/TabContainer/Retro"]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "ACTION"
 horizontal_alignment = 1
 
 [node name="PRIMARY" type="Label" parent="ScrollContainer/TabContainer/Retro"]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "PRIMARY"
 horizontal_alignment = 1
 
 [node name="SECONDARY" type="Label" parent="ScrollContainer/TabContainer/Retro"]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "SECONDARY"
 horizontal_alignment = 1
 

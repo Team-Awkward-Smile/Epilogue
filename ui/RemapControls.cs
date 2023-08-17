@@ -8,25 +8,14 @@ using System.Linq;
 namespace Epilogue.ui;
 public partial class RemapControls : UI
 {
-	private readonly List<string> _actions = new()
-	{
-		"move_left",
-		"move_right",
-		"jump",
-		"crouch",
-		"look_up",
-		"slide",
-		"melee",
-		"pickup_gun",
-		"growl",
-		"shoot",
-		"cancel_slide"
-	};
-
 	private List<Control> _nodes = new();
+	private List<StringName> _actions = new();
 
 	public override void _Ready()
 	{
+		// Gets every action that's not built-in (built-in actions start with "ui_" in their names)
+		_actions = InputMap.GetActions().Where(a => !a.ToString().StartsWith("ui_") && !a.ToString().Contains("controller")).ToList();
+
 		GetNode<Button>("%Return").ButtonDown += () =>
 		{
 			GetTree().Paused = false;
@@ -57,52 +46,44 @@ public partial class RemapControls : UI
 
 		foreach(var actionName in _actions)
 		{
-			var actionModern = InputMap.ActionGetEvents($"{actionName}_modern");
-			var actionRetro = InputMap.ActionGetEvents($"{actionName}_retro");
-			var button1Modern = new RemapButton();
-			var button2Modern = new RemapButton();
-			var button1Retro = new RemapButton();
-			var button2Retro = new RemapButton();
+			var action = InputMap.ActionGetEvents(actionName);
+			var scene = GD.Load<PackedScene>("res://ui/remap_button.tscn");
+			var button1 = scene.Instantiate() as RemapButton;
+			var button2 = scene.Instantiate() as RemapButton;
 			var label = new Label()
 			{
 				Text = actionName,
 				HorizontalAlignment = HorizontalAlignment.Right,
+				Size = new Vector2(15f, 50f)
 			};
 
-			var pcActionModern = actionModern.Where(a => a is InputEventKey or InputEventMouseButton).ToArray();
-			var pcActionRetro = actionRetro.Where(a => a is InputEventKey).ToArray();
-
-			button1Modern.ActionName = actionName + "_modern";
-			button1Modern.InputEvent = pcActionModern[0];
-			button2Modern.ActionName = actionName + "_modern";
-
-			button1Retro.ActionName = actionName + "_retro";
-			button1Retro.InputEvent = pcActionRetro[0];
-			button2Retro.ActionName = actionName + "_retro";
-
-			if(pcActionModern.Length > 1)
+			// Adds the object to the correct screen, depending on the Control Scheme of the action
+			if(actionName.ToString().EndsWith("modern"))
 			{
-				button2Modern.InputEvent = pcActionModern[1];
+				modernGrid.AddChild(label);
+				modernGrid.AddChild(button1);
+				modernGrid.AddChild(button2);
+			}
+			else
+			{
+				retroGrid.AddChild(label);
+				retroGrid.AddChild(button1);
+				retroGrid.AddChild(button2);
 			}
 
-			if(pcActionRetro.Length > 1)
+			button1.ActionName = actionName;
+			button1.InputEvent = action[0];
+			button2.ActionName = actionName;
+
+			// Sets the secondary button if the action has more than 1 key mapped to it
+			if(action.Count > 1)
 			{
-				button2Retro.InputEvent = pcActionRetro[1];
+				button2.InputEvent = action[1];
 			}
-
-			modernGrid.AddChild(label);
-			modernGrid.AddChild(button1Modern);
-			modernGrid.AddChild(button2Modern);
-
-			var label2 = label.Duplicate() as Label;
-
-			retroGrid.AddChild(label2);
-			retroGrid.AddChild(button1Retro);
-			retroGrid.AddChild(button2Retro);
 
 			_nodes.AddRange(new List<Control>
 			{
-				label, label2, button1Modern, button2Modern, button1Retro, button2Retro
+				label, button1, button2
 			});
 		}
 	}

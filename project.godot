@@ -24,6 +24,10 @@ buses/default_bus_layout=""
 Settings="*res://global/singletons/Settings.cs"
 InputDeviceManager="*res://global/singletons/InputDeviceManager.cs"
 
+[controls]
+
+controller_type=2
+
 [debug]
 
 file_logging/enable_file_logging=true

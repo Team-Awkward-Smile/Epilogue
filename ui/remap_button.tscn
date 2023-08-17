@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8ugcoclstghb"]
+
+[ext_resource type="Script" path="res://ui/RemapButton.cs" id="2_kw5qk"]
+
+[node name="Button" type="Button"]
+offset_right = 90.0
+offset_bottom = 50.0
+theme_override_constants/icon_max_width = 80
+icon_alignment = 1
+script = ExtResource("2_kw5qk")
