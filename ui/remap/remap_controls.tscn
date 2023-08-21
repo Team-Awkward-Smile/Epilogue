@@ -1,0 +1,124 @@
+[gd_scene load_steps=5 format=3 uid="uid://b3fpxyxkl46k6"]
+
+[ext_resource type="Script" path="res://ui/remap/RemapControls.cs" id="1_qpw2p"]
+[ext_resource type="LabelSettings" uid="uid://dfm2mo74e6vql" path="res://base_resources/ui_section_title.tres" id="2_ilidb"]
+[ext_resource type="Script" path="res://ui/remap/RemapAction.cs" id="3_ebw23"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mee3d"]
+bg_color = Color(0.788235, 0.54902, 0.0705882, 1)
+corner_detail = 20
+
+[node name="RemapControls" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qpw2p")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -313.0
+offset_right = 317.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="Control" type="GridContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/v_separation = 10
+
+[node name="Label3" type="Label" parent="ScrollContainer/Control"]
+layout_mode = 2
+text = "CONTROL SCHEME"
+label_settings = ExtResource("2_ilidb")
+
+[node name="OptionButton" type="OptionButton" parent="ScrollContainer/Control"]
+layout_mode = 2
+size_flags_horizontal = 0
+item_count = 2
+selected = 0
+popup/item_0/text = "Modern"
+popup/item_0/id = 0
+popup/item_1/text = "Retro"
+popup/item_1/id = 1
+
+[node name="Movement" type="Label" parent="ScrollContainer/Control"]
+layout_mode = 2
+text = "MOVEMENT"
+label_settings = ExtResource("2_ilidb")
+
+[node name="MovementActions" type="GridContainer" parent="ScrollContainer/Control"]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 4
+script = ExtResource("3_ebw23")
+
+[node name="Combat" type="Label" parent="ScrollContainer/Control"]
+layout_mode = 2
+text = "COMBAT"
+label_settings = ExtResource("2_ilidb")
+
+[node name="CombatActions" type="GridContainer" parent="ScrollContainer/Control"]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 4
+script = ExtResource("3_ebw23")
+
+[node name="UI" type="Label" parent="ScrollContainer/Control"]
+layout_mode = 2
+text = "UI"
+label_settings = ExtResource("2_ilidb")
+
+[node name="UIActions" type="GridContainer" parent="ScrollContainer/Control"]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 4
+script = ExtResource("3_ebw23")
+
+[node name="PopupPanel" type="PopupPanel" parent="."]
+unique_name_in_owner = true
+handle_input_locally = false
+initial_position = 1
+size = Vector2i(269, 100)
+mouse_passthrough = true
+theme_override_styles/panel = SubResource("StyleBoxFlat_mee3d")
+
+[node name="Label" type="Label" parent="PopupPanel"]
+offset_right = 269.0
+offset_bottom = 100.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -30.5
+offset_top = -31.0
+offset_right = 30.5
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 910
+
+[node name="Return" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Return"
+
+[node name="Default" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Reset to Default
+"

@@ -71,7 +71,7 @@ public partial class InputDeviceManager : Node
 		});
 	}
 
-	public CompressedTexture2D GetKeyIcon(InputEvent @event)
+	public static CompressedTexture2D GetKeyIcon(InputEvent @event)
 	{
 		if(@event is InputEventKey)
 		{
