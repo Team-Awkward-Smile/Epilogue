@@ -59,7 +59,7 @@ import/fbx/enabled=false
 [global]
 
 Version="0.1"
-use_modern_controls=true
+use_modern_controls=false
 
 [input]
 
