@@ -6,7 +6,7 @@ public partial class Idle : PlayerState
 {
 	public override void OnInput(InputEvent @event)
 	{
-		if(Input.IsActionJustPressed(_jumpInput))
+		if(Input.IsActionJustPressed("jump"))
 		{
 			if(Actor.IsOnWall() && !Actor.RayCasts["Head"].IsColliding() && !Actor.RayCasts["Ledge"].IsColliding())
 			{
@@ -17,23 +17,23 @@ public partial class Idle : PlayerState
 				StateMachine.ChangeState("Jump");
 			}
 		}
-		else if(Input.IsActionJustPressed(_crouchInput))
+		else if(Input.IsActionJustPressed("crouch"))
 		{
 			StateMachine.ChangeState("Crouch");
 		}
-		else if(Input.IsActionJustPressed(_attackInput))
+		else if(Input.IsActionJustPressed("melee"))
 		{
 			StateMachine.ChangeState("MeleeAttack");
 		}
-		else if(Input.IsActionJustPressed(_slideInput))
+		else if(Input.IsActionJustPressed("slide"))
 		{
 			StateMachine.ChangeState("Slide");
 		}
-		else if(Input.IsActionJustPressed(_lookUpInput))
+		else if(Input.IsActionJustPressed("look_up"))
 		{
 			StateMachine.ChangeState("LookUp");
 		}
-		else if(Input.IsActionJustPressed(_growlInput))
+		else if(Input.IsActionJustPressed("growl"))
 		{
 			StateMachine.ChangeState("Growl");
 		}
@@ -54,7 +54,7 @@ public partial class Idle : PlayerState
 			return;
 		}
 
-		var movement = Input.GetAxis(_moveLeftInput, _moveRightInput);
+		var movement = Input.GetAxis("move_left", "move_right");
 
 		if(movement != 0f)
 		{
@@ -63,11 +63,11 @@ public partial class Idle : PlayerState
 				return;
 			}
 
-			StateMachine.ChangeState(Input.IsActionPressed(_toggleRunInput) ? "Run" : "Walk");
+			StateMachine.ChangeState(Input.IsActionPressed("toggle_run") ? "Run" : "Walk");
 			return;
 		}
 
-		if(Input.IsActionPressed(_crouchInput))
+		if(Input.IsActionPressed("crouch"))
 		{
 			StateMachine.ChangeState("Crouch");
 			return;

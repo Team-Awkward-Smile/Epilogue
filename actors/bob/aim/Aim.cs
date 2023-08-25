@@ -31,7 +31,7 @@ public partial class Aim : Node
 		var buttonAim = GetChild(1);
 		var stickAim = GetChild(2);
 
-		mouseAim.ProcessMode = inputType == InputTypeEnum.Keyboard && Settings.ControlScheme == ControlSchemeEnum.Modern ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
+		mouseAim.ProcessMode = inputType == InputTypeEnum.PC && Settings.ControlScheme == ControlSchemeEnum.Modern ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
 		buttonAim.ProcessMode = Settings.ControlScheme == ControlSchemeEnum.Retro ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
 		stickAim.ProcessMode = inputType == InputTypeEnum.Controller && Settings.ControlScheme == ControlSchemeEnum.Modern ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
 	}

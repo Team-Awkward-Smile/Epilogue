@@ -16,7 +16,7 @@ public partial class Crouch : PlayerState
 
 	public override void OnInput(InputEvent @event)
 	{
-		if(Input.IsActionJustReleased(_crouchInput))
+		if(Input.IsActionJustReleased("crouch"))
 		{
 			_cameraMovementTween?.Stop();
 

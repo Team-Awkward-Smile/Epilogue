@@ -14,7 +14,7 @@ public partial class Level : Node2D
 		{
 			GetTree().Paused = true;
 
-			var scene = GD.Load<PackedScene>("res://ui/remap_controls.tscn");
+			var scene = GD.Load<PackedScene>("res://ui/remap/remap_controls.tscn");
 
 			GetNode<CanvasLayer>("CanvasLayer").AddChild(scene.Instantiate());
 		};

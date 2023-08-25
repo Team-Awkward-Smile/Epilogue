@@ -11,7 +11,7 @@ public partial class Walk : PlayerState
 
 	public override void OnInput(InputEvent @event)
 	{
-		if(Input.IsActionJustPressed(_jumpInput))
+		if(Input.IsActionJustPressed("jump"))
 		{
 			if(Actor.RayCasts["Head"].IsColliding() && !Actor.RayCasts["Ledge"].IsColliding())
 			{
@@ -22,19 +22,19 @@ public partial class Walk : PlayerState
 				StateMachine.ChangeState("Jump");
 			}
 		}
-		else if(Input.IsActionJustPressed(_attackInput))
+		else if(Input.IsActionJustPressed("melee"))
 		{
 			StateMachine.ChangeState("MeleeAttack");
 		}
-		else if(Input.IsActionJustPressed(_crouchInput))
+		else if(Input.IsActionJustPressed("crouch"))
 		{
 			StateMachine.ChangeState("Crouch");
 		}
-		else if(Input.IsActionJustPressed(_toggleRunInput))
+		else if(Input.IsActionJustPressed("toggle_run"))
 		{
 			_runToggled = !_runToggled;
 		}
-		else if(Input.IsActionJustPressed(_slideInput))
+		else if(Input.IsActionJustPressed("slide"))
 		{
 			StateMachine.ChangeState("Slide");
 		}
@@ -51,7 +51,7 @@ public partial class Walk : PlayerState
 
 	public override void PhysicsUpdate(double delta)
 	{
-		var movementDirection = Input.GetAxis(_moveLeftInput, _moveRightInput);
+		var movementDirection = Input.GetAxis("move_left", "move_right");
 
 		if(movementDirection != 0f)
 		{

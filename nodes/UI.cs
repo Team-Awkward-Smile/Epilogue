@@ -10,16 +10,30 @@ public partial class UI : Control
 	/// <summary>
 	///		Enables this Screen
 	/// </summary>
-	public virtual void Enable()
+	/// <param name="pauseTree">Should the Tree be paused before this Screen opens?</param>
+	public virtual void Enable(bool pauseTree = false)
 	{
+		GetTree().Paused = pauseTree;
 		Show();
 	}
 
 	/// <summary>
-	///		Disables this Screen
+	///		Disables (hides) this Screen
 	/// </summary>
-	public virtual void Disable()
+	/// <param name="unpauseTree">Should the Tree be unpaused before this Screen closes?</param>
+	public virtual void Disable(bool unpauseTree = false)
 	{
+		GetTree().Paused = !unpauseTree;
 		Hide();
+	}
+
+	/// <summary>
+	///		Deletes this Screen from the Tree
+	/// </summary>
+	/// <param name="unpauseTree">Should the Tree be unpaused before this Screen is deleted?</param>
+	public virtual void Close(bool unpauseTree = false)
+	{
+		GetTree().Paused = !unpauseTree;
+		QueueFree();
 	}
 }

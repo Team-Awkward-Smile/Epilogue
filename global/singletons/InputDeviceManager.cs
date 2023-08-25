@@ -48,7 +48,7 @@ public partial class InputDeviceManager : Node
 		{
 			InputEventJoypadButton => InputTypeEnum.Controller,
 			InputEventJoypadMotion => InputTypeEnum.Controller,
-			_ => InputTypeEnum.Keyboard
+			_ => InputTypeEnum.PC
 		};
 
 		if(_newInputType != MostRecentInputType)

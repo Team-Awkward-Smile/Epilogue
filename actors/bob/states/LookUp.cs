@@ -17,7 +17,7 @@ public partial class LookUp : PlayerState
 	// Called whenever an unhandled input is detected
 	public override void OnInput(InputEvent @event)
 	{
-		if(Input.IsActionJustReleased(_lookUpInput))
+		if(Input.IsActionJustReleased("look_up"))
 		{
 			_raiseCameraTween?.Stop();
 

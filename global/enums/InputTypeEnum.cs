@@ -7,7 +7,7 @@ public enum InputTypeEnum
 	/// <summary>
 	///		Keyboard inputs (any key), as well as mouse inputs
 	/// </summary>
-	Keyboard,
+	PC,
 
 	/// <summary>
 	///		Controller inputs (buttons and/or analog stick movement)
