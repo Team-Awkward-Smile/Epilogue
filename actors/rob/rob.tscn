@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://c7cpj3m2vojlm"]
 
-[ext_resource type="Script" path="res://nodes/Actor.cs" id="1_a3nqt"]
-[ext_resource type="Texture2D" uid="uid://d1lxx2st8ps7w" path="res://actors/rob/sprite_sheet/rob-sheet.png" id="2_bfacx"]
-[ext_resource type="Script" path="res://nodes/StateMachine.cs" id="3_2xlh0"]
-[ext_resource type="Script" path="res://actors/rob/states/Chase.cs" id="4_g65yg"]
-[ext_resource type="AnimationLibrary" uid="uid://bvtr6toko864t" path="res://actors/rob/animations/animations.res" id="5_ppg57"]
+[ext_resource type="Script" path="res://nodes/Actor.cs" id="1_27mxf"]
+[ext_resource type="Texture2D" uid="uid://d1lxx2st8ps7w" path="res://actors/rob/sprite_sheet/rob-sheet.png" id="2_0743w"]
+[ext_resource type="Script" path="res://nodes/StateMachine.cs" id="3_qdsft"]
+[ext_resource type="Script" path="res://actors/rob/states/Chase.cs" id="4_bc31x"]
+[ext_resource type="AnimationLibrary" uid="uid://bvtr6toko864t" path="res://actors/rob/animations/animations.res" id="5_yqrjo"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rm8xs"]
 height = 44.0
@@ -12,15 +12,13 @@ height = 44.0
 [node name="Rob" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 24
-script = ExtResource("1_a3nqt")
-
-[node name="Health" type="Node" parent="."]
+script = ExtResource("1_27mxf")
 
 [node name="FlipRoot" type="Node2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="FlipRoot"]
 position = Vector2(0, -29)
-texture = ExtResource("2_bfacx")
+texture = ExtResource("2_0743w")
 hframes = 11
 vframes = 19
 frame = 11
@@ -28,14 +26,14 @@ frame = 11
 [node name="HitBoxContainer" type="Area2D" parent="FlipRoot"]
 
 [node name="StateMachine" type="Node" parent="."]
-script = ExtResource("3_2xlh0")
+script = ExtResource("3_qdsft")
 
 [node name="Chase" type="Node" parent="StateMachine"]
-script = ExtResource("4_g65yg")
+script = ExtResource("4_bc31x")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": ExtResource("5_ppg57")
+"": ExtResource("5_yqrjo")
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

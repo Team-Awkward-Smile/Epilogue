@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 
 namespace Epilogue.addons;
+/// <summary>
+///		Node that applies a NavigationTrigger on the map, allowing the pathfinding server to move around different obstacles
+/// </summary>
 [GlobalClass, Tool]
 public partial class NavigationTrigger : Node2D
 {
@@ -16,6 +19,9 @@ public partial class NavigationTrigger : Node2D
     public bool Selected { get; set; }
     public TileMap TileMap { get; set; }
 
+	/// <summary>
+	///		Starting point of the Trigger
+	/// </summary>
     [Export] public Vector2 StartPoint 
 	{ 
 		get => _startPoint;
@@ -27,6 +33,9 @@ public partial class NavigationTrigger : Node2D
 		}
 	}
 
+	/// <summary>
+	///		End point of the trigger
+	/// </summary>
     [Export] public Vector2 EndPoint 
 	{ 
 		get => _endPoint;
@@ -64,6 +73,7 @@ public partial class NavigationTrigger : Node2D
 	private int _linkRadius;
 	private Font _defaultFont;
 
+	/// <inheritdoc/>
 	public override string[] _GetConfigurationWarnings()
 	{
 		var warnings = new List<string>();
@@ -76,6 +86,7 @@ public partial class NavigationTrigger : Node2D
 		return warnings.ToArray();
 	}
 
+	/// <inheritdoc/>
 	public override void _Ready()
 	{
 		_linkRadius = ProjectSettings.GetSetting("navigation/2d/default_link_connection_radius").AsInt32();
@@ -90,6 +101,7 @@ public partial class NavigationTrigger : Node2D
 		NavigationLayer = 1;
 	}
 
+	/// <inheritdoc/>
 	public override void _Draw()
 	{
 		if(!Engine.IsEditorHint() && !OS.IsDebugBuild())

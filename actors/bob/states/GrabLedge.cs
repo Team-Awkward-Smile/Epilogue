@@ -2,9 +2,12 @@ using Epilogue.nodes;
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
+/// <summary>
+///		State that allows Hestmor to grab, hang from, and climb ledges
+/// </summary>
 public partial class GrabLedge : PlayerState
 {
-	public override void OnInput(InputEvent @event)
+	internal override void OnInput(InputEvent @event)
 	{
 		if(Input.IsActionJustPressed("jump"))
 		{
@@ -17,13 +20,21 @@ public partial class GrabLedge : PlayerState
 		}
 	}
 
-	public override void OnEnter()
+	internal override void OnEnter()
 	{
-		Actor.Velocity = new Vector2(0f, 0f);
-		Actor.CanChangeFacingDirection = false;
+		Player.Velocity = new Vector2(0f, 0f);
+		Player.CanChangeFacingDirection = false;
+		Player.RayCasts["Feet"].ForceRaycastUpdate();
 
-		AnimPlayer.Play("grab_ledge");
-		AnimPlayer.AnimationFinished += StayOnEdge;
+		if(Player.RayCasts["Feet"].IsColliding())
+		{
+			AnimPlayer.Play("grab_wall");
+			AnimPlayer.AnimationFinished += StayOnEdge;
+		}
+		else
+		{
+			AnimPlayer.Play("grab_ledge");
+		}
 	}
 
 	private void StayOnEdge(StringName animName)
@@ -35,14 +46,14 @@ public partial class GrabLedge : PlayerState
 	private void MoveToTop(StringName animName)
 	{
 		AnimPlayer.AnimationFinished -= MoveToTop;
-		Actor.GlobalPosition = Actor.Sprite.GetNode<Node2D>("LedgeAnchor").GlobalPosition;
+		Player.GlobalPosition = Player.Sprite.GetNode<Node2D>("LedgeAnchor").GlobalPosition;
 
 		StateMachine.ChangeState("Idle");
 	}
 
-	public override void OnLeave()
+	internal override void OnLeave()
 	{
-		Actor.RayCasts["Head"].Enabled = false;
-		GetTree().CreateTimer(0.5f).Timeout += () => Actor.RayCasts["Head"].Enabled = true;
+		Player.RayCasts["Head"].Enabled = false;
+		GetTree().CreateTimer(0.5f).Timeout += () => Player.RayCasts["Head"].Enabled = true;
 	}
 }

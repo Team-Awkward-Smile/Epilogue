@@ -1,15 +1,25 @@
 using Epilogue.global.enums;
 using Godot;
-using System.Collections.Generic;
+using Godot.Collections;
 using System.Linq;
 
 namespace Epilogue.nodes;
 /// <summary>
-///		Base class for all Actors (i.e. Player Characters, NPCs, etc.)
+///		Base class for all Actors in the game. Instead of using this one, you probably should use either <see cref="Player"/> or <see cref="Npc"/>
 /// </summary>
-[GlobalClass, Tool, Icon("res://nodes/actor.png")]
-public partial class Actor : CharacterBody2D
+[GlobalClass]
+public abstract partial class Actor : CharacterBody2D
 {
+	/// <summary>
+	///		Max HP of this Actor
+	/// </summary>
+    [Export] public float MaxHealth { get; private protected set; }
+
+	/// <summary>
+	///		Current HP of this Actor
+	/// </summary>
+    [Export] public float CurrentHealth { get; private protected set; }
+
 	/// <summary>
 	///		All RayCast2D's belonging to this Actor, accessed by their names (minus the 'RayCast2D' suffix)
 	/// </summary>
@@ -18,52 +28,29 @@ public partial class Actor : CharacterBody2D
 	/// <summary>
 	///		Direction (Left/Right) this Actor is currently facing
 	/// </summary>
-    public ActorFacingDirectionEnum FacingDirection { get; private set; } = ActorFacingDirectionEnum.Right;
+    public ActorFacingDirection FacingDirection { get; private set; } = ActorFacingDirection.Right;
 
 	/// <summary>
-	///		Can this actor currently change it's facing direction?
+	///		Defines if this Actor can change the direction it is facing
 	/// </summary>
 	public bool CanChangeFacingDirection { get; set; } = true;
 
 	/// <summary>
-	///		Main Sprite
+	///		Reference to the main Sprite used by the Actor
 	/// </summary>
     public Sprite2D Sprite { get; set; }
 
 	/// <summary>
-	///		Health Node
+	///		Reference to the State Machine used by the Actor
 	/// </summary>
-    public Health Health { get; set; }
+    public StateMachine StateMachine { get; set; }
 
-	public override string[] _GetConfigurationWarnings()
-	{
-		var warnings = new List<string>();
-		var children = GetChildren();
+	private protected AnimationPlayer AnimationPlayer { get; set; }
 
-		if(!children.Where(c => c.Name == "FlipRoot").Any())
-		{
-			warnings.Add("This Actor has no Flip Root.\nConsider adding a Node2D called FlipRoot to manage children Nodes that need to rotate during the game");
-		}
+	private protected HurtBox HurtBox { get; set; }
 
-		if(!children.Where(c => c.GetType() == typeof(Health)).Any())
-		{
-			warnings.Add("This Actor has no Health.\nConsider adding a Health Node as a child of this Node to control the Actor's HP during the game");
-		}
-
-		if(!children.Where(c => c.GetType() == typeof(StateMachine)).Any())
-		{
-			warnings.Add("This Actor has no State Machine.\nConsider adding a StateMachine Node as a child of this Actor to control the Actor's States during the game");
-		}
-
-		if(!children.Where(c => c.GetType() == typeof(AnimationPlayer)).Any())
-		{
-			warnings.Add("This Actor has no Animation Player.\nConsider adding an AnimationPlayer Node as a child of this Actor to control the Actor's animations during the game");
-		}
-
-		return warnings.ToArray();
-	}
-
-	public override void _Ready()
+    /// <inheritdoc/>
+    public override void _Ready()
 	{
 		GetNode<Node2D>("FlipRoot").GetChildren().OfType<RayCast2D>().ToList().ForEach(r =>
 		{
@@ -71,14 +58,32 @@ public partial class Actor : CharacterBody2D
 		});
 
 		Sprite = GetNode<Node2D>("FlipRoot").GetChildren().OfType<Sprite2D>().Where(c => c.IsInGroup("MainSprite")).FirstOrDefault();
-		Health = GetChildren().OfType<Health>().FirstOrDefault();
+		StateMachine = GetChildren().OfType<StateMachine>().FirstOrDefault();
+		AnimationPlayer = GetChildren().OfType<AnimationPlayer>().FirstOrDefault();
+		HurtBox = GetChildren().OfType<HurtBox>().FirstOrDefault();
+
+		HurtBox.AreaEntered += (Area2D area) =>
+		{
+			if(area is HitBox hitbox)
+			{
+				GD.Print($"Dealing [{hitbox.Damage}] to [{Name}]");
+				DealDamage(hitbox.Damage);
+			}
+		};
+		
+		AfterReady();
 	}
 
 	/// <summary>
-	///		Sets a new facing direction for this Actor. If <see cref="CanChangeFacingDirection"/> is false, this method does nothing
+	///		Method to allow an Actor to initialize custom logic in <see cref="_Ready"/> without overriding any of the existing code
 	/// </summary>
-	/// <param name="newDirection">The new direction</param>
-	public void SetFacingDirection(ActorFacingDirectionEnum newDirection)
+	private protected virtual void AfterReady() { }
+
+	/// <summary>
+	///		Sets a new facing direction for this Actor, if the informed direction is valid and <see cref="CanChangeFacingDirection"/> is true
+	/// </summary>
+	/// <param name="newDirection">The flag enum representing the new direction</param>
+	public void SetFacingDirection(ActorFacingDirection newDirection)
 	{
 		if(!CanChangeFacingDirection)
 		{
@@ -88,8 +93,8 @@ public partial class Actor : CharacterBody2D
 		var flipNode = GetNode<Node2D>("FlipRoot");
 		var scaleX = newDirection switch
 		{
-			ActorFacingDirectionEnum.Left => -1,
-			ActorFacingDirectionEnum.Right => 1,
+			ActorFacingDirection.Left => -1,
+			ActorFacingDirection.Right => 1,
 			_ => 1
 		};
 
@@ -105,16 +110,35 @@ public partial class Actor : CharacterBody2D
 	{
 		MoveAndSlide();
 
-		var floorRadianAngle = GetFloorAngle();
-		var floorNormal = GetFloorNormal();
-
-		if(floorRadianAngle is > 0 and < 1)
+		if(IsOnFloor())
 		{
-			CreateTween().TweenProperty(this, "rotation", floorRadianAngle * (floorNormal.X > 0 ? 1 : -1), 0.05f);
+			var floorRadianAngle = GetFloorAngle();
+			var floorNormal = GetFloorNormal();
+
+			if(floorRadianAngle is > 0 and < 1)
+			{
+				CreateTween().TweenProperty(this, "rotation", floorRadianAngle * (floorNormal.X > 0 ? 1 : -1), 0.05f);
+			}
+			else if(floorRadianAngle == 0)
+			{
+				CreateTween().TweenProperty(this, "rotation", 0f, 0.05f);
+			}
 		}
-		else if(floorRadianAngle == 0)
+		else
 		{
 			CreateTween().TweenProperty(this, "rotation", 0f, 0.05f);
 		}
 	}
+
+	/// <summary>
+	///		Deals the indicated ammount of damage to this Actor
+	/// </summary>
+	/// <param name="damage">The ammount of damage to deal to this Actor</param>
+	public abstract void DealDamage(float damage);
+
+	/// <summary>
+	///		Heals the indicated ammount of HP to this Actor.
+	/// </summary>
+	/// <param name="health">The ammount of HP to recover</param>
+	public abstract void ApplyHealth(float health);
 }

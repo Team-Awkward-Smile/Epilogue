@@ -1,10 +1,27 @@
-using Epilogue.util;
+using Epilogue.global.singletons;
 
 namespace Epilogue.nodes;
 /// <summary>
 ///		Node representing a State that a Player Character can assume when using a State Machine.
-///		Includes strings mapped to actions the player can perform
 /// </summary>
 public partial class PlayerState : State
 {
+	/// <summary>
+	///		Reference to the player character
+	/// </summary>
+	private protected Player Player { get; private set; }
+
+	/// <summary>
+	///		Singleton responsible for triggering events related to the player character
+	/// </summary>
+	private protected PlayerEvents PlayerEvents { get; private set; }
+
+	private protected string MoveLeftAnalogInput { get; } = "move_left_analog_modern";
+	private protected string MoveRightAnalogInput { get; } = "move_right_analog_modern";
+
+	private protected override void AfterReady()
+	{
+		Player = (Player) Owner;
+		PlayerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
+	}
 }

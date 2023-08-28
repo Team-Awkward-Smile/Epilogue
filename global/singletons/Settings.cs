@@ -7,6 +7,9 @@ using Godot.Collections;
 using System.Linq;
 
 namespace Epilogue.global.singletons;
+/// <summary>
+///		Class containing every Setting in the game, both the ones that can be edited by the player and the ones who cannot
+/// </summary>
 public partial class Settings : Node
 {
 	private const string SETTINGS_FILE = "user://settings.tres";

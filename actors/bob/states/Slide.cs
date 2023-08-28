@@ -3,6 +3,9 @@ using Epilogue.nodes;
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
+/// <summary>
+///		State that allows Hestmor to perform slides
+/// </summary>
 public partial class Slide : PlayerState
 {
 	[Export] private float _slideTime = 0.5f;
@@ -12,7 +15,7 @@ public partial class Slide : PlayerState
 	private bool _slideFinished = false;
 	private float _startingRotation;
 
-	public override void OnInput(InputEvent @event)
+	internal override void OnInput(InputEvent @event)
 	{
 		if(Input.IsActionJustPressed("jump"))
 		{
@@ -25,30 +28,30 @@ public partial class Slide : PlayerState
 		}
 	}
 
-	public override void OnEnter()
+	internal override void OnEnter()
 	{
 		_slideFinished = false;
 		_timer = 0f;
-		_startingRotation = Actor.Rotation;
+		_startingRotation = Player.Rotation;
 
-		var direction = Actor.FacingDirection == ActorFacingDirectionEnum.Left ? -1 : 1;
+		var direction = Player.FacingDirection == ActorFacingDirection.Left ? -1 : 1;
 
-		Actor.FloorSnapLength = 10f;
-		Actor.FloorConstantSpeed = false;
-		Actor.FloorMaxAngle = 0f;
-		Actor.FloorBlockOnWall = false;
-		Actor.Velocity = new Vector2(_slideSpeed * direction, Actor.Velocity.Y);
-		Actor.CanChangeFacingDirection = false;
+		Player.FloorSnapLength = 10f;
+		Player.FloorConstantSpeed = false;
+		Player.FloorMaxAngle = 0f;
+		Player.FloorBlockOnWall = false;
+		Player.Velocity = new Vector2(_slideSpeed * direction, Player.Velocity.Y);
+		Player.CanChangeFacingDirection = false;
 
 		AnimPlayer.Play("slide_start");
 
 		AudioPlayer.PlayGenericSfx("Slide");
 	}
 
-	public override void PhysicsUpdate(double delta)
+	internal override void PhysicsUpdate(double delta)
 	{
-		Actor.Velocity = new Vector2(Actor.Velocity.X, Actor.Velocity.Y + Gravity * (float) delta);
-		Actor.MoveAndSlideWithRotation();
+		Player.Velocity = new Vector2(Player.Velocity.X, Player.Velocity.Y + Gravity * (float) delta);
+		Player.MoveAndSlideWithRotation();
 
 		_timer += delta;
 		
@@ -56,18 +59,18 @@ public partial class Slide : PlayerState
 		{
 			_slideFinished = true;
 
-			Actor.Velocity = new Vector2(Actor.Velocity.X / 2, Actor.Velocity.Y);
+			Player.Velocity = new Vector2(Player.Velocity.X / 2, Player.Velocity.Y);
 			AnimPlayer.Play("slide_end");
 			AnimPlayer.AnimationFinished += EndSlide; 
 		}
 	}
 
-	public override void OnLeave()
+	internal override void OnLeave()
 	{
-		Actor.FloorConstantSpeed = true;
-		Actor.FloorMaxAngle = Mathf.DegToRad(45f);
-		Actor.Rotation = _startingRotation;
-		Actor.FloorBlockOnWall = true;
+		Player.FloorConstantSpeed = true;
+		Player.FloorMaxAngle = Mathf.DegToRad(45f);
+		Player.Rotation = _startingRotation;
+		Player.FloorBlockOnWall = true;
 	}
 
 	private void EndSlide(StringName animName)

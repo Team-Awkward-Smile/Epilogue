@@ -1,16 +1,36 @@
+using Epilogue.constants;
+using Epilogue.global.enums;
+using Epilogue.global.singletons;
 using Epilogue.nodes;
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
+/// <summary>
+///		State that allows Hestmor to stay still
+/// </summary>
 public partial class Idle : PlayerState
 {
-	public override void OnInput(InputEvent @event)
+	private bool _canUseAnalogControls;
+
+	internal override void OnInput(InputEvent @event)
 	{
 		if(Input.IsActionJustPressed("jump"))
 		{
-			if(Actor.IsOnWall() && !Actor.RayCasts["Head"].IsColliding() && !Actor.RayCasts["Ledge"].IsColliding())
+			if(!Player.RayCasts["Head"].IsColliding() && Player.RayCasts["Feet"].IsColliding())
 			{
-				StateMachine.ChangeState("Vault");
+				var raycast = Player.RayCasts["Ledge"];
+				var originalPosition = raycast.Position;
+
+				raycast.Position = new Vector2(0f, -Constants.MAP_TILE_SIZE - 1);
+
+				raycast.ForceRaycastUpdate();
+
+				if(!raycast.IsColliding())
+				{
+					StateMachine.ChangeState("Vault");
+				}
+
+				raycast.Position = originalPosition;
 			}
 			else
 			{
@@ -23,15 +43,15 @@ public partial class Idle : PlayerState
 		}
 		else if(Input.IsActionJustPressed("melee"))
 		{
-			StateMachine.ChangeState("MeleeAttack");
+			StateMachine.ChangeState("Slide");
 		}
 		else if(Input.IsActionJustPressed("slide"))
 		{
-			StateMachine.ChangeState("Slide");
+			StateMachine.ChangeState("LookUp");
 		}
 		else if(Input.IsActionJustPressed("look_up"))
 		{
-			StateMachine.ChangeState("LookUp");
+			StateMachine.ChangeState("MeleeAttack");
 		}
 		else if(Input.IsActionJustPressed("growl"))
 		{
@@ -39,16 +59,19 @@ public partial class Idle : PlayerState
 		}
 	}
 
-	public override void OnEnter()
+	internal override void OnEnter()
 	{
-		Actor.CanChangeFacingDirection = true;
+		Player.CanChangeFacingDirection = true;
+		Player.Velocity = new Vector2(0f, 0f);
 
 		AnimPlayer.Play("idle");
+
+		_canUseAnalogControls = Settings.ControlScheme == ControlSchemeEnum.Modern;
 	}
 
-	public override void PhysicsUpdate(double delta)
+	internal override void PhysicsUpdate(double delta)
 	{
-		if(!Actor.IsOnFloor())
+		if(!Player.IsOnFloor())
 		{
 			StateMachine.ChangeState("Fall");
 			return;
@@ -56,14 +79,19 @@ public partial class Idle : PlayerState
 
 		var movement = Input.GetAxis("move_left", "move_right");
 
+		if(movement == 0f && _canUseAnalogControls)
+		{
+			movement = Input.GetAxis(MoveLeftAnalogInput, MoveRightAnalogInput);
+		}
+
 		if(movement != 0f)
 		{
-			if(Actor.IsOnWall() && movement == -Actor.GetWallNormal().X)
+			if(Player.IsOnWall() && movement == -Player.GetWallNormal().X)
 			{
 				return;
 			}
 
-			StateMachine.ChangeState(Input.IsActionPressed("toggle_run") ? "Run" : "Walk");
+			StateMachine.ChangeState(Player.RunEnabled ? "Run" : "Walk");
 			return;
 		}
 
