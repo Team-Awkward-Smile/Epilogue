@@ -37,6 +37,8 @@ public partial class RemapControls : UI
 	private CustomPopup _instructionsPopup;
 	private InputTypeEnum _validPopupInput;
 	private RemapButton _selectedButton;
+	private Dictionary<StringName, List<InputEvent>> _originalMapping = new();
+	private ControlSchemeEnum _originalScheme;
 
 	public override void _Ready()
 	{
@@ -44,15 +46,26 @@ public partial class RemapControls : UI
 		AddActionRow(GetNode<GridContainer>("ScrollContainer/Control/CombatActions"), _combatActions);
 		AddActionRow(GetNode<GridContainer>("ScrollContainer/Control/UIActions"), _uiActions);
 
-		GetNode<Button>("%Return").ButtonDown += () => Close();
+		var actions = _moveActions.Union(_combatActions).Union(_uiActions).ToList();
+
+        foreach(var actionList in actions)
+        {
+			foreach(var action in actionList.Value)
+			{
+				_originalMapping.Add(action, InputMap.ActionGetEvents(action).ToList());
+			}
+        }
+
+        GetNode<Button>("%Return").ButtonDown += () => Close();
 		GetNode<Button>("Save").ButtonDown += SaveMapping;
 		GetNode<Button>("%Default").ButtonDown += ResetToDefault;
 
 		var optionButton = GetNode<OptionButton>("%OptionButton");
 
 		optionButton.ItemSelected += UpdateControlScheme;
-
 		optionButton.Select((int) Settings.ControlScheme);
+
+		_originalScheme = (ControlSchemeEnum) optionButton.Selected;
 
 		_instructionsPopup = CustomPopup.NewCustomPopup();
 		_instructionsPopup.DialogText = "Press any key (Esc to cancel)";
@@ -168,11 +181,11 @@ public partial class RemapControls : UI
 
 	private void UpdateControlScheme(long index)
 	{
-		// Whenever the player changes the Control Scheme, the maping will reset to the default of the selected scheme
+		// Whenever the player changes the Control Scheme, the mapping will reset to the default of the selected scheme
 		Settings.ControlScheme = (ControlSchemeEnum) index;
 
 		var controlScheme = Settings.ControlScheme.ToString().ToLower();
-		var defaultActions = _moveActions.Union(_combatActions).Union(_uiActions).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+		var defaultActions = _moveActions.Union(_combatActions).Union(_uiActions).ToList();
 
 		InputMap.LoadFromProjectSettings();
 
@@ -268,11 +281,11 @@ public partial class RemapControls : UI
 
 	private static bool IsEventAlreadyMapped(InputEvent @event, out List<string> existingActions)
 	{
-		var actions = _combatActions.Union(_moveActions).Union(_uiActions).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+		var actions = _combatActions.Union(_moveActions).Union(_uiActions).ToList();
 		var actionsWithMapping = new List<string>();
 
-        foreach (var actionList in actions)
-        {
+		foreach(var actionList in actions)
+		{
 			foreach(var action in actionList.Value)
 			{
 				if(InputMap.EventIsAction(@event, action))
@@ -280,12 +293,12 @@ public partial class RemapControls : UI
 					actionsWithMapping.Add(action);
 				}
 			}
-        }
+		}
 
 		existingActions = actionsWithMapping;
 
 		return existingActions.Count > 0;
-    }
+	}
 
 	public override void Close(bool unpauseTree = false)
 	{
@@ -371,6 +384,18 @@ public partial class RemapControls : UI
 
 			if(action == "exit_no_save")
 			{
+				foreach(var mapping in _originalMapping)
+				{
+					InputMap.ActionEraseEvents(mapping.Key);
+
+					foreach(var @event in mapping.Value)
+					{
+						InputMap.ActionAddEvent(mapping.Key, @event);
+					}
+				}
+
+				Settings.ControlScheme = _originalScheme;
+
 				base.Close(true);
 			}
 		};

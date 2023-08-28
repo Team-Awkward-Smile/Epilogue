@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b3fpxyxkl46k6"]
 
-[ext_resource type="Script" path="res://ui/remap/RemapControls.cs" id="1_vyr4f"]
-[ext_resource type="LabelSettings" uid="uid://buut7klhr2nui" path="res://base_resources/ui_section_title.tres" id="2_jubx6"]
+[ext_resource type="Script" path="res://ui/remap/RemapControls.cs" id="1_hs0wb"]
+[ext_resource type="LabelSettings" uid="uid://buut7klhr2nui" path="res://base_resources/ui_section_title.tres" id="2_w3m6e"]
 
 [node name="RemapControls" type="Control"]
 process_mode = 3
@@ -11,7 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_vyr4f")
+script = ExtResource("1_hs0wb")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -44,7 +44,7 @@ theme_override_constants/v_separation = 10
 [node name="Label3" type="Label" parent="ScrollContainer/Control"]
 layout_mode = 2
 text = "CONTROL SCHEME"
-label_settings = ExtResource("2_jubx6")
+label_settings = ExtResource("2_w3m6e")
 
 [node name="OptionButton" type="OptionButton" parent="ScrollContainer/Control"]
 unique_name_in_owner = true
@@ -60,7 +60,7 @@ popup/item_1/id = 1
 [node name="Movement" type="Label" parent="ScrollContainer/Control"]
 layout_mode = 2
 text = "MOVEMENT"
-label_settings = ExtResource("2_jubx6")
+label_settings = ExtResource("2_w3m6e")
 
 [node name="MovementActions" type="GridContainer" parent="ScrollContainer/Control"]
 layout_mode = 2
@@ -70,7 +70,7 @@ columns = 4
 [node name="Combat" type="Label" parent="ScrollContainer/Control"]
 layout_mode = 2
 text = "COMBAT"
-label_settings = ExtResource("2_jubx6")
+label_settings = ExtResource("2_w3m6e")
 
 [node name="CombatActions" type="GridContainer" parent="ScrollContainer/Control"]
 layout_mode = 2
@@ -80,7 +80,7 @@ columns = 4
 [node name="UI" type="Label" parent="ScrollContainer/Control"]
 layout_mode = 2
 text = "UI"
-label_settings = ExtResource("2_jubx6")
+label_settings = ExtResource("2_w3m6e")
 
 [node name="UIActions" type="GridContainer" parent="ScrollContainer/Control"]
 layout_mode = 2
