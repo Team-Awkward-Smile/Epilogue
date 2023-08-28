@@ -10,7 +10,7 @@ public partial class Crouch : PlayerState
 {
 	internal override void OnInput(InputEvent @event)
 	{
-		if(Input.IsActionJustReleased("crouch"))
+		if(@event.IsActionReleased("crouch", true))
 		{
 			StateMachine.ChangeState("Idle");
 		}

@@ -61,6 +61,7 @@ public partial class InputDeviceManager : Node
 		}
 	}
 
+	/// <inheritdoc/>
 	public override void _Ready()
 	{
 		ProjectSettings.AddPropertyInfo(new Godot.Collections.Dictionary()
@@ -72,6 +73,11 @@ public partial class InputDeviceManager : Node
 		});
 	}
 
+	/// <summary>
+	///		Maps an InputEvent to it's corresponding icon. Used to display events as icons on-screen, regardless of the original event
+	/// </summary>
+	/// <param name="event">Event to be mapped (must be a <see cref="InputEventMouseButton"/>, <see cref="InputEventJoypadButton"/>, or <see cref="InputEventJoypadMotion"/>)</param>
+	/// <returns>A CompressedTexture2D of the corresponding icon, based on the InputEvent and the brand of controller selected by the player</returns>
 	public static CompressedTexture2D GetKeyIcon(InputEvent @event)
 	{
 		if(@event is InputEventKey)

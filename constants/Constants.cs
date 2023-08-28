@@ -9,5 +9,8 @@ public static class Constants
 	/// </summary>
 	public const int MAP_TILE_SIZE = 18;
 
+	/// <summary>
+	///		Path for the scene containing the Custom Popup created for this project
+	/// </summary>
 	public const string CUSTOM_POPUP_SCENE = "res://ui/popup/custom_popup.tscn";
 }

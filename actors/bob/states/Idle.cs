@@ -81,7 +81,7 @@ public partial class Idle : PlayerState
 
 		if(movement == 0f && _canUseAnalogControls)
 		{
-			movement = Input.GetAxis(MoveLeftAnalogInput, MoveRightAnalogInput);
+			movement = Input.GetAxis("move_left_analog", "move_right_analog");
 		}
 
 		if(movement != 0f)

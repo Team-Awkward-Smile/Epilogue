@@ -9,6 +9,10 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Epilogue.ui.remap;
+/// <summary>
+///		Screen to allow the player to remap the controls of the game.
+///		Presents a list of actions, and allows new events from PC and controller to be mapped to them
+/// </summary>
 public partial class RemapControls : UI
 {
 	private static readonly Dictionary<string, List<string>> _moveActions = new()
@@ -40,6 +44,7 @@ public partial class RemapControls : UI
 	private Dictionary<StringName, List<InputEvent>> _originalMapping = new();
 	private ControlSchemeEnum _originalScheme;
 
+	/// <inheritdoc/>
 	public override void _Ready()
 	{
 		AddActionRow(GetNode<GridContainer>("ScrollContainer/Control/MovementActions"), _moveActions);
@@ -75,13 +80,20 @@ public partial class RemapControls : UI
 		AddChild(_instructionsPopup);
 	}
 
+	/// <summary>
+	///		Logic executed whenever an action is being remapped and a valid input is detected
+	/// </summary>
+	/// <param name="event">The input detected</param>
 	private void OnRemapEventReceived(InputEvent @event)
 	{
+		// Only allows press inputs (and not release inputs)
 		if(@event.IsReleased())
 		{
 			return;
 		}
 
+		// Pressing Esc will cancel the remap
+		// TODO: 36 - Improve this logic and allow it to work with controllers as well
 		if(@event.IsAction("ui_cancel") && @event is InputEventKey)
 		{
 			_instructionsPopup.Hide();
@@ -89,6 +101,7 @@ public partial class RemapControls : UI
 			return;
 		}
 
+		// Filters out any invalid input depending of the button clicked
 		if(_validPopupInput == InputTypeEnum.PC && @event is not (InputEventKey or InputEventMouseButton))
 		{
 			return;
@@ -99,11 +112,13 @@ public partial class RemapControls : UI
 		}
 		else if(@event is InputEventJoypadMotion motion && Mathf.Abs(motion.AxisValue) < 0.8f)
 		{
+			// Joystick movement inputs are only detected if they're above 0.8 in strength
 			return;
 		}
 
 		_instructionsPopup.Hide();
 
+		// Checks if the detected event is already mapped to one or more actions
 		if(IsEventAlreadyMapped(@event, out var existingActions))
 		{
 			var confirmDialog = CustomPopup.NewCustomPopup();
@@ -143,12 +158,19 @@ public partial class RemapControls : UI
 		}
 	}
 
+	/// <summary>
+	///		Add the detected event to the corresponsing action(s)
+	/// </summary>
+	/// <param name="event">The event to be added</param>
 	private void AssignEventToCurrentActions(InputEvent @event)
 	{
 		_selectedButton.UpdateMapping(@event);
 		_hasUnsavedChanges = true;
 	}
 
+	/// <summary>
+	///		Saves the changes done to disk, allowing them to be used later
+	/// </summary>
 	private void SaveMapping()
 	{
 		Settings.SaveSettings();
@@ -156,6 +178,9 @@ public partial class RemapControls : UI
 		_hasUnsavedChanges = false;
 	}
 
+	/// <summary>
+	///		Resets the mapping to their default value, undoing every change made by the player
+	/// </summary>
 	private void ResetToDefault()
 	{
 		var confirmDialog = CustomPopup.NewCustomPopup();
@@ -179,6 +204,11 @@ public partial class RemapControls : UI
 		confirmDialog.PopupCentered();
 	}
 
+	/// <summary>
+	///		Changes the current Control Scheme and updates every button on-screen. 
+	///		This method runs automatically whenever the OptionButton is used to change the current Control Scheme
+	/// </summary>
+	/// <param name="index">The index of the selected item</param>
 	private void UpdateControlScheme(long index)
 	{
 		// Whenever the player changes the Control Scheme, the mapping will reset to the default of the selected scheme
@@ -208,6 +238,11 @@ public partial class RemapControls : UI
 		_hasUnsavedChanges = true;
 	}
 
+	/// <summary>
+	///		Adds a new row to the screen, with a Label containing the actions, and 3 buttons used to remap them
+	/// </summary>
+	/// <param name="parent">The GridContainer that will be used as the parent of every row</param>
+	/// <param name="actions">A Dictionary containing a string with the name of the action(s), and a List of strings with the name of each individual action that will be used with the InputMap</param>
 	private void AddActionRow(GridContainer parent, Dictionary<string, List<string>> actions)
 	{
 		foreach(var action in actions)
@@ -279,6 +314,12 @@ public partial class RemapControls : UI
 		}
 	}
 
+	/// <summary>
+	///		Checks if the InputEvent is already mapped to any other action
+	/// </summary>
+	/// <param name="event">The event to be validated</param>
+	/// <param name="existingActions">The list of actions that are already mapped to that event</param>
+	/// <returns><c>true</c>, if at least 1 action is already mapped to the event (in this case, <paramref name="existingActions"/> will contain those actions); <c>false</c>, otherwise</returns>
 	private static bool IsEventAlreadyMapped(InputEvent @event, out List<string> existingActions)
 	{
 		var actions = _combatActions.Union(_moveActions).Union(_uiActions).ToList();
@@ -300,6 +341,7 @@ public partial class RemapControls : UI
 		return existingActions.Count > 0;
 	}
 
+	/// <inheritdoc/>
 	public override void Close(bool unpauseTree = false)
 	{
 		// If any action is not mapped to any key, the Screen cannot be closed
@@ -318,6 +360,10 @@ public partial class RemapControls : UI
 		}
 	}
 
+	/// <summary>
+	///		Checks if any action displayed on the list is not mapped to anything
+	/// </summary>
+	/// <returns><c>true</c>, if every action has at least 1 event mapped to it; <c>false</c>, otherwise</returns>
 	private bool ValidateEmptyActions()
 	{
 		var actionList = _moveActions.Union(_uiActions).Union(_combatActions).ToList();
@@ -352,6 +398,9 @@ public partial class RemapControls : UI
 		return true;
 	}
 
+	/// <summary>
+	///		Displays a popup when the player tries to exit the screen with unsaved changed present
+	/// </summary>
 	private void OnUnsavedChangesClose()
 	{
 		var confirmPopup = GD.Load<PackedScene>("res://ui/popup/custom_popup.tscn").Instantiate() as CustomPopup;

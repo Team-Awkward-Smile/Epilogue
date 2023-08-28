@@ -16,9 +16,6 @@ public partial class PlayerState : State
 	/// </summary>
 	private protected PlayerEvents PlayerEvents { get; private set; }
 
-	private protected string MoveLeftAnalogInput { get; } = "move_left_analog_modern";
-	private protected string MoveRightAnalogInput { get; } = "move_right_analog_modern";
-
 	private protected override void AfterReady()
 	{
 		Player = (Player) Owner;

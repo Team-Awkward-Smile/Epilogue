@@ -1,8 +1,21 @@
 namespace Epilogue.global.enums;
+/// <summary>
+///		Brand of controller used to determine the icons that will be displayed
+/// </summary>
 public enum InputDeviceBrand
 {
+	/// <summary>
+	///		Sony's PlayStation
+	/// </summary>
 	PlayStation,
+
+	/// <summary>
+	///		Microsoft's XBox
+	/// </summary>
 	XBox,
-	Nintendo,
-	PC
+
+	/// <summary>
+	///		Nintendo Switch
+	/// </summary>
+	Nintendo
 }

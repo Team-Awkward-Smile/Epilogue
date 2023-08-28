@@ -30,6 +30,7 @@ public partial class Settings : Node
 
 	private static ControlSchemeEnum _controlScheme = ProjectSettings.GetSetting("global/use_modern_controls").AsBool() ? ControlSchemeEnum.Modern : ControlSchemeEnum.Retro;
 
+	/// <inheritdoc/>
 	public override void _EnterTree()
 	{
 		if(ResourceLoader.Exists(SETTINGS_FILE))
@@ -51,8 +52,26 @@ public partial class Settings : Node
 		GD.Print($"Control Scheme: {ControlScheme}");
 	}
 
+	/// <summary>
+	///		Saves the current Settings on disk
+	/// </summary>
 	public static void SaveSettings()
 	{
+		var moveLeftEvent = InputMap.ActionGetEvents("move_left").Where(e => e is InputEventJoypadMotion).FirstOrDefault();
+		var moveRightEvent = InputMap.ActionGetEvents("move_right").Where(e => e is InputEventJoypadMotion).FirstOrDefault();
+
+		if(moveLeftEvent is not null)
+		{
+			InputMap.ActionEraseEvent("move_left", moveLeftEvent);
+			InputMap.ActionAddEvent("move_left_analog", moveLeftEvent);
+		}
+
+		if(moveRightEvent is not null)
+		{
+			InputMap.ActionEraseEvent("move_right", moveRightEvent);
+			InputMap.ActionAddEvent("move_right_analog", moveRightEvent);
+		}
+
 		var settings = new SettingsResource()
 		{
 			ControlScheme = ControlScheme,

@@ -5,6 +5,9 @@ using Epilogue.nodes;
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
+/// <summary>
+///		State that allows Hestmor to crawl on all four
+/// </summary>
 public partial class Crawl : PlayerState
 {
 	[Export] private float _crawlSpeed;
@@ -24,7 +27,7 @@ public partial class Crawl : PlayerState
 
 		if(movementDirection == 0f && _canUseAnalogControls)
 		{
-			movementDirection = Input.GetAxis(MoveLeftAnalogInput, MoveRightAnalogInput);
+			movementDirection = Input.GetAxis("move_left_analog", "move_right_analog");
 		}
 
 		if(movementDirection == 0f)

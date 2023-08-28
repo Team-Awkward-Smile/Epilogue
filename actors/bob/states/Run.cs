@@ -64,7 +64,7 @@ public partial class Run : PlayerState
 
 		if(movementDirection == 0f && _canUseAnalogControls)
 		{
-			movementDirection = Input.GetAxis(MoveLeftAnalogInput, MoveRightAnalogInput);
+			movementDirection = Input.GetAxis("move_left_analog", "move_right_analog");
 		}
 
 		if(movementDirection != 0f)
