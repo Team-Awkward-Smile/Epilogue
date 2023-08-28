@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://crvtk6qhessyc"]
+
+[ext_resource type="Script" path="res://nodes/Projectile.cs" id="1_ebo66"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_v8vg4"]
+size = Vector2(3, 3)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ok2h4"]
+radius = 1.88627
+
+[node name="Projectile" type="Area2D"]
+collision_layer = 16
+collision_mask = 40
+collision_priority = 100.0
+input_pickable = false
+priority = 100
+script = ExtResource("1_ebo66")
+Speed = 1000.0
+Damage = 1.0
+DamageType = 1
+LifeTime = 1.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("PlaceholderTexture2D_v8vg4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ok2h4")

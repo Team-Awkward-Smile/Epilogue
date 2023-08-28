@@ -24,6 +24,7 @@ public partial class InputDeviceManager : Node
 
 	private InputTypeEnum _newInputType;
 
+	/// <inheritdoc/>
 	public override void _Input(InputEvent @event)
 	{
 		// If an input from an analog stick is read and it's below the deadzone, drop the input

@@ -11,10 +11,10 @@ public partial class KonamiCode : Node
 	[Export] private float _cheatInputTimer = 1f;
 
 	private float _timer = 0f;
-	private List<InputEvent> _cheatBuffer = new();
+	private readonly List<InputEvent> _cheatBuffer = new();
 
 	// Predefined cheat: up up down down left right left right RMB LMB Enter
-	private static string[] _cheat = { 
+	private static readonly string[] _cheat = { 
 		"cheat_up", 
 		"cheat_up", 
 		"cheat_down", 
@@ -28,6 +28,7 @@ public partial class KonamiCode : Node
 		"cheat_button_3"
 	};
 
+	/// <inheritdoc/>
 	public override void _UnhandledInput(InputEvent @event)
 	{
 		// Ignores any input that's not from the Keyboard/Mouse or from the D-Pad
@@ -45,6 +46,7 @@ public partial class KonamiCode : Node
 		}
 	}
 
+	/// <inheritdoc/>
 	public override void _Process(double delta)
 	{
 		_timer += (float) delta;

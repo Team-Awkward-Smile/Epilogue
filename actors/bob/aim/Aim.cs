@@ -5,21 +5,35 @@ using Godot;
 using Godot.Collections;
 
 namespace Epilogue.actors.hestmor.aim;
+/// <summary>
+///		Node responsible for handling the aiming inputs and setting the correct angles
+/// </summary>
 public partial class Aim : Node
 {
+	/// <summary>
+	///		Event fired every time the aiming angle is changed
+	/// </summary>
+	/// <param name="angleDegrees">The new angles, in degrees</param>
+	[Signal] public delegate void AimAngleUpdatedEventHandler(int angleDegrees);
+
+	/// <summary>
+	///		Current angle Hestmor is aiming at, in degrees
+	/// </summary>
+	public int AimAngle { get; private set; }
+
 	private Actor _actor;
 
-	private readonly Dictionary<AimDirectionEnum, int> _aimAngles = new()
+	private readonly Dictionary<AimDirection, int> _aimAngles = new()
 	{
-		{ AimDirectionEnum.Left | AimDirectionEnum.None, 180 },		// Left
-		{ AimDirectionEnum.Right | AimDirectionEnum.None, 0 },		// Right
-		{ AimDirectionEnum.None | AimDirectionEnum.Up, -90 },		// Up
-		{ AimDirectionEnum.None | AimDirectionEnum.Down, 90 },		// Down
+		{ AimDirection.Left | AimDirection.None, 180 },		// Left
+		{ AimDirection.Right | AimDirection.None, 0 },		// Right
+		{ AimDirection.None | AimDirection.Up, -90 },		// Up
+		{ AimDirection.None | AimDirection.Down, 90 },		// Down
 
-		{ AimDirectionEnum.Left | AimDirectionEnum.Up, -135 },		// Upper Left
-		{ AimDirectionEnum.Left | AimDirectionEnum.Down, 135 },		// Lower Left
-		{ AimDirectionEnum.Right | AimDirectionEnum.Up, -45 },		// Upper Right
-		{ AimDirectionEnum.Right | AimDirectionEnum.Down, 45 }		// Lower Right
+		{ AimDirection.Left | AimDirection.Up, -135 },		// Upper Left
+		{ AimDirection.Left | AimDirection.Down, 135 },		// Lower Left
+		{ AimDirection.Right | AimDirection.Up, -45 },		// Upper Right
+		{ AimDirection.Right | AimDirection.Down, 45 }		// Lower Right
 	};
 
 	/// <summary>
@@ -36,32 +50,35 @@ public partial class Aim : Node
 		stickAim.ProcessMode = inputType == InputTypeEnum.Controller && Settings.ControlScheme == ControlSchemeEnum.Modern ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
 	}
 
+	/// <inheritdoc/>
 	public override void _Ready()
 	{
 		_actor = (Actor) Owner;
+		InputTypeUpdate(InputDeviceManager.MostRecentInputType ?? InputTypeEnum.Keyboard);
 	}
 
 	/// <summary>
-	///		Sets the direction of the aim system to a new direction, regardless of the input system used
+	///		Sets a new angle to be used by guns. The informed directions are converted into the corresponsing angles
 	/// </summary>
-	/// <param name="direction">The new direction</param>
-	public void SetAimDirection(AimDirectionEnum direction)
+	/// <param name="direction">The flags representing the new direction Hestmo is aiming at</param>
+	public void SetAimDirection(AimDirection direction)
 	{
-		if(direction == AimDirectionEnum.None)
+		if(direction == AimDirection.None)
 		{
-			direction = _actor.FacingDirection == ActorFacingDirectionEnum.Left ? AimDirectionEnum.Left : AimDirectionEnum.Right;
+			direction = _actor.FacingDirection == ActorFacingDirection.Left ? AimDirection.Left : AimDirection.Right;
 		}
 
-		if((direction & AimDirectionEnum.Left) != 0)
+		if((direction & AimDirection.Left) != 0)
 		{
-			_actor.SetFacingDirection(ActorFacingDirectionEnum.Left);
+			_actor.SetFacingDirection(ActorFacingDirection.Left);
 		}
-		else if((direction & AimDirectionEnum.Right) != 0)
+		else if((direction & AimDirection.Right) != 0)
 		{
-			_actor.SetFacingDirection(ActorFacingDirectionEnum.Right);
+			_actor.SetFacingDirection(ActorFacingDirection.Right);
 		}
 
-		// TODO: This is just placeholder while we don't have a concrete aiming system
-		GetNode<Sprite2D>("../AimArrow").RotationDegrees = _aimAngles[direction];
+		AimAngle = _aimAngles[direction];
+
+		EmitSignal(SignalName.AimAngleUpdated, AimAngle);
 	}
 }

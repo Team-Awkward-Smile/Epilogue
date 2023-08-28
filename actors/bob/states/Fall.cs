@@ -1,33 +1,66 @@
+using Epilogue.constants;
 using Epilogue.nodes;
 using Godot;
 using System.Threading.Tasks;
 
 namespace Epilogue.actors.hestmor.states;
+/// <summary>
+///		State that allows Hestmor to fall from high places
+/// </summary>
 public partial class Fall : PlayerState
 {
-	public override void OnEnter()
+	private bool _playLandingAnimation = true;
+	private bool _canGrabLedge;
+
+	internal override void OnEnter()
 	{
+		_canGrabLedge = false;
+		_playLandingAnimation = true;
+
 		AnimPlayer.Play("fall");
-		Actor.CanChangeFacingDirection = true;
+		Player.CanChangeFacingDirection = true;
+
+		GetTree().CreateTimer(0.1f).Timeout += () => _canGrabLedge = true;
 	}
 
-	public override void PhysicsUpdate(double delta)
+	internal override void PhysicsUpdate(double delta)
 	{
-		Actor.Velocity = new Vector2(Actor.Velocity.X, Actor.Velocity.Y + (Gravity * (float) delta));
-		Actor.MoveAndSlideWithRotation();
+		if(_canGrabLedge && Player.IsOnWall() && Player.SweepForLedge(out var ledgePosition))
+		{
+			var offset = Player.RayCasts["Head"].GlobalPosition.Y - ledgePosition.Y;
 
-		if(Actor.IsOnFloor())
+			_playLandingAnimation = false;
+
+			if(offset < -20)
+			{
+				Player.Position = new Vector2(Player.Position.X, ledgePosition.Y + Constants.MAP_TILE_SIZE);
+				StateMachine.ChangeState("Vault");
+			}
+			else
+			{
+				Player.Position -= new Vector2(0f, offset);
+				StateMachine.ChangeState("GrabLedge");
+			}
+
+			return;
+		}
+
+		Player.Velocity = new Vector2(Player.Velocity.X, Player.Velocity.Y + (Gravity * (float) delta));
+		Player.MoveAndSlideWithRotation();
+
+		if(Player.IsOnFloor())
 		{
 			StateMachine.ChangeState("Idle");
 		}
-		else if(Actor.RayCasts["Head"].IsColliding() && !Actor.RayCasts["Ledge"].IsColliding())
-		{
-			StateMachine.ChangeState("GrabLedge");
-		}
 	}
 
-	public override async Task OnLeaveAsync()
+	internal override async Task OnLeaveAsync()
 	{
+		if(!_playLandingAnimation)
+		{
+			return;
+		}
+
 		AudioPlayer.PlayGenericSfx("Land");
 		AnimPlayer.Play("fall_land");
 
