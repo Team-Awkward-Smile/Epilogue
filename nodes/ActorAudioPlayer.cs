@@ -22,6 +22,7 @@ public partial class ActorAudioPlayer : Node
 	private AudioStreamPlayer2D _genericSfxPlayer;
 	private AudioStreamPlayer2D _footstepSfxPlayer;
 
+	/// <inheritdoc/>
 	public override void _Ready()
 	{
 		// Creates an AudioStreamPlayer2D for each type of SFX available for this Actor

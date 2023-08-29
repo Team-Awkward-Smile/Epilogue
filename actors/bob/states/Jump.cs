@@ -1,7 +1,14 @@
+using Epilogue.constants;
+using Epilogue.global.enums;
 using Epilogue.nodes;
 using Godot;
 
+using Microsoft.CodeAnalysis.Operations;
+
 namespace Epilogue.actors.hestmor.states;
+/// <summary>
+///		State that allows Hestmor to start a jump
+/// </summary>
 public partial class Jump : PlayerState
 {
 	[Export] private float _jumpSpeed = -400f;
@@ -11,39 +18,59 @@ public partial class Jump : PlayerState
 	private void StartJump(StringName animName)
 	{
 		AnimPlayer.AnimationFinished -= StartJump;
-		Actor.Velocity = new Vector2(_horizontalVelocity, _jumpSpeed);
+		Player.Velocity = new Vector2(_horizontalVelocity, _jumpSpeed);
 	}
 
-	public override void OnEnter()
+	internal override void OnEnter()
 	{
-		_horizontalVelocity = Actor.Velocity.X;
+		if(Player.Velocity.X == 0)
+		{
+			_horizontalVelocity = 100f * (Player.FacingDirection == ActorFacingDirection.Left ? -1 : 1);
+		}
+		else
+		{
+			_horizontalVelocity = 100f * (Player.Velocity.X > 0 ? 1 : -1);
+		}
 
 		AudioPlayer.PlayGenericSfx("Jump");
 
-		Actor.Velocity = new Vector2(0f, Actor.Velocity.Y);
-		Actor.CanChangeFacingDirection = false;
+		Player.Velocity = new Vector2(0f, Player.Velocity.Y);
+		Player.CanChangeFacingDirection = false;
 
 		AnimPlayer.Play("jump");
 		AnimPlayer.AnimationFinished += StartJump;
 	}
 
-	public override void PhysicsUpdate(double delta)
+	internal override void PhysicsUpdate(double delta)
 	{
-		Actor.Velocity = new Vector2(Actor.Velocity.X, Actor.Velocity.Y + (Gravity * (float) delta));
-		Actor.MoveAndSlideWithRotation();
-
-		if(Actor.Velocity.Y > 0)
+		if(Player.IsOnWall() && Player.SweepForLedge(out var ledgePosition))
 		{
-			StateMachine.ChangeState("Fall");
+			var offset = Player.RayCasts["Head"].GlobalPosition.Y - ledgePosition.Y;
+
+			if(offset < -30)
+			{
+				Player.Position = new Vector2(Player.Position.X, ledgePosition.Y + Constants.MAP_TILE_SIZE);
+				StateMachine.ChangeState("Vault");
+			}
+			else
+			{
+				Player.Position -= new Vector2(0f, offset);
+				StateMachine.ChangeState("GrabLedge");
+			}
+
 			return;
 		}
-		else if(Actor.IsOnFloor() && Actor.Velocity.Y < 0)
+
+		Player.Velocity = new Vector2(Player.Velocity.X, Player.Velocity.Y + (Gravity * (float) delta));
+		Player.MoveAndSlideWithRotation();
+
+		if(Player.Velocity.Y > 0)
+		{
+			StateMachine.ChangeState("Fall");
+		}
+		else if(Player.IsOnFloor() && Player.Velocity.Y < 0)
 		{
 			StateMachine.ChangeState("Idle");
-		}
-		else if(Actor.RayCasts["Head"].IsColliding() && !Actor.RayCasts["Ledge"].IsColliding())
-		{
-			StateMachine.ChangeState("GrabLedge");
 		}
 	}
 }

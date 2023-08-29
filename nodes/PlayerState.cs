@@ -1,3 +1,4 @@
+using Epilogue.global.singletons;
 using Epilogue.util;
 
 namespace Epilogue.nodes;
@@ -7,14 +8,31 @@ namespace Epilogue.nodes;
 /// </summary>
 public partial class PlayerState : State
 {
-	protected readonly string _jumpInput = InputUtils.GetInputActionName("jump");
-	protected readonly string _attackInput = InputUtils.GetInputActionName("melee");
-	protected readonly string _crouchInput = InputUtils.GetInputActionName("crouch");
-	protected readonly string _moveLeftInput = InputUtils.GetInputActionName("move_left");
-	protected readonly string _moveRightInput = InputUtils.GetInputActionName("move_right");
-	protected readonly string _toggleRunInput = InputUtils.GetInputActionName("toggle_run");
-	protected readonly string _lookUpInput = InputUtils.GetInputActionName("look_up");
-	protected readonly string _slideInput = InputUtils.GetInputActionName("slide");
-	protected readonly string _cancelSlideInput = InputUtils.GetInputActionName("cancel_slide");
-	protected readonly string _growlInput = InputUtils.GetInputActionName("growl");
+	/// <summary>
+	///		Reference to the player character
+	/// </summary>
+	private protected Player Player { get; private set; }
+
+	/// <summary>
+	///		Singleton responsible for triggering events related to the player character
+	/// </summary>
+	private protected PlayerEvents PlayerEvents { get; private set; }
+
+	private protected string JumpInput { get; } = InputUtils.GetInputActionName("jump");
+	private protected string CrouchInput { get; } = InputUtils.GetInputActionName("crouch");
+	private protected string MoveLeftDigitalInput { get; } = InputUtils.GetInputActionName("move_left_digital");
+	private protected string MoveRightDigitalInput { get; } = InputUtils.GetInputActionName("move_right_digital");
+	private protected string MoveLeftAnalogInput { get; } = "move_left_analog_modern";
+	private protected string MoveRightAnalogInput { get; } = "move_right_analog_modern";
+	private protected string LookUpInput { get; } = InputUtils.GetInputActionName("look_up");
+	private protected string SlideInput { get; } = InputUtils.GetInputActionName("slide");
+	private protected string CancelSlideInput { get; } = InputUtils.GetInputActionName("cancel_slide");
+	private protected string MeleeAttackInput { get; } = InputUtils.GetInputActionName("melee");
+	private protected string GrowlInput { get; } = InputUtils.GetInputActionName("growl");
+
+	private protected override void AfterReady()
+	{
+		Player = (Player) Owner;
+		PlayerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
+	}
 }

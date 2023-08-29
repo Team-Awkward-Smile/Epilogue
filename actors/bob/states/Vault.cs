@@ -2,13 +2,21 @@ using Epilogue.nodes;
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
+/// <summary>
+///		State that allows Hestmor to vault over small obstacles
+/// </summary>
 public partial class Vault : PlayerState
 {
-	public override void OnEnter()
-	{
-		Actor.CanChangeFacingDirection = false;
+	private Vector2 _spriteOriginalPosition;
 
-		AnimPlayer.Play("ledge_climb");
+	internal override void OnEnter()
+	{
+		_spriteOriginalPosition = Player.Sprite.Position;
+
+		Player.CanChangeFacingDirection = false;
+		Player.Velocity = Vector2.Zero;
+
+		AnimPlayer.Play("vault");
 		AnimPlayer.AnimationFinished += MoveToTop;
 	}
 
@@ -16,7 +24,8 @@ public partial class Vault : PlayerState
 	{
 		AnimPlayer.AnimationFinished -= MoveToTop;
 
-		Actor.GlobalPosition = Actor.Sprite.GetNode<Node2D>("LedgeAnchor").GlobalPosition;
+		Player.GlobalPosition = Player.Sprite.GetNode<Node2D>("LedgeAnchor").GlobalPosition;
+		Player.Sprite.Position = _spriteOriginalPosition;
 
 		StateMachine.ChangeState("Fall");
 	}

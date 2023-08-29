@@ -1,87 +1,94 @@
 using Epilogue.global.enums;
+using Epilogue.global.singletons;
 using Epilogue.nodes;
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
+/// <summary>
+///		State that allows Hestmor to walk
+/// </summary>
 public partial class Walk : PlayerState
 {
 	[Export] private float _walkSpeed = 100f;
 
-	private bool _runToggled = false;
+	private bool _canUseAnalogControls;
 
-	public override void OnInput(InputEvent @event)
+	internal override void OnInput(InputEvent @event)
 	{
-		if(Input.IsActionJustPressed(_jumpInput))
+		if(@event.IsActionPressed(JumpInput))
 		{
-			if(Actor.RayCasts["Head"].IsColliding() && !Actor.RayCasts["Ledge"].IsColliding())
-			{
-				StateMachine.ChangeState("GrabLedge");
-			}
-			else
-			{
-				StateMachine.ChangeState("Jump");
-			}
+			StateMachine.ChangeState("Jump");
 		}
-		else if(Input.IsActionJustPressed(_attackInput))
-		{
-			StateMachine.ChangeState("MeleeAttack");
-		}
-		else if(Input.IsActionJustPressed(_crouchInput))
+		else if(@event.IsActionPressed(CrouchInput))
 		{
 			StateMachine.ChangeState("Crouch");
 		}
-		else if(Input.IsActionJustPressed(_toggleRunInput))
-		{
-			_runToggled = !_runToggled;
-		}
-		else if(Input.IsActionJustPressed(_slideInput))
+		else if(@event.IsActionPressed(SlideInput))
 		{
 			StateMachine.ChangeState("Slide");
 		}
+		else if(@event.IsActionPressed(MeleeAttackInput))
+		{
+			StateMachine.ChangeState("MeleeAttack");
+		}
+
+		_canUseAnalogControls = Settings.ControlScheme == ControlSchemeEnum.Modern;
 	}
 
-	public override void OnEnter()
+	internal override void OnEnter()
 	{
-		_runToggled = false;
-
 		AnimPlayer.Play("walk");
 
-		Actor.CanChangeFacingDirection = true;
+		Player.CanChangeFacingDirection = true;
 	}
 
-	public override void PhysicsUpdate(double delta)
+	internal override void PhysicsUpdate(double delta)
 	{
-		var movementDirection = Input.GetAxis(_moveLeftInput, _moveRightInput);
+		var movementDirection = Input.GetAxis(MoveLeftDigitalInput, MoveRightDigitalInput);
+
+		if(movementDirection == 0f && _canUseAnalogControls)
+		{
+			movementDirection = Input.GetAxis(MoveLeftAnalogInput, MoveRightAnalogInput);
+		}
 
 		if(movementDirection != 0f)
 		{
-			var velocity = Actor.Velocity;
+			movementDirection = movementDirection > 0 ? 1 : -1;
+
+			var velocity = Player.Velocity;
 
 			velocity.Y += Gravity * (float) delta;
 			velocity.X = movementDirection * _walkSpeed * (float) delta * 60f;
 
-			if(movementDirection > 0 && Actor.FacingDirection == ActorFacingDirectionEnum.Left ||
-				movementDirection < 0 && Actor.FacingDirection == ActorFacingDirectionEnum.Right)
+			if(movementDirection > 0 && Player.FacingDirection == ActorFacingDirection.Left ||
+				movementDirection < 0 && Player.FacingDirection == ActorFacingDirection.Right)
 			{
 				velocity.X /= 2;
 			}
 
-			Actor.Velocity = velocity;
+			Player.Velocity = velocity;
 		}
 
-		Actor.MoveAndSlideWithRotation();
+		Player.MoveAndSlideWithRotation();
 
-		if(movementDirection == 0f || Actor.IsOnWall())
+		var floorNormal = Player.GetFloorNormal();
+		var goingDownSlope = (movementDirection < 0 && floorNormal.X < 0) || (movementDirection > 0 && floorNormal.X > 0);
+
+		if(movementDirection == 0f || Player.IsOnWall())
 		{
 			StateMachine.ChangeState("Idle");
 		}
-		else if(!Actor.IsOnFloor())
+		else if(!Player.IsOnFloor())
 		{
 			StateMachine.ChangeState("Fall");
 		}
-		else if(_runToggled)
+		else if(Player.RunEnabled)
 		{
 			StateMachine.ChangeState("Run");
+		}
+		else if(Player.RotationDegrees >= 40f && !goingDownSlope)
+		{
+			StateMachine.ChangeState("Crawl");
 		}
 	}
 }
