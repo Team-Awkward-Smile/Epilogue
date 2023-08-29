@@ -1,6 +1,6 @@
 using Epilogue.global.enums;
-using Epilogue.global.singletons;
 using Epilogue.nodes;
+
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
@@ -10,8 +10,6 @@ namespace Epilogue.actors.hestmor.states;
 public partial class Walk : PlayerState
 {
 	[Export] private float _walkSpeed = 100f;
-
-	private bool _canUseAnalogControls;
 
 	internal override void OnInput(InputEvent @event)
 	{
@@ -42,8 +40,6 @@ public partial class Walk : PlayerState
 		{
 			StateMachine.ChangeState("MeleeAttack");
 		}
-
-		_canUseAnalogControls = Settings.ControlScheme == ControlSchemeEnum.Modern;
 	}
 
 	internal override void OnEnter()
@@ -57,11 +53,6 @@ public partial class Walk : PlayerState
 	{
 		var movementDirection = Input.GetAxis("move_left", "move_right");
 
-		if(movementDirection == 0f && _canUseAnalogControls)
-		{
-			movementDirection = Input.GetAxis("move_left_analog", "move_right_analog");
-		}
-
 		if(movementDirection != 0f)
 		{
 			movementDirection = movementDirection > 0 ? 1 : -1;
@@ -71,8 +62,8 @@ public partial class Walk : PlayerState
 			velocity.Y += Gravity * (float) delta;
 			velocity.X = movementDirection * _walkSpeed * (float) delta * 60f;
 
-			if(movementDirection > 0 && Player.FacingDirection == ActorFacingDirection.Left ||
-				movementDirection < 0 && Player.FacingDirection == ActorFacingDirection.Right)
+			if((movementDirection > 0 && Player.FacingDirection == ActorFacingDirection.Left) ||
+				(movementDirection < 0 && Player.FacingDirection == ActorFacingDirection.Right))
 			{
 				velocity.X /= 2;
 			}

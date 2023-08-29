@@ -1,6 +1,6 @@
 using Epilogue.global.enums;
-using Epilogue.global.singletons;
 using Epilogue.nodes;
+
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
@@ -10,8 +10,6 @@ namespace Epilogue.actors.hestmor.states;
 public partial class Run : PlayerState
 {
 	[Export] private float _runSpeed = 200f;
-
-	private bool _canUseAnalogControls;
 
 	internal override void OnInput(InputEvent @event)
 	{
@@ -54,18 +52,11 @@ public partial class Run : PlayerState
 		AnimPlayer.Play("walk", -1, 2f);
 
 		Player.CanChangeFacingDirection = true;
-
-		_canUseAnalogControls = Settings.ControlScheme == ControlSchemeEnum.Modern;
 	}
 
 	internal override void PhysicsUpdate(double delta)
 	{
 		var movementDirection = Input.GetAxis("move_left", "move_right");
-
-		if(movementDirection == 0f && _canUseAnalogControls)
-		{
-			movementDirection = Input.GetAxis("move_left_analog", "move_right_analog");
-		}
 
 		if(movementDirection != 0f)
 		{

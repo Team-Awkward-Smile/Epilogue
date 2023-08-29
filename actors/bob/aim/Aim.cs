@@ -39,8 +39,9 @@ public partial class Aim : Node
 	/// <summary>
 	///		Method that runs whenever the Input Type changes
 	/// </summary>
-	private void InputTypeUpdate(InputTypeEnum inputType)
+	private void UpdateInputReading()
 	{
+		var inputType = InputDeviceManager.MostRecentInputType ?? InputTypeEnum.PC;
 		var mouseAim = GetChild(0);
 		var buttonAim = GetChild(1);
 		var stickAim = GetChild(2);
@@ -54,7 +55,7 @@ public partial class Aim : Node
 	public override void _Ready()
 	{
 		_actor = (Actor) Owner;
-		InputTypeUpdate(InputDeviceManager.MostRecentInputType ?? InputTypeEnum.PC);
+		UpdateInputReading();
 	}
 
 	/// <summary>

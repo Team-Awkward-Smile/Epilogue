@@ -56,8 +56,8 @@ public partial class InputDeviceManager : Node
 		{
 			MostRecentInputType = _newInputType;
 
-			// Calls every Node from the "InputType" group, telling them to run their respectives update routines
-			GetTree().CallGroup("InputType", "InputTypeUpdate", (int) MostRecentInputType);
+			// Calls every Node from the "InputReadingUpdatesSubscribers" group, telling them to run their respectives update routines
+			GetTree().CallGroup("InputReadingUpdatesSubscribers", "UpdateInputReading");
 		}
 	}
 

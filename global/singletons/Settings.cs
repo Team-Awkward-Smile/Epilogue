@@ -57,21 +57,6 @@ public partial class Settings : Node
 	/// </summary>
 	public static void SaveSettings()
 	{
-		var moveLeftEvent = InputMap.ActionGetEvents("move_left").Where(e => e is InputEventJoypadMotion).FirstOrDefault();
-		var moveRightEvent = InputMap.ActionGetEvents("move_right").Where(e => e is InputEventJoypadMotion).FirstOrDefault();
-
-		if(moveLeftEvent is not null)
-		{
-			InputMap.ActionEraseEvent("move_left", moveLeftEvent);
-			InputMap.ActionAddEvent("move_left_analog", moveLeftEvent);
-		}
-
-		if(moveRightEvent is not null)
-		{
-			InputMap.ActionEraseEvent("move_right", moveRightEvent);
-			InputMap.ActionAddEvent("move_right_analog", moveRightEvent);
-		}
-
 		var settings = new SettingsResource()
 		{
 			ControlScheme = ControlScheme,

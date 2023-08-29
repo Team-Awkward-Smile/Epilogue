@@ -176,6 +176,8 @@ public partial class RemapControls : UI
 		Settings.SaveSettings();
 
 		_hasUnsavedChanges = false;
+
+		GetTree().CallGroup("InputReadingUpdatesSubscribers", "UpdateInputReading");
 	}
 
 	/// <summary>

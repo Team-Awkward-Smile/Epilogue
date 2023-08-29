@@ -1,7 +1,6 @@
 using Epilogue.constants;
-using Epilogue.global.enums;
-using Epilogue.global.singletons;
 using Epilogue.nodes;
+
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
@@ -10,8 +9,6 @@ namespace Epilogue.actors.hestmor.states;
 /// </summary>
 public partial class Idle : PlayerState
 {
-	private bool _canUseAnalogControls;
-
 	internal override void OnInput(InputEvent @event)
 	{
 		if(Input.IsActionJustPressed("jump"))
@@ -65,8 +62,6 @@ public partial class Idle : PlayerState
 		Player.Velocity = new Vector2(0f, 0f);
 
 		AnimPlayer.Play("idle");
-
-		_canUseAnalogControls = Settings.ControlScheme == ControlSchemeEnum.Modern;
 	}
 
 	internal override void PhysicsUpdate(double delta)
@@ -78,11 +73,6 @@ public partial class Idle : PlayerState
 		}
 
 		var movement = Input.GetAxis("move_left", "move_right");
-
-		if(movement == 0f && _canUseAnalogControls)
-		{
-			movement = Input.GetAxis("move_left_analog", "move_right_analog");
-		}
 
 		if(movement != 0f)
 		{
