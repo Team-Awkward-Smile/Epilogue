@@ -10,6 +10,7 @@ public partial class Die : PlayerState
 {
 	internal override void OnEnter()
 	{
+		Player.HurtBox.SetDeferred("monitorable", false);
 		Player.CanChangeFacingDirection = false;
 
 		AnimPlayer.Play("Combat/die");

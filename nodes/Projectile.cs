@@ -52,25 +52,14 @@ public partial class Projectile : Area2D
 			    QueueFree();
             }
 		};
-
-		BodyEntered += (Node2D body) =>
-		{
-			DamageWorld();
-			QueueFree();
-		};
 	}
 
     private void DamageActor(Area2D area)
     {
-        if(area.Owner is Npc enemy)
+        if(area.Owner is Actor actor)
         {
-		    enemy.DealDamage(Damage);
+		    actor.DealDamage(Damage);
         }
-    }
-
-    private void DamageWorld()
-    {
-        GetTree().Root.GetChildren().OfType<Level>().FirstOrDefault().DamageTile(GlobalPosition, Damage);
     }
 
 	/// <inheritdoc/>

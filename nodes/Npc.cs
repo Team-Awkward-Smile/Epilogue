@@ -8,14 +8,18 @@ namespace Epilogue.nodes;
 public partial class Npc : Actor
 {
     /// <summary>
-    ///     When the NPC's Current HP is equal to below this value, it will become Vulnerable
+    ///     When the NPC's Current HP is equal to or below this value, it will become Vulnerable
     /// </summary>
     [Export] public float VulnerabilityThreshold { get; set; }
+
+    [Export] private float VulnerabilityTimer { get; set; }
 
     /// <summary>
     ///     Defines if this NPC is Vulnerable
     /// </summary>
     public bool IsVulnerable { get; private set; }
+
+    private float _timer = 0f;
 
     /// <summary>
     ///     Deals damage to this NPC. If it's HP then becomes lower than it's <see cref="VulnerabilityThreshold"/>, it becomes Vulnerable
@@ -27,12 +31,14 @@ public partial class Npc : Actor
 
         if(CurrentHealth <= 0 )
         {
-            QueueFree();
+            OnHealthDepleted();
         }
 
         if(CurrentHealth <= VulnerabilityThreshold)
         {
             IsVulnerable = true;
+            
+            OnVulnerabilityTriggered();
         }
 	}
 
@@ -49,4 +55,25 @@ public partial class Npc : Actor
             IsVulnerable = false;
         }
 	}
+
+	public override void _PhysicsProcess(double delta)
+	{
+        if(IsVulnerable)
+        {
+            _timer += (float) delta;
+
+            if(_timer >= VulnerabilityTimer)
+            {
+                _timer = 0f;
+
+                OnVulnerabilityExpired();
+            }
+        }
+	}
+
+	private protected virtual void OnVulnerabilityTriggered() { }
+
+    private protected virtual void OnVulnerabilityExpired() { }
+
+    private protected virtual void OnHealthDepleted() { }
 }

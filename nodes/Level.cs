@@ -14,14 +14,18 @@ namespace Epilogue.nodes;
 [GlobalClass, Icon("res://nodes/icons/level.png"), Tool]
 public partial class Level : Node2D
 {
-	private PauseUI _pauseUI;
+	/// <summary>
+	///		Reference to the player character
+	/// </summary>
+    public Player Player { get; set; }
+
+    private PauseUI _pauseUI;
 	private AmmoUI _ammoUI;
 	private Window _console;
 	private GloryKillPrompt _killPrompt;
 	private TileMap _tileMap;
 	private PlayerEvents _playerEvents;
 	private List<Checkpoint> _checkpoints = new();
-	private Player _player;
 	private Camera _camera;
 	private CheckpointManager _checkpointManager;
 
@@ -63,6 +67,18 @@ public partial class Level : Node2D
 		{
 			_console.Visible = !_console.Visible;
 		}
+	}
+
+	public override void _EnterTree()
+	{
+		if(Engine.IsEditorHint())
+		{
+			return;
+		}
+
+		Player = GD.Load<PackedScene>("res://actors/bob/bob.tscn").Instantiate() as Player;
+
+		AddChild(Player);
 	}
 
 	/// <inheritdoc/>
@@ -142,13 +158,11 @@ public partial class Level : Node2D
 		}
 
 		_camera = GetViewport().GetCamera2D() as Camera;
-		_player = GD.Load<PackedScene>("res://actors/bob/bob.tscn").Instantiate() as Player;
 
-		AddChild(_player);
+		Player.Position = _checkpoints.Where(c => c.Current).FirstOrDefault().Position;
 
-		_player.Position = _checkpoints.Where(c => c.Current).FirstOrDefault().Position;
-		_camera.Position = _player.Position;
-		_camera.SetCameraTarget(_player.GetNode<Node2D>("CameraAnchor"));
+		_camera.Position = Player.Position;
+		_camera.SetCameraTarget(Player.GetNode<Node2D>("CameraAnchor"));
 	}
 
 	private void RespawnPlayer()

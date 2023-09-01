@@ -7,7 +7,7 @@ namespace Epilogue.actors.rob.states;
 /// <summary>
 ///		State that allows Rob to chase Hestmor around the map
 /// </summary>
-public partial class Chase : NpcState
+public partial class Walk : NpcState
 {
 	[Export] private float _movementSpeed = 80f;
 
@@ -15,7 +15,9 @@ public partial class Chase : NpcState
 
 	internal override void OnEnter()
 	{
-		_bob = GetNode<Actor>("../../../Bob");
+		var level = GetTree().GetLevel();
+
+		_bob = GetTree().GetFirstNodeInGroup("Player") as Player;
 		NavigationAgent.TargetPosition = _bob.Position;
 		NavigationAgent.LinkReached += MoveToLink;
 
