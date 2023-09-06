@@ -98,8 +98,9 @@ public partial class Level : Node2D
 		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
 		_checkpointManager = GetNode<CheckpointManager>("/root/CheckpointManager");
 
-		_playerEvents.PlayerDied += RespawnPlayer;
-		_playerEvents.StateAwaitingForExecutionSpeed += () => _killPrompt.Enable();
+		_playerEvents.Connect("PlayerDied", Callable.From(RespawnPlayer));
+		_playerEvents.Connect("StateAwaitingForExecutionSpeed", Callable.From(() => _killPrompt.Enable()));
+
 		_tileMap = GetChildren().OfType<TileMap>().FirstOrDefault();
 
 		// TODO: 68 - Maybe the root CanvasLayer should also be created at run-time?

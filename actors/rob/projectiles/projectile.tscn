@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://ba0acqfmpgk0o"]
 
-[ext_resource type="Script" path="res://nodes/Projectile.cs" id="1_hnntb"]
-[ext_resource type="Texture2D" uid="uid://c5vcqcmpavp0d" path="res://actors/rob/sprite_sheet/projectile-mhm.png" id="2_kgw2q"]
+[ext_resource type="Script" path="res://nodes/Projectile.cs" id="1_ge5f0"]
+[ext_resource type="Texture2D" uid="uid://c5vcqcmpavp0d" path="res://actors/rob/sprite_sheet/projectile-mhm.png" id="2_i4auv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_owvrr"]
 radius = 5.09902
@@ -9,15 +9,16 @@ radius = 5.09902
 [node name="Projectile" type="Area2D"]
 collision_layer = 16
 collision_mask = 32
-script = ExtResource("1_hnntb")
+script = ExtResource("1_ge5f0")
 Speed = 500.0
+Damage = 1.0
 DamageType = 1
 LifeTime = 2.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-5, 0)
 rotation = 3.14159
-texture = ExtResource("2_kgw2q")
+texture = ExtResource("2_i4auv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_owvrr")

@@ -1,27 +1,31 @@
-[gd_scene load_steps=21 format=3 uid="uid://c7cpj3m2vojlm"]
+[gd_scene load_steps=27 format=3 uid="uid://c7cpj3m2vojlm"]
 
-[ext_resource type="Script" path="res://actors/rob/Rob.cs" id="1_dmyq1"]
-[ext_resource type="Shader" path="res://actors/bob/iframes.gdshader" id="2_8une6"]
-[ext_resource type="Texture2D" uid="uid://bjf3fqvi77tpu" path="res://actors/rob/sprite_sheet/Rob-shoot-Sheet.png" id="2_51w02"]
-[ext_resource type="Texture2D" uid="uid://dn2g164h8gckp" path="res://actors/rob/sprite_sheet/Rob-dead-Sheet.png" id="3_4phye"]
-[ext_resource type="Texture2D" uid="uid://blmfcxhc577kn" path="res://actors/rob/sprite_sheet/Rob-walks.png" id="3_dfq7k"]
-[ext_resource type="Script" path="res://nodes/StateMachine.cs" id="3_upqnt"]
-[ext_resource type="Script" path="res://actors/rob/states/Walk.cs" id="5_6hfo6"]
-[ext_resource type="Script" path="res://actors/rob/states/Shoot.cs" id="5_s3tva"]
-[ext_resource type="Script" path="res://actors/rob/states/Stun.cs" id="6_3d74g"]
-[ext_resource type="AnimationLibrary" uid="uid://bvtr6toko864t" path="res://actors/rob/animations/animations.res" id="7_cbw82"]
-[ext_resource type="Script" path="res://actors/rob/states/Die.cs" id="8_4fva7"]
-[ext_resource type="Texture2D" uid="uid://c8gi0sbrpd4kk" path="res://actors/rob/sprite_sheet/Stunn-sheett.png" id="8_7r86t"]
-[ext_resource type="Script" path="res://nodes/HurtBox.cs" id="9_3oshw"]
+[ext_resource type="Script" path="res://actors/rob/Rob.cs" id="1_2ghn1"]
+[ext_resource type="Shader" path="res://actors/bob/iframes.gdshader" id="2_p2edt"]
+[ext_resource type="Texture2D" uid="uid://xslolu34os0u" path="res://actors/rob/sprite_sheet/Rob-rip-Sheet.png" id="3_nt2pe"]
+[ext_resource type="Script" path="res://nodes/StateMachine.cs" id="4_v8i42"]
+[ext_resource type="Script" path="res://actors/rob/states/Move.cs" id="5_3hplw"]
+[ext_resource type="Script" path="res://actors/rob/states/Shoot.cs" id="6_ae7jg"]
+[ext_resource type="Script" path="res://actors/rob/states/Attack.cs" id="7_ri7fn"]
+[ext_resource type="Script" path="res://actors/rob/states/Die.cs" id="8_xmf50"]
+[ext_resource type="Script" path="res://actors/rob/states/Stun.cs" id="9_ajaun"]
+[ext_resource type="Script" path="res://actors/rob/states/Executed.cs" id="10_43idv"]
+[ext_resource type="Script" path="res://actors/rob/states/Wander.cs" id="11_ngpgd"]
+[ext_resource type="AnimationLibrary" uid="uid://bvtr6toko864t" path="res://actors/rob/animations/animations.res" id="12_46rjo"]
+[ext_resource type="Texture2D" uid="uid://wyuis1gup5f" path="res://actors/rob/sprite_sheet/Rob-attack-Sheet.png" id="13_lng1s"]
+[ext_resource type="Texture2D" uid="uid://dn2g164h8gckp" path="res://actors/rob/sprite_sheet/Rob-dead-Sheet.png" id="14_nybj4"]
+[ext_resource type="Texture2D" uid="uid://bjf3fqvi77tpu" path="res://actors/rob/sprite_sheet/Rob-shoot-Sheet.png" id="15_g1ufl"]
+[ext_resource type="Texture2D" uid="uid://c8gi0sbrpd4kk" path="res://actors/rob/sprite_sheet/Stunn-sheett.png" id="16_rv2ql"]
+[ext_resource type="Script" path="res://nodes/HurtBox.cs" id="17_dv516"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gaotm"]
-shader = ExtResource("2_8une6")
+shader = ExtResource("2_p2edt")
 shader_parameter/iframeActive = false
 shader_parameter/blinkColor = Color(0.729412, 0.321569, 0.2, 1)
 
-[sub_resource type="Animation" id="Animation_knqd7"]
-resource_name = "shoot"
-length = 1.4
+[sub_resource type="Animation" id="Animation_o5njs"]
+resource_name = "attack"
+length = 0.8
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -29,10 +33,10 @@ tracks/0/path = NodePath("FlipRoot/Sprite2D:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
+"times": PackedFloat32Array(0.8),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("2_51w02")]
+"values": [ExtResource("13_lng1s")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -41,7 +45,126 @@ tracks/1/path = NodePath("FlipRoot/Sprite2D:hframes")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
+"times": PackedFloat32Array(0.8),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [9]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("FlipRoot/Sprite2D:frame_coords")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0), Vector2i(3, 0), Vector2i(4, 0), Vector2i(5, 0), Vector2i(6, 0), Vector2i(7, 0), Vector2i(8, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_aiteq"]
+resource_name = "die"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FlipRoot/Sprite2D:hframes")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.8),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [11]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FlipRoot/Sprite2D:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.8),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("14_nybj4")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("FlipRoot/Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [1, 2, 3, 4, 5, 6, 7, 8, 0]
+}
+
+[sub_resource type="Animation" id="Animation_x221g"]
+resource_name = "execution"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FlipRoot/Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_nt2pe")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FlipRoot/Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [11]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("FlipRoot/Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+}
+
+[sub_resource type="Animation" id="Animation_knqd7"]
+resource_name = "shoot"
+length = 0.9
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FlipRoot/Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.9),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("15_g1ufl")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FlipRoot/Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.9),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [15]
@@ -53,7 +176,7 @@ tracks/2/path = NodePath("FlipRoot/Sprite2D:vframes")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0),
+"times": PackedFloat32Array(0.9),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [1]
@@ -65,10 +188,10 @@ tracks/3/path = NodePath("FlipRoot/Sprite2D:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -107,10 +230,10 @@ tracks/0/path = NodePath("FlipRoot/Sprite2D:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
+"times": PackedFloat32Array(1),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("8_7r86t")]
+"values": [ExtResource("16_rv2ql")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -119,7 +242,7 @@ tracks/1/path = NodePath("FlipRoot/Sprite2D:hframes")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
+"times": PackedFloat32Array(1),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [10]
@@ -137,48 +260,11 @@ tracks/2/keys = {
 "values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 }
 
-[sub_resource type="Animation" id="Animation_aiteq"]
-resource_name = "die"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("FlipRoot/Sprite2D:hframes")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [11]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("FlipRoot/Sprite2D:texture")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("3_4phye")]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("FlipRoot/Sprite2D:frame")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_e620j"]
 _data = {
+"attack": SubResource("Animation_o5njs"),
 "die": SubResource("Animation_aiteq"),
+"execution": SubResource("Animation_x221g"),
 "shoot": SubResource("Animation_knqd7"),
 "stun": SubResource("Animation_4ewq5")
 }
@@ -193,19 +279,19 @@ radius = 30.0167
 [node name="Rob" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 24
-script = ExtResource("1_dmyq1")
-VulnerabilityThreshold = 1.0
+script = ExtResource("1_2ghn1")
+VulnerabilityThreshold = 2.0
 VulnerabilityTimer = 5.0
-MaxHealth = 3.0
-CurrentHealth = 3.0
+MaxHealth = 5.0
+CurrentHealth = 5.0
 
 [node name="FlipRoot" type="Node2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="FlipRoot" groups=["MainSprite"]]
 material = SubResource("ShaderMaterial_gaotm")
 position = Vector2(0, -31)
-texture = ExtResource("3_dfq7k")
-hframes = 9
+texture = ExtResource("3_nt2pe")
+hframes = 11
 frame = 1
 
 [node name="HitBoxContainer" type="Area2D" parent="FlipRoot"]
@@ -214,23 +300,32 @@ frame = 1
 position = Vector2(32, -42)
 
 [node name="StateMachine" type="Node" parent="."]
-script = ExtResource("3_upqnt")
+script = ExtResource("4_v8i42")
 
-[node name="Walk" type="Node" parent="StateMachine"]
-script = ExtResource("5_6hfo6")
+[node name="Move" type="Node" parent="StateMachine"]
+script = ExtResource("5_3hplw")
 
 [node name="Shoot" type="Node" parent="StateMachine"]
-script = ExtResource("5_s3tva")
+script = ExtResource("6_ae7jg")
 
-[node name="Stun" type="Node" parent="StateMachine"]
-script = ExtResource("6_3d74g")
+[node name="Attack" type="Node" parent="StateMachine"]
+script = ExtResource("7_ri7fn")
 
 [node name="Die" type="Node" parent="StateMachine"]
-script = ExtResource("8_4fva7")
+script = ExtResource("8_xmf50")
+
+[node name="Stun" type="Node" parent="StateMachine"]
+script = ExtResource("9_ajaun")
+
+[node name="Executed" type="Node" parent="StateMachine"]
+script = ExtResource("10_43idv")
+
+[node name="Wander" type="Node" parent="StateMachine"]
+script = ExtResource("11_ngpgd")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": ExtResource("7_cbw82"),
+"": ExtResource("12_46rjo"),
 "Combat": SubResource("AnimationLibrary_e620j")
 }
 
@@ -239,13 +334,14 @@ position = Vector2(0, -32)
 shape = SubResource("CapsuleShape2D_rm8xs")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-navigation_layers = 3
+avoidance_enabled = true
+radius = 60.0
 debug_enabled = true
 
 [node name="HurtBox" type="Area2D" parent="."]
 collision_layer = 32
 collision_mask = 16
-script = ExtResource("9_3oshw")
+script = ExtResource("17_dv516")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="HurtBox"]
 position = Vector2(1, -32)

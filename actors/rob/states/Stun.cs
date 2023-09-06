@@ -13,6 +13,13 @@ public partial class Stun : NpcState
 	internal override void OnEnter()
 	{
 		AnimPlayer.PlayBackwards("Combat/stun");
+
 		Npc.Sprite.SetShaderMaterialParameter("iframeActive", true);
+		Npc.CanProcessAI = false;
+	}
+
+	internal override void OnLeave()
+	{
+		Npc.CanProcessAI = true;
 	}
 }

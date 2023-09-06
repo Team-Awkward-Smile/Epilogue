@@ -58,6 +58,7 @@ public partial class Projectile : Area2D
     {
         if(area.Owner is Actor actor)
         {
+            GD.Print($"Dealing [{Damage}] to [{actor.Name}]");
 		    actor.DealDamage(Damage);
         }
     }

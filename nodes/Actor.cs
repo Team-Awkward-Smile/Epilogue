@@ -10,6 +10,8 @@ namespace Epilogue.nodes;
 [GlobalClass]
 public abstract partial class Actor : CharacterBody2D
 {
+    [Signal] public delegate void AfterReadyEventHandler();
+
 	/// <summary>
 	///		Max HP of this Actor
 	/// </summary>
@@ -41,13 +43,21 @@ public abstract partial class Actor : CharacterBody2D
     public Sprite2D Sprite { get; set; }
 
 	/// <summary>
-	///		Reference to the State Machine used by the Actor
+	///		Size of this Sprite, in units (X = width; Y = height)
 	/// </summary>
+	public Vector2 SpriteSize => Sprite.GetRect().Size;
+
+    /// <summary>
+    ///		Reference to the State Machine used by the Actor
+    /// </summary>
     public StateMachine StateMachine { get; set; }
 
-	private protected AnimationPlayer AnimationPlayer { get; set; }
-
+	/// <summary>
+	///		HurtBox of this Actor, used to detect collisions against objects that can hurt it
+	/// </summary>
 	public  HurtBox HurtBox { get; set; }
+	
+	private protected AnimationPlayer AnimationPlayer { get; set; }
 
     /// <inheritdoc/>
     public override void _Ready()
@@ -69,14 +79,9 @@ public abstract partial class Actor : CharacterBody2D
 				DealDamage(hitbox.Damage);
 			}
 		};
-		
-		AfterReady();
-	}
 
-	/// <summary>
-	///		Method to allow an Actor to initialize custom logic in <see cref="_Ready"/> without overriding any of the existing code
-	/// </summary>
-	private protected virtual void AfterReady() { }
+		EmitSignal(SignalName.AfterReady);
+	}
 
 	/// <summary>
 	///		Sets a new facing direction for this Actor, if the informed direction is valid and <see cref="CanChangeFacingDirection"/> is true

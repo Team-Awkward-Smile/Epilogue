@@ -60,12 +60,16 @@ public partial class Player : Actor
 		}
 	}
 
-    private protected override void AfterReady()
+	/// <inheritdoc/>
+	public override void _EnterTree()
 	{
-		// TODO: 68 - Reset this value when the Input Mode is changed during gameplay
-		_retroModeEnabled = !ProjectSettings.GetSetting("global/use_modern_controls").AsBool();
-		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
-		_gunSystem = GetNode<GunSystem>("GunSystem");
+		Ready += () =>
+		{
+			// TODO: 68 - Reset this value when the Input Mode is changed during gameplay
+			_retroModeEnabled = !ProjectSettings.GetSetting("global/use_modern_controls").AsBool();
+			_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
+			_gunSystem = GetNode<GunSystem>("GunSystem");
+		};
 	}
 
 	/// <inheritdoc/>
