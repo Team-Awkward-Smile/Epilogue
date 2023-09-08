@@ -168,8 +168,11 @@ public partial class Level : Node2D
 
 	private void RespawnPlayer()
 	{
-		_playerEvents.PlayerDied -= RespawnPlayer;
-		GetTree().ReloadCurrentScene();
+		GetTree().CreateTimer(2f).Timeout += () =>
+		{
+			_playerEvents.PlayerDied -= RespawnPlayer;
+			GetTree().ReloadCurrentScene();
+		};
 	}
 
 	/// <summary>

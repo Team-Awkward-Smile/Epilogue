@@ -1,8 +1,4 @@
-using Epilogue.extensions;
 using Epilogue.nodes;
-
-using Godot;
-using System;
 
 namespace Epilogue.actors.rob.states;
 /// <summary>
@@ -14,12 +10,11 @@ public partial class Stun : NpcState
 	{
 		AnimPlayer.PlayBackwards("Combat/stun");
 
-		Npc.Sprite.SetShaderMaterialParameter("iframeActive", true);
-		Npc.CanProcessAI = false;
+		GetTree().CreateTimer(Npc.CustomVariables["StunTimer"].AsSingle()).Timeout += () => StateMachine.ChangeState("Move");
 	}
 
 	internal override void OnLeave()
 	{
-		Npc.CanProcessAI = true;
+		Npc.IsStunned = false;
 	}
 }

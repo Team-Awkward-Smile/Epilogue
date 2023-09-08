@@ -997,7 +997,7 @@ position = Vector2(18, -1)
 
 [node name="HurtBox" type="Area2D" parent="."]
 collision_layer = 32
-collision_mask = 16
+collision_mask = 256
 script = ExtResource("29_lc8y2")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="HurtBox"]

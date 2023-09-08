@@ -7,7 +7,6 @@ public partial class Executed : NpcState
 {
 	internal override void OnEnter()
 	{
-		Npc.CanProcessAI = false;
 		Npc.Sprite.SetShaderMaterialParameter("iframeActive", false);
 
 		AnimPlayer.PlayBackwards("Combat/execution");

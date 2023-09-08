@@ -69,6 +69,8 @@ public partial class Player : Actor
 			_retroModeEnabled = !ProjectSettings.GetSetting("global/use_modern_controls").AsBool();
 			_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
 			_gunSystem = GetNode<GunSystem>("GunSystem");
+
+			StateMachine.Activate();
 		};
 	}
 
@@ -95,7 +97,7 @@ public partial class Player : Actor
 		{
 			Sprite.SetShaderMaterialParameter("iframeActive", false);
 
-			GetChildren().OfType<HurtBox>().First().CollisionMask = (int) CollisionLayerName.HitBoxes;
+			GetChildren().OfType<HurtBox>().First().CollisionMask = (int) CollisionLayerName.NpcHitBox;
 		};
 	}
 

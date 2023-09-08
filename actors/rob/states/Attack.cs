@@ -22,4 +22,19 @@ public partial class Attack : NpcState
 	{
 		Npc.CanChangeFacingDirection = true;
 	}
+
+	public void SpawnHitBox()
+	{
+		var area = GetNode<HitBox>("../../FlipRoot/HitBox");
+
+		area.Damage = 1f;
+		area.CollisionShape = GD.Load<CircleShape2D>("res://actors/rob/hitboxes/slam.tres");
+	}
+
+	public void DestroyHitBox()
+	{
+		var area = GetNode<HitBox>("../../FlipRoot/HitBox");
+
+		area.DeleteHitBox();
+	}
 }

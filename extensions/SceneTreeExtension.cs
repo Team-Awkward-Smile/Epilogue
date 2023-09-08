@@ -4,7 +4,7 @@ using Godot;
 using System;
 using System.Linq;
 
-public static partial class SceneTreeExtension
+public static class SceneTreeExtension
 {
 	public static Level GetLevel(this SceneTree sceneTree)
 	{

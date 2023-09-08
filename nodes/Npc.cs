@@ -1,8 +1,13 @@
+using Epilogue.constants;
+using Epilogue.extensions;
 using Epilogue.global.enums;
+using Epilogue.global.singletons;
 
 using Godot;
+using Godot.Collections;
 
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Epilogue.nodes;
 /// <summary>
@@ -16,42 +21,105 @@ public abstract partial class Npc : Actor
     /// </summary>
     [Export] public float VulnerabilityThreshold { get; set; }
 
-    [Export] private float VulnerabilityTimer { get; set; }
+    [Export] private float _vulnerabilityTimer;
 
     /// <summary>
-    ///     Defines if this NPC is Vulnerable
+    ///     Defines if this NPC is Vulnerable and able to be Executed
     /// </summary>
     public bool IsVulnerable { get; private set; } = false;
 
     /// <summary>
-    ///     NavigationAgent2D used to control this NPC's pathfinding
+    ///     Defines if this NPC is Stunned and cannot move
     /// </summary>
-    private protected NavigationAgent2D NavigationAgent2D { get; set; }
+    public bool IsStunned
+    {
+        get => _isStunned;
+        set
+        {
+            _isStunned = value;
+
+            if(value)
+            {
+                OnStunTriggered();
+            }
+            else
+            {
+                OnStunExpired();
+            }
+        }
+    }
 
     /// <summary>
-    ///     Defines if this NPC can run it's AI logic
+    ///     NavigationAgent2D used to control this NPC's pathfinding towards the Player
     /// </summary>
-    public bool CanProcessAI { get; set; } = true;
+    public NavigationAgent2D PlayerNavigationAgent2D { get; set; }
+
+    /// <summary>
+    ///     NavigationAgent2D used to control this NPC's pathfinding when roaming around the map randomly
+    /// </summary>
+    public NavigationAgent2D WanderNavigationAgent2D { get; set; }
+
+    /// <summary>
+    ///     Reference to the Player character
+    /// </summary>
+    private protected Player Player { get; set; }
+
+    private protected BloodEmitter BloodEmitter { get; set; }
+
+    private PlayerEvents PlayerEvents { get; set; }
+
+    /// <summary>
+    ///     Defines if the current position of the Player can be reached by this NPC. Used to avoid having to query the NavigationServer every time
+    /// </summary>
+    public bool IsPlayerReachable { get; set; }
 
     /// <summary>
     ///     Resistance of this NPC to the effects of Hestmor's Growling (0 = 0%; 1 = 100%). Negative values increase the effect
     /// </summary>
     public float GrowlEffectResistance { get; set; } = 0f;
 
-    private float _vulnerabilityElapsedTime = 0f;
+    /// <summary>
+    ///     Custom variables implemented by each NPC to be used during gameplay
+    /// </summary>
+    public Dictionary<string, Variant> CustomVariables { get; set; } = new();
 
-	/// <inheritdoc/>
+    /// <summary>
+    ///     Defines if this NPC is waiting for the NavigationServer to update, pausing it's path-finding in the process
+    /// </summary>
+    public bool WaitingForNavigationQuery { get; set; }
+
+    private float _vulnerabilityElapsedTime = 0f;
+    private bool _isStunned = false;
+
 	public override void _EnterTree()
 	{
-        AfterReady += () =>
-        {
-			NavigationAgent2D = GetChildren().OfType<NavigationAgent2D>().FirstOrDefault();
+		CustomVariables["StunTimer"] = _vulnerabilityTimer;
+        SetUpVariables();
+	}
 
-			if(NavigationAgent2D is null)
-			{
-				GD.PushWarning($"NavigationAgent2D not set for NPC [{Name}]");
-			}
-        };
+	/// <inheritdoc/>
+	public override async void _Ready()
+	{
+        base._Ready();
+
+		await ToSignal(GetTree(), "physics_frame");
+
+		var navigationAgents = GetChildren().OfType<NavigationAgent2D>();
+
+		PlayerNavigationAgent2D = navigationAgents.Where(na => na.Name.ToString().Contains("Player")).First();
+		WanderNavigationAgent2D = navigationAgents.Where(na => na.Name.ToString().Contains("Wander")).First();
+		Player = GetTree().GetLevel().Player;
+		PlayerNavigationAgent2D.TargetPosition = Player.GlobalPosition;
+
+		await ToSignal(GetTree(), "physics_frame");
+
+		IsPlayerReachable = PlayerNavigationAgent2D.IsTargetReachable();
+        BloodEmitter = GetChildren().OfType<BloodEmitter>().FirstOrDefault();
+        PlayerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
+
+        PlayerEvents.Connect(PlayerEvents.SignalName.PlayerDied, Callable.From(OnPlayerDeath));
+
+        StateMachine.Activate();
 	}
 
 	/// <summary>
@@ -60,20 +128,30 @@ public abstract partial class Npc : Actor
 	/// <param name="damage">Ammount of damage to cause</param>
 	public override void DealDamage(float damage)
 	{
+        BloodEmitter.EmitBlood();
+
+        // Prevent cases where multiple sources dealing damage at once may cause a race-condition
+        if(CurrentHealth == 0)
+        {
+            return;
+        }
+
         CurrentHealth -= damage;
 
-        OnDamageTaken(damage, CurrentHealth);
-
-        if(CurrentHealth <= 0 )
+        if(CurrentHealth <= 0f)
         {
             OnHealthDepleted();
         }
-
-        if(!IsVulnerable && CurrentHealth <= VulnerabilityThreshold)
+        else
         {
-            IsVulnerable = true;
-            
-            OnVulnerabilityTriggered();
+            OnDamageTaken(damage, CurrentHealth);
+
+			if(!IsVulnerable && CurrentHealth <= VulnerabilityThreshold)
+			{
+				IsVulnerable = true;
+				
+				OnVulnerabilityTriggered();
+			}
         }
 	}
 
@@ -112,25 +190,40 @@ public abstract partial class Npc : Actor
     }
 
 	/// <inheritdoc/>
-	public override void _PhysicsProcess(double delta)
+	public override async void _PhysicsProcess(double delta)
 	{
-        if(IsVulnerable)
-        {
-            _vulnerabilityElapsedTime += (float) delta;
+		// Queries a new path to the Player if the Player moved too far away from the last position
+		if(!WaitingForNavigationQuery && Player.GlobalPosition.DistanceTo(PlayerNavigationAgent2D.TargetPosition) > Constants.PATH_REQUERY_THRESHOLD_DISTANCE)
+		{
+			WaitingForNavigationQuery = true;
 
-            if(_vulnerabilityElapsedTime >= VulnerabilityTimer)
-            {
-                _vulnerabilityElapsedTime = 0f;
+			var rng = new RandomNumberGenerator();
 
-                OnVulnerabilityExpired();
-            }
-        }
+			// Awaits between 1 and 10 physics frames before requesting a new path, to avoid having too many NPCs making requests at once
+			for(var i = 0; i < rng.RandfRange(0, 10); i++)
+			{
+				await ToSignal(GetTree(), "physics_frame");
+			}
 
-        if(CanProcessAI)
-        {
-            ProcessAI(delta);
-        }
+			PlayerNavigationAgent2D.TargetPosition = Player.GlobalPosition;
+
+			await ToSignal(GetTree(), "physics_frame");
+
+			IsPlayerReachable = PlayerNavigationAgent2D.IsTargetReachable();
+
+			WaitingForNavigationQuery = false;
+
+			return;
+		}
+
+        ProcessFrame(delta);
 	}
+
+    /// <summary>
+    ///     Method used by each NPC that needs to run logic every frame, regardless of it's current State
+    /// </summary>
+    /// <param name="delta"></param>
+    private protected virtual void ProcessFrame(double delta) { }
 
     /// <summary>
     ///     Method that runs whenever this NPC becomes Vulnerable for the first time
@@ -139,16 +232,8 @@ public abstract partial class Npc : Actor
     private protected virtual void OnVulnerabilityTriggered()
     {
         IsVulnerable = true;
+		Sprite.SetShaderMaterialParameter("iframeActive", true);
         StateMachine.ChangeState("Stun");
-    }
-
-    /// <summary>
-    ///     Method that runs whenever this NPC recovers from the Stunned condition
-    ///     Default: Change to State "Move"
-    /// </summary>
-    private protected virtual void OnVulnerabilityExpired()
-    {
-        StateMachine.ChangeState("Move");
     }
 
     /// <summary>
@@ -193,9 +278,45 @@ public abstract partial class Npc : Actor
     private protected virtual void OnGrowl(float effectStrength) { }
 
     /// <summary>
-    ///     Method that controls the NPC's AI, running every Physical Frame.
-    ///     Must be overriden by each NPC to implement path-finding and other logic
+    ///     Method used to set up anything needed by each NPC when it's Ready
     /// </summary>
-    /// <param name="delta">Time, in seconds, since last frame</param>
-    private protected abstract void ProcessAI(double delta);
+    private protected virtual void SetUpVariables() { }
+
+    /// <summary>
+    ///     Method that runs whenever this NPC gets Stunned
+    ///     Default: change to State "Stun"
+    /// </summary>
+    private protected virtual void OnStunTriggered()
+    {
+        StateMachine.ChangeState("Stun");
+    }
+
+    /// <summary>
+    ///     Method that runs whenever the Stunned condition affecting this NPC ends
+    ///     Default: do nothing
+    /// </summary>
+    private protected virtual void OnStunExpired() { }
+
+    /// <summary>
+    ///     Method that runs whenever the Player dies
+    ///     Default: change to State "Wander"
+    /// </summary>
+    private protected virtual void OnPlayerDeath()
+    {
+        IsPlayerReachable = false;
+        StateMachine.ChangeState("Wander");
+    }
+
+    public async Task UpdatePathToWander(Vector2 position)
+    {
+        var rng = new RandomNumberGenerator();
+
+        // Awaits between 1 and 10 physics frames before requesting a new path, to avoid having too many NPCs making requests at once
+        for(var i = 0; i < rng.RandfRange(0, 10); i++)
+        {
+            await ToSignal(GetTree(), "physics_frame");
+        }
+
+        WanderNavigationAgent2D.TargetPosition = position;
+    }
 }

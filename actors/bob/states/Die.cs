@@ -11,12 +11,13 @@ public partial class Die : PlayerState
 	internal override void OnEnter()
 	{
 		Player.HurtBox.SetDeferred("monitorable", false);
+		Player.HurtBox.SetDeferred("monitoring", false);
 		Player.CanChangeFacingDirection = false;
 
 		AnimPlayer.Play("Combat/die");
 		AnimPlayer.AnimationFinished += (StringName animationName) =>
 		{
-			GetTree().CreateTimer(2f).Timeout += () => PlayerEvents.EmitGlobalSignal("PlayerDied");
+			PlayerEvents.EmitGlobalSignal("PlayerDied");
 		};
 	}
 }

@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Epilogue"
 run/main_scene="res://levels/testing_grounds.tscn"
-config/features=PackedStringArray("4.1", "C#", "Forward Plus")
+config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 config/icon="res://temp/icon.png"
 
 [audio]
@@ -362,10 +362,12 @@ toggle_walk_run={
 2d_physics/layer_3="Props"
 2d_navigation/layer_3="Crawl"
 2d_physics/layer_4="World"
-2d_physics/layer_5="Hitboxes"
-2d_physics/layer_6="Hurtboxes"
+2d_physics/layer_5="PlayerHitBox"
+2d_physics/layer_6="PlayerHurtBox"
 2d_physics/layer_7="Interactives"
 2d_physics/layer_8="Checkpoints"
+2d_physics/layer_9="NpcHitBox"
+2d_physics/layer_10="NpcHurtBox"
 
 [navigation]
 

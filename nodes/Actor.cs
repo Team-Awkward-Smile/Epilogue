@@ -10,8 +10,6 @@ namespace Epilogue.nodes;
 [GlobalClass]
 public abstract partial class Actor : CharacterBody2D
 {
-    [Signal] public delegate void AfterReadyEventHandler();
-
 	/// <summary>
 	///		Max HP of this Actor
 	/// </summary>
@@ -76,11 +74,9 @@ public abstract partial class Actor : CharacterBody2D
 		{
 			if(area is HitBox hitbox)
 			{
-				DealDamage(hitbox.Damage);
+				DealDamage(hitbox.Damage + hitbox.BonusDamage);
 			}
 		};
-
-		EmitSignal(SignalName.AfterReady);
 	}
 
 	/// <summary>
@@ -145,4 +141,24 @@ public abstract partial class Actor : CharacterBody2D
 	/// </summary>
 	/// <param name="health">The ammount of HP to recover</param>
 	public abstract void ApplyHealth(float health);
+
+	/// <summary>
+	///		Makes this Actor turn towards and face the informed Node
+	/// </summary>
+	/// <param name="node">The Node this Actor will face</param>
+	public void TurnTowards(Node2D node)
+	{
+		TurnTowards(node.GlobalPosition);
+	}
+
+	/// <summary>
+	///		Makes this Actor turn towards and face the informed position
+	/// </summary>
+	/// <param name="globalPosition">The position (in global coordinates) this Actor will turn to</param>
+	public void TurnTowards(Vector2 globalPosition)
+	{
+		var offset = globalPosition - GlobalPosition;
+
+		SetFacingDirection(offset.X > 0f ? ActorFacingDirection.Right : ActorFacingDirection.Left);
+	}
 }

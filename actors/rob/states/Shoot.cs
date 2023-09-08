@@ -8,17 +8,14 @@ public partial class Shoot : NpcState
 {
 	internal override void OnEnter()
 	{
-		Npc.CanChangeFacingDirection = false;
+		Npc.TurnTowards(Player);
 
-		Npc.Sprite.Frame = 0;
 		AnimPlayer.PlayBackwards("Combat/shoot");
 		AnimPlayer.AnimationFinished += OnAnimationFinish;
 	}
 
 	private void OnAnimationFinish(StringName animName)
 	{
-		Npc.CanChangeFacingDirection = true;
-
 		AnimPlayer.AnimationFinished -= OnAnimationFinish;
 		StateMachine.ChangeState("Move");
 	}
