@@ -26,6 +26,7 @@ InputDeviceManager="*res://global/singletons/InputDeviceManager.cs"
 PlayerEvents="*res://global/singletons/PlayerEvents.cs"
 GunEvents="*res://global/singletons/GunEvents.cs"
 CheckpointManager="*res://global/singletons/CheckpointManager.cs"
+Achievements="*res://global/singletons/Achievements.cs"
 
 [debug]
 
@@ -55,6 +56,10 @@ enabled=PackedStringArray("res://addons/navigationtilemap/plugin.cfg")
 
 import/blender/enabled=false
 import/fbx/enabled=false
+
+[general]
+
+achievments=0
 
 [global]
 

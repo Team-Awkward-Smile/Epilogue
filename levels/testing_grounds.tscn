@@ -1,7 +1,8 @@
-[gd_scene load_steps=26 format=3 uid="uid://cjolarkdk5yoi"]
+[gd_scene load_steps=28 format=3 uid="uid://cjolarkdk5yoi"]
 
 [ext_resource type="Script" path="res://nodes/Level.cs" id="1_o245g"]
 [ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_pfrwm"]
+[ext_resource type="PackedScene" path="res://ui/achievements/achievement_popup.tscn" id="3_5otus"]
 [ext_resource type="Texture2D" uid="uid://dtit4hbwjn673" path="res://temp/ground_3.png" id="3_742bv"]
 [ext_resource type="Texture2D" uid="uid://bfiq0j0jyexqd" path="res://temp/ground_2.png" id="4_ph378"]
 [ext_resource type="Texture2D" uid="uid://d3w3kkhlni18i" path="res://temp/ground_1.png" id="5_n0fdd"]
@@ -19,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://d0tb3r6vpuxr6" path="res://temp/slope_steep.png" id="17_bdkdc"]
 [ext_resource type="PackedScene" uid="uid://cegk1cph0llpn" path="res://props/checkpoint/checkpoint.tscn" id="18_utu6l"]
 [ext_resource type="PackedScene" uid="uid://cjogekv61ycm5" path="res://props/sword/sword.tscn" id="19_t8n6g"]
+[ext_resource type="Script" path="res://temp/AchievmentTimer.cs" id="21_tq176"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nkpyu"]
 radius = 13.0
@@ -88,6 +90,8 @@ theme_override_constants/separation = 50
 [node name="Line2D" type="Line2D" parent="DebugInfo"]
 points = PackedVector2Array(42, 108)
 width = 1.0
+
+[node name="AchievementPopup" parent="DebugInfo" instance=ExtResource("3_5otus")]
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
@@ -219,3 +223,9 @@ debug_color = Color(0.933333, 0.219608, 0.333333, 0.419608)
 
 [node name="Sword" parent="." instance=ExtResource("19_t8n6g")]
 position = Vector2(625, -140)
+
+[node name="AchievementTimer" type="Timer" parent="."]
+wait_time = 100.0
+one_shot = true
+autostart = true
+script = ExtResource("21_tq176")
