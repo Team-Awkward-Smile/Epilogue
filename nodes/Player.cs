@@ -25,9 +25,14 @@ public partial class Player : Actor
 	public bool RunEnabled { get; set; } = false;
 
 	/// <summary>
-	///		Handles every input related to the player and directs it to the correct place. If the input matches nothing, it is send to the currently active State for further handling
+	///		Defines if Hestmor is currently holding the secret sword found in NG+
 	/// </summary>
-	public override void _UnhandledInput(InputEvent @event)
+	public bool HoldingSword { get; set; } = false;
+
+    /// <summary>
+    ///		Handles every input related to the player and directs it to the correct place. If the input matches nothing, it is send to the currently active State for further handling
+    /// </summary>
+    public override void _UnhandledInput(InputEvent @event)
 	{
 		if(@event.IsEcho())
 		{
@@ -41,6 +46,10 @@ public partial class Player : Actor
 		else if(@event.IsAction(InputUtils.GetInputActionName("run_modifier")))
 		{
 			RunEnabled = @event.IsPressed();
+		}
+		else if(HoldingSword && @event.IsAction(InputUtils.GetInputActionName("pickup_or_drop_gun")) && @event.IsPressed())
+		{
+			StateMachine.ChangeState("MeleeAttack");
 		}
 		else if(_gunSystem.HasGunEquipped && @event.IsAction(InputUtils.GetInputActionName("shoot")))
 		{

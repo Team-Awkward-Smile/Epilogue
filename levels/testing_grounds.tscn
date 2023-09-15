@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://cn2lbtkt6ntnt"]
+[gd_scene load_steps=26 format=3 uid="uid://cjolarkdk5yoi"]
 
 [ext_resource type="Script" path="res://nodes/Level.cs" id="1_o245g"]
 [ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_pfrwm"]
@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://jw7jobgsk5uu" path="res://temp/slope_small.png" id="16_8pgcj"]
 [ext_resource type="Texture2D" uid="uid://d0tb3r6vpuxr6" path="res://temp/slope_steep.png" id="17_bdkdc"]
 [ext_resource type="PackedScene" uid="uid://cegk1cph0llpn" path="res://props/checkpoint/checkpoint.tscn" id="18_utu6l"]
+[ext_resource type="PackedScene" uid="uid://cjogekv61ycm5" path="res://props/sword/sword.tscn" id="19_t8n6g"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nkpyu"]
 radius = 13.0
@@ -215,3 +216,6 @@ position = Vector2(0, 2)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_nkpyu")
 debug_color = Color(0.933333, 0.219608, 0.333333, 0.419608)
+
+[node name="Sword" parent="." instance=ExtResource("19_t8n6g")]
+position = Vector2(625, -140)
