@@ -1,26 +1,22 @@
-[gd_scene load_steps=11 format=3 uid="uid://b3eq6wabf2x2g"]
+[gd_scene load_steps=12 format=3 uid="uid://b3eq6wabf2x2g"]
 
-[ext_resource type="Script" path="res://nodes/Actor.cs" id="1_8iw4s"]
-[ext_resource type="Texture2D" uid="uid://cqbkcvypwkowq" path="res://temp/tupois_spritesheet.png" id="2_k3tjv"]
-[ext_resource type="Shader" path="res://actors/tupois/shaders/tupois.gdshader" id="3_tuwft"]
-[ext_resource type="Script" path="res://nodes/StateMachine.cs" id="4_6g15k"]
-[ext_resource type="Script" path="res://actors/tupois/states/Walk.cs" id="5_o02a4"]
-[ext_resource type="AnimationLibrary" uid="uid://cnmfd8eqihs1g" path="res://actors/tupois/animation/tupois.res" id="6_d4vpj"]
+[ext_resource type="Script" path="res://nodes/Npc.cs" id="1_o8x1b"]
+[ext_resource type="Script" path="res://nodes/StateMachine.cs" id="2_vge4w"]
+[ext_resource type="Script" path="res://actors/tupois/states/Walk.cs" id="3_1puti"]
+[ext_resource type="Script" path="res://actors/tupois/states/Vulnerable.cs" id="4_k0uge"]
+[ext_resource type="AnimationLibrary" uid="uid://cnmfd8eqihs1g" path="res://actors/tupois/animation/tupois.res" id="5_aof3d"]
+[ext_resource type="Texture2D" uid="uid://cqbkcvypwkowq" path="res://temp/tupois_spritesheet.png" id="6_lodpc"]
+[ext_resource type="Script" path="res://nodes/HurtBox.cs" id="7_1jwxa"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_whc85"]
 radius = 15.0333
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_s3tkk"]
-shader = ExtResource("3_tuwft")
-shader_parameter/force = 0.006
-shader_parameter/center = Vector2(0.5, 0.5)
 
 [sub_resource type="Animation" id="Animation_0dp6l"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D2:frame")
+tracks/0/path = NodePath("FlipRoot/Sprite2D2:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -35,39 +31,48 @@ _data = {
 "RESET": SubResource("Animation_0dp6l")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ptsbv"]
+radius = 19.105
+
 [node name="Tupois" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 8
-script = ExtResource("1_8iw4s")
-
-[node name="Sprite2D2" type="Sprite2D" parent="."]
-position = Vector2(0, -2)
-scale = Vector2(0.339744, 0.339744)
-texture = ExtResource("2_k3tjv")
-vframes = 3
+script = ExtResource("1_o8x1b")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_whc85")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_s3tkk")
-position = Vector2(0, -2)
-scale = Vector2(0.339744, 0.339744)
-texture = ExtResource("2_k3tjv")
-vframes = 3
+[node name="StateMachineComponent" type="Node" parent="."]
+script = ExtResource("2_vge4w")
 
-[node name="StateMachine" type="Node" parent="."]
-script = ExtResource("4_6g15k")
+[node name="Walk" type="Node" parent="StateMachineComponent"]
+script = ExtResource("3_1puti")
 
-[node name="Walk" type="Node" parent="StateMachine"]
-script = ExtResource("5_o02a4")
+[node name="Vulnerable" type="Node" parent="StateMachineComponent"]
+script = ExtResource("4_k0uge")
+StunnedTime = 10.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_u6jmk"),
-"tupois": ExtResource("6_d4vpj")
+"tupois": ExtResource("5_aof3d")
 }
 
 [node name="FlipRoot" type="Node2D" parent="."]
 
 [node name="HitBoxContainer" type="Area2D" parent="FlipRoot"]
+
+[node name="Sprite2D2" type="Sprite2D" parent="FlipRoot" groups=["MainSprite"]]
+position = Vector2(0, -2)
+scale = Vector2(0.339744, 0.339744)
+texture = ExtResource("6_lodpc")
+vframes = 3
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 16
+script = ExtResource("7_1jwxa")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_ptsbv")
+debug_color = Color(0.313726, 0.486275, 0.219608, 0.419608)

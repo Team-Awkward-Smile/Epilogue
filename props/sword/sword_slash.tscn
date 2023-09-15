@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://c8835dm4vo2b0"]
+
+[ext_resource type="Script" path="res://nodes/Projectile.cs" id="1_t2ljv"]
+[ext_resource type="Texture2D" uid="uid://dpf1sda3a5w8h" path="res://temp/sword_slash.png" id="2_1a8tn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_q7u8h"]
+radius = 13.0384
+
+[node name="Projectile" type="Area2D"]
+script = ExtResource("1_t2ljv")
+Speed = 500.0
+DamageType = 1
+LifeTime = 2.0
+Damage = 3.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.0738007, 0.0738007)
+texture = ExtResource("2_1a8tn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(7, 1)
+shape = SubResource("CircleShape2D_q7u8h")

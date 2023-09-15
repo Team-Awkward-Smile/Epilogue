@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://w7yhpmej12gf"]
+
+[ext_resource type="Script" path="res://ui/GloryKillPrompt.cs" id="1_vdyik"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_r4ylv"]
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_yiv28"]
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[node name="GloryKillPrompt" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vdyik")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 970
+alignment = 1
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "LMB
+Slow"
+label_settings = SubResource("LabelSettings_r4ylv")
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "RMB
+Quick"
+label_settings = SubResource("LabelSettings_yiv28")
+vertical_alignment = 1

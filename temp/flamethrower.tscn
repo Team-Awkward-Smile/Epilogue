@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://dkxb60ljnimb7"]
+
+[ext_resource type="Script" path="res://guns/Flamethrower.cs" id="1_0rhya"]
+[ext_resource type="Material" uid="uid://bdt7ee1dy5yrr" path="res://temp/gun_material.tres" id="2_da6ko"]
+[ext_resource type="Texture2D" uid="uid://85bmt5bxov4o" path="res://temp/flamethrower.png" id="3_eqkdp"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_j2hbo"]
+radius = 4.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hciut"]
+
+[node name="Flamethrower" type="RigidBody2D"]
+collision_layer = 4
+collision_mask = 8
+script = ExtResource("1_0rhya")
+MaxAmmoCount = 1000
+ShotsPerMinute = 1500.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = ExtResource("2_da6ko")
+scale = Vector2(0.02, 0.02)
+texture = ExtResource("3_eqkdp")
+offset = Vector2(550, 50)
+flip_h = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(12, 0)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_j2hbo")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 64
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(12, 0)
+shape = SubResource("CircleShape2D_hciut")
+
+[node name="Muzzle" type="Node2D" parent="."]
+position = Vector2(26, -2)
