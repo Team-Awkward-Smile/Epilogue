@@ -21,30 +21,30 @@ public partial class MouseAim : Node
 	/// <inheritdoc/>
 	public override void _Process(double delta)
 	{
-		var mousePosition = GetViewport().GetMousePosition();
 		var screenSize = DisplayServer.WindowGetSize();
-		var flagX = AimDirection.None;
-		var flagY = AimDirection.None;
+		var mousePosition = (GetViewport().GetMousePosition() - (screenSize / 2)) * new Vector2(1f, -1f);
+		var angle = Mathf.RadToDeg(Mathf.Atan2(mousePosition.Y, mousePosition.X)) + 22.5f;
+		var wheelArea = Mathf.Floor(angle / 45f);
 
-		switch((int) mousePosition.X / (screenSize.X / 3))
+		var flagX = AimDirection.None;
+		var flagY = angle >= 0 ? AimDirection.Up : AimDirection.Down;
+
+		switch(Mathf.Abs(wheelArea))
 		{
-			case 0:
-				flagX = AimDirection.Left;
+			case 0 or 4:
+				flagY = AimDirection.None;
 				break;
 
-			case 2:
+			case 1:
 				flagX = AimDirection.Right;
 				break;
-		}
-
-		switch((int) mousePosition.Y / (screenSize.Y / 3))
-		{
-			case 0:
-				flagY = AimDirection.Up;
-				break;
 
 			case 2:
-				flagY = AimDirection.Down;
+				flagX = AimDirection.None;
+				break;
+
+			case 3:
+				flagX = AimDirection.Left;
 				break;
 		}
 

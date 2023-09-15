@@ -54,6 +54,7 @@ public partial class Aim : Node
 	public override void _Ready()
 	{
 		_actor = (Actor) Owner;
+		InputTypeUpdate(InputDeviceManager.MostRecentInputType ?? InputTypeEnum.Keyboard);
 	}
 
 	/// <summary>

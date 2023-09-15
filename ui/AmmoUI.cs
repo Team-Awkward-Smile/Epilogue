@@ -20,20 +20,20 @@ public partial class AmmoUI : Control
 
 		_ammoUI.Hide();
 
-		_gunEvents.PlayerPickedUpGun += (int currentAmmo, int maxAmmo) =>
+		_gunEvents.Connect("PlayerPickedUpGun", Callable.From((int currentAmmo, int maxAmmo) =>
 		{
 			_currentAmmo = currentAmmo;
 			_maxAmmo = maxAmmo;
 			_ammoUI.Text = $"{_currentAmmo.ToString().PadLeft(2, '0')} / {_maxAmmo.ToString().PadLeft(2, '0')}";
 			_ammoUI.Show();
-		};
+		}));
 
-		_gunEvents.GunFired += (int currentAmmo) =>
+		_gunEvents.Connect("GunFired", Callable.From((int currentAmmo) =>
 		{
 			_currentAmmo = currentAmmo;
 			_ammoUI.Text = $"{_currentAmmo.ToString().PadLeft(2, '0')} / {_maxAmmo.ToString().PadLeft(2, '0')}";
-		};
+		}));
 
-		_gunEvents.GunWasDropped += () => _ammoUI.Hide();
+		_gunEvents.Connect("GunWasDropped", Callable.From(() => _ammoUI.Hide()));
 	}
 }

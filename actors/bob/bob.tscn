@@ -720,22 +720,6 @@ tracks/3/keys = {
 "values": [Vector2(18, -34)]
 }
 
-[sub_resource type="Animation" id="Animation_isw63"]
-resource_name = "take_damage"
-length = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [Vector2i(0, 21)]
-}
-
 [sub_resource type="Animation" id="Animation_8ebfb"]
 resource_name = "sword_slash"
 length = 0.5
@@ -791,6 +775,22 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_isw63"]
+resource_name = "take_damage"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 21)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ty2th"]
@@ -909,7 +909,6 @@ script = ExtResource("6_jk3ap")
 
 [node name="Crouch" type="Node" parent="StateMachine"]
 script = ExtResource("7_4d6ym")
-_cameraMovementDistance = 75
 
 [node name="MeleeAttack" type="Node" parent="StateMachine"]
 script = ExtResource("8_35lol")
