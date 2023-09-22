@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://na7ptteltwll"
-path="res://.godot/imported/HeartDeepleted2.png-5995c68091d7a0d5be2c2b05497ecd49.ctex"
+uid="uid://dpf1sda3a5w8h"
+path="res://.godot/imported/sword_slash.png-f82c02d6e8a7d2b29b13638dceee9663.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/hp/HeartDeepleted2.png"
-dest_files=["res://.godot/imported/HeartDeepleted2.png-5995c68091d7a0d5be2c2b05497ecd49.ctex"]
+source_file="res://temp/sword_slash.png"
+dest_files=["res://.godot/imported/sword_slash.png-f82c02d6e8a7d2b29b13638dceee9663.ctex"]
 
 [params]
 

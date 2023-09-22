@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Epilogue"
 run/main_scene="res://levels/testing_grounds.tscn"
-config/features=PackedStringArray("4.1", "C#", "Forward Plus")
+config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
 [audio]
@@ -24,6 +24,7 @@ buses/default_bus_layout=""
 Settings="*res://global/singletons/Settings.cs"
 InputDeviceManager="*res://global/singletons/InputDeviceManager.cs"
 CheckpointManager="*res://global/singletons/CheckpointManager.cs"
+Achievements="*res://global/singletons/Achievements.cs"
 GunEvents="*res://global/singletons/GunEvents.cs"
 PlayerEvents="*res://global/singletons/PlayerEvents.cs"
 
@@ -59,6 +60,10 @@ enabled=PackedStringArray("res://addons/navigationtilemap/plugin.cfg")
 
 import/blender/enabled=false
 import/fbx/enabled=false
+
+[general]
+
+achievments=0
 
 [global]
 
@@ -337,7 +342,7 @@ toggle_walk_run={
 ]
 }
 move_left_modern={
-"deadzone": 0.3,
+"deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":65,"key_label":0,"unicode":97,"echo":false,"script":null)
 , Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":0,"axis_value":-1.0,"script":null)
 ]
@@ -349,7 +354,7 @@ move_left_retro={
 ]
 }
 move_right_modern={
-"deadzone": 0.3,
+"deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":68,"key_label":0,"unicode":100,"echo":false,"script":null)
 , Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":0,"axis_value":1.0,"script":null)
 ]
@@ -485,14 +490,6 @@ aim_right={
 "events": []
 }
 pause={
-"deadzone": 0.5,
-"events": []
-}
-move_left_analog={
-"deadzone": 0.5,
-"events": []
-}
-move_right_analog={
 "deadzone": 0.5,
 "events": []
 }

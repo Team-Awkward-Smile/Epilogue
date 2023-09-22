@@ -6,7 +6,7 @@ namespace Epilogue.nodes;
 ///     Node used as the base for all projectiles
 /// </summary>
 [GlobalClass, Icon("res://nodes/icons/projectile.png")]
-public partial class Projectile : Area2D
+public partial class Projectile : HitBox
 {
     /// <summary>
     ///     Should this projectile be destroyed when colliding against something?
@@ -17,11 +17,6 @@ public partial class Projectile : Area2D
     ///     Horizontal speed of this projectile
     /// </summary>
     [Export] public float Speed { get; set; }
-
-    /// <summary>
-    ///     Damage caused by this projectile when colliding against an object that can be damaged
-    /// </summary>
-    [Export] public float Damage { get; set; }
 
     /// <summary>
     ///     Type of damage caused by this projectile

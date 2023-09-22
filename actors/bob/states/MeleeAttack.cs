@@ -36,7 +36,15 @@ public partial class MeleeAttack : PlayerState
 			}
 		}
 
-		AnimPlayer.Play("Combat/melee_attack");
+		if(Player.HoldingSword)
+		{
+			AnimPlayer.Play("Combat/sword_slash");
+		}
+		else
+		{
+			AnimPlayer.Play("Combat/melee_attack");
+		}
+
 		AnimPlayer.AnimationFinished += FinishAttack;
 	}
 

@@ -32,13 +32,9 @@ public partial class Walk : PlayerState
 		{
 			StateMachine.ChangeState("Crouch");
 		}
-		else if(Input.IsActionJustPressed("toggle_run"))
-		{
-			StateMachine.ChangeState("Slide");
-		}
 		else if(Input.IsActionJustPressed("slide"))
 		{
-			StateMachine.ChangeState("MeleeAttack");
+			StateMachine.ChangeState("Slide");
 		}
 	}
 

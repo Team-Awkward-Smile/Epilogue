@@ -15,26 +15,26 @@ namespace Epilogue.ui.remap;
 /// </summary>
 public partial class RemapControls : UI
 {
-	private static readonly Dictionary<string, List<string>> _moveActions = new()
+	private static readonly List<GroupAction> _moveActions = new()
 	{
-		{ "Move Left", new() { "move_left" } },
-		{ "Move Right", new() { "move_right" } },
-		{ "Run", new() { "toggle_run" } },
-		{ "Slide", new() { "slide" } },
-		{ "Cancel Slide/Look Up", new() { "cancel_slide", "look_up" } },
-		{ "Crouch/Look Down", new() { "crouch" } },
-		{ "Jump/Vault/Climb Ledge", new() { "jump" } }
+		new() { Label = "Move Left", Actions = new() { "move_left" } },
+		new() { Label = "Move Right", Actions = new() { "move_right" } },
+		new() { Label = "Run", Actions = new() { "toggle_run" } },
+		new() { Label = "Slide", Actions = new() { "slide" } },
+		new() { Label = "Cancel Slide/Look Up", Actions = new() { "cancel_slide", "look_up" } },
+		new() { Label = "Crouch/Look Down", Actions = new() { "crouch" } },
+		new() { Label = "Jump/Vault/Climb Ledge", Actions = new() { "jump" } }
 	};
 
-	private static readonly Dictionary<string, List<string>> _combatActions = new()
+	private static readonly List<GroupAction> _combatActions = new()
 	{
-		{ "Attack/Shoot", new() { "melee", "shoot" } },
-		{ "Growl/Interact", new() { "growl", "interact" } }
+		new() { Label = "Attack/Shoot", Actions = new() { "melee", "shoot" } },
+		new() { Label = "Growl/Interact", Actions = new() { "growl", "interact" } }
 	};
 
-	private static readonly Dictionary<string, List<string>> _uiActions = new()
+	private static readonly List<GroupAction> _uiActions = new()
 	{
-		{ "Pause/Unpause", new() { "pause" } }
+		new() { Label = "Pause/Unpause", Actions = new() { "pause" } }
 	};
 
 	private bool _hasUnsavedChanges = false;
@@ -53,9 +53,9 @@ public partial class RemapControls : UI
 
 		var actions = _moveActions.Union(_combatActions).Union(_uiActions).ToList();
 
-        foreach(var actionList in actions)
+        foreach(var actionGroup in actions)
         {
-			foreach(var action in actionList.Value)
+			foreach(var action in actionGroup.Actions)
 			{
 				_originalMapping.Add(action, InputMap.ActionGetEvents(action).ToList());
 			}
@@ -139,7 +139,7 @@ public partial class RemapControls : UI
 				AssignEventToCurrentActions(@event);
 
 				// Calls the method "UpdateIconAndText" of every RemapButton in the screen to update their icons/text
-				GetTree().CallGroup("remap_buttons", "UpdateIconAndText", false);
+				GetTree().CallGroup("remap_buttons", "UpdateIconAndText");
 			};
 
 			// Player decided to NOT overwrite the other actions
@@ -197,8 +197,23 @@ public partial class RemapControls : UI
 		{
 			InputMap.LoadFromProjectSettings();
 
+			var actions = _moveActions.Union(_combatActions).Union(_uiActions).ToList();
+
+			foreach(var actionGroup in actions)
+			{
+				foreach(var action in actionGroup.Actions)
+				{
+					var defaultAction = InputMap.ActionGetEvents($"{action}_{Settings.ControlScheme.ToString().ToLower()}");
+
+					foreach(var defaultEvent in defaultAction)
+					{
+						InputMap.ActionAddEvent(action, defaultEvent);
+					}
+				}
+			}
+
 			SaveMapping();
-			GetTree().CallGroup("remap_buttons", "UpdateIconAndText", true);
+			GetTree().CallGroup("remap_buttons", "UpdateIconAndText");
 		};
 
 		AddChild(confirmDialog);
@@ -221,9 +236,9 @@ public partial class RemapControls : UI
 
 		InputMap.LoadFromProjectSettings();
 
-		foreach(var actionList in defaultActions)
+		foreach(var actionGroup in defaultActions)
 		{
-			foreach(var action in actionList.Value)
+			foreach(var action in actionGroup.Actions)
 			{
 				var defaultAction = action + $"_{controlScheme}";
 
@@ -235,7 +250,7 @@ public partial class RemapControls : UI
 		}
 
 		// Calls the method "UpdateIconAndText" of every RemapButton, to make them update their icon/text
-		GetTree().CallGroup("remap_buttons", "UpdateIconAndText", true);
+		GetTree().CallGroup("remap_buttons", "UpdateIconAndText");
 
 		_hasUnsavedChanges = true;
 	}
@@ -245,21 +260,21 @@ public partial class RemapControls : UI
 	/// </summary>
 	/// <param name="parent">The GridContainer that will be used as the parent of every row</param>
 	/// <param name="actions">A Dictionary containing a string with the name of the action(s), and a List of strings with the name of each individual action that will be used with the InputMap</param>
-	private void AddActionRow(GridContainer parent, Dictionary<string, List<string>> actions)
+	private void AddActionRow(GridContainer parent, List<GroupAction> actions)
 	{
-		foreach(var action in actions)
+		foreach(var actionGroup in actions)
 		{
-			var events = InputMap.ActionGetEvents(action.Value.First());
+			var events = InputMap.ActionGetEvents(actionGroup.Actions.First());
 
 			if(events.Count == 0)
 			{
-				events = InputMap.ActionGetEvents(action.Value.First() + $"_{Settings.ControlScheme.ToString().ToLower()}");
+				events = InputMap.ActionGetEvents(actionGroup.Actions.First() + $"_{Settings.ControlScheme.ToString().ToLower()}");
 
-				foreach(var value in action.Value)
+				foreach(var action in actionGroup.Actions)
 				{
 					foreach(var e in events)
 					{
-						InputMap.ActionAddEvent(value, e);
+						InputMap.ActionAddEvent(action, e);
 					}
 				}
 			}
@@ -269,7 +284,7 @@ public partial class RemapControls : UI
 			var label = new Label()
 			{
 				SizeFlagsHorizontal = SizeFlags.ExpandFill,
-				Text = action.Key
+				Text = actionGroup.Label
 			};
 
 			var primaryButton = new RemapButton()
@@ -277,7 +292,7 @@ public partial class RemapControls : UI
 				SizeFlagsHorizontal = SizeFlags.ExpandFill,
 				InputType = InputTypeEnum.PC,
 				Event = pcEvents.FirstOrDefault(),
-				Actions = action.Value,
+				Actions = actionGroup.Actions,
 				ButtonType = RemapButtonType.PcPrimary
 			};
 
@@ -286,7 +301,7 @@ public partial class RemapControls : UI
 				SizeFlagsHorizontal = SizeFlags.ExpandFill,
 				InputType = InputTypeEnum.PC,
 				Event = pcEvents.Skip(1).FirstOrDefault(),
-				Actions = action.Value,
+				Actions = actionGroup.Actions,
 				ButtonType = RemapButtonType.PcSecondary
 			};
 
@@ -295,7 +310,7 @@ public partial class RemapControls : UI
 				SizeFlagsHorizontal = SizeFlags.ExpandFill,
 				InputType = InputTypeEnum.Controller,
 				Event = events.Where(e => e is InputEventJoypadButton or InputEventJoypadMotion).FirstOrDefault(),
-				Actions = action.Value,
+				Actions = actionGroup.Actions,
 				ButtonType = RemapButtonType.Controller
 			};
 
@@ -327,11 +342,11 @@ public partial class RemapControls : UI
 		var actions = _combatActions.Union(_moveActions).Union(_uiActions).ToList();
 		var actionsWithMapping = new List<string>();
 
-		foreach(var actionList in actions)
+		foreach(var actionGroup in actions)
 		{
-			foreach(var action in actionList.Value)
+			foreach(var action in actionGroup.Actions)
 			{
-				if(InputMap.EventIsAction(@event, action))
+				if(InputMap.EventIsAction(@event, action, true))
 				{
 					actionsWithMapping.Add(action);
 				}
@@ -368,12 +383,12 @@ public partial class RemapControls : UI
 	/// <returns><c>true</c>, if every action has at least 1 event mapped to it; <c>false</c>, otherwise</returns>
 	private bool ValidateEmptyActions()
 	{
-		var actionList = _moveActions.Union(_uiActions).Union(_combatActions).ToList();
+		var actions = _moveActions.Union(_uiActions).Union(_combatActions).ToList();
 		var emptyActions = new List<string>();
 
-		foreach(var actions in actionList)
+		foreach(var actionGroup in actions)
 		{
-			foreach(var action in actions.Value)
+			foreach(var action in actionGroup.Actions)
 			{
 				var events = InputMap.ActionGetEvents(action);
 

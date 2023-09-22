@@ -40,15 +40,15 @@ public partial class Idle : PlayerState
 		}
 		else if(Input.IsActionJustPressed("melee"))
 		{
-			StateMachine.ChangeState("Slide");
+			StateMachine.ChangeState("Melee");
 		}
 		else if(Input.IsActionJustPressed("slide"))
 		{
-			StateMachine.ChangeState("LookUp");
+			StateMachine.ChangeState("Slide");
 		}
 		else if(Input.IsActionJustPressed("look_up"))
 		{
-			StateMachine.ChangeState("MeleeAttack");
+			StateMachine.ChangeState("LookUp");
 		}
 		else if(Input.IsActionJustPressed("growl"))
 		{

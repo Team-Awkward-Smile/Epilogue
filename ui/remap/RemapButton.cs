@@ -140,16 +140,9 @@ public partial class RemapButton : Button
 	///		Updates the text and/or icon of this button.
 	///		Used when the update needs to happen without the Event property being updated (when resetting to default, for instance)
 	/// </summary>
-	/// <param name="useDefaultActions"></param>
-	private void UpdateIconAndText(bool useDefaultActions)
+	private void UpdateIconAndText()
 	{
 		var actionName = Actions.First();
-
-		if(useDefaultActions)
-		{
-			actionName += $"_{Settings.ControlScheme.ToString().ToLower()}";
-		}
-
 		var events = InputMap.ActionGetEvents(actionName);
 
 		switch(ButtonType)

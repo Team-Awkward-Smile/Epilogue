@@ -41,10 +41,6 @@ public partial class Run : PlayerState
 		{
 			StateMachine.ChangeState("Slide");
 		}
-		else if(Input.IsActionJustPressed("toggle_run"))
-		{
-			StateMachine.ChangeState("MeleeAttack");
-		}
 	}
 
 	internal override void OnEnter()

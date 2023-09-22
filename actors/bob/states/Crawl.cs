@@ -25,11 +25,6 @@ public partial class Crawl : PlayerState
 	{
 		var movementDirection = Input.GetAxis("move_left", "move_right");
 
-		if(movementDirection == 0f && _canUseAnalogControls)
-		{
-			movementDirection = Input.GetAxis("move_left_analog", "move_right_analog");
-		}
-
 		if(movementDirection == 0f)
 		{
 			AnimPlayer.Pause();

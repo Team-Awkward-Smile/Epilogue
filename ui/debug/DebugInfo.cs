@@ -9,15 +9,17 @@ public partial class DebugInfo : Node
 {
 	[Export] private bool _playerSpeed;
 	[Export] private bool _branchName = true;
-	[Export] private bool _aimQuadrants = false;
+	[Export] private bool _aimWheel = false;
 	[Export] private bool _inputType = false;
+
+	private Node2D _wheelParent;
 
 	public override void _Ready()
 	{
-		if(_aimQuadrants)
+		if(_aimWheel)
 		{
-			GetViewport().SizeChanged += SetAimQuadrantLines;
-			SetAimQuadrantLines();
+			GetViewport().SizeChanged += SetAimWheelLines;
+			SetAimWheelLines();
 		}
 
 		var hContainer = GetNode<HBoxContainer>("HBoxContainer");
@@ -38,39 +40,31 @@ public partial class DebugInfo : Node
 		}
 	}
 
-	private void SetAimQuadrantLines()
+	private void SetAimWheelLines()
 	{
-		foreach(var c in GetChildren().OfType<Line2D>().ToList())
-		{
-			c.QueueFree();
-		}
+		_wheelParent?.QueueFree();
 
 		var screenSize = DisplayServer.WindowGetSize();
 
-		for(var i = 1; i <= 2; i++)
+		_wheelParent = new Node2D
 		{
+			Position = screenSize / 2,
+			RotationDegrees = 22.5f
+		};
+
+		AddChild(_wheelParent);
+
+		for(var i = 0; i <= 8; i++)
+		{
+			var p = new Vector2(3000, 0).Rotated(Mathf.DegToRad(45f * i));
+
 			var line = new Line2D()
 			{
-				Width = 1
+				Points = new[] { Vector2.Zero, p },
+				Width = 1f
 			};
 
-			line.AddPoint(new Vector2(screenSize.X / 3 * i, 0f));
-			line.AddPoint(new Vector2(screenSize.X / 3 * i, screenSize.Y));
-
-			AddChild(line);
-		}
-
-		for(var i = 1; i <= 2; i++)
-		{
-			var line = new Line2D()
-			{
-				Width = 1
-			};
-
-			line.AddPoint(new Vector2(0f, screenSize.Y / 3 * i));
-			line.AddPoint(new Vector2(screenSize.X, screenSize.Y / 3 * i));
-
-			AddChild(line);
+			_wheelParent.AddChild(line);
 		}
 	}
 }
