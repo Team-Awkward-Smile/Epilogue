@@ -1,3 +1,4 @@
+using Epilogue.actors.hestmor.enums;
 using Epilogue.constants;
 using Epilogue.global.enums;
 using Epilogue.global.singletons;
@@ -34,7 +35,7 @@ public partial class Idle : PlayerState
 			}
 			else
 			{
-				StateMachine.ChangeState("Jump");
+				StateMachine.ChangeState("Jump", StateType.VerticalJump);
 			}
 		}
 		else if(@event.IsActionPressed(CrouchInput))
@@ -43,7 +44,7 @@ public partial class Idle : PlayerState
 		}
 		else if(@event.IsActionPressed(SlideInput))
 		{
-			StateMachine.ChangeState("Slide");
+			StateMachine.ChangeState("Slide", StateType.FrontRoll);
 		}
 		else if(@event.IsActionPressed(LookUpInput))
 		{
@@ -51,7 +52,7 @@ public partial class Idle : PlayerState
 		}
 		else if(@event.IsActionPressed(MeleeAttackInput))
 		{
-			StateMachine.ChangeState("MeleeAttack");
+			StateMachine.ChangeState("MeleeAttack", StateType.SwipeAttack);
 		}
 		else if(@event.IsActionPressed(GrowlInput))
 		{
@@ -59,7 +60,7 @@ public partial class Idle : PlayerState
 		}
 	}
 
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		Player.CanChangeFacingDirection = true;
 		Player.Velocity = new Vector2(0f, 0f);

@@ -1,3 +1,4 @@
+using Epilogue.actors.hestmor.enums;
 using Epilogue.global.enums;
 using Epilogue.global.singletons;
 using Epilogue.nodes;
@@ -22,7 +23,7 @@ public partial class Run : PlayerState
 				if(Player.RayCasts["Head"].IsColliding())
 				{
 					// Is near a wall
-					StateMachine.ChangeState("Jump");
+					StateMachine.ChangeState("Jump", StateType.LongJump);
 				}
 				else
 				{
@@ -32,20 +33,20 @@ public partial class Run : PlayerState
 			}
 			else
 			{
-				StateMachine.ChangeState("Jump");
+				StateMachine.ChangeState("Jump", StateType.LongJump);
 			}
 		}
 		else if(@event.IsActionPressed(SlideInput))
 		{
-			StateMachine.ChangeState("Slide");
+			StateMachine.ChangeState("Slide", StateType.LongSlide);
 		}
 		else if(@event.IsActionPressed(MeleeAttackInput))
 		{
-			StateMachine.ChangeState("MeleeAttack");
+			StateMachine.ChangeState("Slide", StateType.SlideAttack);
 		}
 	}
 
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		AnimPlayer.Play("walk", -1, 2f);
 

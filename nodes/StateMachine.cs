@@ -68,7 +68,7 @@ public partial class StateMachine : Node
 	///		Then the State will be replaced by the new one, and the method <c>OnEnter</c> of the new State will be called
 	/// </summary>
 	/// <param name="stateName">Name of the new PlayerState</param>
-	public async void ChangeState(string stateName)
+	public async void ChangeState(string stateName, params object[] args)
 	{
 		var oldState = _currentState;
 
@@ -90,6 +90,6 @@ public partial class StateMachine : Node
 		await oldState.OnLeaveAsync();
 
 		_currentState = newState;
-		_currentState.OnEnter();
+		_currentState.OnEnter(args);
 	}
 }

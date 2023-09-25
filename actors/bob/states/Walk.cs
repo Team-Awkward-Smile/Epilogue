@@ -1,3 +1,4 @@
+using Epilogue.actors.hestmor.enums;
 using Epilogue.global.enums;
 using Epilogue.global.singletons;
 using Epilogue.nodes;
@@ -17,7 +18,7 @@ public partial class Walk : PlayerState
 	{
 		if(@event.IsActionPressed(JumpInput))
 		{
-			StateMachine.ChangeState("Jump");
+			StateMachine.ChangeState("Jump", StateType.LowJump);
 		}
 		else if(@event.IsActionPressed(CrouchInput))
 		{
@@ -25,17 +26,17 @@ public partial class Walk : PlayerState
 		}
 		else if(@event.IsActionPressed(SlideInput))
 		{
-			StateMachine.ChangeState("Slide");
+			StateMachine.ChangeState("Slide", StateType.KneeSlide);
 		}
 		else if(@event.IsActionPressed(MeleeAttackInput))
 		{
-			StateMachine.ChangeState("MeleeAttack");
+			StateMachine.ChangeState("MeleeAttack", StateType.UppercutPunch);
 		}
 
 		_canUseAnalogControls = Settings.ControlScheme == ControlSchemeEnum.Modern;
 	}
 
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		AnimPlayer.Play("walk");
 

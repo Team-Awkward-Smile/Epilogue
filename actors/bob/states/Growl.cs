@@ -7,7 +7,7 @@ namespace Epilogue.actors.hestmot.states;
 /// </summary>
 public partial class Growl : PlayerState
 {
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		Player.CanChangeFacingDirection = false;
 

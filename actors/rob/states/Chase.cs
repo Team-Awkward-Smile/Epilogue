@@ -13,7 +13,7 @@ public partial class Chase : NpcState
 
 	private Actor _bob;
 
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		_bob = GetNode<Actor>("../../../Bob");
 		NavigationAgent.TargetPosition = _bob.Position;

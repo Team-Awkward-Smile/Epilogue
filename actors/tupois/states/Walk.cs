@@ -11,7 +11,7 @@ public partial class Walk : NpcState
 	private float _walkSpeed = -50f;
 	private double _shaderTimer = 0f;
 
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		AnimPlayer.Play("tupois/Walk");
 	}

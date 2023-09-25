@@ -78,7 +78,7 @@ public partial class State : Node
 	/// <summary>
 	///		Method executed every time a State becomes active. Since it can run multiple times during the game, it is not a replacement for <see cref="_Ready"/>
 	/// </summary>
-	internal virtual void OnEnter() { }
+	internal virtual void OnEnter(params object[] args) { }
 
 	/// <summary>
 	///		Method executed every time a State is replaced by another one, right before the exchange occurs. If any async operation needs to be executed here, use <see cref="OnLeaveAsync"/> instead

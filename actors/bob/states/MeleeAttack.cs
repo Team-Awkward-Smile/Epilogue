@@ -1,3 +1,4 @@
+using Epilogue.actors.hestmor.enums;
 using Epilogue.global.enums;
 using Epilogue.global.singletons;
 using Epilogue.nodes;
@@ -13,9 +14,15 @@ public partial class MeleeAttack : PlayerState
 	private PlayerEvents _eventsSingleton;
 	private Npc _enemy;
 
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		// The attack audio is controlled by the animation
+
+		var attackType = (StateType) args[0];
+		var label = Player.GetNode<Label>("temp_StateName");
+
+		label.Text = attackType.ToString();
+		label.Show();
 
 		StateMachine.CanInteract = false;
 
@@ -78,5 +85,6 @@ public partial class MeleeAttack : PlayerState
 	internal override void OnLeave()
 	{
 		StateMachine.CanInteract = true;
+		Player.GetNode<Label>("temp_StateName").Hide();
 	}
 }
