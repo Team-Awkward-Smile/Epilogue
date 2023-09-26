@@ -12,8 +12,13 @@ public partial class Settings : Node
 	/// </summary>
 	public static ControlSchemeEnum ControlScheme { get; private set; } = ProjectSettings.GetSetting("global/use_modern_controls").AsBool() ? ControlSchemeEnum.Modern : ControlSchemeEnum.Retro;
 
-	/// <inheritdoc/>
-	public override void _Ready()
+	/// <summary>
+	///		Current game cycle (New Game or New Game+)
+	/// </summary>
+    public static GameCycle GameCycle { get; private set; } = (GameCycle) ProjectSettings.GetSetting("global/game_cycle").AsInt32();
+
+    /// <inheritdoc/>
+    public override void _Ready()
 	{
 		// TODO: this should be set from the Settings screen
 		GD.Print($"Control Scheme: {ControlScheme}");
