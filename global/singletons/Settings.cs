@@ -15,6 +15,11 @@ public partial class Settings : Node
 	private const string SETTINGS_FILE = "user://settings.tres";
 
 	/// <summary>
+	///		Current game cycle (New Game or New Game+)
+	/// </summary>
+    public static GameCycle GameCycle { get; private set; } = (GameCycle) ProjectSettings.GetSetting("global/game_cycle").AsInt32();
+
+	/// <summary>
 	///		Control scheme (Modern or Retro) selected by the player
 	/// </summary>
 	public static ControlSchemeEnum ControlScheme
