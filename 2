@@ -1,0 +1,18 @@
+using Godot;
+
+namespace Epilogue.ui;
+public partial class RemapButton : Button
+{
+	private InputEvent _inputEvent;
+
+    public string ActionName { get; set; }
+    public InputEvent InputEvent
+	{
+		get => _inputEvent;
+		set
+		{
+			_inputEvent = value;
+			Text = _inputEvent.AsText().Replace("(Physical)", "");
+		}
+	}
+}

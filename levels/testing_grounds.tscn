@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://8sw5jwntdfl1" path="res://temp/minigun.tscn" id="11_x1ya1"]
 [ext_resource type="Texture2D" uid="uid://dv8i8cyrioyus" path="res://temp/spikes.png" id="12_1mhei"]
 [ext_resource type="Script" path="res://nodes/HitBox.cs" id="13_o5dos"]
-[ext_resource type="TileSet" uid="uid://dgn1dt1h4nlne" path="res://temp/tileset.tres" id="15_1ohv8"]
+[ext_resource type="TileSet" uid="uid://cm87l6ohfrc5q" path="res://temp/tileset.tres" id="15_1ohv8"]
 [ext_resource type="PackedScene" uid="uid://cegk1cph0llpn" path="res://props/checkpoint/checkpoint.tscn" id="18_utu6l"]
 [ext_resource type="Script" path="res://temp/NewGamePlusPath.cs" id="19_owmbm"]
 [ext_resource type="PackedScene" uid="uid://cjogekv61ycm5" path="res://props/sword/sword.tscn" id="19_t8n6g"]
@@ -80,30 +80,15 @@ script = ExtResource("7_xoqku")
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 
-[node name="Label" type="Label" parent="UILayer"]
+[node name="RemapControls" type="Button" parent="UILayer"]
+unique_name_in_owner = true
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -23.0
-offset_right = 40.0
+offset_top = -8.0
+offset_right = 8.0
 grow_vertical = 0
-text = "Epilogue v 0.1 - PUBLIC PLAYTEST VERSION
-Movement Test - Modern Controls
-"
-
-[node name="Label2" type="Label" parent="UILayer"]
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -23.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "No assets used in this version are final.
-Features present in this version are being tested and may change or be removed before release"
-horizontal_alignment = 2
+text = "Remap Controls"
 
 [node name="Handgun" parent="." instance=ExtResource("8_pkgf4")]
 position = Vector2(476, -139)
