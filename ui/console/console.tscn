@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://ddrmydlujtfld"]
+
+[ext_resource type="Script" path="res://ui/console/Console.cs" id="1_h8rac"]
+[ext_resource type="FontFile" uid="uid://01pso4ljcuk1" path="res://fonts/RobotoMono-Regular.ttf" id="1_yu24w"]
+
+[node name="Console" type="Window"]
+title = "Console"
+initial_position = 1
+size = Vector2i(700, 500)
+script = ExtResource("1_h8rac")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_bottom = 35
+
+[node name="Log" type="RichTextLabel" parent="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_yu24w")
+bbcode_enabled = true
+scroll_following = true
+autowrap_mode = 1
+
+[node name="TextInput" type="LineEdit" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+grow_horizontal = 2
+grow_vertical = 0
+caret_blink = true

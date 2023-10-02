@@ -22,8 +22,12 @@ public partial class Level : Node2D
 	private PlayerEvents _playerEvents;
 	private List<Checkpoint> _checkpoints = new();
 	private Player _player;
-	private Camera _camera;
 	private CheckpointManager _checkpointManager;
+
+	/// <summary>
+	///		Reference to the Camera currently being used
+	/// </summary>
+	public Camera Camera { get; private set; }
 
 	/// <inheritdoc/>
 	public override string[] _GetConfigurationWarnings()
@@ -75,7 +79,7 @@ public partial class Level : Node2D
 
 		// TODO: 68 - Add them all to a List and Instantiate them all at once
 		_pauseUI = GD.Load<PackedScene>("res://ui/pause_ui.tscn").Instantiate() as PauseUI;
-		_console = GD.Load<PackedScene>("res://ui/console.tscn").Instantiate() as Window;
+		_console = GD.Load<PackedScene>("res://ui/console/console.tscn").Instantiate() as Window;
 		_killPrompt = GD.Load<PackedScene>("res://ui/glory_kill_prompt.tscn").Instantiate() as GloryKillPrompt;
 		_ammoUI = GD.Load<PackedScene>("res://ui/ammo_ui.tscn").Instantiate() as AmmoUI;
 
@@ -141,14 +145,14 @@ public partial class Level : Node2D
 			}
 		}
 
-		_camera = GetViewport().GetCamera2D() as Camera;
+		Camera = GetViewport().GetCamera2D() as Camera;
 		_player = GD.Load<PackedScene>("res://actors/bob/bob.tscn").Instantiate() as Player;
 
 		AddChild(_player);
 
 		_player.Position = _checkpoints.Where(c => c.Current).FirstOrDefault().Position;
-		_camera.Position = _player.Position;
-		_camera.SetCameraTarget(_player.GetNode<Node2D>("CameraAnchor"));
+		Camera.Position = _player.Position;
+		Camera.SetCameraTarget(_player.GetNode<Node2D>("CameraAnchor"));
 	}
 
 	private void RespawnPlayer()
