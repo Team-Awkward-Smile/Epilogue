@@ -17,7 +17,7 @@ public partial class Settings : Node
 	/// <summary>
 	///		Current game cycle (New Game or New Game+)
 	/// </summary>
-    public static GameCycle GameCycle { get; private set; } = (GameCycle) ProjectSettings.GetSetting("global/game_cycle").AsInt32();
+    public static GameCycle GameCycle { get; private set; } = (GameCycle) ProjectSettings.GetSetting("epilogue/gameplay/game_cycle").AsInt32();
 
 	/// <summary>
 	///		Control scheme (Modern or Retro) selected by the player
@@ -29,11 +29,11 @@ public partial class Settings : Node
 		{
 			_controlScheme = value;
 
-			ProjectSettings.SetSetting("global/use_modern_controls", value == ControlSchemeEnum.Modern);
+			ProjectSettings.SetSetting("epilogue/controls/control_scheme", (int) value);
 		}
 	}
 
-	private static ControlSchemeEnum _controlScheme = ProjectSettings.GetSetting("global/use_modern_controls").AsBool() ? ControlSchemeEnum.Modern : ControlSchemeEnum.Retro;
+	private static ControlSchemeEnum _controlScheme = (ControlSchemeEnum) ProjectSettings.GetSetting("epilogue/controls/control_scheme").AsInt32();
 
 	/// <inheritdoc/>
 	public override void _EnterTree()
@@ -52,9 +52,7 @@ public partial class Settings : Node
 				}
 			}
 		}
-
-		// TODO: this should be set from the Settings screen
-		GD.Print($"Control Scheme: {ControlScheme}");
+		GD.Print(ControlScheme);
 	}
 
 	/// <summary>

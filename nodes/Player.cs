@@ -81,7 +81,7 @@ public partial class Player : Actor
     private protected override void AfterReady()
 	{
 		// TODO: 68 - Reset this value when the Input Mode is changed during gameplay
-		_retroModeEnabled = !ProjectSettings.GetSetting("global/use_modern_controls").AsBool();
+		_retroModeEnabled = Settings.ControlScheme == ControlSchemeEnum.Retro;
 		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
 		_gunSystem = GetNode<GunSystem>("GunSystem");
 	}

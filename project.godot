@@ -27,15 +27,11 @@ CheckpointManager="*res://global/singletons/CheckpointManager.cs"
 Achievements="*res://global/singletons/Achievements.cs"
 GunEvents="*res://global/singletons/GunEvents.cs"
 PlayerEvents="*res://global/singletons/PlayerEvents.cs"
-
-[controls]
-
-controller_type=2
+CustomSettings="*res://settings/CustomSettings.cs"
 
 [debug]
 
 file_logging/enable_file_logging=true
-show_checkpoints=true
 
 [display]
 
@@ -56,20 +52,19 @@ movie_writer/fps=20
 
 enabled=PackedStringArray("res://addons/navigationtilemap/plugin.cfg")
 
+[epilogue]
+
+debug/show_checkpoints=true
+gameplay/achievements=0
+project/version="0.1.1"
+gameplay/game_cycle=0
+controls/controller_type=2
+controls/control_scheme=1
+
 [filesystem]
 
 import/blender/enabled=false
 import/fbx/enabled=false
-
-[general]
-
-achievments=0
-
-[global]
-
-Version="0.1"
-use_modern_controls=true
-game_cycle=0
 
 [input]
 
