@@ -61,18 +61,6 @@ public partial class InputDeviceManager : Node
 		}
 	}
 
-	/// <inheritdoc/>
-	public override void _Ready()
-	{
-		ProjectSettings.AddPropertyInfo(new Godot.Collections.Dictionary()
-		{
-			{ "name", "controls/controller_type" },
-			{ "type", (int) Variant.Type.Int },
-			{ "hint", (int) PropertyHint.Enum },
-			{ "hint_string", "PlayStation,XBox,Nintendo Switch" }
-		});
-	}
-
 	/// <summary>
 	///		Maps an InputEvent to it's corresponding icon. Used to display events as icons on-screen, regardless of the original event
 	/// </summary>
@@ -85,7 +73,7 @@ public partial class InputDeviceManager : Node
 			return PcIconMapper.GetIconForEvent(@event);
 		}
 
-		var brand = (InputDeviceBrand) ProjectSettings.GetSetting("controls/controller_type").AsInt16();
+		var brand = (InputDeviceBrand) ProjectSettings.GetSetting("epilogue/controls/controller_type").AsInt16();
 
 		return ControllerInputMapper.GetIconForEvent(brand, @event);
 	}
