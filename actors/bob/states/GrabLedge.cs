@@ -9,12 +9,12 @@ public partial class GrabLedge : PlayerState
 {
 	internal override void OnInput(InputEvent @event)
 	{
-		if(@event.IsActionPressed(JumpInput))
+		if(Input.IsActionJustPressed("jump"))
 		{
 			AnimPlayer.Play("ledge_climb");
 			AnimPlayer.AnimationFinished += MoveToTop;
 		}
-		else if(@event.IsActionPressed(CrouchInput))
+		else if(Input.IsActionJustPressed("crouch"))
 		{
 			StateMachine.ChangeState("Fall");
 		}

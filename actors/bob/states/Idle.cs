@@ -1,8 +1,7 @@
 using Epilogue.actors.hestmor.enums;
 using Epilogue.constants;
-using Epilogue.global.enums;
-using Epilogue.global.singletons;
 using Epilogue.nodes;
+
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
@@ -11,11 +10,9 @@ namespace Epilogue.actors.hestmor.states;
 /// </summary>
 public partial class Idle : PlayerState
 {
-	private bool _canUseAnalogControls;
-
 	internal override void OnInput(InputEvent @event)
 	{
-		if(@event.IsActionPressed(JumpInput))
+		if(Input.IsActionJustPressed("jump"))
 		{
 			if(!Player.RayCasts["Head"].IsColliding() && Player.RayCasts["Feet"].IsColliding())
 			{
@@ -38,23 +35,23 @@ public partial class Idle : PlayerState
 				StateMachine.ChangeState("Jump", StateType.VerticalJump);
 			}
 		}
-		else if(@event.IsActionPressed(CrouchInput))
+		else if(Input.IsActionJustPressed("crouch"))
 		{
 			StateMachine.ChangeState("Crouch");
 		}
-		else if(@event.IsActionPressed(SlideInput))
-		{
-			StateMachine.ChangeState("Slide", StateType.FrontRoll);
-		}
-		else if(@event.IsActionPressed(LookUpInput))
-		{
-			StateMachine.ChangeState("LookUp");
-		}
-		else if(@event.IsActionPressed(MeleeAttackInput))
+		else if(Input.IsActionJustPressed("melee"))
 		{
 			StateMachine.ChangeState("MeleeAttack", StateType.SwipeAttack);
 		}
-		else if(@event.IsActionPressed(GrowlInput))
+		else if(Input.IsActionJustPressed("slide"))
+		{
+			StateMachine.ChangeState("Slide", StateType.FrontRoll);
+		}
+		else if(Input.IsActionJustPressed("look_up"))
+		{
+			StateMachine.ChangeState("LookUp");
+		}
+		else if(Input.IsActionJustPressed("growl"))
 		{
 			StateMachine.ChangeState("Growl");
 		}
@@ -66,8 +63,6 @@ public partial class Idle : PlayerState
 		Player.Velocity = new Vector2(0f, 0f);
 
 		AnimPlayer.Play("idle");
-
-		_canUseAnalogControls = Settings.ControlScheme == ControlSchemeEnum.Modern;
 	}
 
 	internal override void PhysicsUpdate(double delta)
@@ -78,12 +73,7 @@ public partial class Idle : PlayerState
 			return;
 		}
 
-		var movement = Input.GetAxis(MoveLeftDigitalInput, MoveRightDigitalInput);
-
-		if(movement == 0f && _canUseAnalogControls)
-		{
-			movement = Input.GetAxis(MoveLeftAnalogInput, MoveRightAnalogInput);
-		}
+		var movement = Input.GetAxis("move_left", "move_right");
 
 		if(movement != 0f)
 		{
@@ -96,7 +86,7 @@ public partial class Idle : PlayerState
 			return;
 		}
 
-		if(Input.IsActionPressed(CrouchInput))
+		if(Input.IsActionPressed("crouch"))
 		{
 			StateMachine.ChangeState("Crouch");
 			return;

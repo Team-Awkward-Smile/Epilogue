@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://gm5vrvwux8go"
-path="res://.godot/imported/Heart.png-a5f6f6f8b8259e0eda4556d1670a34aa.ctex"
+uid="uid://cgfln56lnb4p0"
+path="res://.godot/imported/Start.png-fd0fc2c5641fc9a4d37d2936d419d2f1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/hp/Heart.png"
-dest_files=["res://.godot/imported/Heart.png-a5f6f6f8b8259e0eda4556d1670a34aa.ctex"]
+source_file="res://input_icons/nintendo/Start.png"
+dest_files=["res://.godot/imported/Start.png-fd0fc2c5641fc9a4d37d2936d419d2f1.ctex"]
 
 [params]
 

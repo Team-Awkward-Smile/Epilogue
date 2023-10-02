@@ -1,0 +1,49 @@
+[gd_resource type="TileSet" load_steps=9 format=3 uid="uid://cm87l6ohfrc5q"]
+
+[ext_resource type="Texture2D" uid="uid://ce28v6b0ipo0k" path="res://temp/tile_small.png" id="1_wxssb"]
+[ext_resource type="Texture2D" uid="uid://k4r63nlwrd0g" path="res://temp/slope_45.png" id="2_uc7lv"]
+[ext_resource type="Texture2D" uid="uid://jw7jobgsk5uu" path="res://temp/slope_small.png" id="3_4msn3"]
+[ext_resource type="Texture2D" uid="uid://d0tb3r6vpuxr6" path="res://temp/slope_steep.png" id="4_7a5qr"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bicm4"]
+texture = ExtResource("1_wxssb")
+texture_region_size = Vector2i(18, 18)
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-9, -9, -9, 9, 9, 9, 9, -9)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tarpj"]
+texture = ExtResource("2_uc7lv")
+texture_region_size = Vector2i(18, 18)
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-9, -9, -9, 9, 9, 9)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yknkh"]
+texture = ExtResource("3_4msn3")
+texture_region_size = Vector2i(36, 18)
+0:0/0 = 0
+0:0/0/texture_origin = Vector2i(-9, 0)
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-9, -9, -9, 9, 27, 9)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wnspm"]
+texture = ExtResource("4_7a5qr")
+texture_region_size = Vector2i(18, 36)
+0:0/0 = 0
+0:0/0/texture_origin = Vector2i(0, -9)
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-9, -9, -9, 27, 9, 27)
+
+[resource]
+tile_size = Vector2i(18, 18)
+physics_layer_0/collision_layer = 8
+physics_layer_0/collision_mask = 71
+sources/0 = SubResource("TileSetAtlasSource_bicm4")
+sources/1 = SubResource("TileSetAtlasSource_tarpj")
+sources/2 = SubResource("TileSetAtlasSource_yknkh")
+sources/3 = SubResource("TileSetAtlasSource_wnspm")

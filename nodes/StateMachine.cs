@@ -26,6 +26,11 @@ public partial class StateMachine : Node
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
+		if(Engine.IsEditorHint())
+		{
+			return;
+		}
+
 		_states.UnionWith(GetChildren().OfType<State>());
 
 		if(InitialState is not null)

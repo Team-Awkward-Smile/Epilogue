@@ -20,11 +20,11 @@ public partial class Slide : PlayerState
 
 	internal override void OnInput(InputEvent @event)
 	{
-		if(@event.IsActionPressed(JumpInput))
+		if(Input.IsActionJustPressed("jump"))
 		{
 			StateMachine.ChangeState("Jump", StateType.LongJump);
 		}
-		else if(@event.IsActionPressed(CancelSlideInput))
+		else if(Input.IsActionJustPressed("cancel_slide"))
 		{
 			AnimPlayer.Play("slide_end");
 			AnimPlayer.AnimationFinished += EndSlide; 

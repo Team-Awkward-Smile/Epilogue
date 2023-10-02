@@ -1,9 +1,11 @@
 using Epilogue.nodes;
 
 using Godot;
-using System;
 
 namespace Epilogue.actors.hestmor.states;
+/// <summary>
+///		State that allows Hestmor to react to damage taken
+/// </summary>
 public partial class TakeDamage : PlayerState
 {
 	internal override void OnEnter(params object[] args)

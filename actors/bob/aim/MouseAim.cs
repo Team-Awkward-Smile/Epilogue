@@ -31,8 +31,9 @@ public partial class MouseAim : Node
 
 		switch(Mathf.Abs(wheelArea))
 		{
-			case 0 or 4:
+			case 0:
 				flagY = AimDirection.None;
+				flagX = AimDirection.Right;
 				break;
 
 			case 1:
@@ -46,11 +47,11 @@ public partial class MouseAim : Node
 			case 3:
 				flagX = AimDirection.Left;
 				break;
-		}
 
-		if((flagX | flagY) == AimDirection.None)
-		{
-			flagX = _actor.FacingDirection == ActorFacingDirection.Left ? AimDirection.Left : AimDirection.Right;
+			case 4:
+				flagY = AimDirection.None;
+				flagX = AimDirection.Left;
+				break;
 		}
 
 		_aim.SetAimDirection(flagX | flagY);

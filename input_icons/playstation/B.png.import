@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://na7ptteltwll"
-path="res://.godot/imported/HeartDeepleted2.png-5995c68091d7a0d5be2c2b05497ecd49.ctex"
+uid="uid://ejuce70118ok"
+path="res://.godot/imported/B.png-10c13f5181c84347310ae9e0b3c5b682.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/hp/HeartDeepleted2.png"
-dest_files=["res://.godot/imported/HeartDeepleted2.png-5995c68091d7a0d5be2c2b05497ecd49.ctex"]
+source_file="res://input_icons/playstation/B.png"
+dest_files=["res://.godot/imported/B.png-10c13f5181c84347310ae9e0b3c5b682.ctex"]
 
 [params]
 

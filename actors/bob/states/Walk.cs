@@ -1,7 +1,7 @@
 using Epilogue.actors.hestmor.enums;
 using Epilogue.global.enums;
-using Epilogue.global.singletons;
 using Epilogue.nodes;
+
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
@@ -12,28 +12,31 @@ public partial class Walk : PlayerState
 {
 	[Export] private float _walkSpeed = 100f;
 
-	private bool _canUseAnalogControls;
-
 	internal override void OnInput(InputEvent @event)
 	{
-		if(@event.IsActionPressed(JumpInput))
+		if(Input.IsActionJustPressed("jump"))
 		{
-			StateMachine.ChangeState("Jump", StateType.LowJump);
+			if(Player.RayCasts["Head"].IsColliding() && !Player.RayCasts["Ledge"].IsColliding())
+			{
+				StateMachine.ChangeState("GrabLedge");
+			}
+			else
+			{
+				StateMachine.ChangeState("Jump", StateType.LowJump);
+			}
 		}
-		else if(@event.IsActionPressed(CrouchInput))
-		{
-			StateMachine.ChangeState("Crouch");
-		}
-		else if(@event.IsActionPressed(SlideInput))
-		{
-			StateMachine.ChangeState("Slide", StateType.KneeSlide);
-		}
-		else if(@event.IsActionPressed(MeleeAttackInput))
+		else if(Input.IsActionJustPressed("melee"))
 		{
 			StateMachine.ChangeState("MeleeAttack", StateType.UppercutPunch);
 		}
-
-		_canUseAnalogControls = Settings.ControlScheme == ControlSchemeEnum.Modern;
+		else if(Input.IsActionJustPressed("crouch"))
+		{
+			StateMachine.ChangeState("Crouch");
+		}
+		else if(Input.IsActionJustPressed("slide"))
+		{
+			StateMachine.ChangeState("Slide", StateType.KneeSlide);
+		}
 	}
 
 	internal override void OnEnter(params object[] args)
@@ -45,12 +48,7 @@ public partial class Walk : PlayerState
 
 	internal override void PhysicsUpdate(double delta)
 	{
-		var movementDirection = Input.GetAxis(MoveLeftDigitalInput, MoveRightDigitalInput);
-
-		if(movementDirection == 0f && _canUseAnalogControls)
-		{
-			movementDirection = Input.GetAxis(MoveLeftAnalogInput, MoveRightAnalogInput);
-		}
+		var movementDirection = Input.GetAxis("move_left", "move_right");
 
 		if(movementDirection != 0f)
 		{
@@ -61,8 +59,8 @@ public partial class Walk : PlayerState
 			velocity.Y += Gravity * (float) delta;
 			velocity.X = movementDirection * _walkSpeed * (float) delta * 60f;
 
-			if(movementDirection > 0 && Player.FacingDirection == ActorFacingDirection.Left ||
-				movementDirection < 0 && Player.FacingDirection == ActorFacingDirection.Right)
+			if((movementDirection > 0 && Player.FacingDirection == ActorFacingDirection.Left) ||
+				(movementDirection < 0 && Player.FacingDirection == ActorFacingDirection.Right))
 			{
 				velocity.X /= 2;
 			}
