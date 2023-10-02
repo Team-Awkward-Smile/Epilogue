@@ -153,6 +153,16 @@ public partial class Level : Node2D
 		_player.Position = _checkpoints.Where(c => c.Current).FirstOrDefault().Position;
 		_camera.Position = _player.Position;
 		_camera.SetCameraTarget(_player.GetNode<Node2D>("CameraAnchor"));
+
+		GetNode<Button>("%RemapControls").ButtonDown += () =>
+		{
+			GetTree().Paused = true;
+
+			var scene = GD.Load<PackedScene>("res://ui/remap/remap_controls.tscn");
+
+			GetNode<CanvasLayer>("UILayer").AddChild(scene.Instantiate());
+		};
+
 	}
 
 	private void RespawnPlayer()
@@ -160,6 +170,7 @@ public partial class Level : Node2D
 		_playerEvents.PlayerDied -= RespawnPlayer;
 		GetTree().ReloadCurrentScene();
 	}
+
 
 	/// <summary>
 	///		Sets the new current Checkpoint triggered by the player, deactivating the old one

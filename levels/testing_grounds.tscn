@@ -125,30 +125,17 @@ script = ExtResource("7_xoqku")
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 
-[node name="Label" type="Label" parent="UILayer"]
+[node name="RemapControls" type="Button" parent="UILayer"]
+unique_name_in_owner = true
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -23.0
-offset_right = 40.0
+offset_left = 24.0
+offset_top = -55.0
+offset_right = 156.0
+offset_bottom = -24.0
 grow_vertical = 0
-text = "Epilogue v 0.1 - PUBLIC PLAYTEST VERSION
-Movement Test - Modern Controls
-"
-
-[node name="Label2" type="Label" parent="UILayer"]
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -23.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "No assets used in this version are final.
-Features present in this version are being tested and may change or be removed before release"
-horizontal_alignment = 2
+text = "Remap Controls"
 
 [node name="Handgun" parent="." instance=ExtResource("8_pkgf4")]
 position = Vector2(476, -139)

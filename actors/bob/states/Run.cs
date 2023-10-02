@@ -1,6 +1,6 @@
 using Epilogue.global.enums;
-using Epilogue.global.singletons;
 using Epilogue.nodes;
+
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
@@ -11,11 +11,9 @@ public partial class Run : PlayerState
 {
 	[Export] private float _runSpeed = 200f;
 
-	private bool _canUseAnalogControls;
-
 	internal override void OnInput(InputEvent @event)
 	{
-		if(@event.IsActionPressed(JumpInput))
+		if(Input.IsActionJustPressed("jump"))
 		{
 			if(Player.IsOnWall())
 			{
@@ -35,13 +33,13 @@ public partial class Run : PlayerState
 				StateMachine.ChangeState("Jump");
 			}
 		}
-		else if(@event.IsActionPressed(SlideInput))
-		{
-			StateMachine.ChangeState("Slide");
-		}
-		else if(@event.IsActionPressed(MeleeAttackInput))
+		else if(Input.IsActionJustPressed("melee"))
 		{
 			StateMachine.ChangeState("MeleeAttack");
+		}
+		else if(Input.IsActionJustPressed("slide"))
+		{
+			StateMachine.ChangeState("Slide");
 		}
 	}
 
@@ -50,18 +48,11 @@ public partial class Run : PlayerState
 		AnimPlayer.Play("walk", -1, 2f);
 
 		Player.CanChangeFacingDirection = true;
-
-		_canUseAnalogControls = Settings.ControlScheme == ControlSchemeEnum.Modern;
 	}
 
 	internal override void PhysicsUpdate(double delta)
 	{
-		var movementDirection = Input.GetAxis(MoveLeftDigitalInput, MoveRightDigitalInput);
-
-		if(movementDirection == 0f && _canUseAnalogControls)
-		{
-			movementDirection = Input.GetAxis(MoveLeftAnalogInput, MoveRightAnalogInput);
-		}
+		var movementDirection = Input.GetAxis("move_left", "move_right");
 
 		if(movementDirection != 0f)
 		{
