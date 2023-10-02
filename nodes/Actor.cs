@@ -66,7 +66,6 @@ public abstract partial class Actor : CharacterBody2D
 		{
 			if(area is HitBox hitbox)
 			{
-				GD.Print($"Dealing [{hitbox.Damage}] to [{Name}]");
 				DealDamage(hitbox.Damage);
 			}
 		};
