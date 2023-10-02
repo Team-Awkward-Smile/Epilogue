@@ -127,6 +127,8 @@ public partial class GunSystem : Node2D
 	/// </summary>
 	private void DropGun()
 	{
+		InteractWithTrigger(false);
+
 		var oldGun = UnequipGun();
 
 		if(oldGun.CurrentAmmoCount == 0)
