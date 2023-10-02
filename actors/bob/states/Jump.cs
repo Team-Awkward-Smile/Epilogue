@@ -19,6 +19,7 @@ public partial class Jump : PlayerState
 
 	private float _horizontalVelocity;
 	private Achievements _achievements;
+	private StateType _jumpType;
 
 	public override void _Ready()
 	{
@@ -35,19 +36,23 @@ public partial class Jump : PlayerState
 
 	internal override void OnEnter(params object[] args)
 	{
-		var jumpType = (StateType) args[0];
-		var label = Player.GetNode<Label>("temp_StateName");
+		_jumpType = (StateType) args[0];
 
-		label.Text = jumpType.ToString();
+		var label = Player.GetNode<Label>("temp_StateName");
+		var animation = _jumpType == StateType.CrawlJump ? "crawl_jump" : "jump";
+
+		label.Text = _jumpType.ToString();
 		label.Show();
 
-		if(jumpType == StateType.VerticalJump)
+		if(_jumpType == StateType.VerticalJump)
 		{
 			_horizontalVelocity = 0f;
 		}
 		else
 		{
-			_horizontalVelocity = (jumpType == StateType.LowJump ? _lowJumpHorizontalSpeed : _longJumpHorizontalSpeed) * (Player.Velocity.X > 0 ? 1 : -1);
+			_horizontalVelocity = (_jumpType is (StateType.LowJump or StateType.CrawlJump)
+				? _lowJumpHorizontalSpeed 
+				: _longJumpHorizontalSpeed) * (Player.Velocity.X > 0 ? 1 : -1);
 		}
 
 		AudioPlayer.PlayGenericSfx("Jump");
@@ -55,7 +60,7 @@ public partial class Jump : PlayerState
 		Player.Velocity = new Vector2(0f, Player.Velocity.Y);
 		Player.CanChangeFacingDirection = false;
 
-		AnimPlayer.Play("jump");
+		AnimPlayer.Play(animation);
 		AnimPlayer.AnimationFinished += StartJump;
 
 		_achievements.JumpCount++;
@@ -75,7 +80,7 @@ public partial class Jump : PlayerState
 			else
 			{
 				Player.Position -= new Vector2(0f, offset);
-				StateMachine.ChangeState("GrabLedge");
+				StateMachine.ChangeState("GrabLedge", StateType.JumpGrab);
 			}
 
 			return;
@@ -86,7 +91,7 @@ public partial class Jump : PlayerState
 
 		if(Player.Velocity.Y > 0)
 		{
-			StateMachine.ChangeState("Fall");
+			StateMachine.ChangeState("Fall", _jumpType);
 		}
 		else if(Player.IsOnFloor() && Player.Velocity.Y < 0)
 		{

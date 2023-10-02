@@ -1,3 +1,4 @@
+using Epilogue.actors.hestmor.enums;
 using Epilogue.nodes;
 using Godot;
 
@@ -26,14 +27,16 @@ public partial class GrabLedge : PlayerState
 		Player.CanChangeFacingDirection = false;
 		Player.RayCasts["Feet"].ForceRaycastUpdate();
 
+		var preffix = ((StateType) args[0] == StateType.JumpGrab) ? "jump" : "fall";
+
 		if(Player.RayCasts["Feet"].IsColliding())
 		{
-			AnimPlayer.Play("grab_wall");
+			AnimPlayer.Play($"{preffix}_grab_wall");
 			AnimPlayer.AnimationFinished += StayOnEdge;
 		}
 		else
 		{
-			AnimPlayer.Play("grab_ledge");
+			AnimPlayer.Play($"{preffix}_grab_ledge");
 		}
 	}
 

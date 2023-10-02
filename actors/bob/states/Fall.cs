@@ -1,6 +1,8 @@
+using Epilogue.actors.hestmor.enums;
 using Epilogue.constants;
 using Epilogue.nodes;
 using Godot;
+using System.Security.AccessControl;
 using System.Threading.Tasks;
 
 namespace Epilogue.actors.hestmor.states;
@@ -11,13 +13,22 @@ public partial class Fall : PlayerState
 {
 	private bool _playLandingAnimation = true;
 	private bool _canGrabLedge;
+	private StateType _jumpType;
 
 	internal override void OnEnter(params object[] args)
 	{
+		_jumpType = args.Length > 0 ? (StateType) args[0] : StateType.VerticalJump;
+
+		var animation = _jumpType switch
+		{
+			StateType.CrawlJump => "crawl_fall",
+			_ => "fall"
+		};
+
 		_canGrabLedge = false;
 		_playLandingAnimation = true;
 
-		AnimPlayer.Play("fall");
+		AnimPlayer.Play(animation);
 		Player.CanChangeFacingDirection = true;
 
 		GetTree().CreateTimer(0.1f).Timeout += () => _canGrabLedge = true;
@@ -39,7 +50,7 @@ public partial class Fall : PlayerState
 			else
 			{
 				Player.Position -= new Vector2(0f, offset);
-				StateMachine.ChangeState("GrabLedge");
+				StateMachine.ChangeState("GrabLedge", StateType.FallGrab);
 			}
 
 			return;
@@ -61,8 +72,14 @@ public partial class Fall : PlayerState
 			return;
 		}
 
+		var animation = _jumpType switch
+		{
+			StateType.CrawlJump => "crawl_fall_land",
+			_ => "fall_land"
+		};
+
 		AudioPlayer.PlayGenericSfx("Land");
-		AnimPlayer.Play("fall_land");
+		AnimPlayer.Play(animation);
 
 		await ToSignal(AnimPlayer, "animation_finished");
 	}

@@ -50,5 +50,20 @@ public enum StateType
 	/// <summary>
 	///		A long slide forward
 	/// </summary>
-	LongSlide
+	LongSlide,
+
+	/// <summary>
+	///		A jump that starts from a crawling position
+	/// </summary>
+	CrawlJump,
+
+	/// <summary>
+	///		A Ledge Grab that happened while Hestmor was going up after jumping
+	/// </summary>
+	JumpGrab,
+
+	/// <summary>
+	///		A Ledge Grab that happened while Hestmor was falling
+	/// </summary>
+	FallGrab
 }

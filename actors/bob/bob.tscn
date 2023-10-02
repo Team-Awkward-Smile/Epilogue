@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=3 uid="uid://cmrbm1u6fwi67"]
+[gd_scene load_steps=68 format=3 uid="uid://cmrbm1u6fwi67"]
 
 [ext_resource type="Script" path="res://nodes/Player.cs" id="1_cnm5v"]
 [ext_resource type="Script" path="res://nodes/StateMachine.cs" id="2_uvkgn"]
@@ -171,6 +171,54 @@ tracks/0/keys = {
 "values": [Vector2i(0, 22), Vector2i(1, 22), Vector2i(2, 22), Vector2i(3, 22), Vector2i(4, 22), Vector2i(5, 22)]
 }
 
+[sub_resource type="Animation" id="Animation_fuj1m"]
+resource_name = "crawl_fall"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(4, 23)]
+}
+
+[sub_resource type="Animation" id="Animation_h4p0d"]
+resource_name = "crawl_fall_land"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(5, 23)]
+}
+
+[sub_resource type="Animation" id="Animation_slxto"]
+resource_name = "crawl_jump"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 23), Vector2i(1, 23), Vector2i(2, 23)]
+}
+
 [sub_resource type="Animation" id="Animation_tuj5i"]
 resource_name = "Crouching"
 length = 0.4
@@ -255,62 +303,6 @@ tracks/0/keys = {
 "values": [Vector2i(4, 4)]
 }
 
-[sub_resource type="Animation" id="Animation_wktmx"]
-resource_name = "grab_ledge"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [Vector2i(1, 19), Vector2i(2, 19), Vector2i(3, 19)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.3),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(-7, -17)]
-}
-
-[sub_resource type="Animation" id="Animation_jdrsw"]
-resource_name = "grab_wall"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [Vector2i(2, 7), Vector2i(3, 7), Vector2i(4, 7)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(-17, -10)]
-}
-
 [sub_resource type="Animation" id="Animation_gq830"]
 resource_name = "Idle"
 length = 0.4
@@ -354,46 +346,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [Vector2i(1, 4), Vector2i(2, 4)]
-}
-
-[sub_resource type="Animation" id="Animation_pblvt"]
-resource_name = "ledge_climb"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [Vector2(-16, -11), Vector2(-16, -25), Vector2(-3, -43), Vector2(10, -49), Vector2(16, -54)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:frame_coords")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [Vector2i(0, 9), Vector2i(1, 9), Vector2i(2, 9), Vector2i(3, 9), Vector2i(4, 9)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("LedgeAnchor:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0.4),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 12)]
 }
 
 [sub_resource type="Animation" id="Animation_v5gsv"]
@@ -554,17 +506,150 @@ tracks/3/keys = {
 "values": [Vector2(9, 0), Vector2(0, 0), Vector2(-12, 0), Vector2(0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_pblvt"]
+resource_name = "ledge_climb"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2(-16, -11), Vector2(-16, -25), Vector2(-3, -43), Vector2(10, -49), Vector2(16, -54)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:frame_coords")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 9), Vector2i(1, 9), Vector2i(2, 9), Vector2i(3, 9), Vector2i(4, 9)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LedgeAnchor:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 12)]
+}
+
+[sub_resource type="Animation" id="Animation_wktmx"]
+resource_name = "jump_grab_ledge"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2i(1, 19), Vector2i(2, 19), Vector2i(3, 19)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-7, -17)]
+}
+
+[sub_resource type="Animation" id="Animation_d06p0"]
+resource_name = "fall_grab_ledge"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 24), Vector2i(1, 24), Vector2i(2, 24), Vector2i(3, 24), Vector2i(4, 24)]
+}
+
+[sub_resource type="Animation" id="Animation_jdrsw"]
+resource_name = "jump_grab_wall"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2i(2, 7), Vector2i(3, 7), Vector2i(4, 7)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-17, -10)]
+}
+
+[sub_resource type="Animation" id="Animation_wmld5"]
+resource_name = "fall_grab_wall"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 24), Vector2i(1, 24), Vector2i(2, 24), Vector2i(3, 24), Vector2i(4, 24)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hko5d"]
 _data = {
 "RESET": SubResource("Animation_1kqj8"),
 "crawl": SubResource("Animation_woke4"),
+"crawl_fall": SubResource("Animation_fuj1m"),
+"crawl_fall_land": SubResource("Animation_h4p0d"),
+"crawl_jump": SubResource("Animation_slxto"),
 "crouch": SubResource("Animation_tuj5i"),
 "fall": SubResource("Animation_q1ggx"),
+"fall_grab_ledge": SubResource("Animation_d06p0"),
+"fall_grab_wall": SubResource("Animation_wmld5"),
 "fall_land": SubResource("Animation_pq8q2"),
-"grab_ledge": SubResource("Animation_wktmx"),
-"grab_wall": SubResource("Animation_jdrsw"),
 "idle": SubResource("Animation_gq830"),
 "jump": SubResource("Animation_elm64"),
+"jump_grab_ledge": SubResource("Animation_wktmx"),
+"jump_grab_wall": SubResource("Animation_jdrsw"),
 "ledge_climb": SubResource("Animation_pblvt"),
 "ledge_look": SubResource("Animation_v5gsv"),
 "slide_end": SubResource("Animation_jnuox"),
@@ -1001,7 +1086,7 @@ material = SubResource("ShaderMaterial_yy212")
 position = Vector2(0, -30)
 texture = ExtResource("25_k53r2")
 hframes = 11
-vframes = 23
+vframes = 25
 frame = 22
 
 [node name="LedgeAnchor" type="Node2D" parent="FlipRoot/Sprite2D"]

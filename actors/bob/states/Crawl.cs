@@ -1,3 +1,4 @@
+using Epilogue.actors.hestmor.enums;
 using Epilogue.global.enums;
 using Epilogue.global.singletons;
 using Epilogue.nodes;
@@ -13,6 +14,14 @@ public partial class Crawl : PlayerState
 	[Export] private float _crawlSpeed;
 
 	private bool _canUseAnalogControls;
+
+	internal override void OnInput(InputEvent @event)
+	{
+		if(@event.IsActionPressed("jump"))
+		{
+			StateMachine.ChangeState("Jump", StateType.CrawlJump);
+		}
+	}
 
 	internal override void OnEnter(params object[] args)
 	{
