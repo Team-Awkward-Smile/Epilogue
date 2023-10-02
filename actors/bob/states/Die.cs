@@ -8,7 +8,7 @@ namespace Epilogue.actors.hestmor.states;
 /// </summary>
 public partial class Die : PlayerState
 {
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		Player.CanChangeFacingDirection = false;
 

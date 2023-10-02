@@ -1,3 +1,4 @@
+using Epilogue.actors.hestmor.enums;
 using Epilogue.global.enums;
 using Epilogue.nodes;
 
@@ -21,12 +22,12 @@ public partial class Walk : PlayerState
 			}
 			else
 			{
-				StateMachine.ChangeState("Jump");
+				StateMachine.ChangeState("Jump", StateType.LowJump);
 			}
 		}
 		else if(Input.IsActionJustPressed("melee"))
 		{
-			StateMachine.ChangeState("MeleeAttack");
+			StateMachine.ChangeState("MeleeAttack", StateType.UppercutPunch);
 		}
 		else if(Input.IsActionJustPressed("crouch"))
 		{
@@ -34,11 +35,11 @@ public partial class Walk : PlayerState
 		}
 		else if(Input.IsActionJustPressed("slide"))
 		{
-			StateMachine.ChangeState("Slide");
+			StateMachine.ChangeState("Slide", StateType.KneeSlide);
 		}
 	}
 
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		AnimPlayer.Play("walk");
 

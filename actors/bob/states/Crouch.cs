@@ -16,7 +16,7 @@ public partial class Crouch : PlayerState
 		}
 	}
 
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		Player.CanChangeFacingDirection = false;
 

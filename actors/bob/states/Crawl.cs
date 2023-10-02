@@ -14,7 +14,7 @@ public partial class Crawl : PlayerState
 
 	private bool _canUseAnalogControls;
 
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		AnimPlayer.Play("crawl");
 

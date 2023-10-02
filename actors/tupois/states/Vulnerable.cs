@@ -11,7 +11,7 @@ public partial class Vulnerable : NpcState
 
 	private float _timer;
 
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		Npc.Sprite.Modulate = new Color(1f, 0f, 0f);
 

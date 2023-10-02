@@ -12,7 +12,7 @@ public partial class Fall : PlayerState
 	private bool _playLandingAnimation = true;
 	private bool _canGrabLedge;
 
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		_canGrabLedge = false;
 		_playLandingAnimation = true;

@@ -9,7 +9,7 @@ public partial class Vault : PlayerState
 {
 	private Vector2 _spriteOriginalPosition;
 
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		_spriteOriginalPosition = Player.Sprite.Position;
 

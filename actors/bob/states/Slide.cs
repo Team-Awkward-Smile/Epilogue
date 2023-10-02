@@ -1,3 +1,4 @@
+using Epilogue.actors.hestmor.enums;
 using Epilogue.global.enums;
 using Epilogue.nodes;
 using Godot;
@@ -9,7 +10,9 @@ namespace Epilogue.actors.hestmor.states;
 public partial class Slide : PlayerState
 {
 	[Export] private float _slideTime = 0.5f;
-	[Export] private float _slideSpeed = 220f;
+	[Export] private float _longSlideSpeed = 220f;
+	[Export] private float _kneeSlideSpeed = 160f;
+	[Export] private float _frontRollSpeed = 100f;
 
 	private double _timer = 0f;
 	private bool _slideFinished = false;
@@ -19,7 +22,7 @@ public partial class Slide : PlayerState
 	{
 		if(Input.IsActionJustPressed("jump"))
 		{
-			StateMachine.ChangeState("Jump");
+			StateMachine.ChangeState("Jump", StateType.LongJump);
 		}
 		else if(Input.IsActionJustPressed("cancel_slide"))
 		{
@@ -28,8 +31,22 @@ public partial class Slide : PlayerState
 		}
 	}
 
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
+		var label = Player.GetNode<Label>("temp_StateName");
+		var speed = (StateType) args[0] switch
+		{
+			StateType.FrontRoll => _frontRollSpeed,
+			StateType.KneeSlide => _kneeSlideSpeed,
+			StateType.LongSlide => _longSlideSpeed,
+			_ => _longSlideSpeed
+		};
+
+		// TODO: 214 - Add a HitBox to the Slide Attack
+
+		label.Text = args[0].ToString();
+		label.Show();
+
 		_slideFinished = false;
 		_timer = 0f;
 		_startingRotation = Player.Rotation;
@@ -40,7 +57,7 @@ public partial class Slide : PlayerState
 		Player.FloorConstantSpeed = false;
 		Player.FloorMaxAngle = 0f;
 		Player.FloorBlockOnWall = false;
-		Player.Velocity = new Vector2(_slideSpeed * direction, Player.Velocity.Y);
+		Player.Velocity = new Vector2(speed * direction, Player.Velocity.Y);
 		Player.CanChangeFacingDirection = false;
 
 		AnimPlayer.Play("slide_start");
@@ -71,6 +88,8 @@ public partial class Slide : PlayerState
 		Player.FloorMaxAngle = Mathf.DegToRad(45f);
 		Player.Rotation = _startingRotation;
 		Player.FloorBlockOnWall = true;
+
+		Player.GetNode<Label>("temp_StateName").Hide();
 	}
 
 	private void EndSlide(StringName animName)

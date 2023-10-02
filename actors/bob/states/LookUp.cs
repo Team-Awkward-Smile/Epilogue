@@ -26,7 +26,7 @@ public partial class LookUp : PlayerState
 		}
 	}
 
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		_isCameraMoving = false;
 		_timer = 0f;

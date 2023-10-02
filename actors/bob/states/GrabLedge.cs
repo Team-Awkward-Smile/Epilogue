@@ -20,7 +20,7 @@ public partial class GrabLedge : PlayerState
 		}
 	}
 
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		Player.Velocity = new Vector2(0f, 0f);
 		Player.CanChangeFacingDirection = false;

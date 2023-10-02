@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=3 uid="uid://cmrbm1u6fwi67"]
+[gd_scene load_steps=63 format=3 uid="uid://cmrbm1u6fwi67"]
 
 [ext_resource type="Script" path="res://nodes/Player.cs" id="1_cnm5v"]
 [ext_resource type="Script" path="res://nodes/StateMachine.cs" id="2_uvkgn"]
@@ -873,6 +873,9 @@ height = 46.0
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_swilf"]
 height = 50.0
 
+[sub_resource type="LabelSettings" id="LabelSettings_akv03"]
+font_size = 11
+
 [node name="Bob" type="CharacterBody2D" groups=["Player"]]
 collision_mask = 8
 floor_constant_speed = true
@@ -1061,3 +1064,14 @@ visibility_layer = 2
 position = Vector2(0, -25)
 shape = SubResource("CapsuleShape2D_swilf")
 debug_color = Color(0.835294, 0.356863, 0.419608, 0.419608)
+
+[node name="temp_StateName" type="Label" parent="."]
+visible = false
+offset_left = -31.0
+offset_top = -68.0
+offset_right = 38.0
+offset_bottom = -45.0
+text = "STATE_NAME"
+label_settings = SubResource("LabelSettings_akv03")
+horizontal_alignment = 1
+vertical_alignment = 1
