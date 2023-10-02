@@ -882,6 +882,8 @@ platform_on_leave = 2
 platform_floor_layers = 4294901768
 platform_wall_layers = 8
 script = ExtResource("1_cnm5v")
+MaxHealth = 3.0
+CurrentHealth = 3.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../FlipRoot/Sprite2D")

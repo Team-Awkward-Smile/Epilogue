@@ -63,6 +63,15 @@ public partial class Player : Actor
 		{
 			_gunSystem.InteractWithGun();
 		}
+		else if(@event.IsAction("debug_add_hp") && @event.IsPressed())
+		{
+			// TODO: 189 - Remove this later, or at least move it to a better place
+			ApplyHealth(1);
+		}
+		else if(@event.IsAction("debug_remove_hp") && @event.IsPressed())
+		{
+			DealDamage(1);
+		}
 		else
 		{
 			StateMachine.PropagateInputToState(@event);
@@ -81,6 +90,8 @@ public partial class Player : Actor
 	public override void DealDamage(float damage)
 	{
 		CurrentHealth -= damage;
+
+		_playerEvents.EmitGlobalSignal(PlayerEvents.SignalName.PlayerWasDamaged, damage, CurrentHealth);
 
 		if(CurrentHealth <= 0)
 		{
@@ -108,6 +119,8 @@ public partial class Player : Actor
 	public override void ApplyHealth(float health)
 	{
 		CurrentHealth += health;
+
+		_playerEvents.EmitGlobalSignal("PlayerWasHealed", health, CurrentHealth);
 	}
 
 	/// <summary>

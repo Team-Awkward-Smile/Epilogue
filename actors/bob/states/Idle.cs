@@ -40,7 +40,7 @@ public partial class Idle : PlayerState
 		}
 		else if(Input.IsActionJustPressed("melee"))
 		{
-			StateMachine.ChangeState("Melee");
+			StateMachine.ChangeState("MeleeAttack");
 		}
 		else if(Input.IsActionJustPressed("slide"))
 		{

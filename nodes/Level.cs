@@ -2,6 +2,7 @@ using Epilogue.global.enums;
 using Epilogue.global.singletons;
 using Epilogue.props.camera;
 using Epilogue.ui;
+using Epilogue.ui.hp;
 using Godot;
 
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ public partial class Level : Node2D
 {
 	private PauseUI _pauseUI;
 	private AmmoUI _ammoUI;
+	private HPUI _hpUI;
 	private Window _console;
 	private GloryKillPrompt _killPrompt;
 	private TileMap _tileMap;
@@ -78,6 +80,7 @@ public partial class Level : Node2D
 		_console = GD.Load<PackedScene>("res://ui/console.tscn").Instantiate() as Window;
 		_killPrompt = GD.Load<PackedScene>("res://ui/glory_kill_prompt.tscn").Instantiate() as GloryKillPrompt;
 		_ammoUI = GD.Load<PackedScene>("res://ui/ammo_ui.tscn").Instantiate() as AmmoUI;
+		_hpUI = GD.Load<PackedScene>("res://ui/hp/hp_ui.tscn").Instantiate() as HPUI;
 
 		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
 		_checkpointManager = GetNode<CheckpointManager>("/root/CheckpointManager");
@@ -93,6 +96,7 @@ public partial class Level : Node2D
 		uiLayer.AddChild(_console);
 		uiLayer.AddChild(_killPrompt);
 		uiLayer.AddChild(_ammoUI);
+		uiLayer.AddChild(_hpUI);
 
 		_pauseUI.Hide();
 		_console.Hide();
