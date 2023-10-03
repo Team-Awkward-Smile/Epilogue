@@ -61,7 +61,6 @@ public partial class RemapControls : UI
 			}
         }
 
-        GetNode<Button>("%Return").ButtonDown += () => Close();
 		GetNode<Button>("Save").ButtonDown += SaveMapping;
 		GetNode<Button>("%Default").ButtonDown += ResetToDefault;
 

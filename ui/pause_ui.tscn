@@ -1,15 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://bv14n54nl5fpi"]
 
 [ext_resource type="Script" path="res://ui/PauseUI.cs" id="1_45v7x"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_g8cdf"]
-size = Vector2(10, 10)
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_fkwx5"]
-size = Vector2(10, 10)
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_lluck"]
-size = Vector2(10, 10)
+[ext_resource type="PackedScene" uid="uid://b3fpxyxkl46k6" path="res://ui/remap/remap_controls.tscn" id="2_xfdl3"]
+[ext_resource type="PackedScene" uid="uid://44ekewtgh1io" path="res://ui/audio/audio_ui.tscn" id="3_aosvy"]
+[ext_resource type="PackedScene" uid="uid://d4cifcokrv6dr" path="res://ui/video/video_ui.tscn" id="3_ney3t"]
 
 [node name="PauseUI" type="Control"]
 process_mode = 2
@@ -21,8 +15,10 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_45v7x")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
+[node name="PauseLayer" type="CanvasLayer" parent="."]
+layer = 128
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseLayer"]
 anchors_preset = 13
 anchor_left = 0.5
 anchor_right = 0.5
@@ -34,44 +30,47 @@ grow_vertical = 2
 theme_override_constants/separation = 60
 alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="Label" type="Label" parent="PauseLayer/VBoxContainer"]
 layout_mode = 2
 text = "PAUSED"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSlider2" type="HSlider" parent="VBoxContainer"]
+[node name="ResumeButton" type="Button" parent="PauseLayer/VBoxContainer"]
 layout_mode = 2
-focus_neighbor_bottom = NodePath("../HSlider")
-focus_next = NodePath("../HSlider")
-focus_previous = NodePath("../HSlider3")
-theme_override_icons/grabber_highlight = SubResource("PlaceholderTexture2D_g8cdf")
+text = "Resume
+"
 
-[node name="HSlider" type="HSlider" parent="VBoxContainer"]
+[node name="SettingsButton" type="Button" parent="PauseLayer/VBoxContainer"]
 layout_mode = 2
-focus_neighbor_top = NodePath("../HSlider2")
-focus_neighbor_bottom = NodePath("../HSlider3")
-focus_next = NodePath("../HSlider3")
-focus_previous = NodePath("../HSlider2")
-theme_override_icons/grabber_highlight = SubResource("PlaceholderTexture2D_fkwx5")
+text = "Settings"
 
-[node name="HSlider3" type="HSlider" parent="VBoxContainer"]
+[node name="QuitMenuButton" type="Button" parent="PauseLayer/VBoxContainer"]
 layout_mode = 2
-focus_neighbor_top = NodePath("../HSlider")
-focus_next = NodePath("../CloseButton")
-focus_previous = NodePath("../HSlider")
-theme_override_icons/grabber_highlight = SubResource("PlaceholderTexture2D_lluck")
+text = "Quit to Main Menu"
 
-[node name="CloseButton" type="Button" parent="VBoxContainer"]
+[node name="QuitDesktopButton" type="Button" parent="PauseLayer/VBoxContainer"]
 layout_mode = 2
-focus_neighbor_top = NodePath("../HSlider3")
-focus_next = NodePath("../HSlider2")
-focus_previous = NodePath("../HSlider3")
-text = "Close"
+text = "Quit to Desktop
+"
 
-[node name="QuitButton" type="Button" parent="VBoxContainer"]
+[node name="SettingsLayer" type="CanvasLayer" parent="."]
+layer = 128
+
+[node name="TabContainer" type="TabContainer" parent="SettingsLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Controls" parent="SettingsLayer/TabContainer" instance=ExtResource("2_xfdl3")]
 layout_mode = 2
-focus_neighbor_top = NodePath("../HSlider3")
-focus_next = NodePath("../HSlider2")
-focus_previous = NodePath("../HSlider3")
-text = "Quit"
+
+[node name="Video" parent="SettingsLayer/TabContainer" instance=ExtResource("3_ney3t")]
+visible = false
+layout_mode = 2
+
+[node name="Audio" parent="SettingsLayer/TabContainer" instance=ExtResource("3_aosvy")]
+visible = false
+layout_mode = 2

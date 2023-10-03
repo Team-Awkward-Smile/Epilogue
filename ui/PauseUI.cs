@@ -1,16 +1,19 @@
+using Epilogue.nodes;
 using Godot;
-using System;
 
 namespace Epilogue.ui;
 /// <summary>
 ///		Screen responsible for displaying the menu when the game is paused, and reading the input to un-pause it
 /// </summary>
-public partial class PauseUI : Control
+public partial class PauseUI : UI
 {
+	private CanvasLayer _pauseLayer;
+	private CanvasLayer _settingsLayer;
+
 	/// <inheritdoc/>
 	public override void _Input(InputEvent @event)
 	{
-		if(@event.IsAction("pause_game") && @event.IsPressed())
+		if(@event.IsActionPressed("pause_game"))
 		{
 			Unpause();
 		}
@@ -19,15 +22,39 @@ public partial class PauseUI : Control
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
-		GetNode<Slider>("VBoxContainer/HSlider2").CallDeferred("grab_focus");
-		GetNode<Button>("VBoxContainer/CloseButton").Pressed += Unpause;
-		GetNode<Button>("VBoxContainer/QuitButton").Pressed += () => GetTree().Quit();
+		GetNode<Button>("PauseLayer/VBoxContainer/ResumeButton").Pressed += Unpause;
+		GetNode<Button>("PauseLayer/VBoxContainer/SettingsButton").Pressed += ShowSettingsScreen;
+		// TODO: 226 - Make the button work properly after we have a Main Menu
+		GetNode<Button>("PauseLayer/VBoxContainer/QuitMenuButton").Pressed += () => GD.Print("There is no Main Menu yet :C");
+		GetNode<Button>("PauseLayer/VBoxContainer/QuitDesktopButton").Pressed += () => GetTree().Quit();
+
+		_pauseLayer = GetNode<CanvasLayer>("PauseLayer");
+		_settingsLayer = GetNode<CanvasLayer>("SettingsLayer");
+
+		_pauseLayer.Hide();
+		_settingsLayer.Hide();
+	}
+
+	/// <inheritdoc/>
+	public override void Enable(bool pauseTree = false)
+	{
+		_pauseLayer.Show();
+
+		GetTree().Paused = true;
+	}
+
+	private void ShowSettingsScreen()
+	{
+		_pauseLayer.Hide();
+		_settingsLayer.Show();
 	}
 
 	private void Unpause()
 	{
-		Hide();
-		GetTree().Paused = false;
+		_pauseLayer.Hide();
+		_settingsLayer.Hide();
+
+		Disable(true);
 
 		GetViewport().SetInputAsHandled();
 	}

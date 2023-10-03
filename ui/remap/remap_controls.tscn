@@ -13,15 +13,6 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_hs0wb")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.294118, 0.294118, 0.294118, 1)
-
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 1
 anchors_preset = 13
@@ -101,11 +92,6 @@ offset_bottom = -63.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 910
-
-[node name="Return" type="Button" parent="HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Return"
 
 [node name="Default" type="Button" parent="HBoxContainer"]
 unique_name_in_owner = true

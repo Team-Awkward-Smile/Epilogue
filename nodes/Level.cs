@@ -54,14 +54,13 @@ public partial class Level : Node2D
 	/// <inheritdoc/>
 	public override void _Input(InputEvent @event)
 	{
-		if(@event.IsAction("pause_game") && @event.IsPressed())
+		if(@event.IsActionPressed("pause_game"))
 		{
-			_pauseUI.Show();
+			_pauseUI.Enable();
 
-			GetTree().Paused =  true;
 			GetViewport().SetInputAsHandled();
 		}
-		else if(@event.IsAction("console") && @event.IsPressed())
+		else if(@event.IsActionPressed("console"))
 		{
 			_console.Visible = !_console.Visible;
 		}
@@ -153,16 +152,6 @@ public partial class Level : Node2D
 		_player.Position = _checkpoints.Where(c => c.Current).FirstOrDefault().Position;
 		_camera.Position = _player.Position;
 		_camera.SetCameraTarget(_player.GetNode<Node2D>("CameraAnchor"));
-
-		GetNode<Button>("%RemapControls").ButtonDown += () =>
-		{
-			GetTree().Paused = true;
-
-			var scene = GD.Load<PackedScene>("res://ui/remap/remap_controls.tscn");
-
-			GetNode<CanvasLayer>("UILayer").AddChild(scene.Instantiate());
-		};
-
 	}
 
 	private void RespawnPlayer()

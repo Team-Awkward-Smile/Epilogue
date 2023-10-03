@@ -5,6 +5,7 @@ using Godot;
 using Godot.Collections;
 
 using System.Linq;
+using static Godot.DisplayServer;
 
 namespace Epilogue.global.singletons;
 /// <summary>
@@ -20,9 +21,14 @@ public partial class Settings : Node
     public static GameCycle GameCycle { get; private set; } = (GameCycle) ProjectSettings.GetSetting("epilogue/gameplay/game_cycle").AsInt32();
 
 	/// <summary>
-	///		Control scheme (Modern or Retro) selected by the player
+	///		Window Mode (Fullscreen, Windowed, etc.) selected by the player
 	/// </summary>
-	public static ControlSchemeEnum ControlScheme
+    public static WindowMode WindowMode { get; set; }
+
+    /// <summary>
+    ///		Control scheme (Modern or Retro) selected by the player
+    /// </summary>
+    public static ControlSchemeEnum ControlScheme
 	{
 		get => _controlScheme;
 		set
@@ -51,8 +57,16 @@ public partial class Settings : Node
 					InputMap.ActionAddEvent(action.Key, @event);
 				}
 			}
+
+			foreach(var bus in settings.AudioBuses)
+			{
+				var index = AudioServer.GetBusIndex(bus.Key);
+
+				AudioServer.SetBusVolumeDb(index, bus.Value);
+			}
+
+			WindowSetMode(settings.WindowMode);
 		}
-		GD.Print(ControlScheme);
 	}
 
 	/// <summary>
@@ -63,7 +77,9 @@ public partial class Settings : Node
 		var settings = new SettingsResource()
 		{
 			ControlScheme = ControlScheme,
-			InputMap = GetInputMap()
+			InputMap = GetInputMap(),
+			AudioBuses = GetAudioBuses(),
+			WindowMode = WindowMode
 		};
 
 		ResourceSaver.Save(settings, SETTINGS_FILE);
@@ -82,5 +98,17 @@ public partial class Settings : Node
 		}
 
 		return inputMap;
+	}
+
+	private static Dictionary<StringName, float> GetAudioBuses()
+	{
+		var busList = new Dictionary<StringName, float>();
+
+		for(var i = 0; i < AudioServer.BusCount; i++)
+		{
+			busList.Add(AudioServer.GetBusName(i), AudioServer.GetBusVolumeDb(i));
+		}
+
+		return busList;
 	}
 }
