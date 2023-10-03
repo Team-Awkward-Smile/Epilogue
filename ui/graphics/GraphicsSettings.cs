@@ -7,12 +7,22 @@ namespace Epilogue.ui.video;
 /// <summary>
 ///		Screen responsible for changing different video settings
 /// </summary>
-public partial class VideoSettings : UI
+public partial class GraphicsSettings : UI
 {
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
-		GetNode<OptionButton>("%WindowOption").ItemSelected += (long index) =>
+		var windowOption = GetNode<OptionButton>("%WindowOption");
+
+		GD.Print("--> " + Settings.WindowMode);
+		windowOption.Select(Settings.WindowMode switch 
+		{
+			WindowMode.ExclusiveFullscreen => 0,
+			WindowMode.Windowed => 1,
+			_ => 2
+		});
+
+		windowOption.ItemSelected += (long index) =>
 		{
 			var mode = index switch
 			{

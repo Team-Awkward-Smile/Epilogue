@@ -1,7 +1,7 @@
 using Epilogue.nodes;
 using Godot;
 
-namespace Epilogue.ui;
+namespace Epilogue.ui.pause;
 /// <summary>
 ///		Screen responsible for displaying the menu when the game is paused, and reading the input to un-pause it
 /// </summary>

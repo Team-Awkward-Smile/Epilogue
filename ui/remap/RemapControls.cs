@@ -77,6 +77,11 @@ public partial class RemapControls : UI
 		_instructionsPopup.WindowInput += OnRemapEventReceived;
 
 		AddChild(_instructionsPopup);
+
+		Draw += () => 
+		{
+			GetTree().CallGroup("remap_buttons", "UpdateIconAndText");
+		};
 	}
 
 	/// <summary>

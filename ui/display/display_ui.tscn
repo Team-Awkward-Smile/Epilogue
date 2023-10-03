@@ -1,15 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://d4cifcokrv6dr"]
+[gd_scene load_steps=2 format=3 uid="uid://dbb26cg7y5rty"]
 
-[ext_resource type="Script" path="res://ui/video/VideoSettings.cs" id="1_fejry"]
+[ext_resource type="Script" path="res://ui/display/DisplaySettings.cs" id="1_eg3ls"]
 
-[node name="VideoSettings" type="Control"]
+[node name="DisplaySettings" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_fejry")
+script = ExtResource("1_eg3ls")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -25,22 +25,22 @@ theme_override_constants/margin_right = 300
 layout_mode = 2
 alignment = 1
 
-[node name="WindowMode" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="ControllerBrand" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/WindowMode"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ControllerBrand"]
 layout_mode = 2
-text = "Display Mode"
+text = "Controller Type"
 
-[node name="WindowOption" type="OptionButton" parent="MarginContainer/VBoxContainer/WindowMode"]
+[node name="BrandOption" type="OptionButton" parent="MarginContainer/VBoxContainer/ControllerBrand"]
 unique_name_in_owner = true
 layout_mode = 2
 item_count = 3
 selected = 0
-popup/item_0/text = "Fullscreen"
+popup/item_0/text = "PlayStation"
 popup/item_0/id = 0
-popup/item_1/text = "Windowed"
+popup/item_1/text = "XBox"
 popup/item_1/id = 1
-popup/item_2/text = "Borderless Fullscreen"
+popup/item_2/text = "Nintendo Switch"
 popup/item_2/id = 2

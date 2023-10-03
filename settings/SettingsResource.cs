@@ -29,4 +29,9 @@ public partial class SettingsResource : Resource
 	///		Window Mode (Fullscreen, Windowed, etc.) selected by the player
 	/// </summary>
 	[Export] public WindowMode WindowMode { get; set; }
+
+	/// <summary>
+	///		Set of icons to use when playing with a controller
+	/// </summary>
+    [Export] public InputDeviceBrand ControllerType { get; set; }
 }

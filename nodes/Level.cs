@@ -3,6 +3,7 @@ using Epilogue.global.singletons;
 using Epilogue.props.camera;
 using Epilogue.ui;
 using Epilogue.ui.hp;
+using Epilogue.ui.pause;
 using Godot;
 
 using System.Collections.Generic;
@@ -75,10 +76,10 @@ public partial class Level : Node2D
 		}
 
 		// TODO: 68 - Add them all to a List and Instantiate them all at once
-		_pauseUI = GD.Load<PackedScene>("res://ui/pause_ui.tscn").Instantiate() as PauseUI;
+		_pauseUI = GD.Load<PackedScene>("res://ui/pause/pause_ui.tscn").Instantiate() as PauseUI;
 		_console = GD.Load<PackedScene>("res://ui/console.tscn").Instantiate() as Window;
 		_killPrompt = GD.Load<PackedScene>("res://ui/glory_kill_prompt.tscn").Instantiate() as GloryKillPrompt;
-		_ammoUI = GD.Load<PackedScene>("res://ui/ammo_ui.tscn").Instantiate() as AmmoUI;
+		_ammoUI = GD.Load<PackedScene>("res://ui/ammo/ammo_ui.tscn").Instantiate() as AmmoUI;
 		_hpUI = GD.Load<PackedScene>("res://ui/hp/hp_ui.tscn").Instantiate() as HPUI;
 
 		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");

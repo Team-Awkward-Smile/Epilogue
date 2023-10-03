@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://chyrw1b6n0jin"]
 
-[ext_resource type="Script" path="res://ui/AmmoUI.cs" id="1_ps42b"]
+[ext_resource type="Script" path="res://ui/ammo/AmmoUI.cs" id="1_ps42b"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_33ctj"]
 font_size = 32

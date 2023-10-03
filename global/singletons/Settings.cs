@@ -25,6 +25,20 @@ public partial class Settings : Node
 	/// </summary>
     public static WindowMode WindowMode { get; set; }
 
+	/// <summary>
+	///		Set of icons to use when playing with a controller
+	/// </summary>
+    public static InputDeviceBrand ControllerType 
+	{
+		get => _controllerType;
+		set
+		{
+			_controllerType = value;
+
+			ProjectSettings.SetSetting("epilogue/controls/controller_type", (int) value);
+		}
+	}
+
     /// <summary>
     ///		Control scheme (Modern or Retro) selected by the player
     /// </summary>
@@ -40,6 +54,7 @@ public partial class Settings : Node
 	}
 
 	private static ControlSchemeEnum _controlScheme = (ControlSchemeEnum) ProjectSettings.GetSetting("epilogue/controls/control_scheme").AsInt32();
+	private static InputDeviceBrand _controllerType = (InputDeviceBrand) ProjectSettings.GetSetting("epilogue/controls/controller_type").AsInt32();
 
 	/// <inheritdoc/>
 	public override void _EnterTree()
@@ -66,6 +81,9 @@ public partial class Settings : Node
 			}
 
 			WindowSetMode(settings.WindowMode);
+
+			WindowMode = settings.WindowMode;
+			ControllerType = settings.ControllerType;
 		}
 	}
 
@@ -79,7 +97,8 @@ public partial class Settings : Node
 			ControlScheme = ControlScheme,
 			InputMap = GetInputMap(),
 			AudioBuses = GetAudioBuses(),
-			WindowMode = WindowMode
+			WindowMode = WindowMode,
+			ControllerType = ControllerType
 		};
 
 		ResourceSaver.Save(settings, SETTINGS_FILE);
