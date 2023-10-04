@@ -1,4 +1,5 @@
 ﻿using Epilogue.actors.hestmor.aim;
+using Epilogue.extensions;
 using Epilogue.global.enums;
 using Epilogue.global.singletons;
 using Epilogue.nodes;
@@ -32,6 +33,7 @@ public partial class GunSystem : Node2D
 	private Node2D _gunAnchor;
 	private GunEvents _gunEvents;
 	private PlayerEvents _playerEvents;
+	private Sprite2D _armSprite;
 
 	/// <inheritdoc/>
 	public override void _Ready()
@@ -56,6 +58,9 @@ public partial class GunSystem : Node2D
 		_gunAnchor = (Node2D) _aimingArm.GetChild(0);
 		_gunEvents = GetNode<GunEvents>("/root/GunEvents");
 		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
+		_armSprite = GetNode<Sprite2D>("AimingArm/ArmSprite2D");
+
+		_armSprite.Visible = HasGunEquipped;
 	}
 
 	/// <summary>
@@ -110,6 +115,9 @@ public partial class GunSystem : Node2D
 		{
 			((Player) Owner).HoldingSword = true;
 		}
+
+		((Player) Owner).Sprite.SetShaderMaterialParameter("holdingGun", true);
+		_armSprite.Show();
 	}
 
 	/// <summary>
@@ -157,6 +165,9 @@ public partial class GunSystem : Node2D
 		_currentGun.GlobalPosition = _gunAnchor.GlobalPosition;
 		_currentGun.Freeze = false;
 		_currentGun = null;
+		_armSprite.Hide();
+
+		((Player) Owner).Sprite.SetShaderMaterialParameter("holdingGun", false);
 
 		_gunEvents.EmitGlobalSignal("GunWasDropped");
 

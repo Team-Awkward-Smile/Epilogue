@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=3 uid="uid://cmrbm1u6fwi67"]
+[gd_scene load_steps=64 format=3 uid="uid://cmrbm1u6fwi67"]
 
 [ext_resource type="Script" path="res://nodes/Player.cs" id="1_cnm5v"]
 [ext_resource type="Script" path="res://nodes/StateMachine.cs" id="2_uvkgn"]
@@ -29,6 +29,7 @@
 [ext_resource type="Script" path="res://nodes/AttackHitBox.cs" id="27_3ycpy"]
 [ext_resource type="Script" path="res://actors/bob/GunSystem.cs" id="29_7wd37"]
 [ext_resource type="Script" path="res://nodes/HurtBox.cs" id="30_5ul0a"]
+[ext_resource type="Texture2D" uid="uid://dl62bf080ouwv" path="res://actors/bob/sprite_sheet/arm.png" id="30_hjg6o"]
 [ext_resource type="Texture2D" uid="uid://dcj6nrh0f0uxd" path="res://temp/sword_melee.png" id="31_vndi6"]
 
 [sub_resource type="Animation" id="Animation_1kqj8"]
@@ -861,6 +862,7 @@ _data = {
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yy212"]
 shader = ExtResource("24_ne6t2")
 shader_parameter/iframeActive = false
+shader_parameter/holdingGun = false
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b5eh5"]
 radius = 7.0
@@ -1001,7 +1003,7 @@ material = SubResource("ShaderMaterial_yy212")
 position = Vector2(0, -30)
 texture = ExtResource("25_k53r2")
 hframes = 11
-vframes = 23
+vframes = 25
 frame = 22
 
 [node name="LedgeAnchor" type="Node2D" parent="FlipRoot/Sprite2D"]
@@ -1049,10 +1051,15 @@ shape = SubResource("CapsuleShape2D_0k2f7")
 debug_color = Color(0.635294, 0.521569, 0.196078, 0.419608)
 
 [node name="AimingArm" type="Node2D" parent="GunSystem"]
-position = Vector2(0, -28)
+position = Vector2(-1, -34)
 
 [node name="GunAnchor" type="Node2D" parent="GunSystem/AimingArm"]
-position = Vector2(18, -1)
+position = Vector2(22, 4)
+
+[node name="ArmSprite2D" type="Sprite2D" parent="GunSystem/AimingArm"]
+rotation = -0.359538
+texture = ExtResource("30_hjg6o")
+offset = Vector2(10, 6)
 
 [node name="HurtBox" type="Area2D" parent="."]
 collision_layer = 32
