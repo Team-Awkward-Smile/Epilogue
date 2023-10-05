@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cjolarkdk5yoi"]
+[gd_scene load_steps=25 format=3 uid="uid://cjolarkdk5yoi"]
 
 [ext_resource type="Script" path="res://nodes/Level.cs" id="1_o245g"]
 [ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_pfrwm"]
@@ -18,11 +18,28 @@
 [ext_resource type="PackedScene" uid="uid://cegk1cph0llpn" path="res://props/checkpoint/checkpoint.tscn" id="18_utu6l"]
 [ext_resource type="Script" path="res://temp/NewGamePlusPath.cs" id="19_owmbm"]
 [ext_resource type="PackedScene" uid="uid://cjogekv61ycm5" path="res://props/sword/sword.tscn" id="19_t8n6g"]
+[ext_resource type="Texture2D" uid="uid://ce28v6b0ipo0k" path="res://temp/tile_small.png" id="20_qxdsp"]
+[ext_resource type="Script" path="res://nodes/BreakableTiles.cs" id="21_gq22d"]
 [ext_resource type="Script" path="res://temp/AchievmentTimer.cs" id="21_tq176"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nkpyu"]
 radius = 13.0
 height = 42.0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fnlsi"]
+texture = ExtResource("20_qxdsp")
+texture_region_size = Vector2i(18, 18)
+0:0/0 = 0
+0:0/0/modulate = Color(0.537255, 0.188235, 0.0784314, 1)
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-9, -9, -9, 9, 9, 9, 9, -9)
+
+[sub_resource type="TileSet" id="TileSet_nis4v"]
+tile_size = Vector2i(18, 18)
+physics_layer_0/collision_layer = 8
+physics_layer_0/collision_mask = 16
+sources/1 = SubResource("TileSetAtlasSource_fnlsi")
 
 [node name="Root" type="Node2D"]
 script = ExtResource("1_o245g")
@@ -176,3 +193,9 @@ tile_set = ExtResource("15_1ohv8")
 format = 2
 layer_0/tile_data = PackedInt32Array(-327638, 0, 0, -262102, 0, 0, -196566, 0, 0, -131030, 0, 0)
 script = ExtResource("19_owmbm")
+
+[node name="BreakableTiles" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_nis4v")
+format = 2
+layer_0/tile_data = PackedInt32Array(-262127, 1, 0, -327663, 1, 0, -393199, 1, 0, -458735, 1, 0, -524271, 1, 0)
+script = ExtResource("21_gq22d")
