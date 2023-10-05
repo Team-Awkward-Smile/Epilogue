@@ -1,4 +1,5 @@
 using Epilogue.global.enums;
+using Epilogue.props.breakable_tile;
 using Godot;
 
 namespace Epilogue.nodes;
@@ -18,15 +19,17 @@ public partial class HitBox : Area2D
 	{
 		AreaEntered += (Area2D area) =>
 		{
-			switch(area.Owner)
+			if(area.Owner is Actor actor)
 			{
-				case Actor actor:
-					actor.DealDamage(Damage);
-					break;
+				actor.DealDamage(Damage);
+			}
+		};
 
-				case BreakableTiles tile:
-					tile.DamageTile(Damage, DamageType.Piercing);
-					break;
+		BodyEntered += (Node2D body) =>
+		{
+			if(body is BreakableTile tile)
+			{
+				tile.DamageTile(Damage, DamageType.Piercing);
 			}
 		};
 	}

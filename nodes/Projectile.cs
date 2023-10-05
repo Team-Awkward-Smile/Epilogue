@@ -38,35 +38,24 @@ public partial class Projectile : HitBox
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
+        base._Ready();
+
 		AreaEntered += (Area2D area) => 
 		{
-			DamageActor(area);
-
             if(DestroyOnHit)
             {
 			    QueueFree();
             }
 		};
 
-		BodyEntered += (Node2D body) =>
-		{
-			DamageWorld();
-			QueueFree();
-		};
-	}
-
-    private void DamageActor(Area2D area)
-    {
-        if(area.Owner is Npc enemy)
+        BodyEntered += (Node2D body) =>
         {
-		    enemy.DealDamage(Damage);
-        }
-    }
-
-    private void DamageWorld()
-    {
-        GetTree().Root.GetChildren().OfType<Level>().FirstOrDefault().DamageTile(GlobalPosition, Damage);
-    }
+            if(DestroyOnHit)
+            {
+			    QueueFree();
+            }
+        };
+	}
 
 	/// <inheritdoc/>
 	public override void _PhysicsProcess(double delta)
