@@ -1011,7 +1011,7 @@ position = Vector2(0, -30)
 texture = ExtResource("25_k53r2")
 hframes = 11
 vframes = 25
-frame = 58
+frame = 22
 
 [node name="LedgeAnchor" type="Node2D" parent="FlipRoot/Sprite2D"]
 editor_description = "Node used by the Ledge Grab State to move the character to the correct place"
@@ -1029,9 +1029,8 @@ position = Vector2(-21, 0)
 [node name="AttackHitBox" type="Area2D" parent="FlipRoot"]
 position = Vector2(22, -34)
 collision_layer = 16
-collision_mask = 40
+collision_mask = 32
 script = ExtResource("27_3ycpy")
-_damage = 1.0
 
 [node name="temp_SwordSlash" type="Sprite2D" parent="FlipRoot"]
 visible = false
