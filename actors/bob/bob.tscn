@@ -1001,7 +1001,7 @@ material = SubResource("ShaderMaterial_yy212")
 position = Vector2(0, -30)
 texture = ExtResource("25_k53r2")
 hframes = 11
-vframes = 23
+vframes = 25
 frame = 22
 
 [node name="LedgeAnchor" type="Node2D" parent="FlipRoot/Sprite2D"]
@@ -1022,7 +1022,6 @@ position = Vector2(18, -34)
 collision_layer = 16
 collision_mask = 32
 script = ExtResource("27_3ycpy")
-HitBoxDamage = 1.0
 
 [node name="temp_SwordSlash" type="Sprite2D" parent="FlipRoot"]
 visible = false

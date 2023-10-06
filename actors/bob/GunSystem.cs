@@ -147,7 +147,7 @@ public partial class GunSystem : Node2D
 
 		_currentGun.GetParent().RemoveChild(_currentGun);
 
-		GetTree().Root.AddChild(_currentGun);
+		GetTree().GetLevel().AddChild(_currentGun);
 
 		if(keepRotation)
 		{
