@@ -12,7 +12,12 @@ public partial class HitBox : Area2D
 	/// <summary>
 	///		Damage caused by this HitBox
 	/// </summary>
-	[Export] public float Damage { get; private set; }
+	[Export] private float _damage;
+
+	/// <summary>
+	///		Type of damage caused by this HitBox
+	/// </summary>
+	[Export] private DamageType _damageType;
 
 	/// <inheritdoc/>
 	public override void _Ready()
@@ -21,7 +26,7 @@ public partial class HitBox : Area2D
 		{
 			if(area.Owner is Actor actor)
 			{
-				actor.DealDamage(Damage);
+				actor.DealDamage(_damage);
 			}
 		};
 
@@ -29,7 +34,7 @@ public partial class HitBox : Area2D
 		{
 			if(body is BreakableTile tile)
 			{
-				tile.DamageTile(Damage, DamageType.Piercing);
+				tile.DamageTile(_damage, _damageType);
 			}
 		};
 	}

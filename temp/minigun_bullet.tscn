@@ -15,7 +15,8 @@ script = ExtResource("1_cxdqp")
 Speed = 1000.0
 DamageType = 1
 LifeTime = 1.0
-Damage = 0.5
+_damage = 0.5
+_damageType = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = SubResource("PlaceholderTexture2D_da2sn")

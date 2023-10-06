@@ -114,7 +114,6 @@ texture = ExtResource("12_1mhei")
 collision_layer = 16
 collision_mask = 32
 script = ExtResource("13_o5dos")
-Damage = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Spikes/HitBox"]
 position = Vector2(0, 2)
@@ -169,7 +168,6 @@ texture = ExtResource("12_1mhei")
 collision_layer = 16
 collision_mask = 32
 script = ExtResource("13_o5dos")
-Damage = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Spikes2/HitBox"]
 position = Vector2(0, 2)
@@ -211,10 +209,10 @@ position = Vector2(315, -117)
 position = Vector2(315, -135)
 
 [node name="BreakableTile6" parent="BreakableTiles" instance=ExtResource("20_cneke")]
-position = Vector2(675, -171)
+position = Vector2(621, -99)
 
 [node name="BreakableTile7" parent="BreakableTiles" instance=ExtResource("20_cneke")]
-position = Vector2(675, -153)
+position = Vector2(621, -81)
 
 [node name="BreakableTile8" parent="BreakableTiles" instance=ExtResource("20_cneke")]
-position = Vector2(675, -135)
+position = Vector2(621, -63)
