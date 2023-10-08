@@ -105,13 +105,13 @@ public partial class Player : Actor
 
 		Sprite.SetShaderMaterialParameter("iframeActive", true);
 
-		GetChildren().OfType<HurtBox>().First().CollisionMask = 0;
+		GetChildren().OfType<HurtBox>().First().CollisionLayer = 0;
 
 		GetTree().CreateTimer(1f).Timeout += () =>
 		{
 			Sprite.SetShaderMaterialParameter("iframeActive", false);
 
-			GetChildren().OfType<HurtBox>().First().CollisionMask = (int) CollisionLayerName.HitBoxes;
+			GetChildren().OfType<HurtBox>().First().CollisionLayer = (int) CollisionLayerName.HurtBoxes;
 		};
 	}
 

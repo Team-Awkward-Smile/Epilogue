@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://6a8rb567c64u"]
+
+[ext_resource type="Script" path="res://props/breakable_tiles/BreakableTile.cs" id="1_h5pyw"]
+[ext_resource type="Texture2D" uid="uid://ce28v6b0ipo0k" path="res://temp/tile_small.png" id="2_cckie"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ek204"]
+size = Vector2(18, 18)
+
+[node name="BreakableTile" type="StaticBody2D"]
+collision_layer = 8
+collision_mask = 16
+script = ExtResource("1_h5pyw")
+_health = 3.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_cckie")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ek204")
