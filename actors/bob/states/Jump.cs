@@ -19,6 +19,7 @@ public partial class Jump : PlayerState
 
 	private float _horizontalVelocity;
 	private Achievements _achievements;
+	private JumpData _jumpData;
 
 	public override void _Ready()
 	{
@@ -35,7 +36,12 @@ public partial class Jump : PlayerState
 
 	internal override void OnEnter(params object[] args)
 	{
-		var jumpType = (StateType) args[0];
+        _jumpData = new()
+        {
+            StartPosition = Player.Position
+        };
+
+        var jumpType = (StateType) args[0];
 		var label = Player.GetNode<Label>("temp_StateName");
 
 		label.Text = jumpType.ToString();
@@ -63,6 +69,9 @@ public partial class Jump : PlayerState
 
 	internal override void PhysicsUpdate(double delta)
 	{
+		_jumpData.MaxSpeed = new(Mathf.Max(_jumpData.MaxSpeed.X, Player.Velocity.X), Mathf.Min(_jumpData.MaxSpeed.Y, Player.Velocity.Y));
+		_jumpData.Duration += (float) delta;
+
 		if(Player.IsOnWall() && Player.SweepForLedge(out var ledgePosition))
 		{
 			var offset = Player.RayCasts["Head"].GlobalPosition.Y - ledgePosition.Y;
@@ -86,7 +95,7 @@ public partial class Jump : PlayerState
 
 		if(Player.Velocity.Y > 0)
 		{
-			StateMachine.ChangeState("Fall");
+			StateMachine.ChangeState("Fall", _jumpData);
 		}
 		else if(Player.IsOnFloor() && Player.Velocity.Y < 0)
 		{

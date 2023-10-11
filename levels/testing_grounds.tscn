@@ -168,8 +168,6 @@ texture = ExtResource("12_1mhei")
 collision_layer = 16
 collision_mask = 32
 script = ExtResource("13_o5dos")
-_damage = 1.0
-_damageType = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Spikes2/HitBox"]
 position = Vector2(0, 2)

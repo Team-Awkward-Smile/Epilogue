@@ -11,9 +11,19 @@ public partial class Fall : PlayerState
 {
 	private bool _playLandingAnimation = true;
 	private bool _canGrabLedge;
+	private JumpData _jumpData;
 
 	internal override void OnEnter(params object[] args)
 	{
+		if(args.Length > 0)
+		{
+			_jumpData = (JumpData) args[0];
+		}
+		else
+		{
+			_jumpData = new();
+		}
+
 		_canGrabLedge = false;
 		_playLandingAnimation = true;
 
@@ -25,6 +35,9 @@ public partial class Fall : PlayerState
 
 	internal override void PhysicsUpdate(double delta)
 	{
+		_jumpData.MaxSpeed = new(Mathf.Max(_jumpData.MaxSpeed.X, Player.Velocity.X), Mathf.Min(_jumpData.MaxSpeed.Y, Player.Velocity.Y));
+		_jumpData.Duration += (float) delta;
+
 		if(_canGrabLedge && Player.IsOnWall() && Player.SweepForLedge(out var ledgePosition))
 		{
 			var offset = Player.RayCasts["Head"].GlobalPosition.Y - ledgePosition.Y;
@@ -50,6 +63,14 @@ public partial class Fall : PlayerState
 
 		if(Player.IsOnFloor())
 		{
+			_jumpData.EndPosition = Player.Position;
+
+			GD.PrintRich($"\n[b]Jump Data[/b]:\n" +
+			$"- Distance: {_jumpData.Distance}\n" +
+			$"- Max Speed: {_jumpData.MaxSpeed}\n" +
+			$"- Duration: {_jumpData.Duration} s\n" +
+			$"- Tiles: {_jumpData.Tiles}");
+
 			StateMachine.ChangeState("Idle");
 		}
 	}
