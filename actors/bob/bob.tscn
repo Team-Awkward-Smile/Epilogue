@@ -1010,7 +1010,7 @@ material = SubResource("ShaderMaterial_yy212")
 position = Vector2(0, -30)
 texture = ExtResource("25_k53r2")
 hframes = 11
-vframes = 25
+vframes = 31
 frame = 22
 
 [node name="LedgeAnchor" type="Node2D" parent="FlipRoot/Sprite2D"]
