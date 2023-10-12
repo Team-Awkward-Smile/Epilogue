@@ -74,11 +74,20 @@ public partial class Slide : PlayerState
 		
 		if(_timer > _slideTime && !_slideFinished)
 		{
-			_slideFinished = true;
+			var raycast = Player.RayCasts["Slide"];
 
-			Player.Velocity = new Vector2(Player.Velocity.X / 2, Player.Velocity.Y);
-			AnimPlayer.Play("slide_end");
-			AnimPlayer.AnimationFinished += EndSlide; 
+			raycast.Enabled = true;
+			raycast.ForceRaycastUpdate();
+
+			// The Slide will only end if Hestmor has enough room to stand up
+			if(!raycast.IsColliding())
+			{
+				_slideFinished = true;
+
+				Player.Velocity = new Vector2(Player.Velocity.X / 2, Player.Velocity.Y);
+				AnimPlayer.Play("slide_end");
+				AnimPlayer.AnimationFinished += EndSlide; 
+			}
 		}
 	}
 

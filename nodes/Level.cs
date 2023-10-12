@@ -89,8 +89,9 @@ public partial class Level : Node2D
 		_playerEvents.StateAwaitingForExecutionSpeed += () => _killPrompt.Enable();
 		_tileMap = GetChildren().OfType<TileMap>().FirstOrDefault();
 
-		// TODO: 68 - Maybe the root CanvasLayer should also be created at run-time?
-		var uiLayer = GetNode<CanvasLayer>("UILayer");
+		var uiLayer = new CanvasLayer();
+
+		AddChild(uiLayer);
 
 		uiLayer.AddChild(_pauseUI);
 		uiLayer.AddChild(_console);
@@ -145,7 +146,13 @@ public partial class Level : Node2D
 			}
 		}
 
-		_camera = GetViewport().GetCamera2D() as Camera;
+		_camera = new Camera()
+		{
+			Zoom = new(3f, 3f)
+		};
+
+		AddChild(_camera);
+
 		_player = GD.Load<PackedScene>("res://actors/bob/bob.tscn").Instantiate() as Player;
 
 		AddChild(_player);
@@ -153,16 +160,6 @@ public partial class Level : Node2D
 		_player.Position = _checkpoints.Where(c => c.Current).FirstOrDefault().Position;
 		_camera.Position = _player.Position;
 		_camera.SetCameraTarget(_player.GetNode<Node2D>("CameraAnchor"));
-
-		GetNode<Button>("%RemapControls").ButtonDown += () =>
-		{
-			GetTree().Paused = true;
-
-			var scene = GD.Load<PackedScene>("res://ui/remap/remap_controls.tscn");
-
-			GetNode<CanvasLayer>("UILayer").AddChild(scene.Instantiate());
-		};
-
 	}
 
 	private void RespawnPlayer()
