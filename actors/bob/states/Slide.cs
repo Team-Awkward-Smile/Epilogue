@@ -17,6 +17,8 @@ public partial class Slide : PlayerState
 	private double _timer = 0f;
 	private bool _slideFinished = false;
 	private float _startingRotation;
+	private string _animation;
+	private StateType _rollType;
 
 	internal override void OnInput(InputEvent @event)
 	{
@@ -26,26 +28,36 @@ public partial class Slide : PlayerState
 		}
 		else if(Input.IsActionJustPressed("cancel_slide"))
 		{
-			AnimPlayer.Play("slide_end");
+			AnimPlayer.Play("Slide/slide_end");
 			AnimPlayer.AnimationFinished += EndSlide; 
 		}
 	}
 
 	internal override void OnEnter(params object[] args)
 	{
-		var label = Player.GetNode<Label>("temp_StateName");
-		var speed = (StateType) args[0] switch
+		var speed = 0f;
+
+		_rollType = (StateType) args[0];
+
+		switch(_rollType)
 		{
-			StateType.FrontRoll => _frontRollSpeed,
-			StateType.KneeSlide => _kneeSlideSpeed,
-			StateType.LongSlide => _longSlideSpeed,
-			_ => _longSlideSpeed
-		};
+			case StateType.FrontRoll:
+				speed = _frontRollSpeed;
+				_animation = "roll";
+				break;
+
+			case StateType.KneeSlide:
+				speed = _kneeSlideSpeed;
+				_animation = "knee";
+				break;
+
+			case StateType.LongSlide:
+				speed = _longSlideSpeed;
+				_animation = "long";
+				break;
+		}
 
 		// TODO: 214 - Add a HitBox to the Slide Attack
-
-		label.Text = args[0].ToString();
-		label.Show();
 
 		_slideFinished = false;
 		_timer = 0f;
@@ -60,7 +72,12 @@ public partial class Slide : PlayerState
 		Player.Velocity = new Vector2(speed * direction, Player.Velocity.Y);
 		Player.CanChangeFacingDirection = false;
 
-		AnimPlayer.Play("slide_start");
+		AnimPlayer.Play($"Slide/{_animation}_slide_start");
+
+		if(_rollType == StateType.FrontRoll)
+		{
+			AnimPlayer.AnimationFinished += EndSlide;
+		}
 
 		AudioPlayer.PlayGenericSfx("Slide");
 	}
@@ -72,12 +89,11 @@ public partial class Slide : PlayerState
 
 		_timer += delta;
 		
-		if(_timer > _slideTime && !_slideFinished)
+		if(_rollType != StateType.FrontRoll && _timer > _slideTime && !_slideFinished)
 		{
 			_slideFinished = true;
-
 			Player.Velocity = new Vector2(Player.Velocity.X / 2, Player.Velocity.Y);
-			AnimPlayer.Play("slide_end");
+			AnimPlayer.Play($"Slide/{_animation}_slide_end");
 			AnimPlayer.AnimationFinished += EndSlide; 
 		}
 	}
@@ -88,8 +104,6 @@ public partial class Slide : PlayerState
 		Player.FloorMaxAngle = Mathf.DegToRad(45f);
 		Player.Rotation = _startingRotation;
 		Player.FloorBlockOnWall = true;
-
-		Player.GetNode<Label>("temp_StateName").Hide();
 	}
 
 	private void EndSlide(StringName animName)
