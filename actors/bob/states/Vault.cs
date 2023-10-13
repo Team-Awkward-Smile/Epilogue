@@ -1,3 +1,4 @@
+using Epilogue.actors.hestmor.enums;
 using Epilogue.nodes;
 using Godot;
 
@@ -27,7 +28,7 @@ public partial class Vault : PlayerState
 		Player.GlobalPosition = Player.Sprite.GetNode<Node2D>("LedgeAnchor").GlobalPosition;
 		Player.Sprite.Position = _spriteOriginalPosition;
 
-		StateMachine.ChangeState("Fall");
+		StateMachine.ChangeState("Fall", StateType.VerticalJump);
 	}
 }
 

@@ -1,3 +1,4 @@
+using Epilogue.actors.hestmor.enums;
 using Epilogue.constants;
 using Epilogue.nodes;
 using Godot;
@@ -11,23 +12,32 @@ public partial class Fall : PlayerState
 {
 	private bool _playLandingAnimation = true;
 	private bool _canGrabLedge;
+	private StateType _jumpType;
+	private string _animation;
 	private JumpData _jumpData;
 
 	internal override void OnEnter(params object[] args)
 	{
-		if(args.Length > 0)
+		if(args.Length > 1)
 		{
-			_jumpData = (JumpData) args[0];
+			_jumpData = (JumpData) args[1];
 		}
 		else
 		{
 			_jumpData = new();
 		}
 
+		_jumpType = (StateType) args[0];
+		_animation = _jumpType switch 
+		{
+			StateType.VerticalJump => "vertical",
+			_ => "long"
+		};
+
 		_canGrabLedge = false;
 		_playLandingAnimation = true;
 
-		AnimPlayer.Play("fall");
+		AnimPlayer.Play($"Jump/{_animation}_jump_down");
 		Player.CanChangeFacingDirection = true;
 
 		GetTree().CreateTimer(0.1f).Timeout += () => _canGrabLedge = true;
@@ -83,7 +93,7 @@ public partial class Fall : PlayerState
 		}
 
 		AudioPlayer.PlayGenericSfx("Land");
-		AnimPlayer.Play("fall_land");
+		AnimPlayer.Play($"Jump/{_animation}_jump_land");
 
 		await ToSignal(AnimPlayer, "animation_finished");
 	}

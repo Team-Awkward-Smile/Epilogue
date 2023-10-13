@@ -20,6 +20,9 @@ public partial class Jump : PlayerState
 	private float _horizontalVelocity;
 	private Achievements _achievements;
 	private JumpData _jumpData;
+	private StateType _jumpType;
+	private string _animation;
+	private int _frameDelay = 0;
 
 	public override void _Ready()
 	{
@@ -30,8 +33,10 @@ public partial class Jump : PlayerState
 
 	private void StartJump(StringName animName)
 	{
+		var modifier = Player.FacingDirection == ActorFacingDirection.Left ? -1 : 1;
+
 		AnimPlayer.AnimationFinished -= StartJump;
-		Player.Velocity = new Vector2(_horizontalVelocity, _jumpSpeed);
+		Player.Velocity = new Vector2(_horizontalVelocity * modifier, _jumpSpeed);
 	}
 
 	internal override void OnEnter(params object[] args)
@@ -46,14 +51,26 @@ public partial class Jump : PlayerState
 
 		label.Text = jumpType.ToString();
 		label.Show();
+		_jumpType = (StateType) args[0];
 
-		if(jumpType == StateType.VerticalJump)
+		switch(_jumpType)
 		{
-			_horizontalVelocity = 0f;
-		}
-		else
-		{
-			_horizontalVelocity = (jumpType == StateType.LowJump ? _lowJumpHorizontalSpeed : _longJumpHorizontalSpeed) * (Player.Velocity.X > 0 ? 1 : -1);
+			case StateType.VerticalJump:
+				Player.RayCasts["Head"].TargetPosition = new(12f, 0f);
+				Player.RayCasts["Ledge"].TargetPosition = new(12f, 0f);
+				_horizontalVelocity = 0f;
+				_animation = "vertical";
+				break;
+
+			case StateType.LowJump:
+				_horizontalVelocity = _lowJumpHorizontalSpeed;
+				_animation = "long";
+				break;
+
+			case StateType.LongJump:
+				_horizontalVelocity = _longJumpHorizontalSpeed;
+				_animation = "long";
+				break;
 		}
 
 		AudioPlayer.PlayGenericSfx("Jump");
@@ -61,7 +78,7 @@ public partial class Jump : PlayerState
 		Player.Velocity = new Vector2(0f, Player.Velocity.Y);
 		Player.CanChangeFacingDirection = false;
 
-		AnimPlayer.Play("jump");
+		AnimPlayer.Play($"Jump/{_animation}_jump_up");
 		AnimPlayer.AnimationFinished += StartJump;
 
 		_achievements.JumpCount++;
@@ -69,10 +86,9 @@ public partial class Jump : PlayerState
 
 	internal override void PhysicsUpdate(double delta)
 	{
-		_jumpData.MaxSpeed = new(Mathf.Max(_jumpData.MaxSpeed.X, Player.Velocity.X), Mathf.Min(_jumpData.MaxSpeed.Y, Player.Velocity.Y));
-		_jumpData.Duration += (float) delta;
+		_frameDelay++;
 
-		if(Player.IsOnWall() && Player.SweepForLedge(out var ledgePosition))
+		if((_frameDelay == 3 || Player.IsOnWall()) && Player.SweepForLedge(out var ledgePosition))
 		{
 			var offset = Player.RayCasts["Head"].GlobalPosition.Y - ledgePosition.Y;
 
@@ -90,12 +106,14 @@ public partial class Jump : PlayerState
 			return;
 		}
 
+		_frameDelay = _frameDelay >= 3 ? 0 : _frameDelay;
+
 		Player.Velocity = new Vector2(Player.Velocity.X, Player.Velocity.Y + (Gravity * (float) delta));
 		Player.MoveAndSlideWithRotation();
 
 		if(Player.Velocity.Y > 0)
 		{
-			StateMachine.ChangeState("Fall", _jumpData);
+			StateMachine.ChangeState("Fall", _jumpType, _jumpData);
 		}
 		else if(Player.IsOnFloor() && Player.Velocity.Y < 0)
 		{
@@ -105,6 +123,7 @@ public partial class Jump : PlayerState
 
 	internal override void OnLeave()
 	{
-		Player.GetNode<Label>("temp_StateName").Hide();
+		Player.RayCasts["Head"].TargetPosition = new(8f, 0f);
+		Player.RayCasts["Ledge"].TargetPosition = new(8f, 0f);
 	}
 }

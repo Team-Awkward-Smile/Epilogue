@@ -10,6 +10,10 @@ namespace Epilogue.actors.hestmor.states;
 /// </summary>
 public partial class Idle : PlayerState
 {
+	[Export] private float _sleepDelay;
+
+	private float _sleepTimer;
+
 	internal override void OnInput(InputEvent @event)
 	{
 		if(Input.IsActionJustPressed("jump"))
@@ -59,6 +63,8 @@ public partial class Idle : PlayerState
 
 	internal override void OnEnter(params object[] args)
 	{
+		_sleepTimer = 0f;
+
 		Player.CanChangeFacingDirection = true;
 		Player.Velocity = new Vector2(0f, 0f);
 
@@ -67,9 +73,17 @@ public partial class Idle : PlayerState
 
 	internal override void PhysicsUpdate(double delta)
 	{
+		_sleepTimer += (float) delta;
+
+		if(_sleepTimer >= _sleepDelay)
+		{
+			StateMachine.ChangeState("Sleep");
+			return;
+		}
+
 		if(!Player.IsOnFloor())
 		{
-			StateMachine.ChangeState("Fall");
+			StateMachine.ChangeState("Fall", StateType.LongJump);
 			return;
 		}
 

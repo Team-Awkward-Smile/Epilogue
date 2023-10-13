@@ -1,3 +1,4 @@
+using Epilogue.actors.hestmor.enums;
 using Epilogue.nodes;
 using Godot;
 
@@ -16,7 +17,7 @@ public partial class GrabLedge : PlayerState
 		}
 		else if(Input.IsActionJustPressed("crouch"))
 		{
-			StateMachine.ChangeState("Fall");
+			StateMachine.ChangeState("Fall", StateType.VerticalJump);
 		}
 	}
 

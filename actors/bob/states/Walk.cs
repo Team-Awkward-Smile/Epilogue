@@ -79,7 +79,7 @@ public partial class Walk : PlayerState
 		}
 		else if(!Player.IsOnFloor())
 		{
-			StateMachine.ChangeState("Fall");
+			StateMachine.ChangeState("Fall", StateType.LongJump);
 		}
 		else if(Player.RunEnabled)
 		{
