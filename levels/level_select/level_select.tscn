@@ -1,0 +1,61 @@
+[gd_scene load_steps=2 format=3 uid="uid://d317trv3y7vil"]
+
+[ext_resource type="Script" path="res://levels/level_select/LevelSelect.cs" id="1_ac7oa"]
+
+[node name="LevelSelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ac7oa")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 300
+theme_override_constants/margin_right = 300
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 25
+alignment = 1
+
+[node name="ButtonLevel1" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Level 1"
+
+[node name="ButtonLevel2" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+disabled = true
+text = "Level 2"
+
+[node name="ButtonLevel3" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+disabled = true
+text = "Level 3"
+
+[node name="ButtonLevel4" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+disabled = true
+text = "Level 4"
+
+[node name="ButtonLevel5" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+disabled = true
+text = "Level 5"
+
+[node name="ButtonLevel6" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+disabled = true
+text = "Level 6"
+
+[node name="ButtonLevel7" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+disabled = true
+text = "Level 7"
