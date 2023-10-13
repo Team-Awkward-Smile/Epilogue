@@ -1,6 +1,6 @@
 using Epilogue.constants;
 using Godot;
-using System;
+using Godot.Collections;
 
 public class JumpData
 {

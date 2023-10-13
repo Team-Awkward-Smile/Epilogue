@@ -86,6 +86,8 @@ public partial class Jump : PlayerState
 
 	internal override void PhysicsUpdate(double delta)
 	{
+		_jumpData.MaxSpeed = new(Mathf.Max(_jumpData.MaxSpeed.X, Mathf.Abs(Player.Velocity.X)), Mathf.Max(_jumpData.MaxSpeed.Y, Mathf.Abs(Player.Velocity.Y)));
+		_jumpData.Duration += (float) delta;
 		_frameDelay++;
 
 		if((_frameDelay == 3 || Player.IsOnWall()) && Player.SweepForLedge(out var ledgePosition))
