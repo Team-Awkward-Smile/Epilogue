@@ -21,41 +21,68 @@ grow_vertical = 2
 theme_override_constants/margin_left = 300
 theme_override_constants/margin_right = 300
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="GridContainer" type="GridContainer" parent="MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 25
-alignment = 1
+size_flags_vertical = 4
+theme_override_constants/h_separation = 115
+theme_override_constants/v_separation = 15
+columns = 2
 
-[node name="ButtonLevel1" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="ButtonLevel1" type="Button" parent="MarginContainer/GridContainer"]
 layout_mode = 2
-text = "Level 1"
+text = "Level 1 - Hestmor's Nest"
 
-[node name="ButtonLevel2" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="ButtonLevel7" type="Button" parent="MarginContainer/GridContainer"]
 layout_mode = 2
 disabled = true
-text = "Level 2"
+text = "Level 7 - Ocean Of Fire, Ocean Of Blood"
 
-[node name="ButtonLevel3" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="ButtonLevel2" type="Button" parent="MarginContainer/GridContainer"]
 layout_mode = 2
 disabled = true
-text = "Level 3"
+text = "Level 2 - Sewers Of Madness"
 
-[node name="ButtonLevel4" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="ButtonLevel8" type="Button" parent="MarginContainer/GridContainer"]
 layout_mode = 2
 disabled = true
-text = "Level 4"
+text = "Level 8 - Colonies Of Saidarek-ge"
 
-[node name="ButtonLevel5" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="ButtonLevel3" type="Button" parent="MarginContainer/GridContainer"]
 layout_mode = 2
 disabled = true
-text = "Level 5"
+text = "Level 3 - Lake Of Va' kua-Eunch"
 
-[node name="ButtonLevel6" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="ButtonLevel9" type="Button" parent="MarginContainer/GridContainer"]
 layout_mode = 2
 disabled = true
-text = "Level 6"
+text = "Level 9 - Forest Of Veins"
 
-[node name="ButtonLevel7" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="ButtonLevel4" type="Button" parent="MarginContainer/GridContainer"]
 layout_mode = 2
 disabled = true
-text = "Level 7"
+text = "Level 4 - Graveyards Of Explorers"
+
+[node name="ButtonLevel10" type="Button" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+disabled = true
+text = "Level 10 - Esophagus Climb"
+
+[node name="ButtonLevel5" type="Button" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+disabled = true
+text = "Level 5 - Shrine Of Maramata"
+
+[node name="ButtonLevel11" type="Button" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+disabled = true
+text = "Level 11 - Zagara's Temple Part 1 - The Old Testament"
+
+[node name="ButtonLevel6" type="Button" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+disabled = true
+text = "Level 6 - Darkness Of Unknown"
+
+[node name="ButtonLevel12" type="Button" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+disabled = true
+text = "Level 12 - Zagara's Temple Part 2 - The New Testament"

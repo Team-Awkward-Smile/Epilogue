@@ -23,9 +23,10 @@ public partial class Level : Node2D
 	private TileMap _tileMap;
 	private PlayerEvents _playerEvents;
 	private List<Checkpoint> _checkpoints = new();
-	private Player _player;
 	private Camera _camera;
 	private CheckpointManager _checkpointManager;
+
+	public Player Player { get; private set; }
 
 	/// <inheritdoc/>
 	public override string[] _GetConfigurationWarnings()
@@ -67,7 +68,13 @@ public partial class Level : Node2D
 		}
 	}
 
-	/// <inheritdoc/>
+	public override void _EnterTree()
+	{
+		Player = GD.Load<PackedScene>("res://actors/bob/bob.tscn").Instantiate() as Player;
+
+		AddChild(Player);
+	}
+
 	public override void _Ready()
 	{
 		if(Engine.IsEditorHint())
@@ -153,13 +160,10 @@ public partial class Level : Node2D
 
 		AddChild(_camera);
 
-		_player = GD.Load<PackedScene>("res://actors/bob/bob.tscn").Instantiate() as Player;
-
-		AddChild(_player);
-
-		_player.Position = _checkpoints.Where(c => c.Current).FirstOrDefault().Position;
-		_camera.Position = _player.Position;
-		_camera.SetCameraTarget(_player.GetNode<Node2D>("CameraAnchor"));
+		Player.Position = _checkpoints.Where(c => c.Current).FirstOrDefault().Position;
+		
+		_camera.Position = Player.Position;
+		_camera.SetCameraTarget(Player.GetNode<Node2D>("CameraAnchor"));
 	}
 
 	private void RespawnPlayer()
