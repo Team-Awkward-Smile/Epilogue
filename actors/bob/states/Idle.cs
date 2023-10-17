@@ -89,6 +89,9 @@ public partial class Idle : PlayerState
 
 		var movement = Input.GetAxis("move_left", "move_right");
 
+		Player.Velocity = new Vector2(movement * 10f, Player.Velocity.Y + Gravity * (float) delta);
+		Player.MoveAndSlideWithRotation();
+
 		if(movement != 0f)
 		{
 			if(Player.IsOnWall() && movement == -Player.GetWallNormal().X)
