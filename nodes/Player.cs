@@ -176,4 +176,11 @@ public partial class Player : Actor
 
 		return false;
 	}
+
+	public override void MoveAndSlideWithRotation()
+	{
+		base.MoveAndSlideWithRotation();
+
+		_gunSystem.Rotation = -Rotation;
+	}
 }
