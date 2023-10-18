@@ -14,7 +14,7 @@ public partial class Run : PlayerState
 
 	internal override void OnInput(InputEvent @event)
 	{
-		if(Input.IsActionJustPressed("jump"))
+		if(Input.IsActionJustPressed("jump") && !Player.IsTrapped)
 		{
 			if(Player.IsOnWall())
 			{
@@ -54,6 +54,11 @@ public partial class Run : PlayerState
 	internal override void PhysicsUpdate(double delta)
 	{
 		var movementDirection = Input.GetAxis("move_left", "move_right");
+
+		if(Player.IsTrapped)
+		{
+			movementDirection = 0f;
+		}
 
 		if(movementDirection != 0f)
 		{

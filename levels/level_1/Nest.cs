@@ -15,10 +15,10 @@ public partial class Nest : TileMap
     private float _currentAngle;
     private Player _player;
     private bool _canRotate;
-    private bool _canTween;
     private SegmentShape2D _bridgeCollision;
     private Line2D _bridgeSprite;
     private Marker2D _marker;
+    private float _timer = 0f;
 
 
 	public override void _Ready()
@@ -38,11 +38,7 @@ public partial class Nest : TileMap
 
         area.BodyEntered += (Node2D body) => 
         {
-            GetTree().CreateTimer(0.1f).Timeout += () => 
-            {
-                _canTween = true;
-                _canRotate = true;
-            };
+            GetTree().CreateTimer(0.1f).Timeout += () => _canRotate = true;
         };
 
         area.BodyExited += (Node2D body) => _canRotate = false;
@@ -50,6 +46,13 @@ public partial class Nest : TileMap
 
 	public override void _PhysicsProcess(double delta)
 	{
+        if((_timer += (float) delta) < 0.1f)
+        {
+            return;
+        }
+
+        _timer = 0f;
+
 		if(_canRotate)
         {
             var position = _player.GlobalPosition.X - _middle;
@@ -60,18 +63,9 @@ public partial class Nest : TileMap
         else
         {
             _currentAngle = 0f;
-            _canTween = true;
         }
 
-        if(_canTween)
-        {
-            GetTree().CreateTween().TweenProperty(this, "rotation_degrees", _currentAngle, 0.2f);
-            _canTween = false;
-        }
-        else
-        {
-            RotationDegrees = _currentAngle;
-        }
+        GetTree().CreateTween().TweenProperty(this, "rotation_degrees", _currentAngle, 0.1f);
 
         _bridgeCollision.B = _marker.GlobalPosition;
         _bridgeSprite.SetPointPosition(1, new Vector2(_marker.GlobalPosition.X - 5f, _marker.GlobalPosition.Y + 5f));

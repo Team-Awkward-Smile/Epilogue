@@ -37,24 +37,27 @@ public partial class Slide : PlayerState
 
 	internal override void OnEnter(params object[] args)
 	{
-		var speed = 0f;
+		var horizontalSpeed = 0f;
+		var verticalSpeed = 0f;
+
 
 		_rollType = (StateType) args[0];
 
 		switch(_rollType)
 		{
 			case StateType.FrontRoll:
-				speed = _frontRollSpeed;
+				horizontalSpeed = _frontRollSpeed;
+				verticalSpeed = -150f;
 				_animation = "roll";
 				break;
 
 			case StateType.KneeSlide:
-				speed = _kneeSlideSpeed;
+				horizontalSpeed = _kneeSlideSpeed;
 				_animation = "knee";
 				break;
 
-			case StateType.LongSlide:
-				speed = _longSlideSpeed;
+			case StateType.LongSlide or StateType.SlideAttack:
+				horizontalSpeed = _longSlideSpeed;
 				_animation = "long";
 				break;
 		}
@@ -71,7 +74,7 @@ public partial class Slide : PlayerState
 		Player.FloorConstantSpeed = false;
 		Player.FloorMaxAngle = 0f;
 		Player.FloorBlockOnWall = false;
-		Player.Velocity = new Vector2(speed * direction, Player.Velocity.Y);
+		Player.Velocity = new Vector2(horizontalSpeed * direction, verticalSpeed);
 		Player.CanChangeFacingDirection = false;
 
 		AnimPlayer.Play($"Slide/{_animation}_slide_start");

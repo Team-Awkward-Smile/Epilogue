@@ -45,6 +45,8 @@ public abstract partial class Actor : CharacterBody2D
 	/// </summary>
     public StateMachine StateMachine { get; set; }
 
+	public bool IsTrapped { get; set; } = false;
+
 	private protected AnimationPlayer AnimationPlayer { get; set; }
 
 	private protected HurtBox HurtBox { get; set; }

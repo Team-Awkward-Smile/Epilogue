@@ -25,6 +25,7 @@ public partial class Level : Node2D
 	private List<Checkpoint> _checkpoints = new();
 	private Camera _camera;
 	private CheckpointManager _checkpointManager;
+	private Label _fpsCounter;
 
 	public Player Player { get; private set; }
 
@@ -96,6 +97,12 @@ public partial class Level : Node2D
 		_playerEvents.StateAwaitingForExecutionSpeed += () => _killPrompt.Enable();
 		_tileMap = GetChildren().OfType<TileMap>().FirstOrDefault();
 
+		_fpsCounter = new Label()
+		{
+			Text = $"FPS: {Engine.GetFramesPerSecond()}",
+			AnchorsPreset = 2
+		};
+
 		var uiLayer = new CanvasLayer();
 
 		AddChild(uiLayer);
@@ -105,6 +112,8 @@ public partial class Level : Node2D
 		uiLayer.AddChild(_killPrompt);
 		uiLayer.AddChild(_ammoUI);
 		uiLayer.AddChild(_hpUI);
+
+		uiLayer.AddChild(_fpsCounter);
 
 		_pauseUI.Hide();
 		_console.Hide();
@@ -170,6 +179,11 @@ public partial class Level : Node2D
 	{
 		_playerEvents.PlayerDied -= RespawnPlayer;
 		GetTree().ReloadCurrentScene();
+	}
+
+	public override void _Process(double delta)
+	{
+		_fpsCounter.Text = $"FPS: {Engine.GetFramesPerSecond()}";
 	}
 
 

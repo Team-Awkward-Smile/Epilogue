@@ -547,6 +547,7 @@ move_right_analog_modern={
 2d_physics/layer_6="Hurtboxes"
 2d_physics/layer_7="Interactives"
 2d_physics/layer_8="Checkpoints"
+2d_physics/layer_9="Triggers"
 
 [navigation]
 

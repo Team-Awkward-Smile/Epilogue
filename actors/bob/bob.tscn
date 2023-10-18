@@ -1160,6 +1160,7 @@ script = ExtResource("9_ob3b3")
 
 [node name="Slide" type="Node" parent="StateMachine"]
 script = ExtResource("10_ktjo8")
+_frontRollSpeed = 160.0
 
 [node name="Run" type="Node" parent="StateMachine"]
 script = ExtResource("11_akqxd")
@@ -1233,7 +1234,8 @@ collision_mask = 2
 editor_description = "RayCast used to test collisions against walls. Alongside the regular CharacterBody2D, can be used to determine is the character is near a ledge"
 modulate = Color(0, 0, 0, 1)
 z_index = 1
-target_position = Vector2(8, 0)
+position = Vector2(0, -1)
+target_position = Vector2(9, 0)
 collision_mask = 8
 
 [node name="SlideRayCast2D" type="RayCast2D" parent="FlipRoot"]
