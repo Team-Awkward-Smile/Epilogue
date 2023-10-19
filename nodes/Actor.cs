@@ -47,6 +47,10 @@ public abstract partial class Actor : CharacterBody2D
 
 	public float SlowWeight { get; set; }
 
+	public float Gravity { get; set; }
+
+	public Conditions Conditions { get; set; }
+
 	private protected AnimationPlayer AnimationPlayer { get; set; }
 
 	private protected HurtBox HurtBox { get; set; }
@@ -63,6 +67,7 @@ public abstract partial class Actor : CharacterBody2D
 		StateMachine = GetChildren().OfType<StateMachine>().FirstOrDefault();
 		AnimationPlayer = GetChildren().OfType<AnimationPlayer>().FirstOrDefault();
 		HurtBox = GetChildren().OfType<HurtBox>().FirstOrDefault();
+		Gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 		
 		AfterReady();
 	}

@@ -55,10 +55,12 @@ public partial class Fall : PlayerState
 			return;
 		}
 
-		Player.Velocity = new Vector2(Player.Velocity.X, Player.Velocity.Y + (Gravity * (float) delta));
+		var verticalSpeedModifer = Player.Conditions.HasFlag(Conditions.Sinking) ? Mathf.Min(Player.Velocity.Y, 0f) : Player.Velocity.Y;
+
+		Player.Velocity = new Vector2(Player.Velocity.X, verticalSpeedModifer + (Player.Gravity * (float) delta));
 		Player.MoveAndSlideWithRotation();
 
-		if(Player.IsOnFloor())
+		if(Player.IsOnFloor() || Player.Conditions.HasFlag(Conditions.Sinking))
 		{
 			StateMachine.ChangeState("Idle");
 		}
@@ -71,6 +73,7 @@ public partial class Fall : PlayerState
 			return;
 		}
 
+		Player.Velocity = Vector2.Zero;
 		AudioPlayer.PlayGenericSfx("Land");
 		AnimPlayer.Play($"Jump/{_animation}_jump_land");
 

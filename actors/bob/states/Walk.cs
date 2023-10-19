@@ -35,13 +35,13 @@ public partial class Walk : PlayerState
 		}
 		else if(Input.IsActionJustPressed("slide"))
 		{
-			StateMachine.ChangeState("Slide", StateType.KneeSlide);
+			StateMachine.ChangeState("Slide", (Player.SlowWeight <= 0.2f ? StateType.KneeSlide : StateType.FrontRoll));
 		}
 	}
 
 	internal override void OnEnter(params object[] args)
 	{
-		AnimPlayer.Play("walk");
+		AnimPlayer.Play("walk", customSpeed: 1f - Player.SlowWeight);
 
 		Player.CanChangeFacingDirection = true;
 	}
@@ -57,7 +57,7 @@ public partial class Walk : PlayerState
 		{
 			var velocity = Player.Velocity;
 
-			velocity.Y += Gravity * (float) delta;
+			velocity.Y += Player.Gravity * (float) delta;
 			velocity.X = movementDirection * _walkSpeed * (float) delta * 60f;
 
 			if((movementDirection > 0 && Player.FacingDirection == ActorFacingDirection.Left) ||
@@ -71,7 +71,6 @@ public partial class Walk : PlayerState
 
 		Player.MoveAndSlideWithRotation();
 
-		GD.Print(Player.Velocity);
 		var floorNormal = Player.GetFloorNormal();
 		var goingDownSlope = (movementDirection < 0 && floorNormal.X < 0) || (movementDirection > 0 && floorNormal.X > 0);
 
@@ -79,7 +78,7 @@ public partial class Walk : PlayerState
 		{
 			StateMachine.ChangeState("Idle");
 		}
-		else if(!Player.IsOnFloor())
+		else if(!Player.IsOnFloor() && (Player.Conditions & Conditions.Sinking) == 0)
 		{
 			StateMachine.ChangeState("Fall", StateType.LongJump);
 		}

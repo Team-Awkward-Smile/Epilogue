@@ -97,7 +97,7 @@ public partial class Jump : PlayerState
 
 		_frameDelay = _frameDelay >= 3 ? 0 : _frameDelay;
 
-		Player.Velocity = new Vector2(Player.Velocity.X, Player.Velocity.Y + (Gravity * (float) delta));
+		Player.Velocity = new Vector2(Player.Velocity.X, Player.Velocity.Y + (Player.Gravity * (float) delta));
 		Player.MoveAndSlideWithRotation();
 
 		if(Player.Velocity.Y > 0)

@@ -1,25 +1,23 @@
+using System.Collections.Generic;
+using System.Linq;
 using Epilogue.nodes;
 using Godot;
-using System;
-using System.Linq;
 
 public partial class QuickSand : Area2D
 {
-    [Export] private float _sinkTime;
-    [Export] private Vector2 _finalPosition;
     [Export] private float _maxSlowPercentage;
-    [Export] private float _maxSlowTime;
 
-    private CollisionShape2D _poolCollision;
-    private Tween _positionTween;
-    private Tween _slowTween;
-    private float _slowWeight = 0f;
-    private bool _isSinking = false;
-    private Actor _actor;
+    private List<Actor> _actors = new();
+    private float _timer = 0f;
+    private float _defaultGravity;
+    private float _height;
 
 	public override void _Ready()
 	{
-        _poolCollision = GetChildren().OfType<AnimatableBody2D>().First().GetChild(0) as CollisionShape2D;
+        var shape = GetChildren().OfType<CollisionShape2D>().First().Shape as RectangleShape2D;
+
+        _defaultGravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
+        _height = shape.Size.Y;
 
         BodyEntered += StartSinking;
         BodyExited += ResetSinking;
@@ -27,42 +25,47 @@ public partial class QuickSand : Area2D
 
     private void StartSinking(Node2D body)
     {
-        _isSinking = true;
-        _actor = (Actor) body;
+        var actor = body as Actor;
 
-        _positionTween = GetTree().CreateTween();
-        _slowTween = GetTree().CreateTween();
+        actor.Gravity = Gravity;
+        actor.Conditions |= Conditions.Sinking;
+        actor.FloorSnapLength = 0f;
 
-        _positionTween.TweenProperty(_poolCollision, "position", _finalPosition, _sinkTime);
-        _slowTween.TweenProperty(this, "_slowWeight", _maxSlowPercentage, _maxSlowTime);
+        _actors.Add(actor);
     }
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if(!_isSinking)
+        // Only updates the Gravity of the Actors once every 0.1 second (or about once every 6 frames)
+        if(((_timer += (float) delta) < 0.1f) || !_actors.Any())
         {
             return;
         }
 
-        _actor.SlowWeight = _slowWeight;
+        _timer = 0f;
+
+        foreach(var actor in _actors)
+        {
+            var slowPercentage = ((actor.GlobalPosition.Y - GlobalPosition.Y) / _height) * _maxSlowPercentage;
+
+            if(_maxSlowPercentage - slowPercentage < 0.02f)
+            {
+                slowPercentage = _maxSlowPercentage;
+            }
+
+            actor.SlowWeight = slowPercentage;
+        }
 	}
 	
     private void ResetSinking(Node2D body)
     {
-        _isSinking = false;
-        _actor.SlowWeight = 0f;
-        _slowWeight = 0f;
+        var actor = body as Actor;
+        
+        actor.SlowWeight = 0f;
+        actor.Gravity = _defaultGravity;
+        actor.Conditions &= ~Conditions.Sinking;
+        actor.FloorSnapLength = 5f;
 
-        if(_positionTween.IsValid())
-        {
-            _positionTween.Kill();
-        }
-
-        if(_slowTween.IsValid())
-        {
-            _slowTween.Kill();
-        }
-
-        _poolCollision.Position = Vector2.Zero;
+        _actors.Remove(actor);
     }
 }

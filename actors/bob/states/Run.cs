@@ -46,7 +46,7 @@ public partial class Run : PlayerState
 
 	internal override void OnEnter(params object[] args)
 	{
-		AnimPlayer.Play("walk", -1, 2f);
+		AnimPlayer.Play("walk", -1, customSpeed: 2f - Player.SlowWeight);
 
 		Player.CanChangeFacingDirection = true;
 	}
@@ -62,7 +62,7 @@ public partial class Run : PlayerState
 		{
 			var velocity = Player.Velocity;
 
-			velocity.Y += Gravity * (float) delta;
+			velocity.Y += Player.Gravity * (float) delta;
 			velocity.X = movementDirection * _runSpeed;
 
 			if((movementDirection > 0 && Player.FacingDirection == ActorFacingDirection.Left) ||
@@ -83,7 +83,7 @@ public partial class Run : PlayerState
 		{
 			StateMachine.ChangeState("Idle");
 		}
-		else if(!Player.IsOnFloor())
+		else if(!Player.IsOnFloor() && (Player.Conditions & Conditions.Sinking) == 0)
 		{
 			StateMachine.ChangeState("Fall", StateType.LongJump);
 		}

@@ -36,7 +36,7 @@ public partial class Crawl : PlayerState
 
 		var velocity = Player.Velocity;
 
-		velocity.Y += Gravity * (float) delta;
+		velocity.Y += Player.Gravity * (float) delta;
 		velocity.X = movementDirection * _crawlSpeed * (float) delta * 60f;
 
 		Player.Velocity = velocity;

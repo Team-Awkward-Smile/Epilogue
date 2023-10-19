@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://wren5uegjpqw"]
+[gd_scene load_steps=22 format=3 uid="uid://wren5uegjpqw"]
 
 [ext_resource type="Script" path="res://nodes/Level.cs" id="1_0qikh"]
 [ext_resource type="Texture2D" uid="uid://ce28v6b0ipo0k" path="res://temp/tile_small.png" id="2_lnr31"]
@@ -96,15 +96,9 @@ b = Vector2(162, 1)
 size = Vector2(1277, 25)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jutge"]
-size = Vector2(85.7117, 46)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_yd8h2"]
 size = Vector2(108, 36)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1iwks"]
-size = Vector2(54, 41)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_t8lif"]
 size = Vector2(72, 36)
 
 [node name="Level" type="Node2D"]
@@ -174,43 +168,26 @@ shape = SubResource("RectangleShape2D_untp2")
 position = Vector2(162, 0)
 
 [node name="BloodPool" type="Area2D" parent="."]
-position = Vector2(1037.29, -50.7504)
+position = Vector2(1026, -36)
 collision_layer = 256
+collision_priority = 1000.0
+gravity_space_override = 3
+gravity = 10.0
 script = ExtResource("11_ou18l")
-_sinkTime = 5.0
-_finalPosition = Vector2(0, 33)
 _maxSlowPercentage = 0.8
-_maxSlowTime = 5.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BloodPool"]
-position = Vector2(-11.2882, 27.7504)
+position = Vector2(0, 18)
 shape = SubResource("RectangleShape2D_jutge")
 
-[node name="AnimatableBody2D" type="AnimatableBody2D" parent="BloodPool"]
-position = Vector2(-2.28821, 32.7504)
-collision_layer = 8
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="BloodPool/AnimatableBody2D"]
-position = Vector2(-9, 0)
-shape = SubResource("RectangleShape2D_yd8h2")
-
 [node name="BloodPool2" type="Area2D" parent="."]
-position = Vector2(1215, -51)
+position = Vector2(1206, -36)
 collision_layer = 256
+gravity_space_override = 3
+gravity = 20.0
 script = ExtResource("11_ou18l")
-_sinkTime = 5.0
-_finalPosition = Vector2(0, 33)
 _maxSlowPercentage = 1.0
-_maxSlowTime = 5.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BloodPool2"]
-position = Vector2(-8.99988, 30.5)
+position = Vector2(0, 18)
 shape = SubResource("RectangleShape2D_1iwks")
-
-[node name="AnimatableBody2D" type="AnimatableBody2D" parent="BloodPool2"]
-position = Vector2(-2.28821, 32.7504)
-collision_layer = 8
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="BloodPool2/AnimatableBody2D"]
-position = Vector2(-6.71167, 0.249634)
-shape = SubResource("RectangleShape2D_t8lif")

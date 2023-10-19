@@ -66,7 +66,7 @@ public partial class Idle : PlayerState
 		_sleepTimer = 0f;
 
 		Player.CanChangeFacingDirection = true;
-		Player.Velocity = new Vector2(0f, 0f);
+		Player.Velocity = new Vector2(0f, Player.Velocity.Y);
 
 		AnimPlayer.Play("idle");
 	}
@@ -81,7 +81,7 @@ public partial class Idle : PlayerState
 			return;
 		}
 
-		if(!Player.IsOnFloor())
+		if(!Player.IsOnFloor() && !Player.Conditions.HasFlag(Conditions.Sinking))
 		{
 			StateMachine.ChangeState("Fall", StateType.LongJump);
 			return;
@@ -91,7 +91,7 @@ public partial class Idle : PlayerState
 
 		movement *= 1f - Player.SlowWeight;
 
-		Player.Velocity = new Vector2(movement * 10f, Player.Velocity.Y + Gravity * (float) delta);
+		Player.Velocity = new Vector2(movement * 10f, Player.Velocity.Y + Player.Gravity * (float) delta);
 		Player.MoveAndSlideWithRotation();
 
 		if(movement != 0f)

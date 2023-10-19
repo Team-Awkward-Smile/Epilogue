@@ -38,7 +38,7 @@ public partial class Chase : NpcState
 		var newVelocity = (nextPosition - Npc.GlobalPosition).Normalized() * _movementSpeed;
 
 		Npc.SetFacingDirection(newVelocity.X < 0 ? ActorFacingDirection.Left : ActorFacingDirection.Right);
-		Npc.Velocity = new Vector2(newVelocity.X, Npc.Velocity.Y + Gravity * (float) delta);
+		Npc.Velocity = new Vector2(newVelocity.X, Npc.Velocity.Y + Npc.Gravity * (float) delta);
 		Npc.MoveAndSlideWithRotation();
 	}
 

@@ -37,27 +37,26 @@ public partial class Slide : PlayerState
 
 	internal override void OnEnter(params object[] args)
 	{
-		var horizontalSpeed = 0f;
+		var horizontalSpeed = 1f - Player.SlowWeight;
 		var verticalSpeed = 0f;
-
 
 		_rollType = (StateType) args[0];
 
 		switch(_rollType)
 		{
 			case StateType.FrontRoll:
-				horizontalSpeed = _frontRollSpeed;
-				verticalSpeed = -150f;
+				horizontalSpeed = Mathf.Min(horizontalSpeed + 0.1f, 1f) * _frontRollSpeed;
+				verticalSpeed = Player.Conditions.HasFlag(Conditions.Sinking) ? -Player.Gravity : -150f;
 				_animation = "roll";
 				break;
 
 			case StateType.KneeSlide:
-				horizontalSpeed = _kneeSlideSpeed;
+				horizontalSpeed *= _kneeSlideSpeed;
 				_animation = "knee";
 				break;
 
 			case StateType.LongSlide or StateType.SlideAttack:
-				horizontalSpeed = _longSlideSpeed;
+				horizontalSpeed *= _longSlideSpeed;
 				_animation = "long";
 				break;
 		}
@@ -90,7 +89,9 @@ public partial class Slide : PlayerState
 
 	internal override void PhysicsUpdate(double delta)
 	{
-		Player.Velocity = new Vector2(Player.Velocity.X, Player.Velocity.Y + Gravity * (float) delta);
+		var verticalSpeedModifer = Player.Conditions.HasFlag(Conditions.Sinking) ? Mathf.Min(Player.Velocity.Y, 0f) : Player.Velocity.Y;
+
+		Player.Velocity = new Vector2(Player.Velocity.X, verticalSpeedModifer + Player.Gravity * (float) delta);
 		Player.MoveAndSlideWithRotation();
 
 		_timer += delta;

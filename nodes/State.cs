@@ -25,11 +25,6 @@ public partial class State : Node
 	/// </summary>
 	protected ActorAudioPlayer AudioPlayer { get; private set; }
 
-	/// <summary>
-	///		Default gravity of the project. Used by States to simulate physics
-	/// </summary>
-	protected float Gravity { get; private set; }
-
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
@@ -47,7 +42,6 @@ public partial class State : Node
 			GD.PrintErr($"Animation Player not found for Actor [{Owner.Name}]");
 		}
 
-		Gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 		AudioPlayer = Owner.GetChildren().OfType<ActorAudioPlayer>().FirstOrDefault();
 
 		if(AudioPlayer is null)
