@@ -34,12 +34,12 @@ public partial class Idle : PlayerState
 
 				raycast.Position = originalPosition;
 			}
-			else if(!Player.IsTrapped)
+			else if(Player.SlowWeight == 0f)
 			{
 				StateMachine.ChangeState("Jump", StateType.VerticalJump);
 			}
 		}
-		else if(Input.IsActionJustPressed("crouch") && !Player.IsTrapped)
+		else if(Input.IsActionJustPressed("crouch") && Player.SlowWeight == 0f)
 		{
 			StateMachine.ChangeState("Crouch");
 		}
@@ -89,10 +89,7 @@ public partial class Idle : PlayerState
 
 		var movement = Input.GetAxis("move_left", "move_right");
 
-		if(Player.IsTrapped)
-		{
-			movement = 0f;
-		}
+		movement *= 1f - Player.SlowWeight;
 
 		Player.Velocity = new Vector2(movement * 10f, Player.Velocity.Y + Gravity * (float) delta);
 		Player.MoveAndSlideWithRotation();

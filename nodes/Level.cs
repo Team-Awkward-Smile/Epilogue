@@ -183,6 +183,11 @@ public partial class Level : Node2D
 
 	public override void _Process(double delta)
 	{
+		if(Engine.IsEditorHint())
+		{
+			return;
+		}
+		
 		_fpsCounter.Text = $"FPS: {Engine.GetFramesPerSecond()}";
 	}
 

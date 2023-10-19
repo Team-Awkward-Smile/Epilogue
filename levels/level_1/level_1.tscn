@@ -127,7 +127,7 @@ layer_1/tile_data = PackedInt32Array(-262022, 0, 196608, -262021, 0, 196608, -26
 [node name="Checkpoints" type="Node2D" parent="."]
 
 [node name="Checkpoint" parent="Checkpoints" instance=ExtResource("3_r2cri")]
-position = Vector2(-476, -12)
+position = Vector2(878, -53)
 FirstCheckpoint = true
 
 [node name="Comment" type="Node2D" parent="."]
@@ -179,6 +179,8 @@ collision_layer = 256
 script = ExtResource("11_ou18l")
 _sinkTime = 5.0
 _finalPosition = Vector2(0, 33)
+_maxSlowPercentage = 0.8
+_maxSlowTime = 5.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BloodPool"]
 position = Vector2(-11.2882, 27.7504)
@@ -198,6 +200,8 @@ collision_layer = 256
 script = ExtResource("11_ou18l")
 _sinkTime = 5.0
 _finalPosition = Vector2(0, 33)
+_maxSlowPercentage = 1.0
+_maxSlowTime = 5.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BloodPool2"]
 position = Vector2(-8.99988, 30.5)

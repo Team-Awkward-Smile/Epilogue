@@ -14,7 +14,7 @@ public partial class Run : PlayerState
 
 	internal override void OnInput(InputEvent @event)
 	{
-		if(Input.IsActionJustPressed("jump") && !Player.IsTrapped)
+		if(Input.IsActionJustPressed("jump") && Player.SlowWeight == 0f)
 		{
 			if(Player.IsOnWall())
 			{
@@ -55,15 +55,11 @@ public partial class Run : PlayerState
 	{
 		var movementDirection = Input.GetAxis("move_left", "move_right");
 
-		if(Player.IsTrapped)
-		{
-			movementDirection = 0f;
-		}
+		movementDirection = Mathf.Round(movementDirection);
+		movementDirection *= 1f - Player.SlowWeight;
 
 		if(movementDirection != 0f)
 		{
-			movementDirection = movementDirection > 0 ? 1 : -1;
-
 			var velocity = Player.Velocity;
 
 			velocity.Y += Gravity * (float) delta;
@@ -91,7 +87,7 @@ public partial class Run : PlayerState
 		{
 			StateMachine.ChangeState("Fall", StateType.LongJump);
 		}
-		else if(!Player.RunEnabled)
+		else if(!Player.RunEnabled || Player.SlowWeight > 0.2f)
 		{
 			StateMachine.ChangeState("Walk");
 		}

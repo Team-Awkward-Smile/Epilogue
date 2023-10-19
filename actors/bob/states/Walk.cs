@@ -14,7 +14,7 @@ public partial class Walk : PlayerState
 
 	internal override void OnInput(InputEvent @event)
 	{
-		if(Input.IsActionJustPressed("jump") && !Player.IsTrapped)
+		if(Input.IsActionJustPressed("jump") && Player.SlowWeight == 0f)
 		{
 			if(Player.RayCasts["Head"].IsColliding() && !Player.RayCasts["Ledge"].IsColliding())
 			{
@@ -50,15 +50,11 @@ public partial class Walk : PlayerState
 	{
 		var movementDirection = Input.GetAxis("move_left", "move_right");
 
-		if(Player.IsTrapped)
-		{
-			movementDirection = 0f;
-		}
+		movementDirection = Mathf.Round(movementDirection);
+		movementDirection *= 1f - Player.SlowWeight;
 
 		if(movementDirection != 0f)
 		{
-			movementDirection = movementDirection > 0 ? 1 : -1;
-
 			var velocity = Player.Velocity;
 
 			velocity.Y += Gravity * (float) delta;
@@ -75,6 +71,7 @@ public partial class Walk : PlayerState
 
 		Player.MoveAndSlideWithRotation();
 
+		GD.Print(Player.Velocity);
 		var floorNormal = Player.GetFloorNormal();
 		var goingDownSlope = (movementDirection < 0 && floorNormal.X < 0) || (movementDirection > 0 && floorNormal.X > 0);
 
@@ -86,7 +83,7 @@ public partial class Walk : PlayerState
 		{
 			StateMachine.ChangeState("Fall", StateType.LongJump);
 		}
-		else if(Player.RunEnabled)
+		else if(Player.RunEnabled && Player.SlowWeight <= 0.2f)
 		{
 			StateMachine.ChangeState("Run");
 		}
