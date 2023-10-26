@@ -10,18 +10,24 @@ namespace Epilogue.actors.hestmor.states;
 /// </summary>
 public partial class MeleeAttack : PlayerState
 {
+	[Export] private float _slideAttackSpeed = 150f;
+
 	private CollisionShape2D _hitbox;
 	private PlayerEvents _eventsSingleton;
 	private Npc _enemy;
+	private StateType _attackType;
 
 	internal override void OnEnter(params object[] args)
 	{
 		// The attack audio is controlled by the animation
 
-		var attackType = (StateType) args[0];
+		Player.CanChangeFacingDirection = false;
+
+		_attackType = (StateType) args[0];
+
 		var label = Player.GetNode<Label>("temp_StateName");
 
-		label.Text = attackType.ToString();
+		label.Text = _attackType.ToString();
 		label.Show();
 
 		StateMachine.CanInteract = false;
@@ -32,7 +38,6 @@ public partial class MeleeAttack : PlayerState
 
 			if(_enemy.IsVulnerable)
 			{
-				Player.CanChangeFacingDirection = false;
 
 				_eventsSingleton = GetNode<PlayerEvents>("/root/PlayerEvents");
 
@@ -49,7 +54,18 @@ public partial class MeleeAttack : PlayerState
 		}
 		else
 		{
-			AnimPlayer.Play("Combat/melee_attack");
+			var animation = _attackType switch
+			{
+				StateType.SlideAttack => "slide_attack",
+				_ => "melee_attack",
+			};
+
+			AnimPlayer.Play($"Combat/{animation}");
+
+			if(_attackType == StateType.SlideAttack)
+			{
+				Player.Velocity = new Vector2(_slideAttackSpeed * (Player.FacingDirection == ActorFacingDirection.Left ? -1 : 1), 0f);
+			}
 		}
 
 		AnimPlayer.AnimationFinished += FinishAttack;
@@ -73,6 +89,16 @@ public partial class MeleeAttack : PlayerState
 		_enemy.DealDamage(100);
 
 		StateMachine.ChangeState("Idle");
+	}
+
+	internal override void PhysicsUpdate(double delta)
+	{
+		if(_attackType != StateType.SlideAttack)
+		{
+			return;
+		}
+
+		Player.MoveAndSlideWithRotation();
 	}
 
 	private void FinishAttack(StringName animName)
