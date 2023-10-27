@@ -6,7 +6,7 @@ namespace Epilogue.nodes;
 /// <summary>
 ///		Node used to save point is the level where the player can respawn
 /// </summary>
-[GlobalClass, Icon("res://nodes/icons/checkpoint.png"), Tool]
+[Icon("res://nodes/icons/checkpoint.png"), Tool]
 public partial class Checkpoint : Area2D
 {
 	/// <summary>

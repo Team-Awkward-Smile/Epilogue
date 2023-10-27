@@ -15,6 +15,8 @@ namespace Epilogue.nodes;
 [GlobalClass, Icon("res://nodes/icons/level.png"), Tool]
 public partial class Level : Node2D
 {
+	[Export] private Vector2 _defaultCameraZoom = new(3f, 3f);
+
 	private PauseUI _pauseUI;
 	private AmmoUI _ammoUI;
 	private HPUI _hpUI;
@@ -89,8 +91,9 @@ public partial class Level : Node2D
 		_playerEvents.StateAwaitingForExecutionSpeed += () => _killPrompt.Enable();
 		_tileMap = GetChildren().OfType<TileMap>().FirstOrDefault();
 
-		// TODO: 68 - Maybe the root CanvasLayer should also be created at run-time?
-		var uiLayer = GetNode<CanvasLayer>("UILayer");
+		var uiLayer = new CanvasLayer();
+
+		AddChild(uiLayer);
 
 		uiLayer.AddChild(_pauseUI);
 		uiLayer.AddChild(_console);
@@ -145,7 +148,11 @@ public partial class Level : Node2D
 			}
 		}
 
-		_camera = new Camera();
+		_camera = new Camera()
+		{
+			Zoom = _defaultCameraZoom
+		};
+
 		_player = GD.Load<PackedScene>("res://actors/bob/bob.tscn").Instantiate() as Player;
 
 		AddChild(_player);
