@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://ehsettibkfxu"]
+
+[ext_resource type="Script" path="res://nodes/Level.cs" id="1_526cy"]
+[ext_resource type="TileSet" uid="uid://c6idwevtkka6s" path="res://base_resources/tile_sets/test_tileset.tres" id="2_48248"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_526cy")
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource("2_48248")
+format = 2
