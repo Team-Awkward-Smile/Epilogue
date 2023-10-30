@@ -36,7 +36,7 @@ public partial class Run : PlayerState
 		}
 		else if(Input.IsActionJustPressed("melee"))
 		{
-			StateMachine.ChangeState("Slide", StateType.SlideAttack);
+			StateMachine.ChangeState("MeleeAttack", StateType.SlideAttack);
 		}
 		else if(Input.IsActionJustPressed("slide"))
 		{

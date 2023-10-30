@@ -19,10 +19,11 @@ public partial class Slide : PlayerState
 	private float _startingRotation;
 	private string _animation;
 	private StateType _rollType;
+	private bool _canJump;
 
 	internal override void OnInput(InputEvent @event)
 	{
-		if(Input.IsActionJustPressed("jump"))
+		if(_canJump && Input.IsActionJustPressed("jump"))
 		{
 			StateMachine.ChangeState("Jump", StateType.LongJump);
 		}
@@ -76,6 +77,7 @@ public partial class Slide : PlayerState
 
 		if(_rollType == StateType.FrontRoll)
 		{
+			_canJump = false;
 			AnimPlayer.AnimationFinished += EndSlide;
 		}
 
@@ -91,7 +93,9 @@ public partial class Slide : PlayerState
 		
 		if(_rollType != StateType.FrontRoll && _timer > _slideTime && !_slideFinished)
 		{
+			_canJump = false;
 			_slideFinished = true;
+
 			Player.Velocity = new Vector2(Player.Velocity.X / 2, Player.Velocity.Y);
 			AnimPlayer.Play($"Slide/{_animation}_slide_end");
 			AnimPlayer.AnimationFinished += EndSlide; 
@@ -104,10 +108,14 @@ public partial class Slide : PlayerState
 		Player.FloorMaxAngle = Mathf.DegToRad(45f);
 		Player.Rotation = _startingRotation;
 		Player.FloorBlockOnWall = true;
+
+		_canJump = true;
 	}
 
 	private void EndSlide(StringName animName)
 	{
+		_canJump = false;
+
 		AnimPlayer.AnimationFinished -= EndSlide;
 		StateMachine.ChangeState("Idle");
 	}

@@ -97,7 +97,7 @@ public abstract partial class Actor : CharacterBody2D
 	/// <summary>
 	///		Just like the regular MoveAndSlide, but rotates the Actor if the movement occurred on a slope
 	/// </summary>
-	public void MoveAndSlideWithRotation()
+	public virtual void MoveAndSlideWithRotation()
 	{
 		MoveAndSlide();
 
