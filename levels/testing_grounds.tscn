@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cjolarkdk5yoi"]
+[gd_scene load_steps=23 format=3 uid="uid://cjolarkdk5yoi"]
 
 [ext_resource type="Script" path="res://nodes/Level.cs" id="1_o245g"]
 [ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_pfrwm"]
@@ -19,6 +19,7 @@
 [ext_resource type="Script" path="res://temp/NewGamePlusPath.cs" id="19_owmbm"]
 [ext_resource type="PackedScene" uid="uid://cjogekv61ycm5" path="res://props/sword/sword.tscn" id="19_t8n6g"]
 [ext_resource type="PackedScene" uid="uid://6a8rb567c64u" path="res://props/breakable_tiles/test_breakable_tile.tscn" id="20_cneke"]
+[ext_resource type="Script" path="res://nodes/TestDummy.cs" id="21_tnd04"]
 [ext_resource type="Script" path="res://temp/AchievmentTimer.cs" id="21_tq176"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nkpyu"]
@@ -149,13 +150,13 @@ position = Vector2(134, -136)
 
 [node name="Checkpoint2" parent="Checkpoints" instance=ExtResource("18_utu6l")]
 position = Vector2(766, -118)
-FirstCheckpoint = true
 
 [node name="Checkpoint3" parent="Checkpoints" instance=ExtResource("18_utu6l")]
 position = Vector2(652, -64)
 
 [node name="Checkpoint4" parent="Checkpoints" instance=ExtResource("18_utu6l")]
 position = Vector2(590, -66)
+FirstCheckpoint = true
 
 [node name="Spikes2" type="Node2D" parent="."]
 position = Vector2(351, -47)
@@ -192,3 +193,9 @@ position = Vector2(315, -117)
 
 [node name="BreakableTile5" parent="BreakableTiles" instance=ExtResource("20_cneke")]
 position = Vector2(315, -135)
+
+[node name="TestDummy" type="Node2D" parent="."]
+position = Vector2(311.457, -190.836)
+script = ExtResource("21_tnd04")
+_destroyOnLoad = true
+CameraZoom = Vector2(3, 3)

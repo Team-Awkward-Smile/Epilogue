@@ -162,7 +162,6 @@ public partial class Level : Node2D
 
 			GetNode<CanvasLayer>("UILayer").AddChild(scene.Instantiate());
 		};
-
 	}
 
 	private void RespawnPlayer()
