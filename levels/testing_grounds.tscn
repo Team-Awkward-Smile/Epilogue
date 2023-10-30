@@ -193,3 +193,9 @@ position = Vector2(315, -117)
 
 [node name="BreakableTile5" parent="BreakableTiles" instance=ExtResource("20_cneke")]
 position = Vector2(315, -135)
+
+[node name="TestDummy" type="Node2D" parent="."]
+position = Vector2(311.457, -190.836)
+script = ExtResource("21_tnd04")
+_destroyOnLoad = true
+CameraZoom = Vector2(3, 3)

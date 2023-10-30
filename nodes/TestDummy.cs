@@ -1,3 +1,4 @@
+using Epilogue.props.camera;
 using Godot;
 using System;
 using System.Collections.Generic;
@@ -32,21 +33,45 @@ public partial class TestDummy : Node2D
         }
     }
 
-    [Export] private bool _destroyOnLoad;
+    [Export] private Vector2 CameraZoom 
+    {
+        get => _cameraZoom;
+        set
+        {
+            _cameraZoom = value;
+
+            if(_camera is not null)
+            {
+                _camera.Zoom = _cameraZoom;
+            }
+        }
+    }
 
     private int _numberofPoints = 60;
     private DrawDirectionEnum _drawDirection;
     private float _verticalJumpSpeed;
     private float _lowJumpSpeed;
     private float _longJumpSpeed;
+    private Camera _camera;
+    private Vector2 _cameraZoom = new(3f, 3f);
 
-	public override void _Ready()
-	{
-		if(_destroyOnLoad && !Engine.IsEditorHint())
+    public override void _EnterTree()
+    {
+        if(!Engine.IsEditorHint())
         {
             QueueFree();
         }
-	}
+
+        if(_camera is null)
+        {
+            _camera = new Camera()
+            {
+                Zoom = _cameraZoom
+            };
+
+            AddChild(_camera, false, InternalMode.Front);
+        }
+    }
 
 	public override void _Draw()
 	{
