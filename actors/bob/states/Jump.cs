@@ -19,6 +19,7 @@ public partial class Jump : PlayerState
 
 	private float _horizontalVelocity;
 	private Achievements _achievements;
+	private JumpData _jumpData;
 	private StateType _jumpType;
 	private string _animation;
 	private int _frameDelay = 0;
@@ -40,6 +41,16 @@ public partial class Jump : PlayerState
 
 	internal override void OnEnter(params object[] args)
 	{
+        _jumpData = new()
+        {
+            StartPosition = Player.Position
+        };
+
+        var jumpType = (StateType) args[0];
+		var label = Player.GetNode<Label>("temp_StateName");
+
+		label.Text = jumpType.ToString();
+		label.Show();
 		_jumpType = (StateType) args[0];
 
 		switch(_jumpType)
@@ -75,6 +86,8 @@ public partial class Jump : PlayerState
 
 	internal override void PhysicsUpdate(double delta)
 	{
+		_jumpData.MaxSpeed = new(Mathf.Max(_jumpData.MaxSpeed.X, Mathf.Abs(Player.Velocity.X)), Mathf.Max(_jumpData.MaxSpeed.Y, Mathf.Abs(Player.Velocity.Y)));
+		_jumpData.Duration += (float) delta;
 		_frameDelay++;
 
 		if((_frameDelay == 3 || Player.IsOnWall()) && Player.SweepForLedge(out var ledgePosition))
@@ -102,7 +115,7 @@ public partial class Jump : PlayerState
 
 		if(Player.Velocity.Y > 0)
 		{
-			StateMachine.ChangeState("Fall", _jumpType);
+			StateMachine.ChangeState("Fall", _jumpType, _jumpData);
 		}
 		else if(Player.IsOnFloor() && Player.Velocity.Y < 0)
 		{

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://wren5uegjpqw"]
+[gd_scene load_steps=23 format=3 uid="uid://wren5uegjpqw"]
 
 [ext_resource type="Script" path="res://nodes/Level.cs" id="1_0qikh"]
 [ext_resource type="Texture2D" uid="uid://ce28v6b0ipo0k" path="res://temp/tile_small.png" id="2_lnr31"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://levels/level_1/Nest.cs" id="9_dht5x"]
 [ext_resource type="TileSet" uid="uid://cm87l6ohfrc5q" path="res://temp/tileset.tres" id="9_dmcbf"]
 [ext_resource type="Script" path="res://props/traps/QuickSand.cs" id="11_ou18l"]
+[ext_resource type="Script" path="res://nodes/TestDummy.cs" id="12_yvhwr"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i0hwh"]
 texture = ExtResource("2_lnr31")
@@ -190,3 +191,15 @@ _maxSlowPercentage = 1.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BloodPool2"]
 position = Vector2(0, 18)
 shape = SubResource("RectangleShape2D_1iwks")
+
+[node name="TestDummy" type="Node2D" parent="."]
+position = Vector2(5660, -309)
+script = ExtResource("12_yvhwr")
+DrawDirection = 1
+NumberOfPoints = 220
+
+[node name="TestDummy2" type="Node2D" parent="."]
+position = Vector2(10378, 354)
+script = ExtResource("12_yvhwr")
+DrawDirection = 1
+NumberOfPoints = 375
