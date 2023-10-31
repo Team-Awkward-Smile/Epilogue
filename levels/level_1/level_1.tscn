@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://wren5uegjpqw"]
+[gd_scene load_steps=33 format=3 uid="uid://wren5uegjpqw"]
 
 [ext_resource type="Script" path="res://nodes/Level.cs" id="1_0qikh"]
 [ext_resource type="Texture2D" uid="uid://ce28v6b0ipo0k" path="res://temp/tile_small.png" id="2_lnr31"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://props/traps/QuickSand.cs" id="11_ou18l"]
 [ext_resource type="Script" path="res://nodes/CameraTrigger.cs" id="12_7m5os"]
 [ext_resource type="Script" path="res://nodes/HitBox.cs" id="13_sykis"]
+[ext_resource type="Script" path="res://nodes/LevelTransition.cs" id="14_s7e5w"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i0hwh"]
 texture = ExtResource("2_lnr31")
@@ -103,7 +104,7 @@ size = Vector2(108, 36)
 size = Vector2(72, 36)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f08pl"]
-size = Vector2(519, 356)
+size = Vector2(460.969, 249)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1lkat"]
 size = Vector2(126, 108.15)
@@ -122,6 +123,9 @@ size = Vector2(397, 58.9489)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ssg7w"]
 size = Vector2(269, 147)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fbejv"]
+size = Vector2(74.9995, 230)
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_0qikh")
@@ -225,7 +229,7 @@ script = ExtResource("12_7m5os")
 _cameraBlockDirection = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/CameraTrigger"]
-position = Vector2(-111.669, -79.9535)
+position = Vector2(-140.685, -26.4532)
 shape = SubResource("RectangleShape2D_f08pl")
 
 [node name="HitBox" type="Area2D" parent="Triggers"]
@@ -290,3 +294,11 @@ _cameraBlockDirection = 16
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/CameraTrigger5"]
 position = Vector2(31.8724, -22.66)
 shape = SubResource("RectangleShape2D_ssg7w")
+
+[node name="LevelTransition" type="Area2D" parent="Triggers"]
+position = Vector2(10671.6, 285.98)
+script = ExtResource("14_s7e5w")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/LevelTransition"]
+position = Vector2(27.9072, -42.9796)
+shape = SubResource("RectangleShape2D_fbejv")

@@ -1,3 +1,4 @@
+using System.Linq;
 using Epilogue.global.enums;
 using Epilogue.props.breakable_tile;
 using Godot;
@@ -6,7 +7,7 @@ namespace Epilogue.nodes;
 /// <summary>
 ///		Node used as the base for every HitBox in the game
 /// </summary>
-[GlobalClass]
+[GlobalClass, Tool]
 public partial class HitBox : Area2D
 {
 	/// <summary>
@@ -19,8 +20,16 @@ public partial class HitBox : Area2D
 	/// </summary>
 	[Export] private DamageType _damageType;
 
-	/// <inheritdoc/>
-	public override void _Ready()
+    public override void _EnterTree()
+    {
+        if(GetChildCount() > 0)
+        {
+            GetChildren().OfType<CollisionShape2D>().First().DebugColor = new Color(1f, 70f / 255, 50f / 255, 107f / 255);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void _Ready()
 	{
 		AreaEntered += (Area2D area) =>
 		{

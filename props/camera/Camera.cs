@@ -39,4 +39,17 @@ public partial class Camera : Camera2D
 	{
 		GetTree().CreateTween().TweenProperty(this, "zoom", new Vector2(zoomValue, zoomValue), time);
 	}
+
+	public void ResetZoom()
+	{
+		Zoom = new Vector2(3f, 3f);
+	}
+
+	public void ResetLimits()
+	{
+		LimitLeft = -10000000;
+		LimitRight = 10000000;
+		LimitTop = -10000000;
+		LimitBottom = 10000000;
+	}
 }

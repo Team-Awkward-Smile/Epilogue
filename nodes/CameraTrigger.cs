@@ -1,12 +1,13 @@
 using Epilogue.props.camera;
 using Godot;
 using System;
+using System.Linq;
 
 namespace Epilogue.nodes;
 /// <summary>
 ///     Area2D Node used to change the Camera's zoom, position, boundaries, etc.
 /// </summary>
-[GlobalClass]
+[GlobalClass, Tool]
 public partial class CameraTrigger : Area2D
 {
     [ExportGroup("Debug"), Export] private bool _hideDuringGame = false;
@@ -15,20 +16,32 @@ public partial class CameraTrigger : Area2D
     [Export] private CameraBlockDirection _cameraBlockDirection;
 
     private bool _showInfoBackup = true;
+    private Camera _camera;
 
     public override void _EnterTree()
     {
+        if(GetChildCount() > 0)
+        {
+            GetChildren().OfType<CollisionShape2D>().First().DebugColor = new Color(246f / 255, 217f / 255, 30f / 255, 107f / 255);
+        }
+
         ZIndex = 100;
     }
 
     public override void _Ready()
     {
+        if(Engine.IsEditorHint())
+        {
+            return;
+        }
+
         if(_hideDuringGame)
         {
             Modulate = new Color(0f, 0f, 0f, 0f);
         }
 
         BodyEntered += OnBodyEntered;
+        BodyExited += OnBodyExited;
     }
 
     private void OnBodyEntered(Node2D body)
@@ -38,9 +51,8 @@ public partial class CameraTrigger : Area2D
             return;
         }
 
-        var camera = GetViewport().GetCamera2D() as Camera;
-        
-        camera.SetZoomWithSmoothing(_cameraZoom, _zoomDeltaTime);
+        _camera = GetViewport().GetCamera2D() as Camera;
+        _camera.SetZoomWithSmoothing(_cameraZoom, _zoomDeltaTime);
 
         if(_cameraBlockDirection == 0)
         {
@@ -54,22 +66,32 @@ public partial class CameraTrigger : Area2D
         
         if(_cameraBlockDirection.HasFlag(CameraBlockDirection.Left))
         {
-            camera.LimitLeft = (int) (collision.GlobalPosition.X - horizontal);
+            _camera.LimitLeft = (int) (collision.GlobalPosition.X - horizontal);
         }
 
         if(_cameraBlockDirection.HasFlag(CameraBlockDirection.Right))
         {
-            camera.LimitRight = (int) (collision.GlobalPosition.X + horizontal);
+            _camera.LimitRight = (int) (collision.GlobalPosition.X + horizontal);
         }
 
         if(_cameraBlockDirection.HasFlag(CameraBlockDirection.Top))
         {
-            camera.LimitTop = (int) (collision.GlobalPosition.Y - vertical);
+            _camera.LimitTop = (int) (collision.GlobalPosition.Y - vertical);
         }
 
         if(_cameraBlockDirection.HasFlag(CameraBlockDirection.Bottom))
         {
-            camera.LimitBottom = (int) (collision.GlobalPosition.Y + vertical);
+            _camera.LimitBottom = (int) (collision.GlobalPosition.Y + vertical);
+        }
+    }
+
+    private void OnBodyExited(Node2D body)
+    {
+        _camera.ResetZoom();
+
+        if(_cameraBlockDirection != 0)
+        {
+            _camera.ResetLimits();
         }
     }
 
