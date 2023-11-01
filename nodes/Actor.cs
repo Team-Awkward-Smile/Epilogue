@@ -41,13 +41,21 @@ public abstract partial class Actor : CharacterBody2D
     public Sprite2D Sprite { get; set; }
 
 	/// <summary>
-	///		Reference to the State Machine used by the Actor
+	///		Size of this Sprite, in units (X = width; Y = height)
 	/// </summary>
+	public Vector2 SpriteSize => Sprite.GetRect().Size;
+
+    /// <summary>
+    ///		Reference to the State Machine used by the Actor
+    /// </summary>
     public StateMachine StateMachine { get; set; }
 
+	/// <summary>
+	///		HurtBox of this Actor, used to detect collisions against objects that can hurt it
+	/// </summary>
+	public  HurtBox HurtBox { get; set; }
+	
 	private protected AnimationPlayer AnimationPlayer { get; set; }
-
-	private protected HurtBox HurtBox { get; set; }
 
     /// <inheritdoc/>
     public override void _Ready()
@@ -61,14 +69,7 @@ public abstract partial class Actor : CharacterBody2D
 		StateMachine = GetChildren().OfType<StateMachine>().FirstOrDefault();
 		AnimationPlayer = GetChildren().OfType<AnimationPlayer>().FirstOrDefault();
 		HurtBox = GetChildren().OfType<HurtBox>().FirstOrDefault();
-		
-		AfterReady();
 	}
-
-	/// <summary>
-	///		Method to allow an Actor to initialize custom logic in <see cref="_Ready"/> without overriding any of the existing code
-	/// </summary>
-	private protected virtual void AfterReady() { }
 
 	/// <summary>
 	///		Sets a new facing direction for this Actor, if the informed direction is valid and <see cref="CanChangeFacingDirection"/> is true
@@ -132,4 +133,24 @@ public abstract partial class Actor : CharacterBody2D
 	/// </summary>
 	/// <param name="health">The ammount of HP to recover</param>
 	public abstract void ApplyHealth(float health);
+
+	/// <summary>
+	///		Makes this Actor turn towards and face the informed Node
+	/// </summary>
+	/// <param name="node">The Node this Actor will face</param>
+	public void TurnTowards(Node2D node)
+	{
+		TurnTowards(node.GlobalPosition);
+	}
+
+	/// <summary>
+	///		Makes this Actor turn towards and face the informed position
+	/// </summary>
+	/// <param name="globalPosition">The position (in global coordinates) this Actor will turn to</param>
+	public void TurnTowards(Vector2 globalPosition)
+	{
+		var offset = globalPosition - GlobalPosition;
+
+		SetFacingDirection(offset.X > 0f ? ActorFacingDirection.Right : ActorFacingDirection.Left);
+	}
 }

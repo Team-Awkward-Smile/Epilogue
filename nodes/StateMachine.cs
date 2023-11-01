@@ -10,11 +10,6 @@ namespace Epilogue.nodes;
 public partial class StateMachine : Node
 {
 	/// <summary>
-	///		The State this Actor will use when first spawned. If null, the initial State will be set to the first State belonging to the Actor
-	/// </summary>
-	[Export] private PlayerState InitialState { get; set; }
-
-	/// <summary>
 	///		Defines if the current State allows the Actor to interact with the world
 	/// </summary>
 	public bool CanInteract { get; set; } = true;
@@ -22,6 +17,17 @@ public partial class StateMachine : Node
     private readonly HashSet<State> _states = new();
 
 	private State _currentState;
+
+	/// <summary>
+	///		Activates this State Machine and allow States to work
+	/// </summary>
+	public void Activate()
+	{
+		SetProcess(true);
+		SetPhysicsProcess(true);
+
+		_currentState.OnEnter();
+	}
 
 	/// <inheritdoc/>
 	public override void _Ready()
@@ -31,19 +37,11 @@ public partial class StateMachine : Node
 			return;
 		}
 
+		SetProcess(false);
+		SetPhysicsProcess(false);
+
 		_states.UnionWith(GetChildren().OfType<State>());
-
-		if(InitialState is not null)
-		{
-			_currentState = InitialState;
-		}
-		else
-		{
-			GD.PushWarning($"Initial State of actor [{Owner.Name}] not set. Defaulting to [{_states.First().Name}]");
-			_currentState = _states.First();
-		}
-
-		_currentState.OnEnter();
+		_currentState = _states.First();
 	}
 
 	/// <summary>

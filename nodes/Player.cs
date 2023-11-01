@@ -78,12 +78,18 @@ public partial class Player : Actor
 		}
 	}
 
-    private protected override void AfterReady()
+	/// <inheritdoc/>
+	public override void _EnterTree()
 	{
-		// TODO: 68 - Reset this value when the Input Mode is changed during gameplay
-		_retroModeEnabled = Settings.ControlScheme == ControlSchemeEnum.Retro;
-		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
-		_gunSystem = GetNode<GunSystem>("GunSystem");
+		Ready += () =>
+		{
+			// TODO: 68 - Reset this value when the Input Mode is changed during gameplay
+			_retroModeEnabled = Settings.ControlScheme == ControlSchemeEnum.Retro;
+			_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
+			_gunSystem = GetNode<GunSystem>("GunSystem");
+
+			StateMachine.Activate();
+		};
 	}
 
 	/// <inheritdoc/>
@@ -111,7 +117,7 @@ public partial class Player : Actor
 		{
 			Sprite.SetShaderMaterialParameter("iframeActive", false);
 
-			GetChildren().OfType<HurtBox>().First().CollisionLayer = (int) CollisionLayerName.HurtBoxes;
+			GetChildren().OfType<HurtBox>().First().CollisionMask = (int) CollisionLayerName.NpcHitBox;
 		};
 	}
 

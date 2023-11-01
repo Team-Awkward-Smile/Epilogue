@@ -25,8 +25,13 @@ public partial class ActorAudioPlayer : Node
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
+		if(Engine.IsEditorHint())
+		{
+			return;
+		}
+
 		// Creates an AudioStreamPlayer2D for each type of SFX available for this Actor
-		if(GenericSfxList.Any())
+		if(GenericSfxList?.Any() == true)
 		{
 			_genericSfxPlayer = new AudioStreamPlayer2D()
 			{
@@ -38,7 +43,7 @@ public partial class ActorAudioPlayer : Node
 			AddChild(_genericSfxPlayer);
 		}
 
-		if(FootstepSfxList.Any())
+		if(FootstepSfxList?.Any() == true)
 		{
 			_footstepSfxPlayer = new AudioStreamPlayer2D()
 			{

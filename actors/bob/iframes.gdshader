@@ -1,6 +1,7 @@
 shader_type canvas_item;
 
 uniform bool iframeActive = false;
+uniform vec4 blinkColor : source_color = vec4(1.0);
 
 void fragment() {
 	if(iframeActive)
@@ -9,7 +10,7 @@ void fragment() {
 		
 		if(timer >= 0.0)
 		{
-			COLOR = vec4(1.0, 1.0, 1.0, COLOR.a);
+			COLOR = vec4(blinkColor.rgb, COLOR.a);
 		}
 	}
 }

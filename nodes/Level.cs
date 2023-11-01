@@ -15,7 +15,12 @@ namespace Epilogue.nodes;
 [GlobalClass, Icon("res://nodes/icons/level.png"), Tool]
 public partial class Level : Node2D
 {
-	private PauseUI _pauseUI;
+	/// <summary>
+	///		Reference to the player character
+	/// </summary>
+    public Player Player { get; set; }
+
+    private PauseUI _pauseUI;
 	private AmmoUI _ammoUI;
 	private HPUI _hpUI;
 	private Window _console;
@@ -23,7 +28,6 @@ public partial class Level : Node2D
 	private TileMap _tileMap;
 	private PlayerEvents _playerEvents;
 	private List<Checkpoint> _checkpoints = new();
-	private Player _player;
 	private Camera _camera;
 	private CheckpointManager _checkpointManager;
 
@@ -67,6 +71,18 @@ public partial class Level : Node2D
 		}
 	}
 
+	public override void _EnterTree()
+	{
+		if(Engine.IsEditorHint())
+		{
+			return;
+		}
+
+		Player = GD.Load<PackedScene>("res://actors/bob/bob.tscn").Instantiate() as Player;
+
+		AddChild(Player);
+	}
+
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
@@ -85,8 +101,9 @@ public partial class Level : Node2D
 		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
 		_checkpointManager = GetNode<CheckpointManager>("/root/CheckpointManager");
 
-		_playerEvents.PlayerDied += RespawnPlayer;
-		_playerEvents.StateAwaitingForExecutionSpeed += () => _killPrompt.Enable();
+		_playerEvents.Connect("PlayerDied", Callable.From(RespawnPlayer));
+		_playerEvents.Connect("StateAwaitingForExecutionSpeed", Callable.From(() => _killPrompt.Enable()));
+
 		_tileMap = GetChildren().OfType<TileMap>().FirstOrDefault();
 
 		// TODO: 68 - Maybe the root CanvasLayer should also be created at run-time?
@@ -146,28 +163,20 @@ public partial class Level : Node2D
 		}
 
 		_camera = GetViewport().GetCamera2D() as Camera;
-		_player = GD.Load<PackedScene>("res://actors/bob/bob.tscn").Instantiate() as Player;
 
-		AddChild(_player);
+		Player.Position = _checkpoints.Where(c => c.Current).FirstOrDefault().Position;
 
-		_player.Position = _checkpoints.Where(c => c.Current).FirstOrDefault().Position;
-		_camera.Position = _player.Position;
-		_camera.SetCameraTarget(_player.GetNode<Node2D>("CameraAnchor"));
-
-		GetNode<Button>("%RemapControls").ButtonDown += () =>
-		{
-			GetTree().Paused = true;
-
-			var scene = GD.Load<PackedScene>("res://ui/remap/remap_controls.tscn");
-
-			GetNode<CanvasLayer>("UILayer").AddChild(scene.Instantiate());
-		};
+		_camera.Position = Player.Position;
+		_camera.SetCameraTarget(Player.GetNode<Node2D>("CameraAnchor"));
 	}
 
 	private void RespawnPlayer()
 	{
-		_playerEvents.PlayerDied -= RespawnPlayer;
-		GetTree().ReloadCurrentScene();
+		GetTree().CreateTimer(2f).Timeout += () =>
+		{
+			_playerEvents.PlayerDied -= RespawnPlayer;
+			GetTree().ReloadCurrentScene();
+		};
 	}
 
 

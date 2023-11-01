@@ -47,15 +47,16 @@ public partial class Projectile : HitBox
 			    QueueFree();
             }
 		};
-
-        BodyEntered += (Node2D body) =>
-        {
-            if(DestroyOnHit)
-            {
-			    QueueFree();
-            }
-        };
 	}
+
+    private void DamageActor(Area2D area)
+    {
+        if(area.Owner is Actor actor)
+        {
+            GD.Print($"Dealing [{Damage}] to [{actor.Name}]");
+		    actor.DealDamage(Damage);
+        }
+    }
 
 	/// <inheritdoc/>
 	public override void _PhysicsProcess(double delta)

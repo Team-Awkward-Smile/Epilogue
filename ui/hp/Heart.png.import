@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://xslolu34os0u"
-path="res://.godot/imported/Rob-rip-Sheet.png-e9635da453814f472de35973e6b75558.ctex"
+uid="uid://c6jva7n8vwo1j"
+path="res://.godot/imported/Heart.png-a5f6f6f8b8259e0eda4556d1670a34aa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://actors/rob/sprite_sheet/Rob-rip-Sheet.png"
-dest_files=["res://.godot/imported/Rob-rip-Sheet.png-e9635da453814f472de35973e6b75558.ctex"]
+source_file="res://ui/hp/Heart.png"
+dest_files=["res://.godot/imported/Heart.png-a5f6f6f8b8259e0eda4556d1670a34aa.ctex"]
 
 [params]
 

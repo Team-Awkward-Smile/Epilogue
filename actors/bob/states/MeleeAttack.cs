@@ -38,6 +38,8 @@ public partial class MeleeAttack : PlayerState
 
 			if(_enemy.IsVulnerable)
 			{
+				Engine.TimeScale = 0.1f;
+				Player.CanChangeFacingDirection = false;
 
 				_eventsSingleton = GetNode<PlayerEvents>("/root/PlayerEvents");
 
@@ -73,6 +75,8 @@ public partial class MeleeAttack : PlayerState
 
 	private async void PerformExecution(ExecutionSpeed speed)
 	{
+		Engine.TimeScale = 1f;
+
 		_eventsSingleton.ExecutionSpeedSelected -= PerformExecution;
 
 		var animation = "Combat/execution_" + speed switch
@@ -85,8 +89,7 @@ public partial class MeleeAttack : PlayerState
 
 		await ToSignal(AnimPlayer, "animation_finished");
 
-		// TODO: 68 - temporary solution, we need to think if this can break in the future
-		_enemy.DealDamage(100);
+		_enemy.Execute(speed);
 
 		StateMachine.ChangeState("Idle");
 	}
@@ -110,6 +113,7 @@ public partial class MeleeAttack : PlayerState
 
 	internal override void OnLeave()
 	{
+		Engine.TimeScale = 1f;
 		StateMachine.CanInteract = true;
 		Player.GetNode<Label>("temp_StateName").Hide();
 	}

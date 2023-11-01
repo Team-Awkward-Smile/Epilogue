@@ -10,23 +10,51 @@ namespace Epilogue.nodes;
 public partial class HitBox : Area2D
 {
 	/// <summary>
-	///		Damage caused by this HitBox
-	/// </summary>
-	[Export] private float _damage;
-
-	/// <summary>
 	///		Type of damage caused by this HitBox
 	/// </summary>
 	[Export] private DamageType _damageType;
+
+	/// <summary>
+	///		Damage caused by this HitBox
+	/// </summary>
+	[Export] public float Damage { get; set; }
+
+	public float BonusDamage { get; set; } = 0f;
+
+    public Shape2D CollisionShape
+	{
+		get => _collisionShape;
+		set
+		{
+			_collisionShape = value;
+			SpawnCollisionShape();
+		}
+	}
+
+	private Shape2D _collisionShape;
+
+	private void SpawnCollisionShape()
+	{
+		AddChild(new CollisionShape2D()
+		{
+			Shape = CollisionShape,
+		});
+	}
+
+	public void DeleteHitBox()
+	{
+		GetChild(0).QueueFree();
+	}
 
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
 		AreaEntered += (Area2D area) =>
 		{
+			GD.Print("hit");
 			if(area.Owner is Actor actor)
 			{
-				actor.DealDamage(_damage);
+				actor.DealDamage(Damage);
 			}
 		};
 
@@ -34,7 +62,7 @@ public partial class HitBox : Area2D
 		{
 			if(body is BreakableTile tile)
 			{
-				tile.DamageTile(_damage, _damageType);
+				tile.DamageTile(Damage, _damageType);
 			}
 		};
 	}
