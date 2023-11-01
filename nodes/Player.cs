@@ -25,9 +25,14 @@ public partial class Player : Actor
 	public bool RunEnabled { get; set; } = false;
 
 	/// <summary>
-	///		Handles every input related to the player and directs it to the correct place. If the input matches nothing, it is send to the currently active State for further handling
+	///		Defines if Hestmor is currently holding the secret sword found in NG+
 	/// </summary>
-	public override void _UnhandledInput(InputEvent @event)
+	public bool HoldingSword { get; set; } = false;
+
+    /// <summary>
+    ///		Handles every input related to the player and directs it to the correct place. If the input matches nothing, it is send to the currently active State for further handling
+    /// </summary>
+    public override void _UnhandledInput(InputEvent @event)
 	{
 		if(@event.IsEcho())
 		{
@@ -42,6 +47,10 @@ public partial class Player : Actor
 		{
 			RunEnabled = @event.IsPressed();
 		}
+		else if(HoldingSword && @event.IsAction(InputUtils.GetInputActionName("pickup_or_drop_gun")) && @event.IsPressed())
+		{
+			StateMachine.ChangeState("MeleeAttack");
+		}
 		else if(_gunSystem.HasGunEquipped && @event.IsAction(InputUtils.GetInputActionName("shoot")))
 		{
 			// Tries to press/release the trigger of the equipped gun. If the gun is empty when the trigger is pressed, throw it instead
@@ -53,6 +62,15 @@ public partial class Player : Actor
 		else if((_gunSystem.IsAnyGunNearby || _gunSystem.HasGunEquipped) && @event.IsActionPressed(InputUtils.GetInputActionName("pickup_or_drop_gun")))
 		{
 			_gunSystem.InteractWithGun();
+		}
+		else if(@event.IsAction("debug_add_hp") && @event.IsPressed())
+		{
+			// TODO: 189 - Remove this later, or at least move it to a better place
+			ApplyHealth(1);
+		}
+		else if(@event.IsAction("debug_remove_hp") && @event.IsPressed())
+		{
+			DealDamage(1);
 		}
 		else
 		{
@@ -66,7 +84,7 @@ public partial class Player : Actor
 		Ready += () =>
 		{
 			// TODO: 68 - Reset this value when the Input Mode is changed during gameplay
-			_retroModeEnabled = !ProjectSettings.GetSetting("global/use_modern_controls").AsBool();
+			_retroModeEnabled = Settings.ControlScheme == ControlSchemeEnum.Retro;
 			_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
 			_gunSystem = GetNode<GunSystem>("GunSystem");
 
@@ -78,6 +96,8 @@ public partial class Player : Actor
 	public override void DealDamage(float damage)
 	{
 		CurrentHealth -= damage;
+
+		_playerEvents.EmitGlobalSignal(PlayerEvents.SignalName.PlayerWasDamaged, damage, CurrentHealth);
 
 		if(CurrentHealth <= 0)
 		{
@@ -91,7 +111,7 @@ public partial class Player : Actor
 
 		Sprite.SetShaderMaterialParameter("iframeActive", true);
 
-		GetChildren().OfType<HurtBox>().First().CollisionMask = 0;
+		GetChildren().OfType<HurtBox>().First().CollisionLayer = 0;
 
 		GetTree().CreateTimer(1f).Timeout += () =>
 		{
@@ -105,6 +125,8 @@ public partial class Player : Actor
 	public override void ApplyHealth(float health)
 	{
 		CurrentHealth += health;
+
+		_playerEvents.EmitGlobalSignal("PlayerWasHealed", health, CurrentHealth);
 	}
 
 	/// <summary>
@@ -159,5 +181,12 @@ public partial class Player : Actor
 		ledgeRaycast.Position = new Vector2(0f, originalPositions.Y);
 
 		return false;
+	}
+
+	public override void MoveAndSlideWithRotation()
+	{
+		base.MoveAndSlideWithRotation();
+
+		_gunSystem.Rotation = -Rotation;
 	}
 }

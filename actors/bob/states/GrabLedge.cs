@@ -1,3 +1,4 @@
+using Epilogue.actors.hestmor.enums;
 using Epilogue.nodes;
 using Godot;
 
@@ -9,18 +10,18 @@ public partial class GrabLedge : PlayerState
 {
 	internal override void OnInput(InputEvent @event)
 	{
-		if(@event.IsActionPressed(JumpInput))
+		if(Input.IsActionJustPressed("jump"))
 		{
 			AnimPlayer.Play("ledge_climb");
 			AnimPlayer.AnimationFinished += MoveToTop;
 		}
-		else if(@event.IsActionPressed(CrouchInput))
+		else if(Input.IsActionJustPressed("crouch"))
 		{
-			StateMachine.ChangeState("Fall");
+			StateMachine.ChangeState("Fall", StateType.VerticalJump);
 		}
 	}
 
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		Player.Velocity = new Vector2(0f, 0f);
 		Player.CanChangeFacingDirection = false;

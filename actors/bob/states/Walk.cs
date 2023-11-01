@@ -1,6 +1,7 @@
+using Epilogue.actors.hestmor.enums;
 using Epilogue.global.enums;
-using Epilogue.global.singletons;
 using Epilogue.nodes;
+
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
@@ -11,31 +12,34 @@ public partial class Walk : PlayerState
 {
 	[Export] private float _walkSpeed = 100f;
 
-	private bool _canUseAnalogControls;
-
 	internal override void OnInput(InputEvent @event)
 	{
-		if(@event.IsActionPressed(JumpInput))
+		if(Input.IsActionJustPressed("jump"))
 		{
-			StateMachine.ChangeState("Jump");
+			if(Player.RayCasts["Head"].IsColliding() && !Player.RayCasts["Ledge"].IsColliding())
+			{
+				StateMachine.ChangeState("GrabLedge");
+			}
+			else
+			{
+				StateMachine.ChangeState("Jump", StateType.LowJump);
+			}
 		}
-		else if(@event.IsActionPressed(CrouchInput))
+		else if(Input.IsActionJustPressed("melee"))
+		{
+			StateMachine.ChangeState("MeleeAttack", StateType.UppercutPunch);
+		}
+		else if(Input.IsActionJustPressed("crouch"))
 		{
 			StateMachine.ChangeState("Crouch");
 		}
-		else if(@event.IsActionPressed(SlideInput))
+		else if(Input.IsActionJustPressed("slide"))
 		{
-			StateMachine.ChangeState("Slide");
+			StateMachine.ChangeState("Slide", StateType.KneeSlide);
 		}
-		else if(@event.IsActionPressed(MeleeAttackInput))
-		{
-			StateMachine.ChangeState("MeleeAttack");
-		}
-
-		_canUseAnalogControls = Settings.ControlScheme == ControlSchemeEnum.Modern;
 	}
 
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		AnimPlayer.Play("walk");
 
@@ -44,12 +48,7 @@ public partial class Walk : PlayerState
 
 	internal override void PhysicsUpdate(double delta)
 	{
-		var movementDirection = Input.GetAxis(MoveLeftDigitalInput, MoveRightDigitalInput);
-
-		if(movementDirection == 0f && _canUseAnalogControls)
-		{
-			movementDirection = Input.GetAxis(MoveLeftAnalogInput, MoveRightAnalogInput);
-		}
+		var movementDirection = Input.GetAxis("move_left", "move_right");
 
 		if(movementDirection != 0f)
 		{
@@ -60,8 +59,8 @@ public partial class Walk : PlayerState
 			velocity.Y += Gravity * (float) delta;
 			velocity.X = movementDirection * _walkSpeed * (float) delta * 60f;
 
-			if(movementDirection > 0 && Player.FacingDirection == ActorFacingDirection.Left ||
-				movementDirection < 0 && Player.FacingDirection == ActorFacingDirection.Right)
+			if((movementDirection > 0 && Player.FacingDirection == ActorFacingDirection.Left) ||
+				(movementDirection < 0 && Player.FacingDirection == ActorFacingDirection.Right))
 			{
 				velocity.X /= 2;
 			}
@@ -80,7 +79,7 @@ public partial class Walk : PlayerState
 		}
 		else if(!Player.IsOnFloor())
 		{
-			StateMachine.ChangeState("Fall");
+			StateMachine.ChangeState("Fall", StateType.LongJump);
 		}
 		else if(Player.RunEnabled)
 		{

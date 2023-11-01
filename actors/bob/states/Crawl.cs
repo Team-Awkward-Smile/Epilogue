@@ -5,13 +5,16 @@ using Epilogue.nodes;
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
+/// <summary>
+///		State that allows Hestmor to crawl on all four
+/// </summary>
 public partial class Crawl : PlayerState
 {
 	[Export] private float _crawlSpeed;
 
 	private bool _canUseAnalogControls;
 
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		AnimPlayer.Play("crawl");
 
@@ -20,12 +23,7 @@ public partial class Crawl : PlayerState
 
 	internal override void PhysicsUpdate(double delta)
 	{
-		var movementDirection = Input.GetAxis(MoveLeftDigitalInput, MoveRightDigitalInput);
-
-		if(movementDirection == 0f && _canUseAnalogControls)
-		{
-			movementDirection = Input.GetAxis(MoveLeftAnalogInput, MoveRightAnalogInput);
-		}
+		var movementDirection = Input.GetAxis("move_left", "move_right");
 
 		if(movementDirection == 0f)
 		{

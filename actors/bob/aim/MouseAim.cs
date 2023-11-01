@@ -21,36 +21,37 @@ public partial class MouseAim : Node
 	/// <inheritdoc/>
 	public override void _Process(double delta)
 	{
-		var mousePosition = GetViewport().GetMousePosition();
 		var screenSize = DisplayServer.WindowGetSize();
-		var flagX = AimDirection.None;
-		var flagY = AimDirection.None;
+		var mousePosition = (GetViewport().GetMousePosition() - (screenSize / 2)) * new Vector2(1f, -1f);
+		var angle = Mathf.RadToDeg(Mathf.Atan2(mousePosition.Y, mousePosition.X)) + 22.5f;
+		var wheelArea = Mathf.Floor(angle / 45f);
 
-		switch((int) mousePosition.X / (screenSize.X / 3))
+		var flagX = AimDirection.None;
+		var flagY = angle >= 0 ? AimDirection.Up : AimDirection.Down;
+
+		switch(Mathf.Abs(wheelArea))
 		{
 			case 0:
+				flagY = AimDirection.None;
+				flagX = AimDirection.Right;
+				break;
+
+			case 1:
+				flagX = AimDirection.Right;
+				break;
+
+			case 2:
+				flagX = AimDirection.None;
+				break;
+
+			case 3:
 				flagX = AimDirection.Left;
 				break;
 
-			case 2:
-				flagX = AimDirection.Right;
+			case 4:
+				flagY = AimDirection.None;
+				flagX = AimDirection.Left;
 				break;
-		}
-
-		switch((int) mousePosition.Y / (screenSize.Y / 3))
-		{
-			case 0:
-				flagY = AimDirection.Up;
-				break;
-
-			case 2:
-				flagY = AimDirection.Down;
-				break;
-		}
-
-		if((flagX | flagY) == AimDirection.None)
-		{
-			flagX = _actor.FacingDirection == ActorFacingDirection.Left ? AimDirection.Left : AimDirection.Right;
 		}
 
 		_aim.SetAimDirection(flagX | flagY);

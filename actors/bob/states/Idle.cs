@@ -1,7 +1,7 @@
+using Epilogue.actors.hestmor.enums;
 using Epilogue.constants;
-using Epilogue.global.enums;
-using Epilogue.global.singletons;
 using Epilogue.nodes;
+
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
@@ -10,11 +10,13 @@ namespace Epilogue.actors.hestmor.states;
 /// </summary>
 public partial class Idle : PlayerState
 {
-	private bool _canUseAnalogControls;
+	[Export] private float _sleepDelay;
+
+	private float _sleepTimer;
 
 	internal override void OnInput(InputEvent @event)
 	{
-		if(@event.IsActionPressed(JumpInput))
+		if(Input.IsActionJustPressed("jump"))
 		{
 			if(!Player.RayCasts["Head"].IsColliding() && Player.RayCasts["Feet"].IsColliding())
 			{
@@ -34,55 +36,58 @@ public partial class Idle : PlayerState
 			}
 			else
 			{
-				StateMachine.ChangeState("Jump");
+				StateMachine.ChangeState("Jump", StateType.VerticalJump);
 			}
 		}
-		else if(@event.IsActionPressed(CrouchInput))
+		else if(Input.IsActionJustPressed("crouch"))
 		{
 			StateMachine.ChangeState("Crouch");
 		}
-		else if(@event.IsActionPressed(SlideInput))
+		else if(Input.IsActionJustPressed("melee"))
 		{
-			StateMachine.ChangeState("Slide");
+			StateMachine.ChangeState("MeleeAttack", StateType.SwipeAttack);
 		}
-		else if(@event.IsActionPressed(LookUpInput))
+		else if(Input.IsActionJustPressed("slide"))
+		{
+			StateMachine.ChangeState("Slide", StateType.FrontRoll);
+		}
+		else if(Input.IsActionJustPressed("look_up"))
 		{
 			StateMachine.ChangeState("LookUp");
 		}
-		else if(@event.IsActionPressed(MeleeAttackInput))
-		{
-			StateMachine.ChangeState("MeleeAttack");
-		}
-		else if(@event.IsActionPressed(GrowlInput))
+		else if(Input.IsActionJustPressed("growl"))
 		{
 			StateMachine.ChangeState("Growl");
 		}
 	}
 
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
+		_sleepTimer = 0f;
+
 		Player.CanChangeFacingDirection = true;
 		Player.Velocity = new Vector2(0f, 0f);
 
 		AnimPlayer.Play("idle");
-
-		_canUseAnalogControls = Settings.ControlScheme == ControlSchemeEnum.Modern;
 	}
 
 	internal override void PhysicsUpdate(double delta)
 	{
-		if(!Player.IsOnFloor())
+		_sleepTimer += (float) delta;
+
+		if(_sleepTimer >= _sleepDelay)
 		{
-			StateMachine.ChangeState("Fall");
+			StateMachine.ChangeState("Sleep");
 			return;
 		}
 
-		var movement = Input.GetAxis(MoveLeftDigitalInput, MoveRightDigitalInput);
-
-		if(movement == 0f && _canUseAnalogControls)
+		if(!Player.IsOnFloor())
 		{
-			movement = Input.GetAxis(MoveLeftAnalogInput, MoveRightAnalogInput);
+			StateMachine.ChangeState("Fall", StateType.LongJump);
+			return;
 		}
+
+		var movement = Input.GetAxis("move_left", "move_right");
 
 		if(movement != 0f)
 		{
@@ -95,7 +100,7 @@ public partial class Idle : PlayerState
 			return;
 		}
 
-		if(Input.IsActionPressed(CrouchInput))
+		if(Input.IsActionPressed("crouch"))
 		{
 			StateMachine.ChangeState("Crouch");
 			return;

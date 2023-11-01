@@ -16,7 +16,7 @@ public partial class Growl : PlayerState
 	private Area2D _growlArea2D;
 	private GrowlData _growlData;
 
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		Player.CanChangeFacingDirection = false;
 

@@ -69,14 +69,8 @@ public abstract partial class Actor : CharacterBody2D
 		StateMachine = GetChildren().OfType<StateMachine>().FirstOrDefault();
 		AnimationPlayer = GetChildren().OfType<AnimationPlayer>().FirstOrDefault();
 		HurtBox = GetChildren().OfType<HurtBox>().FirstOrDefault();
-
-		HurtBox.AreaEntered += (Area2D area) =>
-		{
-			if(area is HitBox hitbox)
-			{
-				DealDamage(hitbox.Damage + hitbox.BonusDamage);
-			}
-		};
+		
+		AfterReady();
 	}
 
 	/// <summary>
@@ -106,7 +100,7 @@ public abstract partial class Actor : CharacterBody2D
 	/// <summary>
 	///		Just like the regular MoveAndSlide, but rotates the Actor if the movement occurred on a slope
 	/// </summary>
-	public void MoveAndSlideWithRotation()
+	public virtual void MoveAndSlideWithRotation()
 	{
 		MoveAndSlide();
 

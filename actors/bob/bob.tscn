@@ -1,34 +1,36 @@
-[gd_scene load_steps=60 format=3 uid="uid://cmrbm1u6fwi67"]
+[gd_scene load_steps=76 format=3 uid="uid://cmrbm1u6fwi67"]
 
-[ext_resource type="Script" path="res://nodes/Player.cs" id="1_g24jq"]
-[ext_resource type="Script" path="res://nodes/StateMachine.cs" id="2_p5geq"]
-[ext_resource type="Script" path="res://actors/bob/states/Walk.cs" id="3_w8im5"]
-[ext_resource type="Script" path="res://actors/bob/states/Jump.cs" id="4_3reg8"]
-[ext_resource type="Script" path="res://actors/bob/states/Idle.cs" id="5_lltg7"]
-[ext_resource type="Script" path="res://actors/bob/states/Fall.cs" id="6_un635"]
-[ext_resource type="Script" path="res://actors/bob/states/Crouch.cs" id="7_jc8ae"]
-[ext_resource type="Script" path="res://actors/bob/states/MeleeAttack.cs" id="8_hq4o6"]
-[ext_resource type="Script" path="res://actors/bob/states/GrabLedge.cs" id="9_y47pb"]
-[ext_resource type="Script" path="res://actors/bob/states/Slide.cs" id="10_cqknj"]
-[ext_resource type="Script" path="res://actors/bob/states/Run.cs" id="11_135sc"]
-[ext_resource type="Script" path="res://actors/bob/states/LookUp.cs" id="12_g6usy"]
-[ext_resource type="Script" path="res://actors/bob/states/Vault.cs" id="13_q4ntp"]
-[ext_resource type="Script" path="res://actors/bob/states/Growl.cs" id="14_gg4hg"]
-[ext_resource type="Script" path="res://actors/bob/states/Die.cs" id="15_s8ay1"]
-[ext_resource type="Script" path="res://actors/bob/states/TakeDamage.cs" id="16_8rbq3"]
-[ext_resource type="Script" path="res://actors/bob/states/Crawl.cs" id="17_xa620"]
-[ext_resource type="Script" path="res://actors/bob/AudioPlayer.cs" id="18_dv3e2"]
-[ext_resource type="Script" path="res://actors/bob/aim/Aim.cs" id="19_xahbl"]
-[ext_resource type="Script" path="res://actors/bob/aim/MouseAim.cs" id="20_75jq6"]
-[ext_resource type="Script" path="res://actors/bob/aim/ButtonAim.cs" id="21_bhbxr"]
-[ext_resource type="Script" path="res://actors/bob/aim/StickAim.cs" id="22_y8re4"]
-[ext_resource type="Script" path="res://actors/bob/CameraAnchor.cs" id="23_7ajnc"]
-[ext_resource type="Shader" path="res://actors/bob/iframes.gdshader" id="24_itwmy"]
-[ext_resource type="Texture2D" uid="uid://df2a87s4cukqq" path="res://actors/bob/sprite_sheet/epilogue_bob-Sheet.png" id="25_dq4m4"]
-[ext_resource type="Script" path="res://actors/bob/FootstepFxManager.cs" id="26_v4af2"]
-[ext_resource type="Script" path="res://nodes/AttackHitBox.cs" id="27_vabke"]
-[ext_resource type="Script" path="res://actors/bob/GunSystem.cs" id="28_7fwgx"]
-[ext_resource type="Script" path="res://nodes/HurtBox.cs" id="29_lc8y2"]
+[ext_resource type="Script" path="res://nodes/Player.cs" id="1_cnm5v"]
+[ext_resource type="Script" path="res://nodes/StateMachine.cs" id="2_uvkgn"]
+[ext_resource type="Script" path="res://actors/bob/states/Walk.cs" id="3_c6fjf"]
+[ext_resource type="Script" path="res://actors/bob/states/Jump.cs" id="4_ugcua"]
+[ext_resource type="Script" path="res://actors/bob/states/Idle.cs" id="5_k3jq6"]
+[ext_resource type="Script" path="res://actors/bob/states/Fall.cs" id="6_jk3ap"]
+[ext_resource type="Script" path="res://actors/bob/states/Crouch.cs" id="7_4d6ym"]
+[ext_resource type="Script" path="res://actors/bob/states/MeleeAttack.cs" id="8_35lol"]
+[ext_resource type="Script" path="res://actors/bob/states/GrabLedge.cs" id="9_ob3b3"]
+[ext_resource type="Script" path="res://actors/bob/states/Slide.cs" id="10_ktjo8"]
+[ext_resource type="Script" path="res://actors/bob/states/Run.cs" id="11_akqxd"]
+[ext_resource type="Script" path="res://actors/bob/states/LookUp.cs" id="12_n5xtt"]
+[ext_resource type="Script" path="res://actors/bob/states/Vault.cs" id="13_53ruh"]
+[ext_resource type="Script" path="res://actors/bob/states/Growl.cs" id="14_r17oe"]
+[ext_resource type="Script" path="res://actors/bob/states/Die.cs" id="15_be3o0"]
+[ext_resource type="Script" path="res://actors/bob/states/TakeDamage.cs" id="16_6xa0i"]
+[ext_resource type="Script" path="res://actors/bob/states/Crawl.cs" id="17_twf4d"]
+[ext_resource type="Script" path="res://actors/bob/AudioPlayer.cs" id="18_ucai5"]
+[ext_resource type="Script" path="res://actors/bob/states/Sleep.cs" id="18_vh44x"]
+[ext_resource type="Script" path="res://actors/bob/aim/Aim.cs" id="19_imqwf"]
+[ext_resource type="Script" path="res://actors/bob/aim/MouseAim.cs" id="20_ja3mh"]
+[ext_resource type="Script" path="res://actors/bob/aim/ButtonAim.cs" id="21_y6wuk"]
+[ext_resource type="Script" path="res://actors/bob/aim/StickAim.cs" id="22_vq52y"]
+[ext_resource type="Script" path="res://actors/bob/CameraAnchor.cs" id="23_7fw8f"]
+[ext_resource type="Shader" path="res://actors/bob/iframes.gdshader" id="24_ne6t2"]
+[ext_resource type="Texture2D" uid="uid://df2a87s4cukqq" path="res://actors/bob/sprite_sheet/epilogue_bob-Sheet.png" id="25_k53r2"]
+[ext_resource type="Script" path="res://actors/bob/FootstepFxManager.cs" id="26_xlqom"]
+[ext_resource type="Script" path="res://nodes/AttackHitBox.cs" id="27_3ycpy"]
+[ext_resource type="Script" path="res://actors/bob/GunSystem.cs" id="29_7wd37"]
+[ext_resource type="Script" path="res://nodes/HurtBox.cs" id="30_5ul0a"]
+[ext_resource type="Texture2D" uid="uid://dcj6nrh0f0uxd" path="res://temp/sword_melee.png" id="31_vndi6"]
 
 [sub_resource type="Animation" id="Animation_1kqj8"]
 length = 0.001
@@ -116,6 +118,54 @@ tracks/6/keys = {
 "update": 0,
 "values": [Vector2(5, 13)]
 }
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("../temp_SwordSlash:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("../temp_SwordSlash:frame_coords")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 0)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("../../GunSystem:visible")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("../AttackHitBox:position")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(22, -34)]
+}
 
 [sub_resource type="Animation" id="Animation_woke4"]
 resource_name = "crawl"
@@ -172,50 +222,6 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [44.0, 38.0, 34.0, 32.0]
-}
-
-[sub_resource type="Animation" id="Animation_q1ggx"]
-resource_name = "Jumping_descend"
-length = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [Vector2i(3, 4)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [Vector2(0, -29)]
-}
-
-[sub_resource type="Animation" id="Animation_pq8q2"]
-resource_name = "Jumping_land"
-length = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [Vector2i(4, 4)]
 }
 
 [sub_resource type="Animation" id="Animation_wktmx"]
@@ -303,22 +309,6 @@ tracks/1/keys = {
 "values": [Vector2(0, -29)]
 }
 
-[sub_resource type="Animation" id="Animation_elm64"]
-resource_name = "Jumping_ascend"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [Vector2i(1, 4), Vector2i(2, 4)]
-}
-
 [sub_resource type="Animation" id="Animation_pblvt"]
 resource_name = "ledge_climb"
 length = 0.5
@@ -385,38 +375,6 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(-17, -10)]
-}
-
-[sub_resource type="Animation" id="Animation_jnuox"]
-resource_name = "Slide_end"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [Vector2i(2, 6), Vector2i(3, 6)]
-}
-
-[sub_resource type="Animation" id="Animation_16j02"]
-resource_name = "Slide_start"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [Vector2i(0, 6), Vector2i(1, 6)]
 }
 
 [sub_resource type="Animation" id="Animation_d6sxh"]
@@ -522,16 +480,11 @@ _data = {
 "RESET": SubResource("Animation_1kqj8"),
 "crawl": SubResource("Animation_woke4"),
 "crouch": SubResource("Animation_tuj5i"),
-"fall": SubResource("Animation_q1ggx"),
-"fall_land": SubResource("Animation_pq8q2"),
 "grab_ledge": SubResource("Animation_wktmx"),
 "grab_wall": SubResource("Animation_jdrsw"),
 "idle": SubResource("Animation_gq830"),
-"jump": SubResource("Animation_elm64"),
 "ledge_climb": SubResource("Animation_pblvt"),
 "ledge_look": SubResource("Animation_v5gsv"),
-"slide_end": SubResource("Animation_jnuox"),
-"slide_start": SubResource("Animation_16j02"),
 "vault": SubResource("Animation_d6sxh"),
 "walk": SubResource("Animation_ebhnp")
 }
@@ -660,14 +613,11 @@ tracks/2/path = NodePath("../AttackHitBox")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.3, 0.5),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
 "values": [{
-"args": ["res://actors/bob/hitboxes/melee_1.tres"],
+"args": ["res://actors/bob/hitboxes/melee_1.tres", 0.2],
 "method": &"SpawnHitBox"
-}, {
-"args": [],
-"method": &"DestroyHitBox"
 }]
 }
 tracks/3/type = "value"
@@ -680,7 +630,64 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0.3),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(18, -34)]
+"values": [Vector2(22, -34)]
+}
+
+[sub_resource type="Animation" id="Animation_8ebfb"]
+resource_name = "sword_slash"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../temp_SwordSlash:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../temp_SwordSlash:frame_coords")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0), Vector2i(3, 0), Vector2i(4, 0)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../AttackHitBox")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": ["res://actors/bob/hitboxes/sword_slash.tres"],
+"method": &"SpawnHitBox"
+}, {
+"args": [],
+"method": &"DestroyHitBox"
+}]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../../GunSystem:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
 }
 
 [sub_resource type="Animation" id="Animation_isw63"]
@@ -705,6 +712,7 @@ _data = {
 "execution_fast": SubResource("Animation_6bxxv"),
 "execution_slow": SubResource("Animation_earni"),
 "melee_attack": SubResource("Animation_2kxuw"),
+"sword_slash": SubResource("Animation_8ebfb"),
 "take_damage": SubResource("Animation_isw63")
 }
 
@@ -805,8 +813,268 @@ _data = {
 "growl_weak": SubResource("Animation_ahcne")
 }
 
+[sub_resource type="Animation" id="Animation_ikh56"]
+resource_name = "Jumping_descend"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(3, 4)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(0, -29)]
+}
+
+[sub_resource type="Animation" id="Animation_eye6k"]
+resource_name = "Jumping_land"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(4, 4)]
+}
+
+[sub_resource type="Animation" id="Animation_366b3"]
+resource_name = "Jumping_ascend"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2i(1, 4), Vector2i(2, 4)]
+}
+
+[sub_resource type="Animation" id="Animation_tawkj"]
+resource_name = "vertical_jump_down"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(4, 30)]
+}
+
+[sub_resource type="Animation" id="Animation_3mj63"]
+resource_name = "vertical_jump_land"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2i(5, 30), Vector2i(6, 30), Vector2i(7, 30)]
+}
+
+[sub_resource type="Animation" id="Animation_lyyfw"]
+resource_name = "vertical_jump"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 30), Vector2i(1, 30), Vector2i(2, 30), Vector2i(3, 30)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jehkr"]
+_data = {
+"long_jump_down": SubResource("Animation_ikh56"),
+"long_jump_land": SubResource("Animation_eye6k"),
+"long_jump_up": SubResource("Animation_366b3"),
+"vertical_jump_down": SubResource("Animation_tawkj"),
+"vertical_jump_land": SubResource("Animation_3mj63"),
+"vertical_jump_up": SubResource("Animation_lyyfw")
+}
+
+[sub_resource type="Animation" id="Animation_x5hpn"]
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2i(6, 29), Vector2i(7, 29), Vector2i(8, 29)]
+}
+
+[sub_resource type="Animation" id="Animation_ywd33"]
+resource_name = "sleep_loop"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2i(0, 28), Vector2i(1, 28)]
+}
+
+[sub_resource type="Animation" id="Animation_l8fwb"]
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 29), Vector2i(1, 29), Vector2i(2, 29), Vector2i(3, 29)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_teqgy"]
+_data = {
+"sleep_end": SubResource("Animation_x5hpn"),
+"sleep_loop": SubResource("Animation_ywd33"),
+"sleep_start": SubResource("Animation_l8fwb")
+}
+
+[sub_resource type="Animation" id="Animation_ng51n"]
+resource_name = "knee_slide_end"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(4, 26)]
+}
+
+[sub_resource type="Animation" id="Animation_ccxtp"]
+resource_name = "knee_slide_start"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 26), Vector2i(1, 26), Vector2i(2, 26), Vector2i(3, 26)]
+}
+
+[sub_resource type="Animation" id="Animation_tie4s"]
+resource_name = "long_slide_end"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2i(2, 6), Vector2i(3, 6)]
+}
+
+[sub_resource type="Animation" id="Animation_0lctv"]
+resource_name = "long_slide_start"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2i(0, 6), Vector2i(1, 6)]
+}
+
+[sub_resource type="Animation" id="Animation_y7pas"]
+resource_name = "roll_slide_start"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 25), Vector2i(1, 25), Vector2i(2, 25), Vector2i(3, 25), Vector2i(4, 25), Vector2i(5, 25), Vector2i(6, 25), Vector2i(7, 25), Vector2i(8, 25)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_re833"]
+_data = {
+"knee_slide_end": SubResource("Animation_ng51n"),
+"knee_slide_start": SubResource("Animation_ccxtp"),
+"long_slide_end": SubResource("Animation_tie4s"),
+"long_slide_start": SubResource("Animation_0lctv"),
+"roll_slide_start": SubResource("Animation_y7pas")
+}
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yy212"]
-shader = ExtResource("24_itwmy")
+shader = ExtResource("24_ne6t2")
 shader_parameter/iframeActive = false
 shader_parameter/blinkColor = Color(1, 1, 1, 1)
 
@@ -821,6 +1089,9 @@ height = 46.0
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_swilf"]
 height = 50.0
 
+[sub_resource type="LabelSettings" id="LabelSettings_akv03"]
+font_size = 11
+
 [node name="Bob" type="CharacterBody2D" groups=["Player"]]
 collision_mask = 8
 floor_constant_speed = true
@@ -829,7 +1100,7 @@ floor_snap_length = 5.0
 platform_on_leave = 2
 platform_floor_layers = 4294901768
 platform_wall_layers = 8
-script = ExtResource("1_g24jq")
+script = ExtResource("1_cnm5v")
 MaxHealth = 3.0
 CurrentHealth = 3.0
 
@@ -838,85 +1109,89 @@ root_node = NodePath("../FlipRoot/Sprite2D")
 libraries = {
 "": SubResource("AnimationLibrary_hko5d"),
 "Combat": SubResource("AnimationLibrary_ty2th"),
-"Growl": SubResource("AnimationLibrary_r43ip")
+"Growl": SubResource("AnimationLibrary_r43ip"),
+"Jump": SubResource("AnimationLibrary_jehkr"),
+"Sleep": SubResource("AnimationLibrary_teqgy"),
+"Slide": SubResource("AnimationLibrary_re833")
 }
 
 [node name="StateMachine" type="Node" parent="."]
-script = ExtResource("2_p5geq")
+script = ExtResource("2_uvkgn")
 
 [node name="Walk" type="Node" parent="StateMachine"]
-script = ExtResource("3_w8im5")
+script = ExtResource("3_c6fjf")
 
 [node name="Jump" type="Node" parent="StateMachine"]
-script = ExtResource("4_3reg8")
+script = ExtResource("4_ugcua")
 _jumpSpeed = -365.0
 
 [node name="Idle" type="Node" parent="StateMachine"]
-script = ExtResource("5_lltg7")
+script = ExtResource("5_k3jq6")
+_sleepDelay = 5.0
 
 [node name="Fall" type="Node" parent="StateMachine"]
-script = ExtResource("6_un635")
+script = ExtResource("6_jk3ap")
 
 [node name="Crouch" type="Node" parent="StateMachine"]
-script = ExtResource("7_jc8ae")
+script = ExtResource("7_4d6ym")
 
 [node name="MeleeAttack" type="Node" parent="StateMachine"]
-script = ExtResource("8_hq4o6")
+script = ExtResource("8_35lol")
 
 [node name="GrabLedge" type="Node" parent="StateMachine"]
-script = ExtResource("9_y47pb")
+script = ExtResource("9_ob3b3")
 
 [node name="Slide" type="Node" parent="StateMachine"]
-script = ExtResource("10_cqknj")
+script = ExtResource("10_ktjo8")
 
 [node name="Run" type="Node" parent="StateMachine"]
-script = ExtResource("11_135sc")
+script = ExtResource("11_akqxd")
 
 [node name="LookUp" type="Node" parent="StateMachine"]
-script = ExtResource("12_g6usy")
+script = ExtResource("12_n5xtt")
 
 [node name="Vault" type="Node" parent="StateMachine"]
-script = ExtResource("13_q4ntp")
+script = ExtResource("13_53ruh")
 
 [node name="Growl" type="Node" parent="StateMachine"]
-script = ExtResource("14_gg4hg")
-_weakGrowlRadius = 100.0
-_mediumGrowlRadius = 200.0
-_strongGrowlRadius = 300.0
+script = ExtResource("14_r17oe")
 
 [node name="Die" type="Node" parent="StateMachine"]
-script = ExtResource("15_s8ay1")
+script = ExtResource("15_be3o0")
 
 [node name="TakeDamage" type="Node" parent="StateMachine"]
-script = ExtResource("16_8rbq3")
+script = ExtResource("16_6xa0i")
 
 [node name="Crawl" type="Node" parent="StateMachine"]
-script = ExtResource("17_xa620")
+script = ExtResource("17_twf4d")
 _crawlSpeed = 50.0
 
+[node name="Sleep" type="Node" parent="StateMachine"]
+script = ExtResource("18_vh44x")
+
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-script = ExtResource("18_dv3e2")
+script = ExtResource("18_ucai5")
 
 [node name="Aim" type="Node" parent="." groups=["InputType"]]
 editor_description = "Base Node to control the aiming system, regardless of the input method"
-script = ExtResource("19_xahbl")
+script = ExtResource("19_imqwf")
 
 [node name="MouseAim" type="Node" parent="Aim"]
 editor_description = "Node to control aiming with a mouse"
-script = ExtResource("20_75jq6")
+script = ExtResource("20_ja3mh")
 
 [node name="ButtonAim" type="Node" parent="Aim"]
 editor_description = "Node to control aiming with buttons (either from a keyboard or from a controller)"
-script = ExtResource("21_bhbxr")
+script = ExtResource("21_y6wuk")
 
 [node name="StickAim" type="Node" parent="Aim"]
 editor_description = "Node to control aiming with an analog stick"
-script = ExtResource("22_y8re4")
+script = ExtResource("22_vq52y")
 
 [node name="CameraAnchor" type="Node2D" parent="."]
 editor_description = "Node that serves as the anchor for the Camera. Moving this Node also moves the Camera"
 position = Vector2(18, -18)
-script = ExtResource("23_7ajnc")
+script = ExtResource("23_7fw8f")
 
 [node name="FlipRoot" type="Node2D" parent="."]
 
@@ -947,9 +1222,9 @@ collision_mask = 8
 [node name="Sprite2D" type="Sprite2D" parent="FlipRoot" groups=["MainSprite"]]
 material = SubResource("ShaderMaterial_yy212")
 position = Vector2(0, -30)
-texture = ExtResource("25_dq4m4")
+texture = ExtResource("25_k53r2")
 hframes = 11
-vframes = 23
+vframes = 31
 frame = 22
 
 [node name="LedgeAnchor" type="Node2D" parent="FlipRoot/Sprite2D"]
@@ -957,7 +1232,7 @@ editor_description = "Node used by the Ledge Grab State to move the character to
 position = Vector2(5, 13)
 
 [node name="FootstepFx" type="Node" parent="FlipRoot"]
-script = ExtResource("26_v4af2")
+script = ExtResource("26_xlqom")
 
 [node name="LeftFoot" type="Node2D" parent="FlipRoot/FootstepFx"]
 position = Vector2(-12, 0)
@@ -966,18 +1241,24 @@ position = Vector2(-12, 0)
 position = Vector2(-21, 0)
 
 [node name="AttackHitBox" type="Area2D" parent="FlipRoot"]
-position = Vector2(18, -34)
+position = Vector2(22, -34)
 collision_layer = 16
 collision_mask = 32
-script = ExtResource("27_vabke")
-HitBoxDamage = 1.0
+script = ExtResource("27_3ycpy")
+
+[node name="temp_SwordSlash" type="Sprite2D" parent="FlipRoot"]
+visible = false
+position = Vector2(7, -27)
+scale = Vector2(0.13, 0.13)
+texture = ExtResource("31_vndi6")
+hframes = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["MainHitbox"]]
 position = Vector2(0, -22)
 shape = SubResource("CapsuleShape2D_b5eh5")
 
 [node name="GunSystem" type="Node2D" parent="."]
-script = ExtResource("28_7fwgx")
+script = ExtResource("29_7wd37")
 
 [node name="PickupRange" type="Area2D" parent="GunSystem"]
 editor_description = "Area used by the game to detect when a gun is in range to be picked up"
@@ -997,11 +1278,22 @@ position = Vector2(18, -1)
 
 [node name="HurtBox" type="Area2D" parent="."]
 collision_layer = 32
-collision_mask = 256
-script = ExtResource("29_lc8y2")
+collision_mask = 16
+script = ExtResource("30_5ul0a")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="HurtBox"]
 visibility_layer = 2
 position = Vector2(0, -25)
 shape = SubResource("CapsuleShape2D_swilf")
 debug_color = Color(0.835294, 0.356863, 0.419608, 0.419608)
+
+[node name="temp_StateName" type="Label" parent="."]
+visible = false
+offset_left = -31.0
+offset_top = -68.0
+offset_right = 38.0
+offset_bottom = -45.0
+text = "STATE_NAME"
+label_settings = SubResource("LabelSettings_akv03")
+horizontal_alignment = 1
+vertical_alignment = 1

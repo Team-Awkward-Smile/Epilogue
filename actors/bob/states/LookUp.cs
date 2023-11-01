@@ -18,7 +18,7 @@ public partial class LookUp : PlayerState
 
 	internal override void OnInput(InputEvent @event)
 	{
-		if(@event.IsActionReleased(LookUpInput))
+		if(Input.IsActionJustReleased("look_up"))
 		{
 			_raiseCameraTween?.Stop();
 
@@ -26,7 +26,7 @@ public partial class LookUp : PlayerState
 		}
 	}
 
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		_isCameraMoving = false;
 		_timer = 0f;

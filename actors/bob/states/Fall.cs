@@ -1,3 +1,4 @@
+using Epilogue.actors.hestmor.enums;
 using Epilogue.constants;
 using Epilogue.nodes;
 using Godot;
@@ -11,13 +12,32 @@ public partial class Fall : PlayerState
 {
 	private bool _playLandingAnimation = true;
 	private bool _canGrabLedge;
+	private StateType _jumpType;
+	private string _animation;
+	private JumpData _jumpData;
 
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
+		if(args.Length > 1)
+		{
+			_jumpData = (JumpData) args[1];
+		}
+		else
+		{
+			_jumpData = new();
+		}
+
+		_jumpType = (StateType) args[0];
+		_animation = _jumpType switch 
+		{
+			StateType.VerticalJump => "vertical",
+			_ => "long"
+		};
+
 		_canGrabLedge = false;
 		_playLandingAnimation = true;
 
-		AnimPlayer.Play("fall");
+		AnimPlayer.Play($"Jump/{_animation}_jump_down");
 		Player.CanChangeFacingDirection = true;
 
 		GetTree().CreateTimer(0.1f).Timeout += () => _canGrabLedge = true;
@@ -25,6 +45,9 @@ public partial class Fall : PlayerState
 
 	internal override void PhysicsUpdate(double delta)
 	{
+		_jumpData.MaxSpeed = new(Mathf.Max(_jumpData.MaxSpeed.X, Player.Velocity.X), Mathf.Min(_jumpData.MaxSpeed.Y, Player.Velocity.Y));
+		_jumpData.Duration += (float) delta;
+
 		if(_canGrabLedge && Player.IsOnWall() && Player.SweepForLedge(out var ledgePosition))
 		{
 			var offset = Player.RayCasts["Head"].GlobalPosition.Y - ledgePosition.Y;
@@ -50,6 +73,14 @@ public partial class Fall : PlayerState
 
 		if(Player.IsOnFloor())
 		{
+			_jumpData.EndPosition = Player.Position;
+
+			GD.PrintRich($"\n[b]Jump Data[/b]:\n" +
+			$"- Distance: {_jumpData.Distance}\n" +
+			$"- Max Speed: {_jumpData.MaxSpeed}\n" +
+			$"- Duration: {_jumpData.Duration} s\n" +
+			$"- Tiles: {_jumpData.Tiles}");
+
 			StateMachine.ChangeState("Idle");
 		}
 	}
@@ -62,7 +93,7 @@ public partial class Fall : PlayerState
 		}
 
 		AudioPlayer.PlayGenericSfx("Land");
-		AnimPlayer.Play("fall_land");
+		AnimPlayer.Play($"Jump/{_animation}_jump_land");
 
 		await ToSignal(AnimPlayer, "animation_finished");
 	}

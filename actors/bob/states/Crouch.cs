@@ -10,13 +10,13 @@ public partial class Crouch : PlayerState
 {
 	internal override void OnInput(InputEvent @event)
 	{
-		if(@event.IsActionReleased(CrouchInput))
+		if(@event.IsActionReleased("crouch", true))
 		{
 			StateMachine.ChangeState("Idle");
 		}
 	}
 
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		Player.CanChangeFacingDirection = false;
 

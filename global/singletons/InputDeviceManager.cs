@@ -1,10 +1,13 @@
 using Epilogue.global.enums;
+using Epilogue.input_icons;
+
 using Godot;
 
 namespace Epilogue.global.singletons;
 /// <summary>
 ///		Singleton that controls inputs read from the player
 /// </summary>
+[Tool]
 public partial class InputDeviceManager : Node
 {
 	/// <summary>
@@ -46,15 +49,32 @@ public partial class InputDeviceManager : Node
 		{
 			InputEventJoypadButton => InputTypeEnum.Controller,
 			InputEventJoypadMotion => InputTypeEnum.Controller,
-			_ => InputTypeEnum.Keyboard
+			_ => InputTypeEnum.PC
 		};
 
 		if(_newInputType != MostRecentInputType)
 		{
 			MostRecentInputType = _newInputType;
 
-			// Calls every Node from the "InputType" group, telling them to run their respectives update routines
-			GetTree().CallGroup("InputType", "InputTypeUpdate", (int) MostRecentInputType);
+			// Calls every Node from the "InputReadingUpdatesSubscribers" group, telling them to run their respectives update routines
+			GetTree().CallGroup("InputReadingUpdatesSubscribers", "UpdateInputReading");
 		}
+	}
+
+	/// <summary>
+	///		Maps an InputEvent to it's corresponding icon. Used to display events as icons on-screen, regardless of the original event
+	/// </summary>
+	/// <param name="event">Event to be mapped (must be a <see cref="InputEventMouseButton"/>, <see cref="InputEventJoypadButton"/>, or <see cref="InputEventJoypadMotion"/>)</param>
+	/// <returns>A CompressedTexture2D of the corresponding icon, based on the InputEvent and the brand of controller selected by the player</returns>
+	public static CompressedTexture2D GetKeyIcon(InputEvent @event)
+	{
+		if(@event is InputEventKey)
+		{
+			return PcIconMapper.GetIconForEvent(@event);
+		}
+
+		var brand = (InputDeviceBrand) ProjectSettings.GetSetting("epilogue/controls/controller_type").AsInt16();
+
+		return ControllerInputMapper.GetIconForEvent(brand, @event);
 	}
 }

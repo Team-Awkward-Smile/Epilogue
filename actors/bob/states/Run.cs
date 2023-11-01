@@ -1,6 +1,7 @@
+using Epilogue.actors.hestmor.enums;
 using Epilogue.global.enums;
-using Epilogue.global.singletons;
 using Epilogue.nodes;
+
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
@@ -11,18 +12,16 @@ public partial class Run : PlayerState
 {
 	[Export] private float _runSpeed = 200f;
 
-	private bool _canUseAnalogControls;
-
 	internal override void OnInput(InputEvent @event)
 	{
-		if(@event.IsActionPressed(JumpInput))
+		if(Input.IsActionJustPressed("jump"))
 		{
 			if(Player.IsOnWall())
 			{
 				if(Player.RayCasts["Head"].IsColliding())
 				{
 					// Is near a wall
-					StateMachine.ChangeState("Jump");
+					StateMachine.ChangeState("Jump", StateType.LongJump);
 				}
 				else
 				{
@@ -32,36 +31,29 @@ public partial class Run : PlayerState
 			}
 			else
 			{
-				StateMachine.ChangeState("Jump");
+				StateMachine.ChangeState("Jump", StateType.LongJump);
 			}
 		}
-		else if(@event.IsActionPressed(SlideInput))
+		else if(Input.IsActionJustPressed("melee"))
 		{
-			StateMachine.ChangeState("Slide");
+			StateMachine.ChangeState("MeleeAttack", StateType.SlideAttack);
 		}
-		else if(@event.IsActionPressed(MeleeAttackInput))
+		else if(Input.IsActionJustPressed("slide"))
 		{
-			StateMachine.ChangeState("MeleeAttack");
+			StateMachine.ChangeState("Slide", StateType.LongSlide);
 		}
 	}
 
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		AnimPlayer.Play("walk", -1, 2f);
 
 		Player.CanChangeFacingDirection = true;
-
-		_canUseAnalogControls = Settings.ControlScheme == ControlSchemeEnum.Modern;
 	}
 
 	internal override void PhysicsUpdate(double delta)
 	{
-		var movementDirection = Input.GetAxis(MoveLeftDigitalInput, MoveRightDigitalInput);
-
-		if(movementDirection == 0f && _canUseAnalogControls)
-		{
-			movementDirection = Input.GetAxis(MoveLeftAnalogInput, MoveRightAnalogInput);
-		}
+		var movementDirection = Input.GetAxis("move_left", "move_right");
 
 		if(movementDirection != 0f)
 		{
@@ -92,7 +84,7 @@ public partial class Run : PlayerState
 		}
 		else if(!Player.IsOnFloor())
 		{
-			StateMachine.ChangeState("Fall");
+			StateMachine.ChangeState("Fall", StateType.LongJump);
 		}
 		else if(!Player.RunEnabled)
 		{

@@ -2,6 +2,7 @@
 using Epilogue.global.enums;
 using Epilogue.global.singletons;
 using Epilogue.nodes;
+using Epilogue.props;
 using Epilogue.util;
 
 using Godot;
@@ -26,7 +27,6 @@ public partial class GunSystem : Node2D
 
     private Aim _aim;
 	private Area2D _pickupArea;
-	private Actor _actor;
 	private Gun _currentGun;
 	private Node2D _aimingArm;
 	private Node2D _gunAnchor;
@@ -49,8 +49,6 @@ public partial class GunSystem : Node2D
 		{
 			GD.PrintErr($"Pickup Area not defined for Actor [{Owner.Name}]. Guns won't be able to be picked up");
 		}
-
-		_actor = (Actor) Owner;
 
 		_aim.AimAngleUpdated += UpdateGunRotation;
 
@@ -84,7 +82,10 @@ public partial class GunSystem : Node2D
 	{
 		if(HasGunEquipped)
 		{
-			DropGun();
+			if(_currentGun is not Sword)
+			{
+				DropGun();
+			}
 		}
 		else
 		{
@@ -104,6 +105,11 @@ public partial class GunSystem : Node2D
 		_currentGun.Position = new Vector2(0f, 0f);
 
 		_gunEvents.EmitGlobalSignal("PlayerPickedUpGun", _currentGun.CurrentAmmoCount, _currentGun.MaxAmmoCount);
+
+		if(_currentGun is Sword)
+		{
+			((Player) Owner).HoldingSword = true;
+		}
 	}
 
 	/// <summary>
@@ -121,6 +127,8 @@ public partial class GunSystem : Node2D
 	/// </summary>
 	private void DropGun()
 	{
+		InteractWithTrigger(false);
+
 		var oldGun = UnequipGun();
 
 		if(oldGun.CurrentAmmoCount == 0)
@@ -139,7 +147,7 @@ public partial class GunSystem : Node2D
 
 		_currentGun.GetParent().RemoveChild(_currentGun);
 
-		GetTree().Root.AddChild(_currentGun);
+		GetTree().GetLevel().AddChild(_currentGun);
 
 		if(keepRotation)
 		{

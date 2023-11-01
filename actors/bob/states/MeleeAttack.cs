@@ -1,3 +1,4 @@
+using Epilogue.actors.hestmor.enums;
 using Epilogue.global.enums;
 using Epilogue.global.singletons;
 using Epilogue.nodes;
@@ -9,13 +10,25 @@ namespace Epilogue.actors.hestmor.states;
 /// </summary>
 public partial class MeleeAttack : PlayerState
 {
+	[Export] private float _slideAttackSpeed = 150f;
+
 	private CollisionShape2D _hitbox;
 	private PlayerEvents _eventsSingleton;
 	private Npc _enemy;
+	private StateType _attackType;
 
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		// The attack audio is controlled by the animation
+
+		Player.CanChangeFacingDirection = false;
+
+		_attackType = (StateType) args[0];
+
+		var label = Player.GetNode<Label>("temp_StateName");
+
+		label.Text = _attackType.ToString();
+		label.Show();
 
 		StateMachine.CanInteract = false;
 
@@ -37,7 +50,26 @@ public partial class MeleeAttack : PlayerState
 			}
 		}
 
-		AnimPlayer.Play("Combat/melee_attack");
+		if(Player.HoldingSword)
+		{
+			AnimPlayer.Play("Combat/sword_slash");
+		}
+		else
+		{
+			var animation = _attackType switch
+			{
+				StateType.SlideAttack => "slide_attack",
+				_ => "melee_attack",
+			};
+
+			AnimPlayer.Play($"Combat/{animation}");
+
+			if(_attackType == StateType.SlideAttack)
+			{
+				Player.Velocity = new Vector2(_slideAttackSpeed * (Player.FacingDirection == ActorFacingDirection.Left ? -1 : 1), 0f);
+			}
+		}
+
 		AnimPlayer.AnimationFinished += FinishAttack;
 	}
 
@@ -62,6 +94,16 @@ public partial class MeleeAttack : PlayerState
 		StateMachine.ChangeState("Idle");
 	}
 
+	internal override void PhysicsUpdate(double delta)
+	{
+		if(_attackType != StateType.SlideAttack)
+		{
+			return;
+		}
+
+		Player.MoveAndSlideWithRotation();
+	}
+
 	private void FinishAttack(StringName animName)
 	{
 		AnimPlayer.AnimationFinished -= FinishAttack;
@@ -73,5 +115,6 @@ public partial class MeleeAttack : PlayerState
 	{
 		Engine.TimeScale = 1f;
 		StateMachine.CanInteract = true;
+		Player.GetNode<Label>("temp_StateName").Hide();
 	}
 }

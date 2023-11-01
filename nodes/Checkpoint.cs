@@ -49,7 +49,7 @@ public partial class Checkpoint : Area2D
 
 		BodyEntered += (Node2D body) =>	EmitSignal(SignalName.CheckpointTriggered);
 
-		if(ProjectSettings.GetSetting("debug/show_checkpoints").AsBool())
+		if(ProjectSettings.GetSetting("epilogue/debug/show_checkpoints").AsBool())
 		{
 			SetCheckpointState(CheckpointState.Inactive);
 		}
@@ -59,9 +59,13 @@ public partial class Checkpoint : Area2D
 		}
 	}
 
+	/// <summary>
+	///		Sets a new state for this Checkpoint. Used only for visual debugging, has no effect on how the Checkpoint works
+	/// </summary>
+	/// <param name="state"></param>
 	public void SetCheckpointState(CheckpointState state)
 	{
-		if(!ProjectSettings.GetSetting("debug/show_checkpoints").AsBool())
+		if(!ProjectSettings.GetSetting("epilogue/debug/show_checkpoints").AsBool())
 		{
 			return;
 		}

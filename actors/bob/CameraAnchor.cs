@@ -7,6 +7,9 @@ namespace Epilogue.actors.hestmor;
 /// </summary>
 public partial class CameraAnchor : Node2D
 {
+	/// <summary>
+	///		Defines if the Anchor will automatically follow the player around
+	/// </summary>
 	public bool FollowPlayer { get; set; } = true;
 
     private Node2D _target;

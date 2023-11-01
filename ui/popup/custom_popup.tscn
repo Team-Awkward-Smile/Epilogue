@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://58wtagi4x44h"]
+
+[ext_resource type="Script" path="res://ui/popup/CustomPopup.cs" id="1_dkv24"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wwmk5"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.764706, 0.545098, 0.4, 1)
+expand_margin_left = 10.0
+expand_margin_top = 10.0
+expand_margin_right = 10.0
+expand_margin_bottom = 10.0
+shadow_offset = Vector2(5, 5)
+
+[node name="CustomPopup" type="AcceptDialog"]
+initial_position = 1
+size = Vector2i(115, 100)
+unresizable = true
+theme_override_styles/panel = SubResource("StyleBoxFlat_wwmk5")
+script = ExtResource("1_dkv24")

@@ -39,13 +39,14 @@ public partial class Aim : Node
 	/// <summary>
 	///		Method that runs whenever the Input Type changes
 	/// </summary>
-	private void InputTypeUpdate(InputTypeEnum inputType)
+	private void UpdateInputReading()
 	{
+		var inputType = InputDeviceManager.MostRecentInputType ?? InputTypeEnum.PC;
 		var mouseAim = GetChild(0);
 		var buttonAim = GetChild(1);
 		var stickAim = GetChild(2);
 
-		mouseAim.ProcessMode = inputType == InputTypeEnum.Keyboard && Settings.ControlScheme == ControlSchemeEnum.Modern ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
+		mouseAim.ProcessMode = inputType == InputTypeEnum.PC && Settings.ControlScheme == ControlSchemeEnum.Modern ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
 		buttonAim.ProcessMode = Settings.ControlScheme == ControlSchemeEnum.Retro ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
 		stickAim.ProcessMode = inputType == InputTypeEnum.Controller && Settings.ControlScheme == ControlSchemeEnum.Modern ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
 	}
@@ -54,7 +55,7 @@ public partial class Aim : Node
 	public override void _Ready()
 	{
 		_actor = (Actor) Owner;
-		InputTypeUpdate(InputDeviceManager.MostRecentInputType ?? InputTypeEnum.Keyboard);
+		UpdateInputReading();
 	}
 
 	/// <summary>

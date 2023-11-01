@@ -1,0 +1,54 @@
+[gd_scene load_steps=3 format=3 uid="uid://bgbk573aiope"]
+
+[ext_resource type="Script" path="res://ui/achievements/AchievementPopup.cs" id="1_ja3u2"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_nnagg"]
+size = Vector2(50, 50)
+
+[node name="AchievementPopup" type="Control"]
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+grow_horizontal = 2
+mouse_filter = 2
+script = ExtResource("1_ja3u2")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_right = 250.0
+offset_bottom = 150.0
+grow_horizontal = 2
+color = Color(0.203922, 0.203922, 0.203922, 0.752941)
+
+[node name="Icon" type="TextureRect" parent="ColorRect"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 15.0
+offset_right = 136.0
+offset_bottom = 136.0
+texture = SubResource("PlaceholderTexture2D_nnagg")
+
+[node name="Name" type="Label" parent="ColorRect"]
+layout_mode = 0
+offset_left = 159.0
+offset_top = 20.0
+offset_right = 482.0
+offset_bottom = 46.0
+text = "ACHIEVEMENT_NAME"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Description" type="Label" parent="ColorRect"]
+layout_mode = 0
+offset_left = 153.0
+offset_top = 54.0
+offset_right = 487.0
+offset_bottom = 140.0
+text = "ACHIEVEMENT_DESCRIPTION"
+horizontal_alignment = 1
+vertical_alignment = 1
