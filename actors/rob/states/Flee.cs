@@ -4,7 +4,7 @@ using Godot;
 
 public partial class Flee : NpcState
 {
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		GetTree().CreateTimer(Npc.CustomVariables["FleeDuration"].AsSingle()).Timeout += () => StateMachine.ChangeState("Move");
 		AnimPlayer.Play("walk", -1, 2, true);

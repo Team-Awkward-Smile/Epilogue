@@ -6,7 +6,7 @@ namespace Epilogue.actors.rob.states;
 /// </summary>
 public partial class Stun : NpcState
 {
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		AnimPlayer.PlayBackwards("Combat/stun");
 

@@ -30,7 +30,7 @@
 [ext_resource type="Script" path="res://nodes/AttackHitBox.cs" id="27_3ycpy"]
 [ext_resource type="Script" path="res://actors/bob/GunSystem.cs" id="29_7wd37"]
 [ext_resource type="Script" path="res://nodes/HurtBox.cs" id="30_5ul0a"]
-[ext_resource type="Texture2D" uid="uid://dcj6nrh0f0uxd" path="res://temp/sword_melee.png" id="31_vndi6"]
+[ext_resource type="Texture2D" path="res://temp/sword_melee.png" id="31_vndi6"]
 
 [sub_resource type="Animation" id="Animation_1kqj8"]
 length = 0.001
@@ -1224,7 +1224,7 @@ material = SubResource("ShaderMaterial_yy212")
 position = Vector2(0, -30)
 texture = ExtResource("25_k53r2")
 hframes = 11
-vframes = 31
+vframes = 32
 frame = 22
 
 [node name="LedgeAnchor" type="Node2D" parent="FlipRoot/Sprite2D"]
@@ -1243,8 +1243,9 @@ position = Vector2(-21, 0)
 [node name="AttackHitBox" type="Area2D" parent="FlipRoot"]
 position = Vector2(22, -34)
 collision_layer = 16
-collision_mask = 32
+collision_mask = 512
 script = ExtResource("27_3ycpy")
+Damage = 1.0
 
 [node name="temp_SwordSlash" type="Sprite2D" parent="FlipRoot"]
 visible = false

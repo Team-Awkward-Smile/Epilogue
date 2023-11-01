@@ -7,7 +7,7 @@ public partial class Move : NpcState
 {
 	private bool _isIdle = false;
 
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		Npc.CanChangeFacingDirection = true;
 		AnimPlayer.PlayBackwards("walk");

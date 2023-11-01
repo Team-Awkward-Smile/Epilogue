@@ -69,8 +69,6 @@ public abstract partial class Actor : CharacterBody2D
 		StateMachine = GetChildren().OfType<StateMachine>().FirstOrDefault();
 		AnimationPlayer = GetChildren().OfType<AnimationPlayer>().FirstOrDefault();
 		HurtBox = GetChildren().OfType<HurtBox>().FirstOrDefault();
-		
-		AfterReady();
 	}
 
 	/// <summary>

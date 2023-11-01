@@ -32,7 +32,6 @@ public partial class Rob : Npc
 
 	private protected override void OnGrowl(float effectStrength)
 	{
-		GD.Print(effectStrength / 10f);
 		CustomVariables["FleeDuration"] = effectStrength / 10f;
 		StateMachine.ChangeState("Flee");
 	}

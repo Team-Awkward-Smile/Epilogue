@@ -7,7 +7,7 @@ public partial class Wander : NpcState
 {
 	[Export] private float _wanderSpeed = 50f;
 
-	internal override async void OnEnter()
+	internal override async void OnEnter(params object[] args)
 	{
 		Npc.WaitingForNavigationQuery = true;
 

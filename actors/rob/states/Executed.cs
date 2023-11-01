@@ -5,7 +5,7 @@ using Godot;
 
 public partial class Executed : NpcState
 {
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		Npc.Sprite.SetShaderMaterialParameter("iframeActive", false);
 

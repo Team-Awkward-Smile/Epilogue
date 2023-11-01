@@ -6,7 +6,7 @@ using System;
 namespace Epilogue.actors.rob.states;
 public partial class Shoot : NpcState
 {
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		Npc.TurnTowards(Player);
 

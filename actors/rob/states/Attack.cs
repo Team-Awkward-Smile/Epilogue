@@ -4,7 +4,7 @@ using Godot;
 
 public partial class Attack : NpcState
 {
-	internal override void OnEnter()
+	internal override void OnEnter(params object[] args)
 	{
 		Npc.CanChangeFacingDirection = false;
 
