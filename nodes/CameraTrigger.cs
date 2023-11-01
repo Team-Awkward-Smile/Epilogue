@@ -1,6 +1,7 @@
 using Epilogue.props.camera;
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Epilogue.nodes;
@@ -13,16 +14,27 @@ public partial class CameraTrigger : Area2D
     [ExportGroup("Debug"), Export] private bool _hideDuringGame = false;
     [ExportGroup("Properties"), Export] private float _cameraZoom = 3f;
     [Export] private float _zoomDeltaTime = 0.2f;
-    [Export] private CameraBlockDirection _cameraBlockDirection;
+    [Export] private CameraBlockDirection _cameraBlockDirection
+    {
+        get => _cameraBlock_bk;
+        set 
+        {
+            _cameraBlock_bk = value;
+            QueueRedraw();
+        }
+    }
 
     private bool _showInfoBackup = true;
     private Camera _camera;
+    private CameraBlockDirection _cameraBlock_bk;
+    private CollisionShape2D _collision;
 
     public override void _EnterTree()
     {
         if(GetChildCount() > 0)
         {
-            GetChildren().OfType<CollisionShape2D>().First().DebugColor = new Color(246f / 255, 217f / 255, 30f / 255, 107f / 255);
+            _collision = GetChildren().OfType<CollisionShape2D>().First();
+            _collision.DebugColor = new Color(246f / 255, 217f / 255, 30f / 255, 107f / 255);
         }
 
         ZIndex = 100;
@@ -41,7 +53,6 @@ public partial class CameraTrigger : Area2D
         }
 
         BodyEntered += OnBodyEntered;
-        BodyExited += OnBodyExited;
     }
 
     private void OnBodyEntered(Node2D body)
@@ -85,13 +96,43 @@ public partial class CameraTrigger : Area2D
         }
     }
 
-    private void OnBodyExited(Node2D body)
+    public override void _Draw()
     {
-        _camera.ResetZoom();
-
-        if(_cameraBlockDirection != 0)
+        if(_cameraBlockDirection == 0)
         {
-            _camera.ResetLimits();
+            return;
+        }
+
+        var points = new List<Vector2>();
+        var bounds = _collision.Shape.GetRect();
+
+        if(_cameraBlockDirection.HasFlag(CameraBlockDirection.Left))
+        {
+            points.Add(new(_collision.Position.X - (bounds.Size.X / 2), _collision.Position.Y - (bounds.Size.Y / 2)));
+            points.Add(new (_collision.Position.X - (bounds.Size.X / 2), _collision.Position.Y + (bounds.Size.Y / 2)));
+        }
+
+        if(_cameraBlockDirection.HasFlag(CameraBlockDirection.Right))
+        {
+            points.Add(new(_collision.Position.X + (bounds.Size.X / 2), _collision.Position.Y - (bounds.Size.Y / 2)));
+            points.Add(new (_collision.Position.X + (bounds.Size.X / 2), _collision.Position.Y + (bounds.Size.Y / 2)));
+        }
+
+        if(_cameraBlockDirection.HasFlag(CameraBlockDirection.Top))
+        {
+            points.Add(new(_collision.Position.X - (bounds.Size.X / 2), _collision.Position.Y - (bounds.Size.Y / 2)));
+            points.Add(new (_collision.Position.X + (bounds.Size.X / 2), _collision.Position.Y - (bounds.Size.Y / 2)));
+        }
+
+        if(_cameraBlockDirection.HasFlag(CameraBlockDirection.Bottom))
+        {
+            points.Add(new(_collision.Position.X - (bounds.Size.X / 2), _collision.Position.Y + (bounds.Size.Y / 2)));
+            points.Add(new (_collision.Position.X + (bounds.Size.X / 2), _collision.Position.Y + (bounds.Size.Y / 2)));
+        }
+
+        if(points.Count > 0)
+        {
+            DrawMultiline(points.ToArray(), new Color(1f, 0f, 0f), 20f);
         }
     }
 

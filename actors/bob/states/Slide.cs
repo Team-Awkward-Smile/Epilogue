@@ -104,8 +104,8 @@ public partial class Slide : PlayerState
 			raycast.Enabled = true;
 			raycast.ForceRaycastUpdate();
 
-			// The Slide will only end if Hestmor has enough room to stand up
-			if(!raycast.IsColliding())
+			// The Slide will only end if Hestmor has enough room to stand up and she's not on a slope
+			if(!raycast.IsColliding() && Player.GetFloorAngle() == 0f)
 			{
 				_slideFinished = true;
 
