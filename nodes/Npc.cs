@@ -23,6 +23,8 @@ public abstract partial class Npc : Actor
 
     [Export] private float _vulnerabilityTimer;
 
+    [Export] private bool _useDefaultPathfinding = true;
+
     /// <summary>
     ///     Defines if this NPC is Vulnerable and able to be Executed
     /// </summary>
@@ -102,23 +104,27 @@ public abstract partial class Npc : Actor
 	{
         base._Ready();
 
-		await ToSignal(GetTree(), "physics_frame");
-
-		var navigationAgents = GetChildren().OfType<NavigationAgent2D>();
-
-		PlayerNavigationAgent2D = navigationAgents.Where(na => na.Name.ToString().Contains("Player")).First();
-		WanderNavigationAgent2D = navigationAgents.Where(na => na.Name.ToString().Contains("Wander")).First();
 		Player = GetTree().GetLevel().Player;
-		PlayerNavigationAgent2D.TargetPosition = Player.GlobalPosition;
 
-		await ToSignal(GetTree(), "physics_frame");
+        if(_useDefaultPathfinding)
+        {
+		    await ToSignal(GetTree(), "physics_frame");
 
-		IsPlayerReachable = PlayerNavigationAgent2D.IsTargetReachable();
+		    var navigationAgents = GetChildren().OfType<NavigationAgent2D>();
+
+		    PlayerNavigationAgent2D = navigationAgents.Where(na => na.Name.ToString().Contains("Player")).First();
+		    WanderNavigationAgent2D = navigationAgents.Where(na => na.Name.ToString().Contains("Wander")).First();
+		    PlayerNavigationAgent2D.TargetPosition = Player.GlobalPosition;
+
+		    await ToSignal(GetTree(), "physics_frame");
+
+		    IsPlayerReachable = PlayerNavigationAgent2D.IsTargetReachable();
+        }
+
         BloodEmitter = GetChildren().OfType<BloodEmitter>().FirstOrDefault();
         PlayerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
 
         PlayerEvents.Connect(PlayerEvents.SignalName.PlayerDied, Callable.From(OnPlayerDeath));
-
         StateMachine.Activate();
 	}
 
@@ -193,7 +199,7 @@ public abstract partial class Npc : Actor
 	public override async void _PhysicsProcess(double delta)
 	{
 		// Queries a new path to the Player if the Player moved too far away from the last position
-		if(!WaitingForNavigationQuery && Player.GlobalPosition.DistanceTo(PlayerNavigationAgent2D.TargetPosition) > Constants.PATH_REQUERY_THRESHOLD_DISTANCE)
+		if(_useDefaultPathfinding && !WaitingForNavigationQuery && Player.GlobalPosition.DistanceTo(PlayerNavigationAgent2D.TargetPosition) > Constants.PATH_REQUERY_THRESHOLD_DISTANCE)
 		{
 			WaitingForNavigationQuery = true;
 

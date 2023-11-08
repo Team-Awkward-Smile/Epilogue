@@ -1,0 +1,81 @@
+[gd_scene load_steps=13 format=3 uid="uid://cqctp6a75hq70"]
+
+[ext_resource type="Script" path="res://actors/icarasia/Icarasia.cs" id="1_7ax2p"]
+[ext_resource type="Texture2D" uid="uid://bup128r2rr1cn" path="res://temp/icarasia.png" id="2_yqo4e"]
+[ext_resource type="Material" uid="uid://bs1uvctvkmvg7" path="res://base_resources/blood_particle.tres" id="3_e5i7h"]
+[ext_resource type="Script" path="res://nodes/BloodEmitter.cs" id="4_5558n"]
+[ext_resource type="Script" path="res://nodes/HurtBox.cs" id="5_ya76l"]
+[ext_resource type="Script" path="res://nodes/StateMachine.cs" id="6_v5vys"]
+[ext_resource type="Script" path="res://actors/icarasia/states/Move.cs" id="7_5t0xq"]
+[ext_resource type="Script" path="res://actors/icarasia/states/Wander.cs" id="7_kx17q"]
+[ext_resource type="Script" path="res://actors/icarasia/states/Idle.cs" id="9_h2wkk"]
+[ext_resource type="Script" path="res://actors/icarasia/states/Shoot.cs" id="10_1skb5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_51ab6"]
+radius = 6.08276
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4alh5"]
+
+[node name="Icarasia" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 0
+motion_mode = 1
+script = ExtResource("1_7ax2p")
+VulnerabilityThreshold = 1.0
+_vulnerabilityTimer = 5.0
+_useDefaultPathfinding = false
+MaxHealth = 2.0
+CurrentHealth = 2.0
+
+[node name="FlipRoot" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="FlipRoot"]
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("2_yqo4e")
+
+[node name="ProjectilePivot" type="Node2D" parent="FlipRoot"]
+
+[node name="ProjectileSpawn" type="Node2D" parent="FlipRoot/ProjectilePivot"]
+position = Vector2(11, 0)
+
+[node name="ProjectileRayCast2D" type="RayCast2D" parent="FlipRoot"]
+enabled = false
+target_position = Vector2(200, 0)
+collision_mask = 9
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2)
+shape = SubResource("CircleShape2D_51ab6")
+
+[node name="BloodEmitter" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 50
+process_material = ExtResource("3_e5i7h")
+one_shot = true
+explosiveness = 1.0
+script = ExtResource("4_5558n")
+BloodColor = Color(0.858824, 0.156863, 0.478431, 1)
+
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 512
+collision_mask = 16
+script = ExtResource("5_ya76l")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="HurtBox"]
+shape = SubResource("CircleShape2D_4alh5")
+debug_color = Color(0.929412, 0.235294, 0.317647, 0.419608)
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("6_v5vys")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("9_h2wkk")
+
+[node name="Move" type="Node" parent="StateMachine"]
+script = ExtResource("7_5t0xq")
+
+[node name="Wander" type="Node" parent="StateMachine"]
+script = ExtResource("7_kx17q")
+
+[node name="Shoot" type="Node" parent="StateMachine"]
+script = ExtResource("10_1skb5")

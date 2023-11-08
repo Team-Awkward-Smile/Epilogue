@@ -23,7 +23,7 @@ public partial class Shoot : NpcState
 	public void SpawnProjectile()
 	{
 		var _projectile = GD.Load<PackedScene>("res://actors/rob/projectiles/projectile.tscn").Instantiate() as Projectile;
-		GetTree().Root.AddChild(_projectile);
+		GetTree().GetLevel().AddChild(_projectile);
 
 		_projectile.GlobalTransform = GetNode<Node2D>("../../FlipRoot/ProjectileSpawn").GlobalTransform;
 	}

@@ -13,4 +13,4 @@ angle_min = 5.0
 angle_max = 10.0
 scale_min = 2.0
 scale_max = 3.0
-color = Color(0.752941, 0.117647, 0.254902, 0.976471)
+color = Color(0.858824, 0.156863, 0.478431, 1)

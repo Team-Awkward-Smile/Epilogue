@@ -35,6 +35,8 @@ file_logging/enable_file_logging=true
 
 [display]
 
+window/stretch/mode="viewport"
+window/stretch/scale_mode="integer"
 window/vsync/vsync_mode=0
 
 [dotnet]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://cjolarkdk5yoi"]
+[gd_scene load_steps=23 format=3 uid="uid://cjolarkdk5yoi"]
 
 [ext_resource type="Script" path="res://nodes/Level.cs" id="1_o245g"]
 [ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_pfrwm"]
@@ -16,11 +16,10 @@
 [ext_resource type="Script" path="res://nodes/HitBox.cs" id="13_o5dos"]
 [ext_resource type="TileSet" uid="uid://c2hf2m205a0qe" path="res://temp/tileset.tres" id="15_1ohv8"]
 [ext_resource type="PackedScene" uid="uid://cegk1cph0llpn" path="res://props/checkpoint/checkpoint.tscn" id="18_utu6l"]
-[ext_resource type="PackedScene" uid="uid://c7cpj3m2vojlm" path="res://actors/rob/rob.tscn" id="19_l7obw"]
 [ext_resource type="Script" path="res://temp/NewGamePlusPath.cs" id="19_owmbm"]
 [ext_resource type="PackedScene" uid="uid://cjogekv61ycm5" path="res://props/sword/sword.tscn" id="19_t8n6g"]
 [ext_resource type="PackedScene" uid="uid://6a8rb567c64u" path="res://props/breakable_tiles/test_breakable_tile.tscn" id="20_cneke"]
-[ext_resource type="Script" path="res://nodes/TestDummy.cs" id="21_tnd04"]
+[ext_resource type="PackedScene" uid="uid://cqctp6a75hq70" path="res://actors/icarasia/icarasia.tscn" id="21_bggsq"]
 [ext_resource type="Script" path="res://temp/AchievmentTimer.cs" id="21_tq176"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nkpyu"]
@@ -195,9 +194,5 @@ position = Vector2(315, -117)
 [node name="BreakableTile5" parent="BreakableTiles" instance=ExtResource("20_cneke")]
 position = Vector2(315, -135)
 
-[node name="TestDummy" type="Node2D" parent="."]
-position = Vector2(311.457, -190.836)
-script = ExtResource("21_tnd04")
-
-[node name="Rob" parent="." instance=ExtResource("19_l7obw")]
-position = Vector2(366, -53)
+[node name="Icarasia" parent="." instance=ExtResource("21_bggsq")]
+position = Vector2(317, -161)
