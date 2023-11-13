@@ -38,21 +38,23 @@ public partial class Settings : Node
 	/// <inheritdoc/>
 	public override void _EnterTree()
 	{
-		if(ResourceLoader.Exists(SETTINGS_FILE))
+		if(!ResourceLoader.Exists(SETTINGS_FILE))
 		{
-			var settings = ResourceLoader.Load<SettingsResource>(SETTINGS_FILE);
+			LoadDefaultSettings();
+			SaveSettings();
+		}
 
-			ControlScheme = settings.ControlScheme;
+		var settings = ResourceLoader.Load<SettingsResource>(SETTINGS_FILE);
 
-			foreach(var action in settings.InputMap)
+		ControlScheme = settings.ControlScheme;
+
+		foreach(var action in settings.InputMap)
+		{
+			foreach(var @event in action.Value)
 			{
-				foreach(var @event in action.Value)
-				{
-					InputMap.ActionAddEvent(action.Key, @event);
-				}
+				InputMap.ActionAddEvent(action.Key, @event);
 			}
 		}
-		GD.Print(ControlScheme);
 	}
 
 	/// <summary>
@@ -67,6 +69,21 @@ public partial class Settings : Node
 		};
 
 		ResourceSaver.Save(settings, SETTINGS_FILE);
+	}
+
+	private static void LoadDefaultSettings()
+	{
+		var actions = InputMap.GetActions().Where(a => !a.ToString().StartsWith("ui_") && !a.ToString().EndsWith("modern") && !a.ToString().EndsWith("retro"));
+
+		foreach(var a in actions)
+		{
+			var events = InputMap.ActionGetEvents($"{a}_{ControlScheme.ToString().ToLower()}");
+
+			foreach(var e in events)
+			{
+				InputMap.ActionAddEvent(a, e);
+			}
+		}
 	}
 
 	private static Dictionary<StringName, Array<InputEvent>> GetInputMap()
