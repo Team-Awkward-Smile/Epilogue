@@ -30,7 +30,7 @@
 [ext_resource type="Script" path="res://nodes/AttackHitBox.cs" id="27_3ycpy"]
 [ext_resource type="Script" path="res://actors/bob/GunSystem.cs" id="29_7wd37"]
 [ext_resource type="Script" path="res://nodes/HurtBox.cs" id="30_5ul0a"]
-[ext_resource type="Texture2D" path="res://temp/sword_melee.png" id="31_vndi6"]
+[ext_resource type="Texture2D" uid="uid://dcj6nrh0f0uxd" path="res://temp/sword_melee.png" id="31_vndi6"]
 
 [sub_resource type="Animation" id="Animation_1kqj8"]
 length = 0.001
