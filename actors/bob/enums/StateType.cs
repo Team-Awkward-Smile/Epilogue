@@ -1,6 +1,3 @@
-using Godot;
-using System;
-
 namespace Epilogue.actors.hestmor.enums;
 /// <summary>
 ///		Represents different information about States
@@ -10,7 +7,7 @@ public enum StateType
 	/// <summary>
 	///		A jump that goes directly up
 	/// </summary>
-	VerticalJump,
+	StandingJump,
 
 	/// <summary>
 	///		A jump that goes up and forward

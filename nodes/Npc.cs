@@ -2,10 +2,7 @@ using Epilogue.constants;
 using Epilogue.extensions;
 using Epilogue.global.enums;
 using Epilogue.global.singletons;
-
 using Godot;
-using Godot.Collections;
-
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,7 +10,7 @@ namespace Epilogue.nodes;
 /// <summary>
 ///     Base Node for every NPC in the game
 /// </summary>
-[GlobalClass, Icon("res://nodes/icons/npc.png")]
+[Icon("res://nodes/icons/npc.png")]
 public abstract partial class Npc : Actor
 {
     /// <summary>
@@ -79,22 +76,24 @@ public abstract partial class Npc : Actor
     public float GrowlEffectResistance { get; set; } = 0f;
 
     /// <summary>
-    ///     Custom variables implemented by each NPC to be used during gameplay
-    /// </summary>
-    public Dictionary<string, Variant> CustomVariables { get; set; } = new();
-
-    /// <summary>
     ///     Defines if this NPC is waiting for the NavigationServer to update, pausing it's path-finding in the process
     /// </summary>
     public bool WaitingForNavigationQuery { get; set; }
+    
+    /// <summary>
+    ///     Duration (in seconds) that this NPC will remain stunned
+    /// </summary>
+    public float StunTimer { get; set; }
+
+    private protected NpcStateMachine _npcStateMachine;
 
     private float _vulnerabilityElapsedTime = 0f;
     private bool _isStunned = false;
 
+    /// <inheritdoc/>
 	public override void _EnterTree()
 	{
-		CustomVariables["StunTimer"] = _vulnerabilityTimer;
-        SetUpVariables();
+		StunTimer = _vulnerabilityTimer;
 	}
 
 	/// <inheritdoc/>
@@ -106,8 +105,8 @@ public abstract partial class Npc : Actor
 
 		var navigationAgents = GetChildren().OfType<NavigationAgent2D>();
 
-		PlayerNavigationAgent2D = navigationAgents.Where(na => na.Name.ToString().Contains("Player")).First();
-		WanderNavigationAgent2D = navigationAgents.Where(na => na.Name.ToString().Contains("Wander")).First();
+		PlayerNavigationAgent2D = navigationAgents.First(na => na.Name.ToString().Contains("Player"));
+		WanderNavigationAgent2D = navigationAgents.First(na => na.Name.ToString().Contains("Wander"));
 		Player = GetTree().GetLevel().Player;
 		PlayerNavigationAgent2D.TargetPosition = Player.GlobalPosition;
 
@@ -119,7 +118,8 @@ public abstract partial class Npc : Actor
 
         PlayerEvents.Connect(PlayerEvents.SignalName.PlayerDied, Callable.From(OnPlayerDeath));
 
-        StateMachine.Activate();
+        _npcStateMachine = GetChildren().OfType<NpcStateMachine>().First();
+        _npcStateMachine.Activate();
 	}
 
 	/// <summary>
@@ -223,90 +223,57 @@ public abstract partial class Npc : Actor
     ///     Method used by each NPC that needs to run logic every frame, regardless of it's current State
     /// </summary>
     /// <param name="delta"></param>
-    private protected virtual void ProcessFrame(double delta) { }
+    private protected abstract void ProcessFrame(double delta);
 
     /// <summary>
     ///     Method that runs whenever this NPC becomes Vulnerable for the first time
-    ///     Default: Change to State "Stun"
     /// </summary>
-    private protected virtual void OnVulnerabilityTriggered()
-    {
-        IsVulnerable = true;
-		Sprite.SetShaderMaterialParameter("iframeActive", true);
-        StateMachine.ChangeState("Stun");
-    }
+    private protected abstract void OnVulnerabilityTriggered();
 
     /// <summary>
     ///     Method that runs whenever this NPC's HP drops to 0
-    ///     Default: Change to State "Die"
     /// </summary>
-    private protected virtual void OnHealthDepleted()
-    {
-		StateMachine.ChangeState("Die");
-    }
+    private protected abstract void OnHealthDepleted();
 
     /// <summary>
     ///     Method that runs whenever this NPC takes damage
-    ///     Default: do nothing
     /// </summary>
     /// <param name="damage">Damage taken by the NPC</param>
     /// <param name="currentHp">Current HP of this NPC, after damage was applied</param>
-    private protected virtual void OnDamageTaken(float damage, float currentHp) { }
+    private protected abstract void OnDamageTaken(float damage, float currentHp);
 
     /// <summary>
     ///     Method that runs whenever this NPC is executed
-    ///     Default: Change to State "Executed" on a Slow Execution, or "Die" on a Fast Execution
     /// </summary>
     /// <param name="executionSpeed"></param>
-    private protected virtual void OnExecutionPerformed(ExecutionSpeed executionSpeed)
-    {
-        if(executionSpeed == ExecutionSpeed.Slow)
-        {
-            StateMachine.ChangeState("Executed");
-        }
-        else
-        {
-            StateMachine.ChangeState("Die");
-        }
-    }
+    private protected abstract void OnExecutionPerformed(ExecutionSpeed executionSpeed);
 
     /// <summary>
     ///     Method that runs whenever this NPC is affected by Hestmor's Growl
-    ///     Default: do nothing
     /// </summary>
     /// <param name="effectStrength">Strength of the Growl applied to this NPC</param>
-    private protected virtual void OnGrowl(float effectStrength) { }
-
-    /// <summary>
-    ///     Method used to set up anything needed by each NPC when it's Ready
-    /// </summary>
-    private protected virtual void SetUpVariables() { }
+    private protected abstract void OnGrowl(float effectStrength);
 
     /// <summary>
     ///     Method that runs whenever this NPC gets Stunned
-    ///     Default: change to State "Stun"
     /// </summary>
-    private protected virtual void OnStunTriggered()
-    {
-        StateMachine.ChangeState("Stun");
-    }
+    private protected abstract void OnStunTriggered();
 
     /// <summary>
     ///     Method that runs whenever the Stunned condition affecting this NPC ends
-    ///     Default: do nothing
     /// </summary>
-    private protected virtual void OnStunExpired() { }
+    private protected abstract void OnStunExpired();
 
     /// <summary>
     ///     Method that runs whenever the Player dies
-    ///     Default: change to State "Wander"
     /// </summary>
-    private protected virtual void OnPlayerDeath()
-    {
-        IsPlayerReachable = false;
-        StateMachine.ChangeState("Wander");
-    }
+    private protected abstract void OnPlayerDeath();
 
+    /// <summary>
+    ///     Updates the Wander NavigationAgent2D with the informed point. 
+    ///     This update takes a random amount of time (between 0 and 10 frames) to make sure that the Navigation Server is not accessed by more than 1 Node at the same time
+    /// </summary>
+    /// <param name="position">The position that will be assigned to the WanderNavigationAgent2D after 0 ~ 10 frames</param>
     public async Task UpdatePathToWander(Vector2 position)
     {
         var rng = new RandomNumberGenerator();

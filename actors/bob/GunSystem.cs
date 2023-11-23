@@ -1,12 +1,9 @@
 ﻿using Epilogue.actors.hestmor.aim;
-using Epilogue.global.enums;
+using Epilogue.extensions;
 using Epilogue.global.singletons;
 using Epilogue.nodes;
 using Epilogue.props;
-using Epilogue.util;
-
 using Godot;
-
 using System.Linq;
 
 namespace Epilogue.actors.hestmor;

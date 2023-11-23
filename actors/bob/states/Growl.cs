@@ -1,26 +1,43 @@
 using Godot;
 using Epilogue.nodes;
 using Epilogue.global.enums;
-using Epilogue.actors.hestmor;
 
-namespace Epilogue.actors.hestmot.states;
-/// <summary>
-///		State that allows Hestmor to growl and taunt nearby enemies
-/// </summary>
-public partial class Growl : PlayerState
+namespace Epilogue.actors.hestmor.states;
+/// <inheritdoc/>
+public partial class Growl : State
 {
-	[Export] private float _weakGrowlRadius;
-	[Export] private float _mediumGrowlRadius;
-	[Export] private float _strongGrowlRadius;
+	private readonly float _weakGrowlRadius;
+	private readonly float _mediumGrowlRadius;
+	private readonly float _strongGrowlRadius;
+	private readonly Player _player;
 
 	private Area2D _growlArea2D;
 	private GrowlData _growlData;
 
+	/// <summary>
+	/// 	State that allows Hestmor to growl and taunt nearby enemies
+	/// </summary>
+	/// <param name="stateMachine">State that allows Hestmor to grab, hang from, and climb ledges</param>
+	/// <param name="weakGrowlRadius">The radius (in pixels) of the Weak Growl</param>
+	/// <param name="mediumGrowlRadius">The radius (in pixels) of the Medium Growl</param>
+	/// <param name="strongGrowlRadius">The radius (in pixels) of the Strong Growl</param>
+	public Growl(
+		StateMachine stateMachine,
+		float weakGrowlRadius,
+		float mediumGrowlRadius,
+		float strongGrowlRadius) : base(stateMachine)
+		{
+			_player = (Player) stateMachine.Owner;
+			_weakGrowlRadius = weakGrowlRadius;
+			_mediumGrowlRadius = mediumGrowlRadius;
+			_strongGrowlRadius = strongGrowlRadius;
+		}
+
 	internal override void OnEnter(params object[] args)
 	{
-		Player.CanChangeFacingDirection = false;
+		_player.CanChangeFacingDirection = false;
 
-		_growlData = Player.CurrentHealth switch
+		_growlData = _player.CurrentHealth switch
 		{
 			1 => new GrowlData()
 			{
@@ -55,11 +72,14 @@ public partial class Growl : PlayerState
 		AnimPlayer.AnimationFinished += EndGrowl;
 	}
 
+	/// <summary>
+	/// 	Spawns an Area2D centered on Hestmor to check if any enemy was hit by the Growl
+	/// </summary>
 	public void SpawnArea2D()
 	{
 		_growlArea2D = new Area2D()
 		{
-			CollisionMask = (int) (CollisionLayerName.Enemies)
+			CollisionMask = (int) CollisionLayerName.Enemies
 		};
 
 		_growlArea2D.AddChild(new CollisionShape2D()
@@ -70,22 +90,22 @@ public partial class Growl : PlayerState
 			}
 		});
 
-		Player.AddChild(_growlArea2D);
+		_player.AddChild(_growlArea2D);
 
 		_growlArea2D.BodyEntered += (Node2D body) =>
 		{
 			if(body is Npc enemy)
 			{
-				var offset = Player.SpriteSize.Y / 2;
+				var offset = _player.SpriteSize.Y / 2;
 
 				var raycast = new RayCast2D()
 				{
 					Position = new Vector2(0f, -offset),
-					TargetPosition = enemy.GlobalPosition - Player.GlobalPosition,
+					TargetPosition = enemy.GlobalPosition - _player.GlobalPosition,
 					CollisionMask = (int) CollisionLayerName.World
 				};
 
-				Player.AddChild(raycast);
+				_player.AddChild(raycast);
 
 				raycast.ForceRaycastUpdate();
 
@@ -106,7 +126,8 @@ public partial class Growl : PlayerState
 	private void EndGrowl(StringName animName)
 	{
 		_growlArea2D?.QueueFree();
+		
 		AnimPlayer.AnimationFinished -= EndGrowl;
-		StateMachine.ChangeState("Idle");
+		StateMachine.ChangeState(typeof(Idle));
 	}
 }

@@ -1,5 +1,4 @@
 using Godot;
-using System.Linq;
 
 namespace Epilogue.nodes;
 /// <summary>
@@ -49,6 +48,10 @@ public partial class Projectile : HitBox
 		};
 	}
 
+    /// <summary>
+    ///     Checks if the collision happened with an Actor. If so, deals damage to it
+    /// </summary>
+    /// <param name="area"></param>
     private void DamageActor(Area2D area)
     {
         if(area.Owner is Actor actor)

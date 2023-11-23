@@ -14,6 +14,6 @@ public static class InputUtils
 	/// <returns>The same input action, plus "_modern" or "_retro" appended to it</returns>
 	public static string GetInputActionName(string action)
 	{
-		return $"{action}_{(Settings.ControlScheme == ControlSchemeEnum.Modern ? "modern" : "retro")}";
+		return $"{action}_{(Settings.ControlScheme == ControlScheme.Modern ? "modern" : "retro")}";
 	}
 }

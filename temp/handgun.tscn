@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://dulc4vm30o030"]
 
 [ext_resource type="Script" path="res://guns/Handgun.cs" id="1_vptcf"]
-[ext_resource type="Material" uid="uid://bdt7ee1dy5yrr" path="res://temp/gun_material.tres" id="2_lgq03"]
+[ext_resource type="Material" uid="uid://ym1yvynv3i7b" path="res://temp/gun_material.tres" id="2_lgq03"]
 [ext_resource type="Texture2D" uid="uid://b36gdcpttbmd" path="res://temp/handgun.png" id="3_ava73"]
 [ext_resource type="AudioStream" uid="uid://culv4am0q6vgd" path="res://temp/handgun.mp3" id="4_5825p"]
 

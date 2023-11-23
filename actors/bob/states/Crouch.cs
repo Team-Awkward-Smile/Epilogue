@@ -3,30 +3,39 @@ using Godot;
 using System.Threading.Tasks;
 
 namespace Epilogue.actors.hestmor.states;
-/// <summary>
-///		State that allows Hestmor to crouch
-/// </summary>
-public partial class Crouch : PlayerState
+/// <inheritdoc/>
+public partial class Crouch : State
 {
+	private readonly Player _player;
+
+	/// <summary>
+	/// 	State that allows Hestmor to crouch
+	/// </summary>
+	/// <param name="stateMachine">The State Machine who owns this State</param>
+	public Crouch(StateMachine stateMachine) : base(stateMachine)
+	{
+		_player = (Player) stateMachine.Owner;
+	}
+
 	internal override void OnInput(InputEvent @event)
 	{
 		if(@event.IsActionReleased("crouch", true))
 		{
-			StateMachine.ChangeState("Idle");
+			StateMachine.ChangeState(typeof(Idle));
 		}
 	}
 
 	internal override void OnEnter(params object[] args)
 	{
-		Player.CanChangeFacingDirection = false;
+		_player.CanChangeFacingDirection = false;
 
 		AnimPlayer.Play("crouch");
 	}
 
-	internal override async Task OnLeaveAsync()
+	internal override async Task OnLeave()
 	{
 		AnimPlayer.PlayBackwards("crouch");
 
-		await ToSignal(AnimPlayer, "animation_finished");
+		await StateMachine.ToSignal(AnimPlayer, "animation_finished");
 	}
 }

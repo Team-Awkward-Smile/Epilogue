@@ -1,6 +1,3 @@
-using Godot;
-using System;
-
 namespace Epilogue.global.enums;
 /// <summary>
 ///		Types of damage that can be caused to Actors and props
