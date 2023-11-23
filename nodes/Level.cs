@@ -4,7 +4,6 @@ using Epilogue.props.camera;
 using Epilogue.ui;
 using Epilogue.ui.hp;
 using Godot;
-
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,6 +29,7 @@ public partial class Level : Node2D
 	private List<Checkpoint> _checkpoints = new();
 	private Camera _camera;
 	private CheckpointManager _checkpointManager;
+	private AchievementPopup _achievementUI;
 
 	/// <inheritdoc/>
 	public override string[] _GetConfigurationWarnings()
@@ -48,7 +48,8 @@ public partial class Level : Node2D
 		}
 		else if(checkpoints.GetChildren().OfType<Checkpoint>().Where(c => c.FirstCheckpoint).Count() > 1)
 		{
-			var firstCheckpoints = (checkpoints.GetChildren().OfType<Checkpoint>().Where(c => c.FirstCheckpoint));
+			var firstCheckpoints = checkpoints.GetChildren().OfType<Checkpoint>().Where(c => c.FirstCheckpoint);
+
 			warnings.Add($"This Level has {firstCheckpoints.Count()} Checkpoint set as the First ({string.Join(", ", firstCheckpoints.Select(c => c.Name))}).\nOnly 1 Checkpoint should be set as the First");
 		}
 
@@ -71,6 +72,7 @@ public partial class Level : Node2D
 		}
 	}
 
+	/// <inheritdoc/>
 	public override void _EnterTree()
 	{
 		if(Engine.IsEditorHint())
@@ -97,12 +99,13 @@ public partial class Level : Node2D
 		_killPrompt = GD.Load<PackedScene>("res://ui/glory_kill_prompt.tscn").Instantiate() as GloryKillPrompt;
 		_ammoUI = GD.Load<PackedScene>("res://ui/ammo_ui.tscn").Instantiate() as AmmoUI;
 		_hpUI = GD.Load<PackedScene>("res://ui/hp/hp_ui.tscn").Instantiate() as HPUI;
+		_achievementUI = GD.Load<PackedScene>("res://ui/achievements/achievement_popup.tscn").Instantiate() as AchievementPopup;
 
 		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
 		_checkpointManager = GetNode<CheckpointManager>("/root/CheckpointManager");
 
 		_playerEvents.Connect("PlayerDied", Callable.From(RespawnPlayer));
-		_playerEvents.Connect("StateAwaitingForExecutionSpeed", Callable.From(() => _killPrompt.Enable()));
+		_playerEvents.Connect("StateAwaitingForExecutionSpeed", Callable.From(_killPrompt.Enable));
 
 		_tileMap = GetChildren().OfType<TileMap>().FirstOrDefault();
 
@@ -114,6 +117,7 @@ public partial class Level : Node2D
 		uiLayer.AddChild(_killPrompt);
 		uiLayer.AddChild(_ammoUI);
 		uiLayer.AddChild(_hpUI);
+		uiLayer.AddChild(_achievementUI);
 
 		_pauseUI.Hide();
 		_console.Hide();
@@ -170,6 +174,9 @@ public partial class Level : Node2D
 		_camera.SetCameraTarget(Player.GetNode<Node2D>("CameraAnchor"));
 	}
 
+	/// <summary>
+	/// 	Reloads the current scene after a small delay, and respawns the player character at the correct Checkpoint
+	/// </summary>
 	private void RespawnPlayer()
 	{
 		GetTree().CreateTimer(2f).Timeout += () =>
@@ -186,12 +193,12 @@ public partial class Level : Node2D
 	/// <param name="triggeredCheckpoint">New Checkpoint triggered</param>
 	private void SetNewCheckpoint(Checkpoint triggeredCheckpoint)
 	{
-		var oldCheckpoint = _checkpoints.Where(c => c.Current).First();
+		var oldCheckpoint = _checkpoints.First(c => c.Current);
 
 		oldCheckpoint.SetCheckpointState(CheckpointState.Used);
 		oldCheckpoint.Current = false;
 
-		var newCheckpoint = _checkpoints.Where(c => c == triggeredCheckpoint).First();
+		var newCheckpoint = _checkpoints.First(c => c == triggeredCheckpoint);
 
 		newCheckpoint.Current = true;
 		newCheckpoint.SetDeferred("monitoring", false);

@@ -1,21 +1,13 @@
-[gd_scene load_steps=32 format=3 uid="uid://c7cpj3m2vojlm"]
+[gd_scene load_steps=24 format=3 uid="uid://c7cpj3m2vojlm"]
 
 [ext_resource type="Script" path="res://actors/rob/Rob.cs" id="1_2ghn1"]
 [ext_resource type="Shader" path="res://actors/bob/iframes.gdshader" id="2_p2edt"]
 [ext_resource type="Texture2D" uid="uid://xslolu34os0u" path="res://actors/rob/sprite_sheet/Rob-rip-Sheet.png" id="3_nt2pe"]
-[ext_resource type="Script" path="res://nodes/StateMachine.cs" id="4_v8i42"]
 [ext_resource type="Script" path="res://nodes/HitBox.cs" id="4_wqcug"]
-[ext_resource type="Script" path="res://actors/rob/states/Move.cs" id="5_3hplw"]
-[ext_resource type="Script" path="res://actors/rob/states/Shoot.cs" id="6_ae7jg"]
-[ext_resource type="Script" path="res://actors/rob/states/Attack.cs" id="7_ri7fn"]
-[ext_resource type="Script" path="res://actors/rob/states/Die.cs" id="8_xmf50"]
-[ext_resource type="Script" path="res://actors/rob/states/Stun.cs" id="9_ajaun"]
-[ext_resource type="Script" path="res://actors/rob/states/Executed.cs" id="10_43idv"]
-[ext_resource type="Script" path="res://actors/rob/states/Wander.cs" id="11_ngpgd"]
 [ext_resource type="AnimationLibrary" uid="uid://bvtr6toko864t" path="res://actors/rob/animations/animations.res" id="12_46rjo"]
-[ext_resource type="Script" path="res://actors/rob/states/Flee.cs" id="12_58dfc"]
 [ext_resource type="Texture2D" uid="uid://wyuis1gup5f" path="res://actors/rob/sprite_sheet/Rob-attack-Sheet.png" id="13_lng1s"]
 [ext_resource type="Texture2D" uid="uid://dn2g164h8gckp" path="res://actors/rob/sprite_sheet/Rob-dead-Sheet.png" id="14_nybj4"]
+[ext_resource type="Script" path="res://actors/rob/states/RobStateMachine.cs" id="14_s8srj"]
 [ext_resource type="Texture2D" uid="uid://bjf3fqvi77tpu" path="res://actors/rob/sprite_sheet/Rob-shoot-Sheet.png" id="15_g1ufl"]
 [ext_resource type="Texture2D" uid="uid://c8gi0sbrpd4kk" path="res://actors/rob/sprite_sheet/Stunn-sheett.png" id="16_rv2ql"]
 [ext_resource type="Script" path="res://nodes/HurtBox.cs" id="17_dv516"]
@@ -67,30 +59,13 @@ tracks/2/keys = {
 "update": 1,
 "values": [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0), Vector2i(3, 0), Vector2i(4, 0), Vector2i(5, 0), Vector2i(6, 0), Vector2i(7, 0), Vector2i(8, 0)]
 }
-tracks/3/type = "method"
+tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("StateMachine/Attack")
+tracks/3/path = NodePath("FlipRoot/HitBox:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"values": [{
-"args": [],
-"method": &"DestroyHitBox"
-}, {
-"args": [],
-"method": &"SpawnHitBox"
-}]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("FlipRoot/HitBox:position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
 "times": PackedFloat32Array(0.5),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -239,20 +214,6 @@ tracks/4/keys = {
 "update": 0,
 "values": [Vector2(32, -42)]
 }
-tracks/5/type = "method"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("StateMachine/Shoot")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0.7),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"SpawnProjectile"
-}]
-}
 
 [sub_resource type="Animation" id="Animation_4ewq5"]
 resource_name = "stun"
@@ -338,33 +299,6 @@ Damage = 1.0
 [node name="ProjectileSpawn" type="Node2D" parent="FlipRoot"]
 position = Vector2(32, -42)
 
-[node name="StateMachine" type="Node" parent="."]
-script = ExtResource("4_v8i42")
-
-[node name="Move" type="Node" parent="StateMachine"]
-script = ExtResource("5_3hplw")
-
-[node name="Shoot" type="Node" parent="StateMachine"]
-script = ExtResource("6_ae7jg")
-
-[node name="Attack" type="Node" parent="StateMachine"]
-script = ExtResource("7_ri7fn")
-
-[node name="Die" type="Node" parent="StateMachine"]
-script = ExtResource("8_xmf50")
-
-[node name="Stun" type="Node" parent="StateMachine"]
-script = ExtResource("9_ajaun")
-
-[node name="Executed" type="Node" parent="StateMachine"]
-script = ExtResource("10_43idv")
-
-[node name="Wander" type="Node" parent="StateMachine"]
-script = ExtResource("11_ngpgd")
-
-[node name="Flee" type="Node" parent="StateMachine"]
-script = ExtResource("12_58dfc")
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": ExtResource("12_46rjo"),
@@ -407,3 +341,6 @@ one_shot = true
 explosiveness = 1.0
 script = ExtResource("21_lvg2u")
 BloodColor = Color(0.752941, 0.117647, 0.254902, 0.976471)
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("14_s8srj")

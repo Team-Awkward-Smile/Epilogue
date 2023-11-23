@@ -8,15 +8,23 @@ namespace Epilogue.guns;
 /// </summary>
 public partial class FlameStream : Line2D
 {
+	/// <summary>
+	/// 	List of Projectiles spawned by this Node
+	/// </summary>
 	public List<Projectile> Projectiles { get; set; } = new();
 
 	private float _timer = 0f;
 
+	/// <inheritdoc/>
 	public override void _Ready()
 	{
 		ClearPoints();
 	}
 
+	/// <summary>
+	/// 	Adds a new Projectile to this Node, connecting it to the rest of the stream
+	/// </summary>
+	/// <param name="projectile">The projectile to be added</param>
 	public void AddProjectile(Projectile projectile)
 	{
 		Projectiles.Add(projectile);
@@ -29,6 +37,7 @@ public partial class FlameStream : Line2D
 		};
 	}
 
+	/// <inheritdoc/>
 	public override void _Process(double delta)
 	{
 		_timer += (float) delta;

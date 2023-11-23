@@ -41,14 +41,14 @@ public partial class Aim : Node
 	/// </summary>
 	private void UpdateInputReading()
 	{
-		var inputType = InputDeviceManager.MostRecentInputType ?? InputTypeEnum.PC;
+		var inputType = InputDeviceManager.MostRecentInputType ?? InputDeviceType.PC;
 		var mouseAim = GetChild(0);
 		var buttonAim = GetChild(1);
 		var stickAim = GetChild(2);
 
-		mouseAim.ProcessMode = inputType == InputTypeEnum.PC && Settings.ControlScheme == ControlSchemeEnum.Modern ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
-		buttonAim.ProcessMode = Settings.ControlScheme == ControlSchemeEnum.Retro ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
-		stickAim.ProcessMode = inputType == InputTypeEnum.Controller && Settings.ControlScheme == ControlSchemeEnum.Modern ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
+		mouseAim.ProcessMode = inputType == InputDeviceType.PC && Settings.ControlScheme == ControlScheme.Modern ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
+		buttonAim.ProcessMode = Settings.ControlScheme == ControlScheme.Retro ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
+		stickAim.ProcessMode = inputType == InputDeviceType.Controller && Settings.ControlScheme == ControlScheme.Modern ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
 	}
 
 	/// <inheritdoc/>

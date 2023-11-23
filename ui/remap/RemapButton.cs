@@ -1,8 +1,6 @@
 using Epilogue.global.enums;
 using Epilogue.global.singletons;
-
 using Godot;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +19,7 @@ public partial class RemapButton : Button
 	/// <summary>
 	///		Type of input read by this button
 	/// </summary>
-	public InputTypeEnum InputType { get; set; }
+	public InputDeviceType InputType { get; set; }
 
 	/// <summary>
 	///		Action assigned to this button that will be remapped as one if the player assigns a new event to them
@@ -37,7 +35,7 @@ public partial class RemapButton : Button
 	///		Event triggered whenever this button is clicked and is ready to remap an action
 	/// </summary>
 	/// <param name="inputType"></param>
-	[Signal] public delegate void ActionWasSelectedEventHandler(InputTypeEnum inputType);
+	[Signal] public delegate void ActionWasSelectedEventHandler(InputDeviceType inputType);
 
 	/// <summary>
 	///		InputEvent assigned to this button. Setting a new value will automatically update it's icon
@@ -114,9 +112,9 @@ public partial class RemapButton : Button
 	{
 		_validInputTypes.Clear();
 
-		CanReadModernInputs = Settings.ControlScheme == ControlSchemeEnum.Modern;
+		CanReadModernInputs = Settings.ControlScheme == ControlScheme.Modern;
 
-		if(InputType == InputTypeEnum.PC)
+		if(InputType == InputDeviceType.PC)
 		{
 			_validInputTypes.Add(typeof(InputEventKey));
 

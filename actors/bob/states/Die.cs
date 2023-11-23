@@ -1,23 +1,36 @@
+using Epilogue.global.singletons;
 using Epilogue.nodes;
 
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
-/// <summary>
-///		State that makes Hestmor die and trigger the approprate events
-/// </summary>
-public partial class Die : PlayerState
+/// <inheritdoc/>
+public partial class Die : State
 {
+	private readonly Player _player;
+	private readonly PlayerEvents _playerEvents;
+
+	/// <summary>
+	/// 	State that makes Hestmor die and trigger the approprate events
+	/// </summary>
+	/// <param name="stateMachine">The State Machine who owns this State</param>
+	/// <param name="playerEvents">The Singleton that manages events related to the player</param>
+	public Die(StateMachine stateMachine, PlayerEvents playerEvents) : base(stateMachine)
+	{
+		_player = (Player) stateMachine.Owner;
+		_playerEvents = playerEvents;
+	}
+
 	internal override void OnEnter(params object[] args)
 	{
-		Player.HurtBox.SetDeferred("monitorable", false);
-		Player.HurtBox.SetDeferred("monitoring", false);
-		Player.CanChangeFacingDirection = false;
+		_player.HurtBox.SetDeferred("monitorable", false);
+		_player.HurtBox.SetDeferred("monitoring", false);
+		_player.CanChangeFacingDirection = false;
 
 		AnimPlayer.Play("Combat/die");
 		AnimPlayer.AnimationFinished += (StringName animationName) =>
 		{
-			PlayerEvents.EmitGlobalSignal("PlayerDied");
+			_playerEvents.EmitGlobalSignal("PlayerDied");
 		};
 	}
 }

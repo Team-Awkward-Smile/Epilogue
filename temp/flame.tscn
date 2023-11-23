@@ -6,13 +6,13 @@
 
 [node name="Flame" type="Area2D"]
 collision_layer = 16
-collision_mask = 40
+collision_mask = 552
 script = ExtResource("1_8xrcc")
 DestroyOnHit = false
 Speed = 200.0
-Damage = 0.25
 DamageType = 2
 LifeTime = 1.0
+Damage = 0.25
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ryau3")

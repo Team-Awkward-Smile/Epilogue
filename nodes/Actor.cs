@@ -45,11 +45,6 @@ public abstract partial class Actor : CharacterBody2D
 	/// </summary>
 	public Vector2 SpriteSize => Sprite.GetRect().Size;
 
-    /// <summary>
-    ///		Reference to the State Machine used by the Actor
-    /// </summary>
-    public StateMachine StateMachine { get; set; }
-
 	/// <summary>
 	///		HurtBox of this Actor, used to detect collisions against objects that can hurt it
 	/// </summary>
@@ -66,7 +61,6 @@ public abstract partial class Actor : CharacterBody2D
 		});
 
 		Sprite = GetNode<Node2D>("FlipRoot").GetChildren().OfType<Sprite2D>().Where(c => c.IsInGroup("MainSprite")).FirstOrDefault();
-		StateMachine = GetChildren().OfType<StateMachine>().FirstOrDefault();
 		AnimationPlayer = GetChildren().OfType<AnimationPlayer>().FirstOrDefault();
 		HurtBox = GetChildren().OfType<HurtBox>().FirstOrDefault();
 	}

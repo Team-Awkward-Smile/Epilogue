@@ -1,5 +1,4 @@
 using Godot;
-
 using System.Collections.Generic;
 
 namespace Epilogue.global.singletons;

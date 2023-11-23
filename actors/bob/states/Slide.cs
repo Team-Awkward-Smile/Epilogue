@@ -1,18 +1,20 @@
+using System.Threading.Tasks;
 using Epilogue.actors.hestmor.enums;
 using Epilogue.global.enums;
 using Epilogue.nodes;
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
-/// <summary>
-///		State that allows Hestmor to perform slides
-/// </summary>
-public partial class Slide : PlayerState
+/// <inheritdoc/>
+public partial class Slide : State
 {
-	[Export] private float _slideTime = 0.5f;
-	[Export] private float _longSlideSpeed = 220f;
-	[Export] private float _kneeSlideSpeed = 160f;
-	[Export] private float _frontRollSpeed = 100f;
+	private readonly float _frontRollDuration;
+	private readonly float _longSlideDuration;
+	private readonly float _kneeSlideDuration;
+	private readonly float _longSlideSpeed;
+	private readonly float _kneeSlideSpeed;
+	private readonly float _frontRollSpeed;
+	private readonly Player _player;
 
 	private double _timer = 0f;
 	private bool _slideFinished = false;
@@ -20,12 +22,41 @@ public partial class Slide : PlayerState
 	private string _animation;
 	private StateType _rollType;
 	private bool _canJump;
+	private float _currentSlideDuration;
+
+	/// <summary>
+	/// 	State that allows Hestmor to perform slides
+	/// </summary>
+	/// <param name="stateMachine">The State Machine who owns this State</param>
+	/// <param name="frontRollDuration">The duration (in seconds) of the Front Roll</param>
+	/// <param name="longSlideDuration">The duration (in seconds) of the Long Slide</param>
+	/// <param name="kneeSlideDuration">The duration (in seconds) of the Knee Slide</param>
+	/// <param name="frontRollSpeed">The horizontal speed of the Front Slide</param>
+	/// <param name="longSlideSpeed">The horizontal speed of the Long Slide</param>
+	/// <param name="kneeSlideSpeed">The horizontal speed of the Knee Slide</param>
+	public Slide(
+		StateMachine stateMachine,
+		float frontRollDuration,
+		float longSlideDuration,
+		float kneeSlideDuration,
+		float frontRollSpeed,
+		float longSlideSpeed,
+		float kneeSlideSpeed) : base(stateMachine)
+	{
+		_player = (Player) stateMachine.Owner;
+		_frontRollDuration = frontRollDuration;
+		_longSlideDuration = longSlideDuration;
+		_kneeSlideDuration = kneeSlideDuration;
+		_frontRollSpeed = frontRollSpeed;
+		_longSlideSpeed = longSlideSpeed;
+		_kneeSlideSpeed = kneeSlideSpeed;
+	}
 
 	internal override void OnInput(InputEvent @event)
 	{
 		if(_canJump && Input.IsActionJustPressed("jump"))
 		{
-			StateMachine.ChangeState("Jump", StateType.LongJump);
+			StateMachine.ChangeState(typeof(Jump), StateType.LongJump);
 		}
 		else if(Input.IsActionJustPressed("cancel_slide"))
 		{
@@ -45,33 +76,34 @@ public partial class Slide : PlayerState
 			case StateType.FrontRoll:
 				speed = _frontRollSpeed;
 				_animation = "roll";
+				_currentSlideDuration = _frontRollDuration;
 				break;
 
 			case StateType.KneeSlide:
 				speed = _kneeSlideSpeed;
 				_animation = "knee";
+				_currentSlideDuration = _kneeSlideDuration;
 				break;
 
 			case StateType.LongSlide:
 				speed = _longSlideSpeed;
 				_animation = "long";
+				_currentSlideDuration = _longSlideDuration;
 				break;
 		}
 
-		// TODO: 214 - Add a HitBox to the Slide Attack
-
 		_slideFinished = false;
 		_timer = 0f;
-		_startingRotation = Player.Rotation;
+		_startingRotation = _player.Rotation;
 
-		var direction = Player.FacingDirection == ActorFacingDirection.Left ? -1 : 1;
+		var direction = _player.FacingDirection == ActorFacingDirection.Left ? -1 : 1;
 
-		Player.FloorSnapLength = 10f;
-		Player.FloorConstantSpeed = false;
-		Player.FloorMaxAngle = 0f;
-		Player.FloorBlockOnWall = false;
-		Player.Velocity = new Vector2(speed * direction, Player.Velocity.Y);
-		Player.CanChangeFacingDirection = false;
+		_player.FloorSnapLength = 10f;
+		_player.FloorConstantSpeed = false;
+		_player.FloorMaxAngle = 0f;
+		_player.FloorBlockOnWall = false;
+		_player.Velocity = new Vector2(speed * direction, _player.Velocity.Y);
+		_player.CanChangeFacingDirection = false;
 
 		AnimPlayer.Play($"Slide/{_animation}_slide_start");
 
@@ -86,30 +118,31 @@ public partial class Slide : PlayerState
 
 	internal override void PhysicsUpdate(double delta)
 	{
-		Player.Velocity = new Vector2(Player.Velocity.X, Player.Velocity.Y + Gravity * (float) delta);
-		Player.MoveAndSlideWithRotation();
+		_player.Velocity = new Vector2(_player.Velocity.X, _player.Velocity.Y + StateMachine.Gravity * (float) delta);
+		_player.MoveAndSlide();
 
 		_timer += delta;
 		
-		if(_rollType != StateType.FrontRoll && _timer > _slideTime && !_slideFinished)
+		if(_rollType != StateType.FrontRoll && _timer > _currentSlideDuration && !_slideFinished)
 		{
 			_canJump = false;
 			_slideFinished = true;
 
-			Player.Velocity = new Vector2(Player.Velocity.X / 2, Player.Velocity.Y);
+			_player.Velocity = new Vector2(_player.Velocity.X / 2, _player.Velocity.Y);
 			AnimPlayer.Play($"Slide/{_animation}_slide_end");
 			AnimPlayer.AnimationFinished += EndSlide; 
 		}
 	}
 
-	internal override void OnLeave()
+	internal override Task OnLeave()
 	{
-		Player.FloorConstantSpeed = true;
-		Player.FloorMaxAngle = Mathf.DegToRad(45f);
-		Player.Rotation = _startingRotation;
-		Player.FloorBlockOnWall = true;
-
+		_player.FloorConstantSpeed = true;
+		_player.FloorMaxAngle = Mathf.DegToRad(45f);
+		_player.Rotation = _startingRotation;
+		_player.FloorBlockOnWall = true;
 		_canJump = true;
+
+		return Task.CompletedTask;
 	}
 
 	private void EndSlide(StringName animName)
@@ -117,6 +150,6 @@ public partial class Slide : PlayerState
 		_canJump = false;
 
 		AnimPlayer.AnimationFinished -= EndSlide;
-		StateMachine.ChangeState("Idle");
+		StateMachine.ChangeState(typeof(Idle));
 	}
 }

@@ -2,7 +2,7 @@ namespace Epilogue.global.enums;
 /// <summary>
 ///		Type of input sent by the player
 /// </summary>
-public enum InputTypeEnum
+public enum InputDeviceType
 {
 	/// <summary>
 	///		Keyboard inputs (any key), as well as mouse inputs

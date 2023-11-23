@@ -17,6 +17,6 @@ public static class ShaderUtils
 		var o = canvasItem.GetGlobalTransformWithCanvas().Origin;
 		var sz = DisplayServer.WindowGetSize();
 
-		return new Vector2(o.X / sz.X, (o.Y / sz.Y));
+		return new Vector2(o.X / sz.X, o.Y / sz.Y);
 	}
 }

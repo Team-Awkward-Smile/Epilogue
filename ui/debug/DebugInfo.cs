@@ -1,5 +1,4 @@
 using Godot;
-using System.Linq;
 
 namespace Epilogue.ui.debug;
 /// <summary>
@@ -14,6 +13,7 @@ public partial class DebugInfo : Node
 
 	private Node2D _wheelParent;
 
+	/// <inheritdoc/>
 	public override void _Ready()
 	{
 		if(_aimWheel)

@@ -1,7 +1,5 @@
 using Epilogue.global.enums;
-
 using Godot;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +10,14 @@ namespace Epilogue.global.singletons;
 /// </summary>
 public partial class Achievements : Node
 {
+	/// <summary>
+	/// 	Number of times the player has jumped during the course of the game
+	/// </summary>
     public int JumpCount { get; set; }
+
+	/// <summary>
+	/// 	Defines if the player has played the game for at least 100 seconds
+	/// </summary>
     public bool PlayTimeOver100 { get; set; }
 
     private Dictionary<Achievement, Func<bool>> _unlockCriteria;

@@ -18,6 +18,11 @@ public partial class BreakableTile : StaticBody2D
 		_sprite = GetNode<Sprite2D>("Sprite2D");
 	}
 
+	/// <summary>
+	/// 	Damages this tile. If the damage reduces it's HP to 0 or less, the tile will be destroyed
+	/// </summary>
+	/// <param name="damage">Amount of damage caused to this tile</param>
+	/// <param name="damageType">Type of damage of the damaging attack. Unarmed attacks deal half damage to tiles</param>
 	public async void DamageTile(float damage, DamageType damageType)
 	{
 		if(damageType == DamageType.Unarmed)
