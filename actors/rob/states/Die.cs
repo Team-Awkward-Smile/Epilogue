@@ -1,14 +1,27 @@
-using Epilogue.extensions;
-using Epilogue.nodes;
-
+using Epilogue.Extensions;
+using Epilogue.Nodes;
 using Godot;
 
-public partial class Die : NpcState
+namespace Epilogue.Actors.rob.states;
+/// <inheritdoc/>
+public partial class Die : State
 {
+	private readonly Rob _rob;
+
+	/// <summary>
+	/// 	State that allows Rob to die when his HP reaches 0
+	/// </summary>
+	/// <param name="stateMachine">The State Machine who owns this State</param>
+	public Die(StateMachine stateMachine) : base(stateMachine)
+	{
+		_rob = (Rob) stateMachine.Owner;
+	}
+
 	internal override void OnEnter(params object[] args)
 	{
-		Npc.Sprite.SetShaderMaterialParameter("iframeActive", false);
+		_rob.Sprite.SetShaderMaterialParameter("iframeActive", false);
+		
 		AnimPlayer.PlayBackwards("Combat/die");
-		AnimPlayer.AnimationFinished += (StringName animName) => Npc.QueueFree();
+		AnimPlayer.AnimationFinished += (StringName animName) => _rob.QueueFree();
 	}
 }

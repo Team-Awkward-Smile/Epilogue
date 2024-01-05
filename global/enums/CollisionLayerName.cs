@@ -1,6 +1,6 @@
 using System;
 
-namespace Epilogue.global.enums;
+namespace Epilogue.Global.Enums;
 /// <summary>
 ///		Layers used by the collision system, defined as an enum to avoid having to use numbers everywhere
 /// </summary>
@@ -47,9 +47,18 @@ public enum CollisionLayerName
 	/// </summary>
 	Interactives = 1 << 6,
 
+	/// <summary>
+	/// 	Layer containing the Checkpoints of the Level
+	/// </summary>
 	Checkpoints = 1 << 7,
 
+	/// <summary>
+	/// 	Layer containing Area2D's of the NPCs representing their HitBoxes
+	/// </summary>
 	NpcHitBox = 1 << 8,
 
+	/// <summary>
+	/// 	Layer containing Area2D's of the NPCs representing their HurtBoxes
+	/// </summary>
 	NpcHurtBox = 1 << 9
 }

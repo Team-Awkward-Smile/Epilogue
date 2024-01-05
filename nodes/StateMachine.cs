@@ -1,22 +1,36 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 ///		Node that controls the State Machine of an Actor, defining it's current State and the code that will run
 /// </summary>
-[GlobalClass, Tool, Icon("res://nodes/icons/state_machine.png")]
 public partial class StateMachine : Node
 {
+	/// <summary>
+	/// 	Signal emitted when a new State replaces another State (right after it becomes active)
+	/// </summary>
+	[Signal] public delegate void StateEnteredEventHandler();
+
+	/// <summary>
+	/// 	Signal emitted when a State is replaced by another one (right after it is replaced)
+	/// </summary>
+	[Signal] public delegate void StateExitedEventHandler();
+
 	/// <summary>
 	///		Defines if the current State allows the Actor to interact with the world
 	/// </summary>
 	public bool CanInteract { get; set; } = true;
 
-    private readonly HashSet<State> _states = new();
+	/// <summary>
+	/// 	Value of the gravity affecting every State from this StateMachine
+	/// </summary>
+	public float Gravity { get; set; }
 
-	private State _currentState;
+	private protected HashSet<State> _states = new();
+	private protected State _currentState;
 
 	/// <summary>
 	///		Activates this State Machine and allow States to work
@@ -32,25 +46,10 @@ public partial class StateMachine : Node
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
-		if(Engine.IsEditorHint())
-		{
-			return;
-		}
-
 		SetProcess(false);
 		SetPhysicsProcess(false);
 
-		_states.UnionWith(GetChildren().OfType<State>());
-		_currentState = _states.First();
-	}
-
-	/// <summary>
-	///		Sends the input event to the currently active State
-	/// </summary>
-	/// <param name="event">The input event to send to the active State</param>
-	public void PropagateInputToState(InputEvent @event)
-	{
-		_currentState?.OnInput(@event);
+		Gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 	}
 
 	/// <inheritdoc/>
@@ -70,29 +69,32 @@ public partial class StateMachine : Node
 	///		If the informed State is valid, the methods <c>OnLeave</c> and <c>OnLeaveAsync</c> of the current State will be called.
 	///		Then the State will be replaced by the new one, and the method <c>OnEnter</c> of the new State will be called
 	/// </summary>
-	/// <param name="stateName">Name of the new PlayerState</param>
-	public async void ChangeState(string stateName, params object[] args)
+	/// <param name="newStateType">Type of the new State that will replace the current one</param>
+	/// <param name="args">Optional list of arguments that may be used by specific States</param>
+	public async void ChangeState(Type newStateType, params object[] args)
 	{
 		var oldState = _currentState;
 
 		_currentState = null;
 
-		var newState = _states.Where(s => s.Name == stateName).FirstOrDefault();
+		var newState = _states.FirstOrDefault(s => s.GetType() == newStateType);
 
-		if(newState is null)
+		if (newState is null)
 		{
-			GD.PushWarning($"PlayerState [{stateName}] not found");
+			GD.PushWarning($"State [{newStateType}] not found");
 
 			_currentState = oldState;
 
 			return;
 		}
 
-		oldState.OnLeave();
+		await oldState.OnLeave();
 
-		await oldState.OnLeaveAsync();
+		_ = EmitSignal(SignalName.StateExited);
 
 		_currentState = newState;
 		_currentState.OnEnter(args);
+
+		_ = EmitSignal(SignalName.StateEntered);
 	}
 }

@@ -1,8 +1,8 @@
-using Epilogue.global.enums;
+using Epilogue.Global.Enums;
 using Epilogue.props.breakable_tile;
 using Godot;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 ///		Node used as the base for every HitBox in the game
 /// </summary>
@@ -19,9 +19,15 @@ public partial class HitBox : Area2D
 	/// </summary>
 	[Export] public float Damage { get; set; }
 
+	/// <summary>
+	/// 	Bonus damage (if any) caused by this HitBox on a hit
+	/// </summary>
 	public float BonusDamage { get; set; } = 0f;
 
-    public Shape2D CollisionShape
+	/// <summary>
+	/// 	The CollisionShape used by this HitBox to detect collisions
+	/// </summary>
+	public Shape2D CollisionShape
 	{
 		get => _collisionShape;
 		set
@@ -41,6 +47,9 @@ public partial class HitBox : Area2D
 		});
 	}
 
+	/// <summary>
+	/// 	Deletes a previously created HitBox
+	/// </summary>
 	public void DeleteHitBox()
 	{
 		GetChild(0).QueueFree();
@@ -51,16 +60,15 @@ public partial class HitBox : Area2D
 	{
 		AreaEntered += (Area2D area) =>
 		{
-			GD.Print("hit");
-			if(area.Owner is Actor actor)
+			if (area.Owner is Actor actor)
 			{
-				actor.DealDamage(Damage);
+				actor.ReduceHealth(Damage, _damageType);
 			}
 		};
 
 		BodyEntered += (Node2D body) =>
 		{
-			if(body is BreakableTile tile)
+			if (body is BreakableTile tile)
 			{
 				tile.DamageTile(Damage, _damageType);
 			}

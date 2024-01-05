@@ -1,5 +1,5 @@
 #if TOOLS
-using Epilogue.constants;
+using Epilogue.Constants;
 
 using Godot;
 
@@ -65,8 +65,8 @@ public partial class Plugin : EditorPlugin
 			viewportTransform[2].Y + (lowerRightCorner.Y * zoom)
 		);
 
-		var step = Constants.MAP_TILE_SIZE * zoom;
-		var halfTileOffset = zoom * Constants.MAP_TILE_SIZE / 2;
+		var step = Constants.Constants.MAP_TILE_SIZE * zoom;
+		var halfTileOffset = zoom * Constants.Constants.MAP_TILE_SIZE / 2;
 
 		var tilesX = (usedRect.Size.X + 11) * 2;
 		var tilesY = (usedRect.Size.Y + 11) * 2;

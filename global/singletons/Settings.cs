@@ -1,12 +1,10 @@
-using Epilogue.global.enums;
+using Epilogue.Global.Enums;
 using Epilogue.settings;
-
 using Godot;
 using Godot.Collections;
-
 using System.Linq;
 
-namespace Epilogue.global.singletons;
+namespace Epilogue.Global.Singletons;
 /// <summary>
 ///		Class containing every Setting in the game, both the ones that can be edited by the player and the ones who cannot
 /// </summary>
@@ -22,7 +20,7 @@ public partial class Settings : Node
 	/// <summary>
 	///		Control scheme (Modern or Retro) selected by the player
 	/// </summary>
-	public static ControlSchemeEnum ControlScheme
+	public static ControlScheme ControlScheme
 	{
 		get => _controlScheme;
 		set
@@ -33,7 +31,7 @@ public partial class Settings : Node
 		}
 	}
 
-	private static ControlSchemeEnum _controlScheme = (ControlSchemeEnum) ProjectSettings.GetSetting("epilogue/controls/control_scheme").AsInt32();
+	private static ControlScheme _controlScheme = (ControlScheme) ProjectSettings.GetSetting("epilogue/controls/control_scheme").AsInt32();
 
 	/// <inheritdoc/>
 	public override void _EnterTree()

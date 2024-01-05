@@ -1,46 +1,56 @@
-using Epilogue.actors.hestmor.enums;
-using Epilogue.global.enums;
-using Epilogue.nodes;
+using Epilogue.Actors.Hestmor.Enums;
+using Epilogue.Global.Enums;
+using Epilogue.Nodes;
 
 using Godot;
 
-namespace Epilogue.actors.hestmor.states;
-/// <summary>
-///		State that allows Hestmor to run
-/// </summary>
-public partial class Run : PlayerState
+namespace Epilogue.Actors.Hestmor.States;
+/// <inheritdoc/>
+public partial class Run : State
 {
-	[Export] private float _runSpeed = 200f;
+	private readonly float _runSpeed;
+	private readonly Player _player;
+
+	/// <summary>
+	/// 	State that allows Hestmor to run
+	/// </summary>
+	/// <param name="stateMachine">The State Machine who owns this State</param>
+	/// <param name="runSpeed">The horizontal speed of Hestmor when Running</param>
+	public Run(StateMachine stateMachine, float runSpeed) : base(stateMachine)
+	{
+		_player = (Player)stateMachine.Owner;
+		_runSpeed = runSpeed;
+	}
 
 	internal override void OnInput(InputEvent @event)
 	{
-		if(Input.IsActionJustPressed("jump"))
+		if (Input.IsActionJustPressed("jump"))
 		{
-			if(Player.IsOnWall())
+			if (_player.IsOnWall())
 			{
-				if(Player.RayCasts["Head"].IsColliding())
+				if (_player.RayCasts["Head"].IsColliding())
 				{
 					// Is near a wall
-					StateMachine.ChangeState("Jump", StateType.LongJump);
+					StateMachine.ChangeState(typeof(Jump), StateType.LongJump);
 				}
 				else
 				{
 					// Is near a ledge
-					StateMachine.ChangeState("GrabLedge");
+					StateMachine.ChangeState(typeof(GrabLedge));
 				}
 			}
 			else
 			{
-				StateMachine.ChangeState("Jump", StateType.LongJump);
+				StateMachine.ChangeState(typeof(Jump), StateType.LongJump);
 			}
 		}
-		else if(Input.IsActionJustPressed("melee"))
+		else if (Input.IsActionJustPressed("melee"))
 		{
-			StateMachine.ChangeState("MeleeAttack", StateType.SlideAttack);
+			StateMachine.ChangeState(typeof(MeleeAttack), StateType.SlideAttack);
 		}
-		else if(Input.IsActionJustPressed("slide"))
+		else if (Input.IsActionJustPressed("slide"))
 		{
-			StateMachine.ChangeState("Slide", StateType.LongSlide);
+			StateMachine.ChangeState(typeof(Slide), StateType.LongSlide);
 		}
 	}
 
@@ -48,51 +58,52 @@ public partial class Run : PlayerState
 	{
 		AnimPlayer.Play("walk", -1, 2f);
 
-		Player.CanChangeFacingDirection = true;
+		_player.CanChangeFacingDirection = true;
+		_player.RotationDegrees = 0f;
 	}
 
 	internal override void PhysicsUpdate(double delta)
 	{
 		var movementDirection = Input.GetAxis("move_left", "move_right");
 
-		if(movementDirection != 0f)
+		if (movementDirection != 0f)
 		{
 			movementDirection = movementDirection > 0 ? 1 : -1;
 
-			var velocity = Player.Velocity;
+			Vector2 velocity = _player.Velocity;
 
-			velocity.Y += Gravity * (float) delta;
+			velocity.Y += StateMachine.Gravity * (float)delta;
 			velocity.X = movementDirection * _runSpeed;
 
-			if((movementDirection > 0 && Player.FacingDirection == ActorFacingDirection.Left) ||
-				(movementDirection < 0 && Player.FacingDirection == ActorFacingDirection.Right))
+			if ((movementDirection > 0 && _player.FacingDirection == ActorFacingDirection.Left) ||
+				(movementDirection < 0 && _player.FacingDirection == ActorFacingDirection.Right))
 			{
 				velocity.X /= 2;
 			}
 
-			Player.Velocity = velocity;
+			_player.Velocity = velocity;
 		}
 
-		Player.MoveAndSlideWithRotation();
+		_player.MoveAndSlide();
 
-		var floorNormal = Player.GetFloorNormal();
+		Vector2 floorNormal = _player.GetFloorNormal();
 		var goingDownSlope = (movementDirection < 0 && floorNormal.X < 0) || (movementDirection > 0 && floorNormal.X > 0);
 
-		if(movementDirection == 0f || Player.IsOnWall())
+		if (movementDirection == 0f || _player.IsOnWall())
 		{
-			StateMachine.ChangeState("Idle");
+			StateMachine.ChangeState(typeof(Idle));
 		}
-		else if(!Player.IsOnFloor())
+		else if (!_player.IsOnFloor())
 		{
-			StateMachine.ChangeState("Fall", StateType.LongJump);
+			StateMachine.ChangeState(typeof(Fall), StateType.LongJump);
 		}
-		else if(!Player.RunEnabled)
+		else if (!_player.RunEnabled)
 		{
-			StateMachine.ChangeState("Walk");
+			StateMachine.ChangeState(typeof(Walk));
 		}
-		else if(Player.RotationDegrees >= 40f && !goingDownSlope)
+		else if (_player.RotationDegrees >= 40f && !goingDownSlope)
 		{
-			StateMachine.ChangeState("Crawl");
+			StateMachine.ChangeState(typeof(Crawl));
 		}
 	}
 }

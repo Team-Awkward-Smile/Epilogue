@@ -1,14 +1,12 @@
 using Godot;
-
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 ///		Node representing a State that an Actor can assume when using a State Machine
 /// </summary>
-[GlobalClass, Icon("res://nodes/icons/state.png")]
-public partial class State : Node
+public class State
 {
 	/// <summary>
 	///		State Machine responsible for controlling this and other States
@@ -25,43 +23,24 @@ public partial class State : Node
 	/// </summary>
 	protected ActorAudioPlayer AudioPlayer { get; private set; }
 
-	/// <summary>
-	///		Default gravity of the project. Used by States to simulate physics
-	/// </summary>
-	protected float Gravity { get; private set; }
-
 	/// <inheritdoc/>
-	public override void _Ready()
+	public State(StateMachine stateMachine)
 	{
-		StateMachine = (StateMachine) GetParent();
+		StateMachine = stateMachine;
+		AnimPlayer = StateMachine.Owner.GetChildren().OfType<AnimationPlayer>().FirstOrDefault();
 
-		if(StateMachine is null)
+		if (AnimPlayer is null)
 		{
-			GD.PrintErr($"PlayerState Machine not found for PlayerState [{Name}]");
+			GD.PrintErr($"Animation Player not found for Actor [{StateMachine.Owner.Name}]");
 		}
 
-		AnimPlayer = Owner.GetChildren().OfType<AnimationPlayer>().FirstOrDefault();
+		AudioPlayer = StateMachine.Owner.GetChildren().OfType<ActorAudioPlayer>().FirstOrDefault();
 
-		if(AnimPlayer is null)
+		if (AudioPlayer is null)
 		{
-			GD.PrintErr($"Animation Player not found for Actor [{Owner.Name}]");
+			GD.PrintErr($"Audio Player not found for Actor [{StateMachine.Owner.Name}]");
 		}
-
-		Gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
-		AudioPlayer = Owner.GetChildren().OfType<ActorAudioPlayer>().FirstOrDefault();
-
-		if(AudioPlayer is null)
-		{
-			GD.PrintErr($"Audio Player not found for Actor [{Owner.Name}]");
-		}
-
-		AfterReady();
 	}
-
-	/// <summary>
-	///		Method executed after <see cref="_Ready"/> finishes executing. Allows a State to initialize custom logic without overriding the default implementation of _Ready
-	/// </summary>
-	private protected virtual void AfterReady() { }
 
 	/// <summary>
 	///		Method executed at every frame
@@ -76,23 +55,14 @@ public partial class State : Node
 	internal virtual void PhysicsUpdate(double delta) { }
 
 	/// <summary>
-	///		Method executed every time a State becomes active. Since it can run multiple times during the game, it is not a replacement for <see cref="_Ready"/>
+	///		Method executed every time a State becomes active
 	/// </summary>
 	internal virtual void OnEnter(params object[] args) { }
 
 	/// <summary>
-	///		Method executed every time a State is replaced by another one, right before the exchange occurs. If any async operation needs to be executed here, use <see cref="OnLeaveAsync"/> instead
+	///		Method executed every time a State is replaced by another one, right before the exchange occurs
 	/// </summary>
-	internal virtual void OnLeave() { }
-
-	/// <summary>
-	///		Async method executed every time a State is replaced by another one. The State Machine responsible for the State will await for this method before finishing the exchange and setting a new State
-	/// </summary>
-	/// <returns></returns>
-	internal virtual async Task OnLeaveAsync()
-	{
-		await Task.CompletedTask;
-	}
+	internal virtual Task OnLeave() { return Task.CompletedTask; }
 
 	/// <summary>
 	///		Method executed every time an Unhandled Input is detected

@@ -1,7 +1,5 @@
-using Epilogue.constants;
-
+using Epilogue.Constants;
 using Godot;
-
 using System.Collections.Generic;
 
 namespace Epilogue.ui.popup;
@@ -20,7 +18,7 @@ public partial class CustomPopup : AcceptDialog
 	/// </summary>
 	public static CustomPopup NewCustomPopup()
 	{
-		var scene = GD.Load<PackedScene>(Constants.CUSTOM_POPUP_SCENE).Instantiate() as AcceptDialog;
+		var scene = GD.Load<PackedScene>(Constants.Constants.CUSTOM_POPUP_SCENE).Instantiate() as AcceptDialog;
 
 		return scene.Duplicate() as CustomPopup;
 	}

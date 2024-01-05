@@ -1,41 +1,53 @@
-using Epilogue.nodes;
-
+using Epilogue.Extensions;
+using Epilogue.Nodes;
 using Godot;
-using System;
 
-public partial class Wander : NpcState
+namespace Epilogue.Actors.rob.states;
+/// <inheritdoc/>
+public partial class Wander : State
 {
-	[Export] private float _wanderSpeed = 50f;
+	private readonly Rob _rob;
+	private readonly float _wanderSpeed;
+
+	/// <summary>
+	/// 	State that makes Rob move around the map randomly, waiting for a chance to approach the player again
+	/// </summary>
+	/// <param name="stateMachine">The State Machine who owns this State</param>
+	/// <param name="wanderSpeed">The horizontal speed of Rob when wandering around the map</param>
+	public Wander(StateMachine stateMachine, float wanderSpeed) : base(stateMachine)
+	{
+		_rob = (Rob) stateMachine.Owner;
+		_wanderSpeed = wanderSpeed;
+	}
 
 	internal override async void OnEnter(params object[] args)
 	{
-		Npc.WaitingForNavigationQuery = true;
+		_rob.WaitingForNavigationQuery = true;
 
 		var rng = new RandomNumberGenerator();
 
-		await Npc.UpdatePathToWander(new Vector2(rng.RandfRange(-5000f, 5000f), rng.RandfRange(-5000f, 5000f)));
+		await _rob.UpdatePathToWander(new Vector2(rng.RandfRange(-5000f, 5000f), rng.RandfRange(-5000f, 5000f)));
 
-		Npc.WaitingForNavigationQuery = false;
+		_rob.WaitingForNavigationQuery = false;
 
 		AnimPlayer.PlayBackwards("walk");
 	}
 
 	internal override void PhysicsUpdate(double delta)
 	{
-		if(Npc.WaitingForNavigationQuery)
+		if(_rob.WaitingForNavigationQuery)
 		{
 			return;
 		}
 
-		if(Npc.IsPlayerReachable)
+		if(_rob.IsPlayerReachable)
 		{
-			StateMachine.ChangeState("Move");
+			StateMachine.ChangeState(typeof(Move));
 
 			return;
 		}
 
-		Npc.Velocity = Npc.WanderNavigationAgent2D.GetNextVelocity(Npc.GlobalPosition, _wanderSpeed);
-
-		Npc.MoveAndSlideWithRotation();
+		_rob.Velocity = _rob.WanderNavigationAgent2D.GetNextVelocity(_rob.GlobalPosition, _wanderSpeed);
+		_rob.MoveAndSlide();
 	}
 }

@@ -1,63 +1,72 @@
-using Epilogue.actors.hestmor.enums;
-using Epilogue.constants;
-using Epilogue.nodes;
-
+using Epilogue.Actors.Hestmor.Enums;
+using Epilogue.Constants;
+using Epilogue.Nodes;
 using Godot;
 
-namespace Epilogue.actors.hestmor.states;
-/// <summary>
-///		State that allows Hestmor to stay still
-/// </summary>
-public partial class Idle : PlayerState
+namespace Epilogue.Actors.Hestmor.States;
+/// <inheritdoc/>
+public partial class Idle : State
 {
-	[Export] private float _sleepDelay;
+	private readonly float _sleepDelay;
+	private readonly Player _player;
 
 	private float _sleepTimer;
 
+	/// <summary>
+	/// 	State that allows Hestmor to stay still
+	/// </summary>
+	/// <param name="stateMachine">The State Machine who owns this State</param>
+	/// <param name="sleepDelay">The time (in seconds) it takes for Hestmor to start sleeping</param>
+	public Idle(StateMachine stateMachine, float sleepDelay) : base(stateMachine)
+	{
+		_sleepDelay = sleepDelay;
+		_player = (Player)stateMachine.Owner;
+	}
+
 	internal override void OnInput(InputEvent @event)
 	{
-		if(Input.IsActionJustPressed("jump"))
+		if (Input.IsActionJustPressed("jump"))
 		{
-			if(!Player.RayCasts["Head"].IsColliding() && Player.RayCasts["Feet"].IsColliding())
+			if (!_player.RayCasts["Head"].IsColliding() && _player.RayCasts["Feet"].IsColliding())
 			{
-				var raycast = Player.RayCasts["Ledge"];
-				var originalPosition = raycast.Position;
+				RayCast2D raycast = _player.RayCasts["Ledge"];
+				Vector2 originalPosition = raycast.Position;
 
-				raycast.Position = new Vector2(0f, -Constants.MAP_TILE_SIZE - 1);
+				raycast.Position = new Vector2(0f, -Constants.Constants.MAP_TILE_SIZE - 1);
 
 				raycast.ForceRaycastUpdate();
 
-				if(!raycast.IsColliding())
+				if (!raycast.IsColliding())
 				{
-					StateMachine.ChangeState("Vault");
+					StateMachine.ChangeState(typeof(Vault));
 				}
 
 				raycast.Position = originalPosition;
 			}
 			else
 			{
-				StateMachine.ChangeState("Jump", StateType.VerticalJump);
+				StateMachine.ChangeState(typeof(Jump), StateType.StandingJump);
 			}
 		}
-		else if(Input.IsActionJustPressed("crouch"))
+		else if (Input.IsActionJustPressed("crouch"))
 		{
-			StateMachine.ChangeState("Crouch");
+			StateMachine.ChangeState(typeof(Crouch));
 		}
-		else if(Input.IsActionJustPressed("melee"))
+		else if (Input.IsActionJustPressed("melee"))
 		{
-			StateMachine.ChangeState("MeleeAttack", StateType.SwipeAttack);
+			StateMachine.ChangeState(typeof(MeleeAttack), StateType.SwipeAttack);
 		}
-		else if(Input.IsActionJustPressed("slide"))
+		else if (Input.IsActionJustPressed("slide"))
 		{
-			StateMachine.ChangeState("Slide", StateType.FrontRoll);
+			StateMachine.ChangeState(typeof(Slide), StateType.FrontRoll);
 		}
-		else if(Input.IsActionJustPressed("look_up"))
+		else if (Input.IsActionJustPressed("look_up"))
 		{
-			StateMachine.ChangeState("LookUp");
+			StateMachine.ChangeState(typeof(LookUp));
 		}
-		else if(Input.IsActionJustPressed("growl"))
+		else if (Input.IsActionJustPressed("growl"))
 		{
-			StateMachine.ChangeState("Growl");
+			StateMachine.ChangeState(typeof(Growl));
 		}
 	}
 
@@ -65,45 +74,44 @@ public partial class Idle : PlayerState
 	{
 		_sleepTimer = 0f;
 
-		Player.CanChangeFacingDirection = true;
-		Player.Velocity = new Vector2(0f, 0f);
+		_player.CanChangeFacingDirection = true;
+		_player.Velocity = new Vector2(0f, 0f);
 
 		AnimPlayer.Play("idle");
 	}
 
 	internal override void PhysicsUpdate(double delta)
 	{
-		_sleepTimer += (float) delta;
+		_sleepTimer += (float)delta;
 
-		if(_sleepTimer >= _sleepDelay)
+		if (_sleepTimer >= _sleepDelay)
 		{
-			StateMachine.ChangeState("Sleep");
+			StateMachine.ChangeState(typeof(Sleep));
 			return;
 		}
 
-		if(!Player.IsOnFloor())
+		if (!_player.IsOnFloor())
 		{
-			StateMachine.ChangeState("Fall", StateType.LongJump);
+			StateMachine.ChangeState(typeof(Fall), StateType.LongJump);
 			return;
 		}
 
 		var movement = Input.GetAxis("move_left", "move_right");
 
-		if(movement != 0f)
+		if (movement != 0f)
 		{
-			if(Player.IsOnWall() && movement == -Player.GetWallNormal().X)
+			if (_player.IsOnWall() && movement == -_player.GetWallNormal().X)
 			{
 				return;
 			}
 
-			StateMachine.ChangeState(Player.RunEnabled ? "Run" : "Walk");
+			StateMachine.ChangeState(_player.RunEnabled ? typeof(Run) : typeof(Walk));
 			return;
 		}
 
-		if(Input.IsActionPressed("crouch"))
+		if (Input.IsActionPressed("crouch"))
 		{
-			StateMachine.ChangeState("Crouch");
-			return;
+			StateMachine.ChangeState(typeof(Crouch));
 		}
 	}
 }

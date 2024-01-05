@@ -1,47 +1,51 @@
-using Epilogue.actors.hestmor.enums;
-using Epilogue.global.enums;
-using Epilogue.global.singletons;
-using Epilogue.nodes;
+using System.Threading.Tasks;
+using Epilogue.Actors.Hestmor.Enums;
+using Epilogue.Global.Enums;
+using Epilogue.Global.Singletons;
+using Epilogue.Nodes;
 using Godot;
 
-namespace Epilogue.actors.hestmor.states;
-/// <summary>
-///		State that allows Hestmor to perform melee attacks and Executions
-/// </summary>
-public partial class MeleeAttack : PlayerState
+namespace Epilogue.Actors.Hestmor.States;
+/// <inheritdoc/>
+public partial class MeleeAttack : State
 {
-	[Export] private float _slideAttackSpeed = 150f;
+	private readonly float _slideAttackSpeed;
+	private readonly Player _player;
 
-	private CollisionShape2D _hitbox;
 	private PlayerEvents _eventsSingleton;
 	private Npc _enemy;
 	private StateType _attackType;
+
+	/// <summary>
+	/// 	State that allows Hestmor to perform melee attacks and Executions
+	/// </summary>
+	/// <param name="stateMachine">The State Machine who owns this State</param>
+	/// <param name="slideAttackSpeed">The horizontal speed of Hestmor when performing a Slide Attack</param>
+	public MeleeAttack(StateMachine stateMachine, float slideAttackSpeed) : base(stateMachine)
+	{
+		_slideAttackSpeed = slideAttackSpeed;
+		_player = (Player)stateMachine.Owner;
+	}
 
 	internal override void OnEnter(params object[] args)
 	{
 		// The attack audio is controlled by the animation
 
-		Player.CanChangeFacingDirection = false;
-
-		_attackType = (StateType) args[0];
-
-		var label = Player.GetNode<Label>("temp_StateName");
-
-		label.Text = _attackType.ToString();
-		label.Show();
+		_player.CanChangeFacingDirection = false;
+		_attackType = (StateType)args[0];
 
 		StateMachine.CanInteract = false;
 
-		if(Player.RayCasts["Enemy"].IsColliding())
+		if (SweepRayCastForEnemy())
 		{
-			_enemy = (Npc) Player.RayCasts["Enemy"].GetCollider();
+			_enemy = (Npc)_player.RayCasts["Enemy"].GetCollider();
 
-			if(_enemy.IsVulnerable)
+			if (_enemy.IsVulnerable)
 			{
 				Engine.TimeScale = 0.1f;
-				Player.CanChangeFacingDirection = false;
+				_player.CanChangeFacingDirection = false;
 
-				_eventsSingleton = GetNode<PlayerEvents>("/root/PlayerEvents");
+				_eventsSingleton = StateMachine.GetNode<PlayerEvents>("/root/PlayerEvents");
 
 				_eventsSingleton.EmitGlobalSignal("StateAwaitingForExecutionSpeed");
 				_eventsSingleton.ExecutionSpeedSelected += PerformExecution;
@@ -50,7 +54,7 @@ public partial class MeleeAttack : PlayerState
 			}
 		}
 
-		if(Player.HoldingSword)
+		if (_player.HoldingSword)
 		{
 			AnimPlayer.Play("Combat/sword_slash");
 		}
@@ -64,9 +68,9 @@ public partial class MeleeAttack : PlayerState
 
 			AnimPlayer.Play($"Combat/{animation}");
 
-			if(_attackType == StateType.SlideAttack)
+			if (_attackType == StateType.SlideAttack)
 			{
-				Player.Velocity = new Vector2(_slideAttackSpeed * (Player.FacingDirection == ActorFacingDirection.Left ? -1 : 1), 0f);
+				_player.Velocity = new Vector2(_slideAttackSpeed * (_player.FacingDirection == ActorFacingDirection.Left ? -1 : 1), 0f);
 			}
 		}
 
@@ -87,34 +91,58 @@ public partial class MeleeAttack : PlayerState
 
 		AnimPlayer.Play(animation);
 
-		await ToSignal(AnimPlayer, "animation_finished");
+		_ = await StateMachine.ToSignal(AnimPlayer, "animation_finished");
 
 		_enemy.Execute(speed);
 
-		StateMachine.ChangeState("Idle");
+		StateMachine.ChangeState(typeof(Idle));
 	}
 
 	internal override void PhysicsUpdate(double delta)
 	{
-		if(_attackType != StateType.SlideAttack)
+		if (_attackType != StateType.SlideAttack)
 		{
 			return;
 		}
 
-		Player.MoveAndSlideWithRotation();
+		_ = _player.MoveAndSlide();
 	}
 
 	private void FinishAttack(StringName animName)
 	{
 		AnimPlayer.AnimationFinished -= FinishAttack;
 
-		StateMachine.ChangeState("Idle");
+		StateMachine.ChangeState(typeof(Idle));
 	}
 
-	internal override void OnLeave()
+	internal override Task OnLeave()
 	{
 		Engine.TimeScale = 1f;
 		StateMachine.CanInteract = true;
-		Player.GetNode<Label>("temp_StateName").Hide();
+
+		return Task.CompletedTask;
+	}
+
+	private bool SweepRayCastForEnemy()
+	{
+		RayCast2D raycast = _player.RayCasts["Enemy"];
+
+		for (var i = -40; i < -6; i += 2)
+		{
+			raycast.Position = new Vector2(0f, i);
+
+			raycast.ForceRaycastUpdate();
+
+			if (raycast.IsColliding())
+			{
+				raycast.Position = new Vector2(0f, -20f);
+
+				return true;
+			}
+		}
+
+		raycast.Position = new Vector2(0f, -20f);
+
+		return false;
 	}
 }

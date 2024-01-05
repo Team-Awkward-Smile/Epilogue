@@ -1,8 +1,7 @@
-using Epilogue.nodes;
-
+using Epilogue.Nodes;
 using Godot;
 
-namespace Epilogue.guns;
+namespace Epilogue.Guns;
 /// <summary>
 ///		Minigun for testing purposes
 /// </summary>

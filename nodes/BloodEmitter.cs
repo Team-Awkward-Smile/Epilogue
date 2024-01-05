@@ -1,8 +1,10 @@
 using Godot;
-using System;
 
-[GlobalClass, Tool]
-public partial class BloodEmitter : GpuParticles2D
+namespace Epilogue.Nodes;
+/// <summary>
+/// 	Node that emits blood particles whenever an Actor takes damage
+/// </summary>
+[GlobalClass, Tool] public partial class BloodEmitter : GpuParticles2D
 {
 	[Export] private Color BloodColor
 	{
@@ -21,6 +23,7 @@ public partial class BloodEmitter : GpuParticles2D
 	private Color _bloodColor;
 	private ParticleProcessMaterial _particleMaterial;
 
+	/// <inheritdoc/>
 	public override void _EnterTree()
 	{
 		Emitting = false;
@@ -29,8 +32,10 @@ public partial class BloodEmitter : GpuParticles2D
 		_particleMaterial = ProcessMaterial as ParticleProcessMaterial;
 	}
 
-	public void EmitBlood()
+	/// <inheritdoc/>
+	public void EmitBlood(int amount = 50)
 	{
+		Amount = amount;
 		Emitting = true;
 	}
 }

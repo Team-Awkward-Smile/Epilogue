@@ -7,13 +7,13 @@
 radius = 5.09902
 
 [node name="Projectile" type="Area2D"]
-collision_layer = 16
+collision_layer = 256
 collision_mask = 32
 script = ExtResource("1_okoxm")
 Speed = 500.0
-Damage = 1.0
-DamageType = 1
+DamageType = 2
 LifeTime = 2.0
+Damage = 1.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-5, 0)

@@ -1,58 +1,61 @@
-using Epilogue.global.enums;
-using Epilogue.global.singletons;
-using Epilogue.nodes;
-
+using Epilogue.Nodes;
 using Godot;
 
-namespace Epilogue.actors.hestmor.states;
-/// <summary>
-///		State that allows Hestmor to crawl on all four
-/// </summary>
-public partial class Crawl : PlayerState
+namespace Epilogue.Actors.Hestmor.States;
+/// <inheritdoc/>
+public partial class Crawl : State
 {
-	[Export] private float _crawlSpeed;
+	private readonly float _crawlSpeed;
+	private readonly Player _player;
 
-	private bool _canUseAnalogControls;
+	/// <summary>
+	/// 	State that allows Hestmor to crawl on all four
+	/// </summary>
+	/// <param name="stateMachine">The State Machine who owns this State</param>
+	/// <param name="crawlSpeed">Speed in which Hestmor will crawl while in this State</param>
+	public Crawl(StateMachine stateMachine, float crawlSpeed) : base(stateMachine)
+	{
+		_player = (Player)stateMachine.Owner;
+		_crawlSpeed = crawlSpeed;
+	}
 
 	internal override void OnEnter(params object[] args)
 	{
 		AnimPlayer.Play("crawl");
-
-		_canUseAnalogControls = Settings.ControlScheme == ControlSchemeEnum.Modern;
 	}
 
 	internal override void PhysicsUpdate(double delta)
 	{
 		var movementDirection = Input.GetAxis("move_left", "move_right");
 
-		if(movementDirection == 0f)
+		if (movementDirection == 0f)
 		{
 			AnimPlayer.Pause();
 		}
-		else if(!AnimPlayer.IsPlaying())
+		else if (!AnimPlayer.IsPlaying())
 		{
 			AnimPlayer.Play();
 		}
 
-		var velocity = Player.Velocity;
+		Vector2 velocity = _player.Velocity;
 
-		velocity.Y += Gravity * (float) delta;
-		velocity.X = movementDirection * _crawlSpeed * (float) delta * 60f;
+		velocity.Y += StateMachine.Gravity * (float)delta;
+		velocity.X = movementDirection * _crawlSpeed * (float)delta * 60f;
 
-		Player.Velocity = velocity;
+		_player.Velocity = velocity;
 
-		Player.MoveAndSlideWithRotation();
+		_player.MoveAndSlideWithRotation();
 
-		var slopeNormal = Player.GetFloorNormal();
+		Vector2 slopeNormal = _player.GetFloorNormal();
 		var goingDownSlope = (movementDirection < 0 && slopeNormal.X < 0) || (movementDirection > 0 && slopeNormal.X > 0);
 
-		if(!Player.IsOnFloor())
+		if (!_player.IsOnFloor())
 		{
-			StateMachine.ChangeState("Fall");
+			StateMachine.ChangeState(typeof(Fall));
 		}
-		else if(goingDownSlope || Player.RotationDegrees < 40f)
+		else if (goingDownSlope || _player.RotationDegrees < 40f)
 		{
-			StateMachine.ChangeState("Idle");
+			StateMachine.ChangeState(typeof(Idle));
 		}
 	}
 }

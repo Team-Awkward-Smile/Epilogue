@@ -1,7 +1,7 @@
-using Epilogue.nodes;
+using Epilogue.Nodes;
 using Godot;
 
-namespace Epilogue.actors.hestmor;
+namespace Epilogue.Actors.Hestmor;
 /// <summary>
 ///		Node responsible for making the Camera follow a target smoothly
 /// </summary>
@@ -12,18 +12,18 @@ public partial class CameraAnchor : Node2D
 	/// </summary>
 	public bool FollowPlayer { get; set; } = true;
 
-    private Node2D _target;
+	private Node2D _target;
 
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
-		_target = (Player) Owner;
+		_target = (Player)Owner;
 	}
 
 	/// <inheritdoc/>
 	public override void _PhysicsProcess(double delta)
 	{
-		if(!FollowPlayer)
+		if (!FollowPlayer)
 		{
 			return;
 		}

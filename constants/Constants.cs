@@ -1,4 +1,4 @@
-namespace Epilogue.constants;
+namespace Epilogue.Constants;
 /// <summary>
 ///		Constants that can be used anywhere
 /// </summary>
@@ -18,4 +18,9 @@ public static class Constants
 	///		Path for the scene containing the Custom Popup created for this project
 	/// </summary>
 	public const string CUSTOM_POPUP_SCENE = "res://ui/popup/custom_popup.tscn";
+
+	/// <summary>
+	///		Height of the player sprite, in units
+	/// </summary>
+	public const int PLAYER_HEIGHT = 48;
 }

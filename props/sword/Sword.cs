@@ -1,7 +1,5 @@
-using Epilogue.nodes;
-
+using Epilogue.Nodes;
 using Godot;
-using System;
 
 namespace Epilogue.props;
 /// <summary>

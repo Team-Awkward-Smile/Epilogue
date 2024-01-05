@@ -1,8 +1,8 @@
-using Epilogue.global.enums;
+using Epilogue.Global.Enums;
 
 using Godot;
 
-namespace Epilogue.global.singletons;
+namespace Epilogue.Global.Singletons;
 /// <summary>
 ///		Global event emitter for events related to the player character
 /// </summary>

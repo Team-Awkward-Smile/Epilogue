@@ -1,6 +1,5 @@
-using Epilogue.global.singletons;
+using Epilogue.Global.Singletons;
 using Godot;
-using System;
 using System.Linq;
 
 namespace Epilogue.ui.hp;

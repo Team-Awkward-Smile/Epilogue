@@ -1,8 +1,8 @@
-using Epilogue.global.enums;
+using Epilogue.Global.Enums;
 
 using Godot;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 ///		Node used to save point is the level where the player can respawn
 /// </summary>

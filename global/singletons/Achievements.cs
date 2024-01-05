@@ -1,18 +1,23 @@
-using Epilogue.global.enums;
-
+using Epilogue.Global.Enums;
 using Godot;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Epilogue.global.singletons;
+namespace Epilogue.Global.Singletons;
 /// <summary>
 ///		Singleton in charge of storing values used by achievements, and unlocking those achievements when their conditions are met
 /// </summary>
 public partial class Achievements : Node
 {
+	/// <summary>
+	/// 	Number of times the player has jumped during the course of the game
+	/// </summary>
     public int JumpCount { get; set; }
+
+	/// <summary>
+	/// 	Defines if the player has played the game for at least 100 seconds
+	/// </summary>
     public bool PlayTimeOver100 { get; set; }
 
     private Dictionary<Achievement, Func<bool>> _unlockCriteria;

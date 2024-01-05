@@ -1,24 +1,9 @@
-[gd_scene load_steps=76 format=3 uid="uid://cmrbm1u6fwi67"]
+[gd_scene load_steps=61 format=3 uid="uid://cmrbm1u6fwi67"]
 
 [ext_resource type="Script" path="res://nodes/Player.cs" id="1_cnm5v"]
-[ext_resource type="Script" path="res://nodes/StateMachine.cs" id="2_uvkgn"]
-[ext_resource type="Script" path="res://actors/bob/states/Walk.cs" id="3_c6fjf"]
-[ext_resource type="Script" path="res://actors/bob/states/Jump.cs" id="4_ugcua"]
-[ext_resource type="Script" path="res://actors/bob/states/Idle.cs" id="5_k3jq6"]
-[ext_resource type="Script" path="res://actors/bob/states/Fall.cs" id="6_jk3ap"]
-[ext_resource type="Script" path="res://actors/bob/states/Crouch.cs" id="7_4d6ym"]
-[ext_resource type="Script" path="res://actors/bob/states/MeleeAttack.cs" id="8_35lol"]
-[ext_resource type="Script" path="res://actors/bob/states/GrabLedge.cs" id="9_ob3b3"]
-[ext_resource type="Script" path="res://actors/bob/states/Slide.cs" id="10_ktjo8"]
-[ext_resource type="Script" path="res://actors/bob/states/Run.cs" id="11_akqxd"]
-[ext_resource type="Script" path="res://actors/bob/states/LookUp.cs" id="12_n5xtt"]
-[ext_resource type="Script" path="res://actors/bob/states/Vault.cs" id="13_53ruh"]
-[ext_resource type="Script" path="res://actors/bob/states/Growl.cs" id="14_r17oe"]
-[ext_resource type="Script" path="res://actors/bob/states/Die.cs" id="15_be3o0"]
-[ext_resource type="Script" path="res://actors/bob/states/TakeDamage.cs" id="16_6xa0i"]
-[ext_resource type="Script" path="res://actors/bob/states/Crawl.cs" id="17_twf4d"]
+[ext_resource type="Script" path="res://actors/bob/states/PlayerStateMachine.cs" id="15_417v3"]
+[ext_resource type="Script" path="res://actors/bob/GrowlEffectArea.cs" id="16_ldru2"]
 [ext_resource type="Script" path="res://actors/bob/AudioPlayer.cs" id="18_ucai5"]
-[ext_resource type="Script" path="res://actors/bob/states/Sleep.cs" id="18_vh44x"]
 [ext_resource type="Script" path="res://actors/bob/aim/Aim.cs" id="19_imqwf"]
 [ext_resource type="Script" path="res://actors/bob/aim/MouseAim.cs" id="20_ja3mh"]
 [ext_resource type="Script" path="res://actors/bob/aim/ButtonAim.cs" id="21_y6wuk"]
@@ -734,15 +719,18 @@ tracks/0/keys = {
 tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../../StateMachine/Growl")
+tracks/1/path = NodePath("../../GrowlEffectArea")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.3),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
-"method": &"SpawnArea2D"
+"method": &"ActivateGrowlArea"
+}, {
+"args": [],
+"method": &"DeactivateGrowlArea"
 }]
 }
 
@@ -764,15 +752,18 @@ tracks/0/keys = {
 tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../../StateMachine/Growl")
+tracks/1/path = NodePath("../../GrowlEffectArea")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.6),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.5, 1),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
-"method": &"SpawnArea2D"
+"method": &"ActivateGrowlArea"
+}, {
+"args": [],
+"method": &"DeactivateGrowlArea"
 }]
 }
 
@@ -794,15 +785,18 @@ tracks/0/keys = {
 tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../../StateMachine/Growl")
+tracks/1/path = NodePath("../../GrowlEffectArea")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.4),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.4, 0.7),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
-"method": &"SpawnArea2D"
+"method": &"ActivateGrowlArea"
+}, {
+"args": [],
+"method": &"DeactivateGrowlArea"
 }]
 }
 
@@ -1089,8 +1083,7 @@ height = 46.0
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_swilf"]
 height = 50.0
 
-[sub_resource type="LabelSettings" id="LabelSettings_akv03"]
-font_size = 11
+[sub_resource type="CircleShape2D" id="CircleShape2D_o5mpv"]
 
 [node name="Bob" type="CharacterBody2D" groups=["Player"]]
 collision_mask = 8
@@ -1114,60 +1107,6 @@ libraries = {
 "Sleep": SubResource("AnimationLibrary_teqgy"),
 "Slide": SubResource("AnimationLibrary_re833")
 }
-
-[node name="StateMachine" type="Node" parent="."]
-script = ExtResource("2_uvkgn")
-
-[node name="Walk" type="Node" parent="StateMachine"]
-script = ExtResource("3_c6fjf")
-
-[node name="Jump" type="Node" parent="StateMachine"]
-script = ExtResource("4_ugcua")
-_jumpSpeed = -365.0
-
-[node name="Idle" type="Node" parent="StateMachine"]
-script = ExtResource("5_k3jq6")
-_sleepDelay = 5.0
-
-[node name="Fall" type="Node" parent="StateMachine"]
-script = ExtResource("6_jk3ap")
-
-[node name="Crouch" type="Node" parent="StateMachine"]
-script = ExtResource("7_4d6ym")
-
-[node name="MeleeAttack" type="Node" parent="StateMachine"]
-script = ExtResource("8_35lol")
-
-[node name="GrabLedge" type="Node" parent="StateMachine"]
-script = ExtResource("9_ob3b3")
-
-[node name="Slide" type="Node" parent="StateMachine"]
-script = ExtResource("10_ktjo8")
-
-[node name="Run" type="Node" parent="StateMachine"]
-script = ExtResource("11_akqxd")
-
-[node name="LookUp" type="Node" parent="StateMachine"]
-script = ExtResource("12_n5xtt")
-
-[node name="Vault" type="Node" parent="StateMachine"]
-script = ExtResource("13_53ruh")
-
-[node name="Growl" type="Node" parent="StateMachine"]
-script = ExtResource("14_r17oe")
-
-[node name="Die" type="Node" parent="StateMachine"]
-script = ExtResource("15_be3o0")
-
-[node name="TakeDamage" type="Node" parent="StateMachine"]
-script = ExtResource("16_6xa0i")
-
-[node name="Crawl" type="Node" parent="StateMachine"]
-script = ExtResource("17_twf4d")
-_crawlSpeed = 50.0
-
-[node name="Sleep" type="Node" parent="StateMachine"]
-script = ExtResource("18_vh44x")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 script = ExtResource("18_ucai5")
@@ -1279,7 +1218,7 @@ position = Vector2(18, -1)
 
 [node name="HurtBox" type="Area2D" parent="."]
 collision_layer = 32
-collision_mask = 16
+collision_mask = 256
 script = ExtResource("30_5ul0a")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="HurtBox"]
@@ -1288,13 +1227,21 @@ position = Vector2(0, -25)
 shape = SubResource("CapsuleShape2D_swilf")
 debug_color = Color(0.835294, 0.356863, 0.419608, 0.419608)
 
-[node name="temp_StateName" type="Label" parent="."]
-visible = false
-offset_left = -31.0
-offset_top = -68.0
-offset_right = 38.0
-offset_bottom = -45.0
-text = "STATE_NAME"
-label_settings = SubResource("LabelSettings_akv03")
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("15_417v3")
+_weakGrowlRadius = 100.0
+_mediumGrowlRadius = 200.0
+_strongGrowlRadius = 500.0
+_lowJumpVerticalSpeed = -350.0
+_lowJumpHorizontalSpeed = 150.0
+_longJumpVerticalSpeed = -200.0
+_longJumpHorizontalSpeed = 350.0
+
+[node name="GrowlEffectArea" type="Area2D" parent="."]
+position = Vector2(0, -24)
+collision_mask = 2
+script = ExtResource("16_ldru2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GrowlEffectArea"]
+shape = SubResource("CircleShape2D_o5mpv")
+disabled = true

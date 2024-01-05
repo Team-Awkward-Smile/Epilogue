@@ -1,8 +1,8 @@
-namespace Epilogue.global.enums;
+namespace Epilogue.Global.Enums;
 /// <summary>
 ///		Control scheme selected by the player
 /// </summary>
-public enum ControlSchemeEnum
+public enum ControlScheme
 {
 	/// <summary>
 	///		Modern controls, using WASD, mouse, and analog sticks

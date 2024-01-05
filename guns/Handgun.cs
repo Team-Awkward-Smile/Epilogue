@@ -1,8 +1,7 @@
-using Epilogue.nodes;
-
+using Epilogue.Nodes;
 using Godot;
 
-namespace Epilogue.guns;
+namespace Epilogue.Guns;
 /// <summary>
 ///		Handgun used for testing purposes
 /// </summary>
@@ -10,7 +9,7 @@ public partial class Handgun : Gun
 {
 	private PackedScene _bulletScene;
 
-	private protected override void AfterReady()
+    private protected override void AfterReady()
 	{
 		_bulletScene = GD.Load<PackedScene>("res://temp/handgun_bullet.tscn");
 	}
@@ -29,7 +28,6 @@ public partial class Handgun : Gun
 			bullet.GlobalTransform = Muzzle.GlobalTransform;
 
 			AudioPlayer.Play();
-
 			GunEvents.EmitGlobalSignal("GunFired", CurrentAmmoCount);
 		}
 	}

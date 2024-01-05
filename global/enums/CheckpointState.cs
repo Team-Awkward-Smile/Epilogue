@@ -1,4 +1,4 @@
-namespace Epilogue.global.enums;
+namespace Epilogue.Global.Enums;
 /// <summary>
 ///		State of a checkpoint
 /// </summary>

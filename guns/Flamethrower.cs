@@ -1,8 +1,8 @@
-using Epilogue.nodes;
+using Epilogue.Nodes;
 
 using Godot;
 
-namespace Epilogue.guns;
+namespace Epilogue.Guns;
 /// <summary>
 ///		Flamethrower used for testing purposes
 /// </summary>

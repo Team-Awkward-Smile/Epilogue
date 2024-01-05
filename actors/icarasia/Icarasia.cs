@@ -1,70 +1,286 @@
-using Epilogue.nodes;
+using Epilogue.Actors.Icarasia.Enums;
+using Epilogue.Actors.Icarasia.States;
+using Epilogue.Global.Enums;
+using Epilogue.Nodes;
 using Godot;
-using System;
+using Godot.Collections;
 
-namespace Epilogue.actors.icarasia;
+namespace Epilogue.Actors.Icarasia;
+/// <summary>
+///		Base class for the Icarasia NPC with AI
+/// </summary>
 public partial class Icarasia : Npc
 {
-    [Export] private float _detectionDistance = 200f;
-    [Export] private float _shotCooldown = 5f;
+	/// <summary>
+	///		Preferred way this Icarasia will try to attack the player
+	/// </summary>
+	[Export] public PreferredAttack PreferredAttack { get; set; }
 
-    private float _distanceToPlayer;
-    private float _projectileSweepTimer = 0f;
-    private bool _isIsCombatMode = false;
+	/// <summary>
+	///		Sets if this Icarasia will wander in search for Terra Bischem, or stay still
+	/// </summary>
+	[Export] public bool NearTerraBischem { get; private set; } = false;
 
-    private protected override void SetUpVariables()
-    {
-        CustomVariables.Add("ShotCooldown", _shotCooldown);
-        CustomVariables.Add("AttackTimer", 0f);
-    }
+	[Export] private float _detectionDistance = 200f;
 
-    private protected override void ProcessFrame(double delta)
-    {
-        CustomVariables["AttackTimer"] = CustomVariables["AttackTimer"].AsSingle() + (float) delta;
+	private protected override bool UseDefaultPathfinding => false;
 
-        _distanceToPlayer = Player.GlobalPosition.DistanceTo(GlobalPosition);
+	/// <inheritdoc/>
+	public override Dictionary<DamageType, float> DamageModifiers { get; set; } = new()
+	{
+		{ DamageType.Unarmed, 1f },
+		{ DamageType.GunThrow, 2f },
+		{ DamageType.Piercing, 1f },
+		{ DamageType.Fire, 1f }
+	};
 
-        if(_distanceToPlayer <= _detectionDistance)
-        {
-            StateMachine.ChangeState("Move");
-            _isIsCombatMode = true;
-        }
+	/// <summary>
+	///		Cooldown (in seconds) between shots
+	/// </summary>
+	public float ShotCooldown { get; set; }
 
-        if(_isIsCombatMode && (_projectileSweepTimer += (float) delta) >= 0.1f)
-        {
-            _projectileSweepTimer = 0f;
+	/// <summary>
+	///		Cooldown (in seconds) between stings
+	/// </summary>
+	public float StingerCooldown { get; set; }
 
-            var angle = SweepProjectileRayCastForPlayer();
+	/// <summary>
+	///		Time (in seconds) since the last attack
+	/// </summary>
+	public float AttackTimer { get; set; }
 
-            if(angle is not null && CustomVariables["AttackTimer"].AsSingle() >= _shotCooldown)
-            {
-                StateMachine.ChangeState("Shoot", angle);
-            }
-        }
-    }
+	/// <summary>
+	///		Defines if the player is detected or not
+	/// </summary>
+	public bool IsPlayerDetected { get; set; }
 
-    private int? SweepProjectileRayCastForPlayer()
-    {
-        var raycast = RayCasts["Projectile"];
-        var angles = new[] { 0, 45, 135, 180, 225, 315 };
+	/// <summary>
+	///		Angle of the shot to be used for the attack. Null if the player cannot be hit.
+	///		Updated every 0.1 second
+	/// </summary>
+	public int? ShotAngle { get; set; }
 
-        raycast.Enabled = true;
+	/// <summary>
+	///		Direction to be used for the sting attack. Null if the player cannot be hit.
+	///		Updated every 0.1 second
+	/// </summary>
+	public StingDirection? StingDirection { get; set; }
 
-        foreach(var angle in angles)
-        {
-            raycast.RotationDegrees = angle;
-            raycast.ForceRaycastUpdate();
+	/// <summary>
+	///		Distance (in units) between the Icarasia and the player.
+	///		Updated every frame
+	/// </summary>
+	public float DistanceToPlayer { get; private set; }
 
-            if(raycast.IsColliding() && (raycast.GetCollider() is Player))
-            {
-                raycast.Enabled = false;
+	private int[] _projectileAngles = new[] { 0, 45, 135, 180, 225, 315 };
+	private float _projectileSweepTimer;
+	private float _stingerSweepTimer;
+	private bool _isIsCombatMode;
 
-                return angle;
-            }
-        }
 
-        raycast.Enabled = false;
+	/// <summary>
+	///     Checks detection of player
+	///     When player is detected, sweeps an area around itself every 0.1 second to see if a shot is aligned
+	/// </summary>
+	private protected override void ProcessFrame(double delta)
+	{
+		AttackTimer += (float)delta;
 
-        return null;
-    }
+		DistanceToPlayer = Player.GlobalPosition.DistanceTo(GlobalPosition);
+
+		if (!IsPlayerDetected && DistanceToPlayer <= _detectionDistance)
+		{
+			IsPlayerDetected = true;
+		}
+
+		_projectileSweepTimer += (float)delta;
+		_stingerSweepTimer += (float)delta;
+
+		if (IsPlayerDetected && _projectileSweepTimer >= 0.1f)
+		{
+			_projectileSweepTimer = 0f;
+
+			ShotAngle = SweepProjectileRayCastForPlayer();
+		}
+
+		if (IsPlayerDetected && _stingerSweepTimer >= 0.1f)
+		{
+			_stingerSweepTimer = 0f;
+
+			StingDirection = SweepStingerRaycastForPlayer();
+		}
+	}
+
+	private StingDirection? SweepStingerRaycastForPlayer()
+	{
+		var directions = new Vector2[] { new(30, 0), new(-30, 0), new(0, 30) };
+		var raycast = RayCasts["Stinger"];
+
+		raycast.Enabled = true;
+
+		foreach (Vector2 direction in directions)
+		{
+			raycast.TargetPosition = direction;
+			raycast.ForceRaycastUpdate();
+
+			if (raycast.IsColliding() && raycast.GetCollider() is Player)
+			{
+				raycast.Enabled = false;
+
+				return (direction.X != 0) ? Enums.StingDirection.Forward : Enums.StingDirection.Down;
+			}
+		}
+
+		raycast.Enabled = false;
+
+		return null;
+	}
+
+	private int? SweepProjectileRayCastForPlayer()
+	{
+		var raycast = RayCasts["Projectile"];
+
+		raycast.Enabled = true;
+
+		foreach (int angle in _projectileAngles)
+		{
+			raycast.RotationDegrees = angle;
+			raycast.ForceRaycastUpdate();
+
+			if (raycast.IsColliding() && (raycast.GetCollider() is Player))
+			{
+				raycast.Enabled = false;
+
+				return angle;
+			}
+		}
+
+		raycast.Enabled = false;
+
+		return null;
+	}
+
+	private protected override void OnVulnerabilityTriggered()
+	{
+		_npcStateMachine.ChangeState(typeof(Vulnerable));
+	}
+
+	private protected override void OnHealthDepleted(DamageType damageType)
+	{
+		if (damageType == DamageType.Unarmed)
+		{
+			// The Icarasia will die after 3 seconds if no Execution is performed
+			_npcStateMachine.ChangeState(typeof(Vulnerable), 3f);
+		}
+		else
+		{
+			_npcStateMachine.ChangeState(typeof(Die));
+		}
+	}
+
+	private protected override void OnDamageTaken(float damage, float currentHp, DamageType damageType)
+	{
+		var blinkTime = damageType == DamageType.Unarmed ? 0.4f : 0.2f;
+
+		CanTakeDamage = false;
+
+		if (CurrentGrowlInEffect is GrowlType.Strong or GrowlType.Weak)
+		{
+			_npcStateMachine.ChangeState(typeof(Stun), 2f);
+		}
+		else
+		{
+			_npcStateMachine.ChangeState(typeof(Push), blinkTime);
+
+			if (CurrentGrowlInEffect is GrowlType.Medium)
+			{
+				_ = _npcStateMachine.Connect(StateMachine.SignalName.StateExited,
+					Callable.From(() => _npcStateMachine.ChangeState(typeof(Flee), 100f, 2f)),
+					(uint)ConnectFlags.OneShot);
+			}
+		}
+
+		ActivateIFrameBlink();
+
+		GetTree().CreateTimer(blinkTime).Timeout += () =>
+		{
+			CanTakeDamage = true;
+
+			DeactivateIFrameBlink();
+		};
+	}
+
+	private protected override void OnExecutionPerformed(ExecutionSpeed executionSpeed)
+	{
+		_npcStateMachine.ChangeState(typeof(Die), executionSpeed);
+	}
+
+	private protected override void OnGrowl(GrowlType growlType)
+	{
+		switch (growlType)
+		{
+			case GrowlType.Weak:
+				_npcStateMachine.ChangeState(typeof(Stun), 1.5f);
+
+				DamageModifiers[DamageType.Unarmed] = 1.5f;
+
+				// Returns the Melee weakness to normal after leaving the Stun State
+				_ = _npcStateMachine.Connect(StateMachine.SignalName.StateExited,
+						Callable.From(() =>
+						{
+							DamageModifiers[DamageType.Unarmed] = 1f;
+							CurrentGrowlInEffect = null;
+						}),
+						(uint)ConnectFlags.OneShot);
+
+				break;
+
+			case GrowlType.Medium:
+				_npcStateMachine.ChangeState(typeof(Flee), 50f, 2f);
+
+				DamageModifiers[DamageType.Unarmed] = 1.8f;
+
+				// Returns the Melee weakness to normal after leaving the Stun State
+				_ = _npcStateMachine.Connect(StateMachine.SignalName.StateExited,
+						Callable.From(() =>
+						{
+							DamageModifiers[DamageType.Unarmed] = 1f;
+							CurrentGrowlInEffect = null;
+						}),
+						(uint)ConnectFlags.OneShot);
+
+				break;
+
+			case GrowlType.Strong:
+				_npcStateMachine.ChangeState(typeof(Flee), 100f, 3f);
+
+				DamageModifiers[DamageType.Unarmed] = 2.5f;
+
+				// Returns the Melee weakness to normal after leaving the Stun State
+				_ = _npcStateMachine.Connect(StateMachine.SignalName.StateExited,
+						Callable.From(() =>
+						{
+							DamageModifiers[DamageType.Unarmed] = 1f;
+							CurrentGrowlInEffect = null;
+						}),
+						(uint)ConnectFlags.OneShot);
+
+				break;
+		}
+	}
+
+	private protected override void OnStunTriggered()
+	{
+		_npcStateMachine.ChangeState(typeof(Stun));
+	}
+
+	private protected override void OnStunExpired()
+	{
+		_npcStateMachine.ChangeState(typeof(Move));
+	}
+
+	private protected override void OnPlayerDeath()
+	{
+		_npcStateMachine.ChangeState(typeof(Wander));
+	}
 }

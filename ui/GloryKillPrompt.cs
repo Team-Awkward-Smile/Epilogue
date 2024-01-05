@@ -1,6 +1,6 @@
-using Epilogue.global.enums;
-using Epilogue.global.singletons;
-using Epilogue.util;
+using Epilogue.Global.Enums;
+using Epilogue.Global.Singletons;
+using Epilogue.Util;
 using Godot;
 
 namespace Epilogue.ui;

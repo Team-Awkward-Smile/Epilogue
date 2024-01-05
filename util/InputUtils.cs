@@ -1,7 +1,7 @@
-using Epilogue.global.enums;
-using Epilogue.global.singletons;
+using Epilogue.Global.Enums;
+using Epilogue.Global.Singletons;
 
-namespace Epilogue.util;
+namespace Epilogue.Util;
 /// <summary>
 ///		Methods that are useful when dealing with Inputs
 /// </summary>
@@ -14,6 +14,6 @@ public static class InputUtils
 	/// <returns>The same input action, plus "_modern" or "_retro" appended to it</returns>
 	public static string GetInputActionName(string action)
 	{
-		return $"{action}_{(Settings.ControlScheme == ControlSchemeEnum.Modern ? "modern" : "retro")}";
+		return $"{action}_{(Settings.ControlScheme == ControlScheme.Modern ? "modern" : "retro")}";
 	}
 }

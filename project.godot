@@ -27,6 +27,7 @@ CheckpointManager="*res://global/singletons/CheckpointManager.cs"
 Achievements="*res://global/singletons/Achievements.cs"
 GunEvents="*res://global/singletons/GunEvents.cs"
 PlayerEvents="*res://global/singletons/PlayerEvents.cs"
+NpcEvents="*res://global/singletons/NpcEvents.cs"
 CustomSettings="*res://settings/CustomSettings.cs"
 
 [debug]
