@@ -59,7 +59,7 @@ gameplay/achievements=0
 project/version="0.1.1"
 gameplay/game_cycle=0
 controls/controller_type=2
-controls/control_scheme=0
+controls/control_scheme=1
 
 [filesystem]
 
