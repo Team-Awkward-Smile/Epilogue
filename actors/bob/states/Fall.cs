@@ -1,5 +1,5 @@
 using Epilogue.Actors.Hestmor.Enums;
-using Epilogue.Constants;
+using Epilogue.Const;
 using Epilogue.Nodes;
 using Godot;
 using System.Threading.Tasks;
@@ -51,7 +51,7 @@ public partial class Fall : State
 
 			if (offset < -20)
 			{
-				_player.Position = new Vector2(_player.Position.X, ledgePosition.Y + Constants.Constants.MAP_TILE_SIZE);
+				_player.Position = new Vector2(_player.Position.X, ledgePosition.Y + Const.Constants.MAP_TILE_SIZE);
 				StateMachine.ChangeState(typeof(Vault));
 			}
 			else

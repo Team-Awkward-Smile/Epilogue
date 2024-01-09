@@ -1,4 +1,4 @@
-namespace Epilogue.Constants;
+namespace Epilogue.Const;
 /// <summary>
 ///		Constants that can be used anywhere
 /// </summary>

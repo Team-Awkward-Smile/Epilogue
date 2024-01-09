@@ -1,6 +1,6 @@
 using Epilogue.Global.Enums;
 using Epilogue.Global.Singletons;
-using Epilogue.props.camera;
+using Epilogue.Props.camera;
 using Epilogue.ui;
 using Epilogue.ui.hp;
 using Godot;

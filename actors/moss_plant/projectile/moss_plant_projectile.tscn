@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://bc370iuvansgx"]
+
+[ext_resource type="Script" path="res://actors/moss_plant/projectile/MossPlantProjectile.cs" id="1_ebjpp"]
+[ext_resource type="Texture2D" uid="uid://blxp25xl4efor" path="res://actors/moss_plant/projectile/moss_plant_projectile.png" id="2_2tda5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wddsq"]
+
+[node name="Projectile" type="Area2D"]
+collision_layer = 256
+collision_mask = 568
+script = ExtResource("1_ebjpp")
+DestroyOnHit = false
+Speed = 150.0
+LifeTime = 5.0
+DamageType = 2
+Damage = 1.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_2tda5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_wddsq")
+
+[node name="BounceRayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(40, 0)
+collision_mask = 8

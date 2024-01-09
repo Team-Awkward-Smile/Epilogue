@@ -1,4 +1,4 @@
-using Epilogue.Constants;
+using Epilogue.Const;
 using Godot;
 using System.Collections.Generic;
 
@@ -18,7 +18,7 @@ public partial class CustomPopup : AcceptDialog
 	/// </summary>
 	public static CustomPopup NewCustomPopup()
 	{
-		var scene = GD.Load<PackedScene>(Constants.Constants.CUSTOM_POPUP_SCENE).Instantiate() as AcceptDialog;
+		var scene = GD.Load<PackedScene>(Const.Constants.CUSTOM_POPUP_SCENE).Instantiate() as AcceptDialog;
 
 		return scene.Duplicate() as CustomPopup;
 	}

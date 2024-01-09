@@ -2,7 +2,7 @@
 using Epilogue.Extensions;
 using Epilogue.Global.Singletons;
 using Epilogue.Nodes;
-using Epilogue.props;
+using Epilogue.Props;
 using Godot;
 using System.Linq;
 

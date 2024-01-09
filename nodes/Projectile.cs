@@ -19,11 +19,6 @@ public partial class Projectile : HitBox
 	[Export] public float Speed { get; set; }
 
 	/// <summary>
-	///     Type of damage caused by this projectile
-	/// </summary>
-	[Export] public DamageType DamageType { get; set; }
-
-	/// <summary>
 	///     Vertical force applied to this projectile while it travels. Positive values will pull the projectile down, and positive ones will make the projectile rise as it travels
 	/// </summary>
 	[Export] public float VerticalForce { get; set; } = 0f;
@@ -40,26 +35,13 @@ public partial class Projectile : HitBox
 	{
 		base._Ready();
 
-		AreaEntered += (Area2D area) =>
+		ValidAreaHit += (Area2D area) =>
 		{
 			if (DestroyOnHit)
 			{
 				QueueFree();
 			}
 		};
-	}
-
-	/// <summary>
-	///     Checks if the collision happened with an Actor. If so, deals damage to it
-	/// </summary>
-	/// <param name="area"></param>
-	private void DamageActor(Area2D area)
-	{
-		if (area.Owner is Actor actor)
-		{
-			GD.Print($"Dealing [{Damage}] to [{actor.Name}]");
-			actor.ReduceHealth(Damage, DamageType);
-		}
 	}
 
 	/// <inheritdoc/>
