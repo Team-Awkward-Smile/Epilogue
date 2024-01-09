@@ -32,9 +32,9 @@ public partial class MeleeAttack : State
 		// The attack audio is controlled by the animation
 
 		_player.CanChangeFacingDirection = false;
-		_attackType = (StateType)args[0];
+		_player.CanInteract = false;
 
-		StateMachine.CanInteract = false;
+		_attackType = (StateType)args[0];
 
 		if (SweepRayCastForEnemy())
 		{
@@ -43,12 +43,17 @@ public partial class MeleeAttack : State
 			if (_enemy.IsVulnerable)
 			{
 				Engine.TimeScale = 0.1f;
+
+				_enemy.CanRecoverFromVulnerability = false;
+
 				_player.CanChangeFacingDirection = false;
 
 				_eventsSingleton = StateMachine.GetNode<PlayerEvents>("/root/PlayerEvents");
 
-				_eventsSingleton.EmitGlobalSignal("StateAwaitingForExecutionSpeed");
+				_eventsSingleton.EmitSignal(PlayerEvents.SignalName.QueryExecutionSpeed);
 				_eventsSingleton.ExecutionSpeedSelected += PerformExecution;
+
+				_player.GetViewport().SetInputAsHandled();
 
 				return;
 			}
@@ -118,7 +123,8 @@ public partial class MeleeAttack : State
 	internal override Task OnLeave()
 	{
 		Engine.TimeScale = 1f;
-		StateMachine.CanInteract = true;
+
+		_player.CanInteract = true;
 
 		return Task.CompletedTask;
 	}

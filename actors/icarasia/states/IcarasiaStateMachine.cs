@@ -66,7 +66,7 @@ public partial class IcarasiaStateMachine : NpcStateMachine
 			new Shoot(this),
 			new Sting(this),
 			new Stun(this, _stunDuration),
-			new Vulnerable(this, icarasia.StunTimer),
+			new Vulnerable(this),
 			new Wander(this, _wanderSpeed)
 		};
 

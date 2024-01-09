@@ -1,4 +1,3 @@
-using Epilogue.Constants;
 using Epilogue.Extensions;
 using Epilogue.Global.Enums;
 using Epilogue.Global.Singletons;
@@ -19,7 +18,11 @@ public abstract partial class Npc : Actor
 	/// </summary>
 	[Export] public float VulnerabilityThreshold { get; set; }
 
-	[Export] private float _vulnerabilityTimer;
+	/// <summary>
+	///		Time (in seconds) this NPC will remain Vulnerable before recovering.
+	///		Has no effect if <see cref="VulnerabilityThreshold"/> = 0
+	/// </summary>
+	[Export] public float VulnerabilityDuration { get; set; }
 
 	private protected abstract bool UseDefaultPathfinding { get; }
 
@@ -37,27 +40,6 @@ public abstract partial class Npc : Actor
 	///     Defines if this NPC is Vulnerable and able to be Executed
 	/// </summary>
 	public bool IsVulnerable { get; private set; }
-
-	/// <summary>
-	///     Defines if this NPC is Stunned and cannot move
-	/// </summary>
-	public bool IsStunned
-	{
-		get => _isStunned;
-		set
-		{
-			_isStunned = value;
-
-			if (value)
-			{
-				OnStunTriggered();
-			}
-			else
-			{
-				OnStunExpired();
-			}
-		}
-	}
 
 	/// <summary>
 	///     NavigationAgent2D used to control this NPC's pathfinding towards the Player
@@ -90,27 +72,21 @@ public abstract partial class Npc : Actor
 	public bool WaitingForNavigationQuery { get; set; }
 
 	/// <summary>
-	///     Duration (in seconds) that this NPC will remain stunned
-	/// </summary>
-	public float StunTimer { get; set; }
-
-	/// <summary>
 	///		Determines if this NPC can take damage or not
 	/// </summary>
 	public bool CanTakeDamage { get; set; } = true;
+
+	/// <summary>
+	///		Determines if this NPC can recover from the Vulnerable State.
+	///		While set to <c>false</c>, the timer to recover will not be updated
+	/// </summary>
+	public bool CanRecoverFromVulnerability { get; set; } = true;
 
 	private protected NpcStateMachine _npcStateMachine;
 	private protected PlayerEvents _playerEvents;
 
 	private float _vulnerabilityElapsedTime;
 	private bool _isStunned;
-
-
-	/// <inheritdoc/>
-	public override void _EnterTree()
-	{
-		StunTimer = _vulnerabilityTimer;
-	}
 
 	/// <inheritdoc/>
 	public override async void _Ready()
@@ -223,7 +199,7 @@ public abstract partial class Npc : Actor
 	/// <param name="growlType">Base Strength of the effect to be applied. This value may be changed depending on the NPC's resistance to the Growl effect</param>
 	public void ReactToGrowl(GrowlType growlType)
 	{
-		if(CurrentGrowlInEffect is not null)
+		if (CurrentGrowlInEffect is not null)
 		{
 			return;
 		}
@@ -260,6 +236,18 @@ public abstract partial class Npc : Actor
 			return;
 		}
 
+		if (IsVulnerable && CanRecoverFromVulnerability)
+		{
+			_vulnerabilityElapsedTime += (float)delta;
+
+			if (_vulnerabilityElapsedTime >= VulnerabilityDuration)
+			{
+				_vulnerabilityElapsedTime = 0f;
+
+				OnVulnerabilityRecovered();
+			}
+		}
+
 		ProcessFrame(delta);
 	}
 
@@ -273,6 +261,11 @@ public abstract partial class Npc : Actor
 	///     Method that runs whenever this NPC becomes Vulnerable for the first time
 	/// </summary>
 	private protected abstract void OnVulnerabilityTriggered();
+
+	/// <summary>
+	///		Method that runs whenever this NPC recovers from the Vulnerability stun
+	/// </summary>
+	private protected abstract void OnVulnerabilityRecovered();
 
 	/// <summary>
 	///     Method that runs whenever this NPC's HP drops to 0
@@ -298,16 +291,6 @@ public abstract partial class Npc : Actor
 	/// </summary>
 	/// <param name="growlType">Type of the Growl that will affect this NPC</param>
 	private protected abstract void OnGrowl(GrowlType growlType);
-
-	/// <summary>
-	///     Method that runs whenever this NPC gets Stunned
-	/// </summary>
-	private protected abstract void OnStunTriggered();
-
-	/// <summary>
-	///     Method that runs whenever the Stunned condition affecting this NPC ends
-	/// </summary>
-	private protected abstract void OnStunExpired();
 
 	/// <summary>
 	///     Method that runs whenever the Player dies

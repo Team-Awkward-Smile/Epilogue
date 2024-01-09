@@ -20,11 +20,6 @@ public partial class StateMachine : Node
 	[Signal] public delegate void StateExitedEventHandler();
 
 	/// <summary>
-	///		Defines if the current State allows the Actor to interact with the world
-	/// </summary>
-	public bool CanInteract { get; set; } = true;
-
-	/// <summary>
 	/// 	Value of the gravity affecting every State from this StateMachine
 	/// </summary>
 	public float Gravity { get; set; }

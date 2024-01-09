@@ -23,22 +23,4 @@ public partial class Stun : State
 	{
 		AnimPlayer.PlayBackwards("Combat/stun");
 	}
-
-    internal override void PhysicsUpdate(double delta)
-    {
-        if((_timer += (float) delta) >= _rob.StunTimer)
-		{
-			_timer = 0f;
-			_rob.GetNode<HitBox>("FlipRoot/HitBox").BonusDamage = 2f;
-
-			StateMachine.ChangeState(typeof(Move));
-		}
-    }
-
-    internal override Task OnLeave()
-	{
-		_rob.IsStunned = false;
-
-		return Task.CompletedTask;
-	}
 }

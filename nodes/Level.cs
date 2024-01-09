@@ -104,8 +104,8 @@ public partial class Level : Node2D
 		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
 		_checkpointManager = GetNode<CheckpointManager>("/root/CheckpointManager");
 
-		_playerEvents.Connect("PlayerDied", Callable.From(RespawnPlayer));
-		_playerEvents.Connect("StateAwaitingForExecutionSpeed", Callable.From(_killPrompt.Enable));
+		_playerEvents.Connect(PlayerEvents.SignalName.PlayerDied, Callable.From(RespawnPlayer));
+		_playerEvents.Connect(PlayerEvents.SignalName.QueryExecutionSpeed, Callable.From(_killPrompt.Enable));
 
 		_tileMap = GetChildren().OfType<TileMap>().FirstOrDefault();
 
@@ -166,10 +166,9 @@ public partial class Level : Node2D
 			}
 		}
 
+		Player.Position = _checkpoints.FirstOrDefault(c => c.Current).Position;
+
 		_camera = GetViewport().GetCamera2D() as Camera;
-
-		Player.Position = _checkpoints.Where(c => c.Current).FirstOrDefault().Position;
-
 		_camera.Position = Player.Position;
 		_camera.SetCameraTarget(Player.GetNode<Node2D>("CameraAnchor"));
 	}

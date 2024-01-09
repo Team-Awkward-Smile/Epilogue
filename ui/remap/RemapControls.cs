@@ -26,8 +26,8 @@ public partial class RemapControls : UI
 
 	private static readonly List<GroupAction> _combatActions = new()
 	{
-		new() { Label = "Attack/Shoot", Actions = new() { "melee", "shoot" } },
-		new() { Label = "Growl/Interact", Actions = new() { "growl", "interact" } }
+		new() { Label = "Attack/Shoot/Slow Execution", Actions = new() { "melee", "shoot", "execute_slow" } },
+		new() { Label = "Growl/Interact/Fast Execution", Actions = new() { "growl", "interact", "execute_fast" } }
 	};
 
 	private static readonly List<GroupAction> _uiActions = new()

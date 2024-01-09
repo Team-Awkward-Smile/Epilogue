@@ -165,6 +165,11 @@ public partial class Icarasia : Npc
 		_npcStateMachine.ChangeState(typeof(Vulnerable));
 	}
 
+	private protected override void OnVulnerabilityRecovered()
+	{
+		_npcStateMachine.ChangeState(typeof(Charge));
+	}
+
 	private protected override void OnHealthDepleted(DamageType damageType)
 	{
 		if (damageType == DamageType.Unarmed)
@@ -267,16 +272,6 @@ public partial class Icarasia : Npc
 
 				break;
 		}
-	}
-
-	private protected override void OnStunTriggered()
-	{
-		_npcStateMachine.ChangeState(typeof(Stun));
-	}
-
-	private protected override void OnStunExpired()
-	{
-		_npcStateMachine.ChangeState(typeof(Move));
 	}
 
 	private protected override void OnPlayerDeath()

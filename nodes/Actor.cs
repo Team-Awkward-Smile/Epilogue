@@ -51,6 +51,11 @@ public abstract partial class Actor : CharacterBody2D
 	/// </summary>
 	public HurtBox HurtBox { get; set; }
 
+	/// <summary>
+	///		Defines if this Actor can interact with Interactives in the world
+	/// </summary>
+	public bool CanInteract { get; set; }
+
 	private protected AnimationPlayer AnimationPlayer { get; set; }
 
 	/// <inheritdoc/>

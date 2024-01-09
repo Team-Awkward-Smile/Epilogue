@@ -62,7 +62,7 @@ gameplay/achievements=0
 project/version="0.1.1"
 gameplay/game_cycle=0
 controls/controller_type=2
-controls/control_scheme=0
+controls/control_scheme=1
 
 [filesystem]
 
@@ -533,6 +533,14 @@ move_right_analog_modern={
 "deadzone": 0.5,
 "events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":0,"axis_value":1.0,"script":null)
 ]
+}
+execute_fast={
+"deadzone": 0.5,
+"events": []
+}
+execute_slow={
+"deadzone": 0.5,
+"events": []
 }
 
 [layer_names]

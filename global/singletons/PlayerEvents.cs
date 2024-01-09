@@ -1,5 +1,5 @@
 using Epilogue.Global.Enums;
-
+using Epilogue.Nodes;
 using Godot;
 
 namespace Epilogue.Global.Singletons;
@@ -11,7 +11,7 @@ public partial class PlayerEvents : GlobalEvents
 	/// <summary>
 	///		Event triggered whenever the game is waiting for the player to select an Execution speed
 	/// </summary>
-	[Signal] public delegate void StateAwaitingForExecutionSpeedEventHandler();
+	[Signal] public delegate void QueryExecutionSpeedEventHandler();
 
 	/// <summary>
 	///		Event triggered whenever the player select an Execution speed
