@@ -47,5 +47,19 @@ public partial class AudioPlayer : ActorAudioPlayer
 		{ "ClimbRock_02", GD.Load<AudioStream>($"{path}//collision//ledge//rock//rclimbing_02.wav") },
 		{ "ClimbRock_03", GD.Load<AudioStream>($"{path}//collision//ledge//rock//rclimbing_03.wav") },
 		{ "ClimbRock_04", GD.Load<AudioStream>($"{path}//collision//ledge//rock//rclimbing_04.wav") },
+
+		{ "ScratchRock_01", GD.Load<AudioStream>($"{path}//collision//melee//rock//scratch.wav") },
+		{ "ScratchRock_02", GD.Load<AudioStream>($"{path}//collision//melee//rock//scratch_01.wav") },
+		{ "ScratchRock_03", GD.Load<AudioStream>($"{path}//collision//melee//rock//scratch_02.wav") },
+		{ "ScratchRock_04", GD.Load<AudioStream>($"{path}//collision//melee//rock//scratch_short.wav") },
+		{ "ScratchRock_05", GD.Load<AudioStream>($"{path}//collision//melee//rock//scratch_short_01.wav") },
+		{ "ScratchRock_06", GD.Load<AudioStream>($"{path}//collision//melee//rock//scratch_short_02.wav") },
 	};
+
+    public override void _Ready()
+    {
+        base._Ready();
+
+
+    }
 }

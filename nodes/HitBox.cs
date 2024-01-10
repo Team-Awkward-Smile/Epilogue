@@ -9,10 +9,19 @@ namespace Epilogue.nodes;
 [GlobalClass]
 public partial class HitBox : Area2D
 {
+	[Signal] public delegate void ActorHitEventHandler();
+
+	[Signal] public delegate void TileHitEventHandler(DamageType damageType, bool isTileBreakable);
+
 	/// <summary>
 	///		Type of damage caused by this HitBox
 	/// </summary>
-	[Export] private DamageType _damageType;
+	[Export] public DamageType DamageType { get; set; }
+
+	/// <summary>
+	///		Duration (in seconds) this HitBox will remain active
+	/// </summary>
+    [Export] public float LifeTime { get; set; }
 
 	/// <summary>
 	///		Damage caused by this HitBox
@@ -37,7 +46,8 @@ public partial class HitBox : Area2D
 		}
 	}
 
-	private Shape2D _collisionShape;
+    private Shape2D _collisionShape;
+	private float _timer;
 
 	private void SpawnCollisionShape()
 	{
@@ -70,8 +80,24 @@ public partial class HitBox : Area2D
 		{
 			if(body is BreakableTile tile)
 			{
-				tile.DamageTile(Damage, _damageType);
+				tile.DamageTile(Damage, DamageType);
+
+				EmitSignal(SignalName.TileHit, true);
+			}
+			else
+			{
+				EmitSignal(SignalName.TileHit, false);
 			}
 		};
 	}
+
+    public override void _Process(double delta)
+    {
+		_timer += (float)delta;
+
+		if (_timer >= LifeTime)
+		{
+			QueueFree();
+		}
+    }
 }

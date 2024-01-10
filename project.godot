@@ -531,6 +531,14 @@ move_right_analog_modern={
 "events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":0,"axis_value":1.0,"script":null)
 ]
 }
+execute_fast={
+"deadzone": 0.5,
+"events": []
+}
+execute_slow={
+"deadzone": 0.5,
+"events": []
+}
 
 [layer_names]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://cjolarkdk5yoi"]
+[gd_scene load_steps=22 format=3 uid="uid://cjolarkdk5yoi"]
 
 [ext_resource type="Script" path="res://nodes/Level.cs" id="1_o245g"]
 [ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_pfrwm"]
@@ -20,7 +20,6 @@
 [ext_resource type="PackedScene" uid="uid://6a8rb567c64u" path="res://props/breakable_tiles/test_breakable_tile.tscn" id="20_cneke"]
 [ext_resource type="Script" path="res://nodes/TestDummy.cs" id="21_tnd04"]
 [ext_resource type="Script" path="res://temp/AchievmentTimer.cs" id="21_tq176"]
-[ext_resource type="PackedScene" uid="uid://c7cpj3m2vojlm" path="res://actors/rob/rob.tscn" id="22_r7av8"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nkpyu"]
 radius = 13.0
@@ -187,6 +186,3 @@ position = Vector2(314, -147)
 script = ExtResource("21_tnd04")
 DrawDirection = 1
 NumberOfPoints = 200
-
-[node name="Rob" parent="." instance=ExtResource("22_r7av8")]
-position = Vector2(368, -59)
