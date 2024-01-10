@@ -1,9 +1,8 @@
-using Epilogue.global.enums;
+using Epilogue.Global.Enums;
 using Epilogue.input_icons;
-
 using Godot;
 
-namespace Epilogue.global.singletons;
+namespace Epilogue.Global.Singletons;
 /// <summary>
 ///		Singleton that controls inputs read from the player
 /// </summary>
@@ -13,7 +12,7 @@ public partial class InputDeviceManager : Node
 	/// <summary>
 	///		Last type of input read, used to update the GUI with the correct textures
 	/// </summary>
-	public static InputTypeEnum? MostRecentInputType { get; set; }
+	public static InputDeviceType? MostRecentInputType { get; set; }
 
 	/// <summary>
 	///		Deadzone of the left analog stick
@@ -25,7 +24,7 @@ public partial class InputDeviceManager : Node
 	/// </summary>
 	public float RightJoystickDeadzone { get; set; } = 0.3f;
 
-	private InputTypeEnum _newInputType;
+	private InputDeviceType _newInputType;
 
 	/// <inheritdoc/>
 	public override void _Input(InputEvent @event)
@@ -47,9 +46,9 @@ public partial class InputDeviceManager : Node
 
 		_newInputType = @event switch
 		{
-			InputEventJoypadButton => InputTypeEnum.Controller,
-			InputEventJoypadMotion => InputTypeEnum.Controller,
-			_ => InputTypeEnum.PC
+			InputEventJoypadButton => InputDeviceType.Controller,
+			InputEventJoypadMotion => InputDeviceType.Controller,
+			_ => InputDeviceType.PC
 		};
 
 		if(_newInputType != MostRecentInputType)

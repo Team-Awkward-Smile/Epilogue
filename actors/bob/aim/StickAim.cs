@@ -1,7 +1,6 @@
-using Epilogue.global.enums;
+using Epilogue.Global.Enums;
 using Epilogue.nodes;
 using Godot;
-using System;
 
 namespace Epilogue.actors.hestmor.aim;
 /// <summary>

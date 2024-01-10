@@ -1,4 +1,4 @@
-using Epilogue.global.singletons;
+using Epilogue.Global.Singletons;
 using Godot;
 
 namespace Epilogue.ui;

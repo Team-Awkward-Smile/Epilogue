@@ -1,8 +1,8 @@
-namespace Epilogue.global.enums;
+namespace Epilogue.Global.Enums;
 /// <summary>
 ///		Type of input sent by the player
 /// </summary>
-public enum InputTypeEnum
+public enum InputDeviceType
 {
 	/// <summary>
 	///		Keyboard inputs (any key), as well as mouse inputs

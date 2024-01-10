@@ -1,4 +1,4 @@
-using Epilogue.global.singletons;
+using Epilogue.Global.Singletons;
 using Epilogue.nodes;
 using Godot;
 using System.Linq;

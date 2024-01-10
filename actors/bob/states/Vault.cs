@@ -1,20 +1,30 @@
+using Epilogue.actors.hestmor.enums;
 using Epilogue.nodes;
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
-/// <summary>
-///		State that allows Hestmor to vault over small obstacles
-/// </summary>
-public partial class Vault : PlayerState
+/// <inheritdoc/>
+public partial class Vault : State
 {
+	private readonly Player _player;
+
 	private Vector2 _spriteOriginalPosition;
+
+	/// <summary>
+	/// 	State that allows Hestmor to vault over small obstacles
+	/// </summary>
+	/// <param name="stateMachine">The State Machine who owns this State</param>
+	public Vault(StateMachine stateMachine) : base(stateMachine)
+	{
+		_player = (Player) stateMachine.Owner;
+	}
 
 	internal override void OnEnter(params object[] args)
 	{
-		_spriteOriginalPosition = Player.Sprite.Position;
+		_spriteOriginalPosition = _player.Sprite.Position;
 
-		Player.CanChangeFacingDirection = false;
-		Player.Velocity = Vector2.Zero;
+		_player.CanChangeFacingDirection = false;
+		_player.Velocity = Vector2.Zero;
 
 		AnimPlayer.Play("vault");
 		AnimPlayer.AnimationFinished += MoveToTop;
@@ -24,10 +34,10 @@ public partial class Vault : PlayerState
 	{
 		AnimPlayer.AnimationFinished -= MoveToTop;
 
-		Player.GlobalPosition = Player.Sprite.GetNode<Node2D>("LedgeAnchor").GlobalPosition;
-		Player.Sprite.Position = _spriteOriginalPosition;
+		_player.GlobalPosition = _player.Sprite.GetNode<Node2D>("LedgeAnchor").GlobalPosition;
+		_player.Sprite.Position = _spriteOriginalPosition;
 
-		StateMachine.ChangeState("Fall");
+		StateMachine.ChangeState(typeof(Fall), StateType.StandingJump);
 	}
 }
 

@@ -1,4 +1,4 @@
-namespace Epilogue.global.enums;
+namespace Epilogue.Global.Enums;
 /// <summary>
 ///		Direction the actor is currently facing
 /// </summary>

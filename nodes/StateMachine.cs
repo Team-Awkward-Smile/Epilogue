@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,53 +7,39 @@ namespace Epilogue.nodes;
 /// <summary>
 ///		Node that controls the State Machine of an Actor, defining it's current State and the code that will run
 /// </summary>
-[GlobalClass, Tool, Icon("res://nodes/icons/state_machine.png")]
 public partial class StateMachine : Node
 {
-	/// <summary>
-	///		The State this Actor will use when first spawned. If null, the initial State will be set to the first State belonging to the Actor
-	/// </summary>
-	[Export] private PlayerState InitialState { get; set; }
-
 	/// <summary>
 	///		Defines if the current State allows the Actor to interact with the world
 	/// </summary>
 	public bool CanInteract { get; set; } = true;
 
-    private readonly HashSet<State> _states = new();
+	/// <summary>
+	/// 	Value of the gravity affecting every State from this StateMachine
+	/// </summary>
+	public float Gravity { get; set; }
 
-	private State _currentState;
+    private protected HashSet<State> _states = new();
+	private protected State _currentState;
 
-	/// <inheritdoc/>
-	public override void _Ready()
+	/// <summary>
+	///		Activates this State Machine and allow States to work
+	/// </summary>
+	public void Activate()
 	{
-		if(Engine.IsEditorHint())
-		{
-			return;
-		}
-
-		_states.UnionWith(GetChildren().OfType<State>());
-
-		if(InitialState is not null)
-		{
-			_currentState = InitialState;
-		}
-		else
-		{
-			GD.PushWarning($"Initial State of actor [{Owner.Name}] not set. Defaulting to [{_states.First().Name}]");
-			_currentState = _states.First();
-		}
+		SetProcess(true);
+		SetPhysicsProcess(true);
 
 		_currentState.OnEnter();
 	}
 
-	/// <summary>
-	///		Sends the input event to the currently active State
-	/// </summary>
-	/// <param name="event">The input event to send to the active State</param>
-	public void PropagateInputToState(InputEvent @event)
+	/// <inheritdoc/>
+	public override void _Ready()
 	{
-		_currentState?.OnInput(@event);
+		SetProcess(false);
+		SetPhysicsProcess(false);
+
+		Gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 	}
 
 	/// <inheritdoc/>
@@ -72,27 +59,26 @@ public partial class StateMachine : Node
 	///		If the informed State is valid, the methods <c>OnLeave</c> and <c>OnLeaveAsync</c> of the current State will be called.
 	///		Then the State will be replaced by the new one, and the method <c>OnEnter</c> of the new State will be called
 	/// </summary>
-	/// <param name="stateName">Name of the new PlayerState</param>
-	public async void ChangeState(string stateName, params object[] args)
+    /// <param name="newStateType">Type of the new State that will replace the current one</param>
+    /// <param name="args">Optional list of arguments that may be used by specific States</param>
+	public async void ChangeState(Type newStateType, params object[] args)
 	{
 		var oldState = _currentState;
 
 		_currentState = null;
 
-		var newState = _states.Where(s => s.Name == stateName).FirstOrDefault();
+		var newState = _states.Where(s => s.GetType() == newStateType).FirstOrDefault();
 
 		if(newState is null)
 		{
-			GD.PushWarning($"PlayerState [{stateName}] not found");
+			GD.PushWarning($"State [{newStateType}] not found");
 
 			_currentState = oldState;
 
 			return;
 		}
 
-		oldState.OnLeave();
-
-		await oldState.OnLeaveAsync();
+		await oldState.OnLeave();
 
 		_currentState = newState;
 		_currentState.OnEnter(args);

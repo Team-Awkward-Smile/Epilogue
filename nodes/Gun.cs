@@ -1,6 +1,6 @@
 using Epilogue.extensions;
-using Epilogue.global.enums;
-using Epilogue.global.singletons;
+using Epilogue.Global.Enums;
+using Epilogue.Global.Singletons;
 using Godot;
 using System.Linq;
 
@@ -167,8 +167,8 @@ public partial class Gun : RigidBody2D
 	{
 		var pickupArea = GetChildren().OfType<Area2D>().First();
 
-		pickupArea.CollisionLayer = (int) CollisionLayerName.HitBoxes;
-		pickupArea.CollisionMask = (int) (CollisionLayerName.HurtBoxes | CollisionLayerName.World);
+		pickupArea.CollisionLayer = (int) CollisionLayerName.PlayerHitBox;
+		pickupArea.CollisionMask = (int) (CollisionLayerName.PlayerHurtBox | CollisionLayerName.World);
 		pickupArea.Priority = 5;
 
 		var impulseDirection = new Vector2(Mathf.RadToDeg(Transform[0].X), Mathf.RadToDeg(Transform[0].Y));

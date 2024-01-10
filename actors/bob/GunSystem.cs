@@ -1,12 +1,9 @@
 ﻿using Epilogue.actors.hestmor.aim;
-using Epilogue.global.enums;
-using Epilogue.global.singletons;
+using Epilogue.extensions;
+using Epilogue.Global.Singletons;
 using Epilogue.nodes;
 using Epilogue.props;
-using Epilogue.util;
-
 using Godot;
-
 using System.Linq;
 
 namespace Epilogue.actors.hestmor;
@@ -147,7 +144,7 @@ public partial class GunSystem : Node2D
 
 		_currentGun.GetParent().RemoveChild(_currentGun);
 
-		GetTree().Root.AddChild(_currentGun);
+		GetTree().GetLevel().AddChild(_currentGun);
 
 		if(keepRotation)
 		{

@@ -1,11 +1,10 @@
-using Epilogue.global.enums;
-using Epilogue.global.singletons;
+using Epilogue.Global.Enums;
+using Epilogue.Global.Singletons;
 using Epilogue.props.camera;
 using Epilogue.ui;
 using Epilogue.ui.hp;
 using Epilogue.ui.pause;
 using Godot;
-
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,7 +15,12 @@ namespace Epilogue.nodes;
 [GlobalClass, Icon("res://nodes/icons/level.png"), Tool]
 public partial class Level : Node2D
 {
-	private PauseUI _pauseUI;
+	/// <summary>
+	///		Reference to the player character
+	/// </summary>
+    public Player Player { get; set; }
+
+    private PauseUI _pauseUI;
 	private AmmoUI _ammoUI;
 	private HPUI _hpUI;
 	private Window _console;
@@ -24,9 +28,9 @@ public partial class Level : Node2D
 	private TileMap _tileMap;
 	private PlayerEvents _playerEvents;
 	private List<Checkpoint> _checkpoints = new();
-	private Player _player;
 	private Camera _camera;
 	private CheckpointManager _checkpointManager;
+	private AchievementPopup _achievementUI;
 
 	/// <inheritdoc/>
 	public override string[] _GetConfigurationWarnings()
@@ -45,7 +49,8 @@ public partial class Level : Node2D
 		}
 		else if(checkpoints.GetChildren().OfType<Checkpoint>().Where(c => c.FirstCheckpoint).Count() > 1)
 		{
-			var firstCheckpoints = (checkpoints.GetChildren().OfType<Checkpoint>().Where(c => c.FirstCheckpoint));
+			var firstCheckpoints = checkpoints.GetChildren().OfType<Checkpoint>().Where(c => c.FirstCheckpoint);
+
 			warnings.Add($"This Level has {firstCheckpoints.Count()} Checkpoint set as the First ({string.Join(", ", firstCheckpoints.Select(c => c.Name))}).\nOnly 1 Checkpoint should be set as the First");
 		}
 
@@ -68,6 +73,19 @@ public partial class Level : Node2D
 	}
 
 	/// <inheritdoc/>
+	public override void _EnterTree()
+	{
+		if(Engine.IsEditorHint())
+		{
+			return;
+		}
+
+		Player = GD.Load<PackedScene>("res://actors/bob/bob.tscn").Instantiate() as Player;
+
+		AddChild(Player);
+	}
+
+	/// <inheritdoc/>
 	public override void _Ready()
 	{
 		if(Engine.IsEditorHint())
@@ -81,12 +99,14 @@ public partial class Level : Node2D
 		_killPrompt = GD.Load<PackedScene>("res://ui/glory_kill_prompt.tscn").Instantiate() as GloryKillPrompt;
 		_ammoUI = GD.Load<PackedScene>("res://ui/ammo/ammo_ui.tscn").Instantiate() as AmmoUI;
 		_hpUI = GD.Load<PackedScene>("res://ui/hp/hp_ui.tscn").Instantiate() as HPUI;
+		_achievementUI = GD.Load<PackedScene>("res://ui/achievements/achievement_popup.tscn").Instantiate() as AchievementPopup;
 
 		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
 		_checkpointManager = GetNode<CheckpointManager>("/root/CheckpointManager");
 
-		_playerEvents.PlayerDied += RespawnPlayer;
-		_playerEvents.StateAwaitingForExecutionSpeed += () => _killPrompt.Enable();
+		_playerEvents.Connect("PlayerDied", Callable.From(RespawnPlayer));
+		_playerEvents.Connect("StateAwaitingForExecutionSpeed", Callable.From(_killPrompt.Enable));
+
 		_tileMap = GetChildren().OfType<TileMap>().FirstOrDefault();
 
 		// TODO: 68 - Maybe the root CanvasLayer should also be created at run-time?
@@ -97,6 +117,7 @@ public partial class Level : Node2D
 		uiLayer.AddChild(_killPrompt);
 		uiLayer.AddChild(_ammoUI);
 		uiLayer.AddChild(_hpUI);
+		uiLayer.AddChild(_achievementUI);
 
 		_pauseUI.Hide();
 		_console.Hide();
@@ -146,19 +167,25 @@ public partial class Level : Node2D
 		}
 
 		_camera = GetViewport().GetCamera2D() as Camera;
-		_player = GD.Load<PackedScene>("res://actors/bob/bob.tscn").Instantiate() as Player;
+        Player = GD.Load<PackedScene>("res://actors/bob/bob.tscn").Instantiate() as Player;
 
-		AddChild(_player);
+		AddChild(Player);
 
-		_player.Position = _checkpoints.Where(c => c.Current).FirstOrDefault().Position;
-		_camera.Position = _player.Position;
-		_camera.SetCameraTarget(_player.GetNode<Node2D>("CameraAnchor"));
+        Player.Position = _checkpoints.Where(c => c.Current).FirstOrDefault().Position;
+		_camera.Position = Player.Position;
+		_camera.SetCameraTarget(Player.GetNode<Node2D>("CameraAnchor"));
 	}
 
+	/// <summary>
+	/// 	Reloads the current scene after a small delay, and respawns the player character at the correct Checkpoint
+	/// </summary>
 	private void RespawnPlayer()
 	{
-		_playerEvents.PlayerDied -= RespawnPlayer;
-		GetTree().ReloadCurrentScene();
+		GetTree().CreateTimer(2f).Timeout += () =>
+		{
+			_playerEvents.PlayerDied -= RespawnPlayer;
+			GetTree().ReloadCurrentScene();
+		};
 	}
 
 
@@ -168,12 +195,12 @@ public partial class Level : Node2D
 	/// <param name="triggeredCheckpoint">New Checkpoint triggered</param>
 	private void SetNewCheckpoint(Checkpoint triggeredCheckpoint)
 	{
-		var oldCheckpoint = _checkpoints.Where(c => c.Current).First();
+		var oldCheckpoint = _checkpoints.First(c => c.Current);
 
 		oldCheckpoint.SetCheckpointState(CheckpointState.Used);
 		oldCheckpoint.Current = false;
 
-		var newCheckpoint = _checkpoints.Where(c => c == triggeredCheckpoint).First();
+		var newCheckpoint = _checkpoints.First(c => c == triggeredCheckpoint);
 
 		newCheckpoint.Current = true;
 		newCheckpoint.SetDeferred("monitoring", false);

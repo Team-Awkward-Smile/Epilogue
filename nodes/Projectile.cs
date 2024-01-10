@@ -1,5 +1,4 @@
 using Godot;
-using System.Linq;
 
 namespace Epilogue.nodes;
 /// <summary>
@@ -38,34 +37,28 @@ public partial class Projectile : HitBox
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
+        base._Ready();
+
 		AreaEntered += (Area2D area) => 
 		{
-			DamageActor(area);
-
             if(DestroyOnHit)
             {
 			    QueueFree();
             }
 		};
-
-		BodyEntered += (Node2D body) =>
-		{
-			DamageWorld();
-			QueueFree();
-		};
 	}
 
+    /// <summary>
+    ///     Checks if the collision happened with an Actor. If so, deals damage to it
+    /// </summary>
+    /// <param name="area"></param>
     private void DamageActor(Area2D area)
     {
-        if(area.Owner is Npc enemy)
+        if(area.Owner is Actor actor)
         {
-		    enemy.DealDamage(Damage);
+            GD.Print($"Dealing [{Damage}] to [{actor.Name}]");
+		    actor.DealDamage(Damage);
         }
-    }
-
-    private void DamageWorld()
-    {
-        GetTree().Root.GetChildren().OfType<Level>().FirstOrDefault().DamageTile(GlobalPosition, Damage);
     }
 
 	/// <inheritdoc/>

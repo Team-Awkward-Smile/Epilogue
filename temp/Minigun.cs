@@ -1,5 +1,4 @@
 using Epilogue.nodes;
-
 using Godot;
 
 namespace Epilogue.guns;

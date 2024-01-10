@@ -1,10 +1,8 @@
-using Epilogue.global.enums;
-using Epilogue.global.singletons;
+using Epilogue.Global.Enums;
+using Epilogue.Global.Singletons;
 using Epilogue.nodes;
 using Epilogue.ui.popup;
-
 using Godot;
-
 using System.Collections.Generic;
 using System.Linq;
 
@@ -37,12 +35,13 @@ public partial class RemapControls : UI
 		new() { Label = "Pause/Unpause", Actions = new() { "pause" } }
 	};
 
+	private readonly Dictionary<StringName, List<InputEvent>> _originalMapping = new();
+	
 	private bool _hasUnsavedChanges = false;
 	private CustomPopup _instructionsPopup;
-	private InputTypeEnum _validPopupInput;
+	private InputDeviceType _validPopupInput;
 	private RemapButton _selectedButton;
-	private Dictionary<StringName, List<InputEvent>> _originalMapping = new();
-	private ControlSchemeEnum _originalScheme;
+	private ControlScheme _originalScheme;
 
 	/// <inheritdoc/>
 	public override void _Ready()
@@ -69,7 +68,7 @@ public partial class RemapControls : UI
 		optionButton.ItemSelected += UpdateControlScheme;
 		optionButton.Select((int) Settings.ControlScheme);
 
-		_originalScheme = (ControlSchemeEnum) optionButton.Selected;
+		_originalScheme = (ControlScheme) optionButton.Selected;
 
 		_instructionsPopup = CustomPopup.NewCustomPopup();
 		_instructionsPopup.DialogText = "Press any key (Esc to cancel)";
@@ -106,11 +105,11 @@ public partial class RemapControls : UI
 		}
 
 		// Filters out any invalid input depending of the button clicked
-		if(_validPopupInput == InputTypeEnum.PC && @event is not (InputEventKey or InputEventMouseButton))
+		if(_validPopupInput == InputDeviceType.PC && @event is not (InputEventKey or InputEventMouseButton))
 		{
 			return;
 		}
-		else if(_validPopupInput == InputTypeEnum.Controller && @event is not (InputEventJoypadButton or InputEventJoypadMotion))
+		else if(_validPopupInput == InputDeviceType.Controller && @event is not (InputEventJoypadButton or InputEventJoypadMotion))
 		{
 			return;
 		}
@@ -233,7 +232,7 @@ public partial class RemapControls : UI
 	private void UpdateControlScheme(long index)
 	{
 		// Whenever the player changes the Control Scheme, the mapping will reset to the default of the selected scheme
-		Settings.ControlScheme = (ControlSchemeEnum) index;
+		Settings.ControlScheme = (ControlScheme) index;
 
 		var controlScheme = Settings.ControlScheme.ToString().ToLower();
 		var defaultActions = _moveActions.Union(_combatActions).Union(_uiActions).ToList();
@@ -294,7 +293,7 @@ public partial class RemapControls : UI
 			var primaryButton = new RemapButton()
 			{
 				SizeFlagsHorizontal = SizeFlags.ExpandFill,
-				InputType = InputTypeEnum.PC,
+				InputType = InputDeviceType.PC,
 				Event = pcEvents.FirstOrDefault(),
 				Actions = actionGroup.Actions,
 				ButtonType = RemapButtonType.PcPrimary
@@ -303,7 +302,7 @@ public partial class RemapControls : UI
 			var secondaryButton = new RemapButton()
 			{
 				SizeFlagsHorizontal = SizeFlags.ExpandFill,
-				InputType = InputTypeEnum.PC,
+				InputType = InputDeviceType.PC,
 				Event = pcEvents.Skip(1).FirstOrDefault(),
 				Actions = actionGroup.Actions,
 				ButtonType = RemapButtonType.PcSecondary
@@ -312,7 +311,7 @@ public partial class RemapControls : UI
 			var controllerButton = new RemapButton()
 			{
 				SizeFlagsHorizontal = SizeFlags.ExpandFill,
-				InputType = InputTypeEnum.Controller,
+				InputType = InputDeviceType.Controller,
 				Event = events.Where(e => e is InputEventJoypadButton or InputEventJoypadMotion).FirstOrDefault(),
 				Actions = actionGroup.Actions,
 				ButtonType = RemapButtonType.Controller
@@ -323,7 +322,7 @@ public partial class RemapControls : UI
 			foreach(var remapButton in new List<RemapButton>() { primaryButton, secondaryButton, controllerButton })
 			{
 				remapButton.AddToGroup("remap_buttons");
-				remapButton.ActionWasSelected += (InputTypeEnum inputType) =>
+				remapButton.ActionWasSelected += (InputDeviceType inputType) =>
 				{
 					_selectedButton = remapButton;
 					_validPopupInput = inputType;

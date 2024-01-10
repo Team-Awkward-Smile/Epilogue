@@ -1,11 +1,10 @@
 using Epilogue.actors.hestmor;
+using Epilogue.actors.hestmor.states;
 using Epilogue.extensions;
-using Epilogue.global.enums;
-using Epilogue.global.singletons;
+using Epilogue.Global.Enums;
+using Epilogue.Global.Singletons;
 using Epilogue.util;
-
 using Godot;
-
 using System.Linq;
 
 namespace Epilogue.nodes;
@@ -18,6 +17,7 @@ public partial class Player : Actor
 	private bool _retroModeEnabled;
 	private PlayerEvents _playerEvents;
 	private GunSystem _gunSystem;
+	private PlayerStateMachine _playerStateMachine;
 
 	/// <summary>
 	///		Defines if the player toggled the Run mode while playing in Retro Mode
@@ -49,7 +49,7 @@ public partial class Player : Actor
 		}
 		else if(HoldingSword && @event.IsAction(InputUtils.GetInputActionName("pickup_or_drop_gun")) && @event.IsPressed())
 		{
-			StateMachine.ChangeState("MeleeAttack");
+			_playerStateMachine.ChangeState(typeof(MeleeAttack));
 		}
 		else if(_gunSystem.HasGunEquipped && @event.IsAction(InputUtils.GetInputActionName("shoot")))
 		{
@@ -74,20 +74,26 @@ public partial class Player : Actor
 		}
 		else
 		{
-			StateMachine.PropagateInputToState(@event);
+			_playerStateMachine.PropagateInputToState(@event);
 		}
 	}
 
-    private protected override void AfterReady()
-	{
+	/// <inheritdoc/>
+    public override void _Ready()
+    {
+        base._Ready();
+
 		// TODO: 68 - Reset this value when the Input Mode is changed during gameplay
-		_retroModeEnabled = Settings.ControlScheme == ControlSchemeEnum.Retro;
+		_retroModeEnabled = Settings.ControlScheme == ControlScheme.Retro;
 		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
 		_gunSystem = GetNode<GunSystem>("GunSystem");
-	}
+		_playerStateMachine = GetChildren().OfType<PlayerStateMachine>().First();
+		GD.Print(_playerStateMachine);
+		_playerStateMachine.Activate();
+    }
 
-	/// <inheritdoc/>
-	public override void DealDamage(float damage)
+    /// <inheritdoc/>
+    public override void DealDamage(float damage)
 	{
 		CurrentHealth -= damage;
 
@@ -95,23 +101,23 @@ public partial class Player : Actor
 
 		if(CurrentHealth <= 0)
 		{
-			StateMachine.ChangeState("Die");
+			_playerStateMachine.ChangeState(typeof(Die));
 			return;
 		}
 		else
 		{
-			StateMachine.ChangeState("TakeDamage");
+			_playerStateMachine.ChangeState(typeof(TakeDamage));
 		}
 
 		Sprite.SetShaderMaterialParameter("iframeActive", true);
 
-		GetChildren().OfType<HurtBox>().First().CollisionMask = 0;
+		GetChildren().OfType<HurtBox>().First().CollisionLayer = 0;
 
 		GetTree().CreateTimer(1f).Timeout += () =>
 		{
 			Sprite.SetShaderMaterialParameter("iframeActive", false);
 
-			GetChildren().OfType<HurtBox>().First().CollisionMask = (int) CollisionLayerName.HitBoxes;
+			GetChildren().OfType<HurtBox>().First().CollisionMask = (int) CollisionLayerName.NpcHitBox;
 		};
 	}
 
@@ -175,5 +181,13 @@ public partial class Player : Actor
 		ledgeRaycast.Position = new Vector2(0f, originalPositions.Y);
 
 		return false;
+	}
+
+	/// <inheritdoc/>
+	public override void MoveAndSlideWithRotation()
+	{
+		base.MoveAndSlideWithRotation();
+
+		_gunSystem.Rotation = -Rotation;
 	}
 }

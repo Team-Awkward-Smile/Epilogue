@@ -1,6 +1,6 @@
 using System;
 
-namespace Epilogue.global.enums;
+namespace Epilogue.Global.Enums;
 /// <summary>
 ///		Direction the character is currently aiming. This is a flag enum, so "top left", for example, will be "Up" + "Left"
 /// </summary>

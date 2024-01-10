@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://8sw5jwntdfl1"]
 
 [ext_resource type="Script" path="res://temp/Minigun.cs" id="1_vl8ba"]
-[ext_resource type="Material" uid="uid://bdt7ee1dy5yrr" path="res://temp/gun_material.tres" id="2_x8f76"]
+[ext_resource type="Material" uid="uid://ym1yvynv3i7b" path="res://temp/gun_material.tres" id="2_x8f76"]
 [ext_resource type="Texture2D" uid="uid://e6rw58kaffak" path="res://temp/minigun.png" id="3_3bwd2"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ug5ec"]

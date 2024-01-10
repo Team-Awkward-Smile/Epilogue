@@ -1,13 +1,11 @@
-using Epilogue.global.enums;
+using Epilogue.Global.Enums;
 using Epilogue.settings;
-
 using Godot;
 using Godot.Collections;
-
 using System.Linq;
 using static Godot.DisplayServer;
 
-namespace Epilogue.global.singletons;
+namespace Epilogue.Global.Singletons;
 /// <summary>
 ///		Class containing every Setting in the game, both the ones that can be edited by the player and the ones who cannot
 /// </summary>
@@ -42,7 +40,7 @@ public partial class Settings : Node
     /// <summary>
     ///		Control scheme (Modern or Retro) selected by the player
     /// </summary>
-    public static ControlSchemeEnum ControlScheme
+    public static ControlScheme ControlScheme
 	{
 		get => _controlScheme;
 		set
@@ -53,41 +51,44 @@ public partial class Settings : Node
 		}
 	}
 
-	private static ControlSchemeEnum _controlScheme = (ControlSchemeEnum) ProjectSettings.GetSetting("epilogue/controls/control_scheme").AsInt32();
+	private static ControlScheme _controlScheme = (ControlScheme) ProjectSettings.GetSetting("epilogue/controls/control_scheme").AsInt32();
 	private static InputDeviceBrand _controllerType = (InputDeviceBrand) ProjectSettings.GetSetting("epilogue/controls/controller_type").AsInt32();
 
 	/// <inheritdoc/>
 	public override void _EnterTree()
 	{
-		if(ResourceLoader.Exists(SETTINGS_FILE))
+		if(!ResourceLoader.Exists(SETTINGS_FILE))
 		{
-			var settings = ResourceLoader.Load<SettingsResource>(SETTINGS_FILE);
-
-			ControlScheme = settings.ControlScheme;
-
-			foreach(var action in settings.InputMap)
-			{
-				foreach(var @event in action.Value)
-				{
-					InputMap.ActionAddEvent(action.Key, @event);
-				}
-			}
-
-			foreach(var bus in settings.AudioBuses)
-			{
-				var index = AudioServer.GetBusIndex(bus.Key);
-
-				AudioServer.SetBusVolumeDb(index, bus.Value);
-			}
-
-			WindowSetMode(settings.WindowMode);
-
-			WindowMode = settings.WindowMode;
-			ControllerType = settings.ControllerType;
+			LoadDefaultSettings();
+			SaveSettings();
 		}
-	}
 
-	/// <summary>
+		var settings = ResourceLoader.Load<SettingsResource>(SETTINGS_FILE);
+
+		ControlScheme = settings.ControlScheme;
+
+        foreach(var action in settings.InputMap)
+        {
+            foreach(var @event in action.Value)
+            {
+                InputMap.ActionAddEvent(action.Key, @event);
+            }
+        }
+
+        foreach(var bus in settings.AudioBuses)
+        {
+            var index = AudioServer.GetBusIndex(bus.Key);
+
+            AudioServer.SetBusVolumeDb(index, bus.Value);
+        }
+
+        WindowSetMode(settings.WindowMode);
+
+        WindowMode = settings.WindowMode;
+        ControllerType = settings.ControllerType;
+    }
+
+    /// <summary>
 	///		Saves the current Settings on disk
 	/// </summary>
 	public static void SaveSettings()
@@ -102,6 +103,21 @@ public partial class Settings : Node
 		};
 
 		ResourceSaver.Save(settings, SETTINGS_FILE);
+	}
+
+	private static void LoadDefaultSettings()
+	{
+		var actions = InputMap.GetActions().Where(a => !a.ToString().StartsWith("ui_") && !a.ToString().EndsWith("modern") && !a.ToString().EndsWith("retro"));
+
+		foreach(var a in actions)
+		{
+			var events = InputMap.ActionGetEvents($"{a}_{ControlScheme.ToString().ToLower()}");
+
+			foreach(var e in events)
+			{
+				InputMap.ActionAddEvent(a, e);
+			}
+		}
 	}
 
 	private static Dictionary<StringName, Array<InputEvent>> GetInputMap()

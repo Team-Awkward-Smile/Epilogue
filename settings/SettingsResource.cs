@@ -1,5 +1,4 @@
-using Epilogue.global.enums;
-
+using Epilogue.Global.Enums;
 using Godot;
 using Godot.Collections;
 using static Godot.DisplayServer;
@@ -13,7 +12,7 @@ public partial class SettingsResource : Resource
 	/// <summary>
 	///		Control Scheme selected by the player
 	/// </summary>
-	[Export] public ControlSchemeEnum ControlScheme { get; set; }
+	[Export] public ControlScheme ControlScheme { get; set; }
 
 	/// <summary>
 	///		Controls used during the game. Can have the default value for the corresponding Control Scheme, or can be edited by the player to suit their liking

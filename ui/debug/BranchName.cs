@@ -1,6 +1,9 @@
 using Godot;
 
 namespace Epilogue.ui.debug;
+/// <summary>
+/// 	Displays the name of the current branch on-screen
+/// </summary>
 public partial class BranchName : Label
 {
 	/// <inheritdoc/>
