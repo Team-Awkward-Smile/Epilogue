@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Epilogue.global.singletons;
+namespace Epilogue.Global.Singletons;
 /// <summary>
 ///		Base class for Global Event Emitters
 /// </summary>

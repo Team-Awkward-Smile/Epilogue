@@ -1,6 +1,6 @@
 using Godot;
 using Epilogue.nodes;
-using Epilogue.global.enums;
+using Epilogue.Global.Enums;
 
 namespace Epilogue.actors.hestmor.states;
 /// <inheritdoc/>

@@ -1,6 +1,6 @@
 using System;
 
-namespace Epilogue.global.enums;
+namespace Epilogue.Global.Enums;
 /// <summary>
 ///		Layers used by the collision system, defined as an enum to avoid having to use numbers everywhere
 /// </summary>

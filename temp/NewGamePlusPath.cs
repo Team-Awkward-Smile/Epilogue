@@ -1,4 +1,4 @@
-using Epilogue.global.singletons;
+using Epilogue.Global.Singletons;
 using Godot;
 
 namespace Epilogue.temp;
@@ -10,7 +10,7 @@ public partial class NewGamePlusPath : TileMap
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
-		if(Settings.GameCycle == Epilogue.global.enums.GameCycle.NewGamePlus)
+		if(Settings.GameCycle == Epilogue.Global.Enums.GameCycle.NewGamePlus)
 		{
 			QueueFree();
 		}

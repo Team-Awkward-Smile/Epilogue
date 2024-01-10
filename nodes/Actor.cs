@@ -1,4 +1,4 @@
-using Epilogue.global.enums;
+using Epilogue.Global.Enums;
 using Godot;
 using Godot.Collections;
 using System.Linq;

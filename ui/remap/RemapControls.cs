@@ -1,5 +1,5 @@
-using Epilogue.global.enums;
-using Epilogue.global.singletons;
+using Epilogue.Global.Enums;
+using Epilogue.Global.Singletons;
 using Epilogue.nodes;
 using Epilogue.ui.popup;
 using Godot;
@@ -60,7 +60,6 @@ public partial class RemapControls : UI
 			}
         }
 
-        GetNode<Button>("%Return").ButtonDown += () => Close();
 		GetNode<Button>("Save").ButtonDown += SaveMapping;
 		GetNode<Button>("%Default").ButtonDown += ResetToDefault;
 
@@ -77,6 +76,11 @@ public partial class RemapControls : UI
 		_instructionsPopup.WindowInput += OnRemapEventReceived;
 
 		AddChild(_instructionsPopup);
+
+		Draw += () => 
+		{
+			GetTree().CallGroup("remap_buttons", "UpdateIconAndText");
+		};
 	}
 
 	/// <summary>

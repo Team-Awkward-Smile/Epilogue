@@ -1,8 +1,8 @@
 using Epilogue.actors.hestmor;
 using Epilogue.actors.hestmor.states;
 using Epilogue.extensions;
-using Epilogue.global.enums;
-using Epilogue.global.singletons;
+using Epilogue.Global.Enums;
+using Epilogue.Global.Singletons;
 using Epilogue.util;
 using Godot;
 using System.Linq;
