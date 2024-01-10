@@ -2,7 +2,7 @@ using Epilogue.Global.Singletons;
 using Godot;
 using System.Linq;
 
-namespace Epilogue.ui.hp;
+namespace Epilogue.UI.hp;
 /// <summary>
 ///		UI for Hestmor's HP sprites
 /// </summary>

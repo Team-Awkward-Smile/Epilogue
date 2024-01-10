@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Epilogue.ui.debug;
+namespace Epilogue.UI.debug;
 /// <summary>
 /// 	Displays the name of the current branch on-screen
 /// </summary>

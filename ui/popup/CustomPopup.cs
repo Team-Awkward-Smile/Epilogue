@@ -1,8 +1,7 @@
-using Epilogue.Constants;
 using Godot;
 using System.Collections.Generic;
 
-namespace Epilogue.ui.popup;
+namespace Epilogue.UI.popup;
 /// <summary>
 ///		Custom Popup with the default texture used in this project, and methods to easily add more buttons
 /// </summary>

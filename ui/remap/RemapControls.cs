@@ -1,17 +1,17 @@
 using Epilogue.Global.Enums;
 using Epilogue.Global.Singletons;
 using Epilogue.Nodes;
-using Epilogue.ui.popup;
+using Epilogue.UI.popup;
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Epilogue.ui.remap;
+namespace Epilogue.UI.remap;
 /// <summary>
 ///		Screen to allow the player to remap the controls of the game.
 ///		Presents a list of actions, and allows new events from PC and controller to be mapped to them
 /// </summary>
-public partial class RemapControls : UI
+public partial class RemapControls : Nodes.UIScreen
 {
 	private static readonly List<GroupAction> _moveActions = new()
 	{
@@ -60,7 +60,6 @@ public partial class RemapControls : UI
 			}
         }
 
-        GetNode<Button>("%Return").ButtonDown += () => Close();
 		GetNode<Button>("Save").ButtonDown += SaveMapping;
 		GetNode<Button>("%Default").ButtonDown += ResetToDefault;
 
@@ -77,6 +76,11 @@ public partial class RemapControls : UI
 		_instructionsPopup.WindowInput += OnRemapEventReceived;
 
 		AddChild(_instructionsPopup);
+
+		Draw += () => 
+		{
+			GetTree().CallGroup("remap_buttons", "UpdateIconAndText");
+		};
 	}
 
 	/// <summary>

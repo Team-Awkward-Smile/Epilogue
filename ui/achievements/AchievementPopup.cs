@@ -4,7 +4,7 @@ using Godot;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Epilogue.ui;
+namespace Epilogue.UI;
 /// <summary>
 ///		Popup responsible for notifying the player of new achievements unlocked
 /// </summary>

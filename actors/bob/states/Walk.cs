@@ -64,7 +64,7 @@ public partial class Walk : State
 		{
 			movementDirection = movementDirection > 0 ? 1 : -1;
 
-			Vector2 velocity = _player.Velocity;
+			var velocity = _player.Velocity;
 
 			velocity.Y += StateMachine.Gravity * (float)delta;
 			velocity.X = movementDirection * _walkSpeed * (float)delta * 60f;

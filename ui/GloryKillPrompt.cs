@@ -4,7 +4,7 @@ using Epilogue.Util;
 using Godot;
 using System.Linq;
 
-namespace Epilogue.ui;
+namespace Epilogue.UI;
 /// <summary>
 ///		UI Screen responsible for displaying 2 options to the player and reading the answer
 /// </summary>

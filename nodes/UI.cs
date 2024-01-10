@@ -5,7 +5,7 @@ namespace Epilogue.Nodes;
 ///		Base class for every UI Screen
 /// </summary>
 [GlobalClass]
-public partial class UI : Control
+public partial class UIScreen : Control
 {
 	/// <summary>
 	///		Enables this Screen

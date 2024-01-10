@@ -29,8 +29,8 @@ public partial class Idle : State
 		{
 			if (!_player.RayCasts["Head"].IsColliding() && _player.RayCasts["Feet"].IsColliding())
 			{
-				RayCast2D raycast = _player.RayCasts["Ledge"];
-				Vector2 originalPosition = raycast.Position;
+				var raycast = _player.RayCasts["Ledge"];
+				var originalPosition = raycast.Position;
 
 				raycast.Position = new Vector2(0f, -Constants.Constants.MAP_TILE_SIZE - 1);
 
