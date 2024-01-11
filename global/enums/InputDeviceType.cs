@@ -1,4 +1,4 @@
-namespace Epilogue.global.enums;
+namespace Epilogue.Global.Enums;
 /// <summary>
 ///		Type of input sent by the player
 /// </summary>

@@ -1,7 +1,7 @@
 using Godot;
 using System.Collections.Generic;
 
-namespace Epilogue.global.singletons;
+namespace Epilogue.Global.Singletons;
 /// <summary>
 ///		Singleton responsible for storing data about objects in a level so they can be properly reloaded once the level starts
 /// </summary>

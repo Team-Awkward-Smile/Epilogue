@@ -1,4 +1,4 @@
-namespace Epilogue.global.enums;
+namespace Epilogue.Global.Enums;
 /// <summary>
 ///		Defines the type of an Actor
 /// </summary>

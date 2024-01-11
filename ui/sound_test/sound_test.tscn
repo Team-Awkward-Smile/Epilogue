@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://dqfg7ma51ye6q"]
+
+[ext_resource type="AudioStream" uid="uid://b7xqvfrrj31r1" path="res://actors/spider_mother/dialog/Dialogue_1_Tryout.wav" id="2_8g4vu"]
+
+[node name="SoundTest" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_8g4vu")
+bus = &"SpiderMother"

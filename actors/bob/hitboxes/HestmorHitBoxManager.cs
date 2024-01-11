@@ -1,5 +1,4 @@
-using Epilogue.actors.hestmor.states;
-using Epilogue.global.enums;
+using Epilogue.Global.Enums;
 using Epilogue.nodes;
 using Godot;
 using Godot.Collections;

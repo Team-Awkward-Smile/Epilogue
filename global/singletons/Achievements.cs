@@ -1,10 +1,10 @@
-using Epilogue.global.enums;
+using Epilogue.Global.Enums;
 using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Epilogue.global.singletons;
+namespace Epilogue.Global.Singletons;
 /// <summary>
 ///		Singleton in charge of storing values used by achievements, and unlocking those achievements when their conditions are met
 /// </summary>

@@ -1,0 +1,88 @@
+[gd_scene load_steps=6 format=3 uid="uid://bv14n54nl5fpi"]
+
+[ext_resource type="Script" path="res://ui/pause/PauseUI.cs" id="1_v0tlv"]
+[ext_resource type="PackedScene" uid="uid://dbb26cg7y5rty" path="res://ui/display/display_ui.tscn" id="2_xf10g"]
+[ext_resource type="PackedScene" uid="uid://b3fpxyxkl46k6" path="res://ui/remap/remap_controls.tscn" id="3_f65f6"]
+[ext_resource type="PackedScene" uid="uid://d4cifcokrv6dr" path="res://ui/graphics/graphics_ui.tscn" id="4_iauj6"]
+[ext_resource type="PackedScene" uid="uid://44ekewtgh1io" path="res://ui/audio/audio_ui.tscn" id="5_nehv1"]
+
+[node name="PauseUI" type="Control"]
+process_mode = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_v0tlv")
+
+[node name="PauseLayer" type="CanvasLayer" parent="."]
+layer = 128
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseLayer"]
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -187.0
+offset_right = 162.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 60
+alignment = 1
+
+[node name="Label" type="Label" parent="PauseLayer/VBoxContainer"]
+layout_mode = 2
+text = "PAUSED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="PauseLayer/VBoxContainer"]
+layout_mode = 2
+text = "Resume
+"
+
+[node name="SettingsButton" type="Button" parent="PauseLayer/VBoxContainer"]
+layout_mode = 2
+text = "Settings"
+
+[node name="QuitMenuButton" type="Button" parent="PauseLayer/VBoxContainer"]
+layout_mode = 2
+text = "Quit to Main Menu"
+
+[node name="QuitDesktopButton" type="Button" parent="PauseLayer/VBoxContainer"]
+layout_mode = 2
+text = "Quit to Desktop
+"
+
+[node name="SettingsLayer" type="CanvasLayer" parent="."]
+layer = 128
+
+[node name="MarginContainer" type="MarginContainer" parent="SettingsLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="TabContainer" type="TabContainer" parent="SettingsLayer/MarginContainer"]
+layout_mode = 2
+
+[node name="Display" parent="SettingsLayer/MarginContainer/TabContainer" instance=ExtResource("2_xf10g")]
+layout_mode = 2
+
+[node name="Controls" parent="SettingsLayer/MarginContainer/TabContainer" instance=ExtResource("3_f65f6")]
+visible = false
+layout_mode = 2
+
+[node name="Graphics" parent="SettingsLayer/MarginContainer/TabContainer" instance=ExtResource("4_iauj6")]
+visible = false
+layout_mode = 2
+
+[node name="Audio" parent="SettingsLayer/MarginContainer/TabContainer" instance=ExtResource("5_nehv1")]
+visible = false
+layout_mode = 2

@@ -1,6 +1,6 @@
 ﻿using Epilogue.actors.hestmor.aim;
 using Epilogue.extensions;
-using Epilogue.global.singletons;
+using Epilogue.Global.Singletons;
 using Epilogue.nodes;
 using Epilogue.props;
 using Godot;

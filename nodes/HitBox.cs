@@ -1,4 +1,4 @@
-using Epilogue.global.enums;
+using Epilogue.Global.Enums;
 using Epilogue.props.breakable_tile;
 using Godot;
 

@@ -1,8 +1,9 @@
-using Epilogue.global.enums;
-using Epilogue.global.singletons;
+using Epilogue.Global.Enums;
+using Epilogue.Global.Singletons;
 using Epilogue.props.camera;
 using Epilogue.ui;
 using Epilogue.ui.hp;
+using Epilogue.ui.pause;
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,14 +60,13 @@ public partial class Level : Node2D
 	/// <inheritdoc/>
 	public override void _Input(InputEvent @event)
 	{
-		if(@event.IsAction("pause_game") && @event.IsPressed())
+		if(@event.IsActionPressed("pause_game"))
 		{
-			_pauseUI.Show();
+			_pauseUI.Enable();
 
-			GetTree().Paused =  true;
 			GetViewport().SetInputAsHandled();
 		}
-		else if(@event.IsAction("console") && @event.IsPressed())
+		else if(@event.IsActionPressed("console"))
 		{
 			_console.Visible = !_console.Visible;
 		}
@@ -94,10 +94,10 @@ public partial class Level : Node2D
 		}
 
 		// TODO: 68 - Add them all to a List and Instantiate them all at once
-		_pauseUI = GD.Load<PackedScene>("res://ui/pause_ui.tscn").Instantiate() as PauseUI;
+		_pauseUI = GD.Load<PackedScene>("res://ui/pause/pause_ui.tscn").Instantiate() as PauseUI;
 		_console = GD.Load<PackedScene>("res://ui/console.tscn").Instantiate() as Window;
 		_killPrompt = GD.Load<PackedScene>("res://ui/glory_kill_prompt.tscn").Instantiate() as GloryKillPrompt;
-		_ammoUI = GD.Load<PackedScene>("res://ui/ammo_ui.tscn").Instantiate() as AmmoUI;
+		_ammoUI = GD.Load<PackedScene>("res://ui/ammo/ammo_ui.tscn").Instantiate() as AmmoUI;
 		_hpUI = GD.Load<PackedScene>("res://ui/hp/hp_ui.tscn").Instantiate() as HPUI;
 		_achievementUI = GD.Load<PackedScene>("res://ui/achievements/achievement_popup.tscn").Instantiate() as AchievementPopup;
 
@@ -167,9 +167,11 @@ public partial class Level : Node2D
 		}
 
 		_camera = GetViewport().GetCamera2D() as Camera;
+        Player = GD.Load<PackedScene>("res://actors/bob/bob.tscn").Instantiate() as Player;
 
-		Player.Position = _checkpoints.Where(c => c.Current).FirstOrDefault().Position;
+		AddChild(Player);
 
+        Player.Position = _checkpoints.Where(c => c.Current).FirstOrDefault().Position;
 		_camera.Position = Player.Position;
 		_camera.SetCameraTarget(Player.GetNode<Node2D>("CameraAnchor"));
 	}

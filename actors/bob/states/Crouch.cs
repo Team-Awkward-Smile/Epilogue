@@ -19,7 +19,7 @@ public partial class Crouch : State
 
 	internal override void OnInput(InputEvent @event)
 	{
-		if(@event.IsActionReleased("crouch", true))
+		if(@event.IsActionReleased("crouch"))
 		{
 			StateMachine.ChangeState(typeof(Idle));
 		}

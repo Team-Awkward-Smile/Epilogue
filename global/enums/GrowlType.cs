@@ -1,4 +1,4 @@
-namespace Epilogue.global.enums;
+namespace Epilogue.Global.Enums;
 /// <summary>
 /// 	Types of Growl that can be performed by the player character
 /// </summary>

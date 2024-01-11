@@ -1,8 +1,8 @@
-using Epilogue.global.enums;
+using Epilogue.Global.Enums;
 using Epilogue.input_icons;
 using Godot;
 
-namespace Epilogue.global.singletons;
+namespace Epilogue.Global.Singletons;
 /// <summary>
 ///		Singleton that controls inputs read from the player
 /// </summary>

@@ -79,16 +79,6 @@ script = ExtResource("7_xoqku")
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 
-[node name="RemapControls" type="Button" parent="UILayer"]
-unique_name_in_owner = true
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -8.0
-offset_right = 8.0
-grow_vertical = 0
-text = "Remap Controls"
-
 [node name="Handgun" parent="." instance=ExtResource("8_pkgf4")]
 position = Vector2(792, -117)
 

@@ -1,6 +1,6 @@
 using Epilogue.extensions;
-using Epilogue.global.enums;
-using Epilogue.global.singletons;
+using Epilogue.Global.Enums;
+using Epilogue.Global.Singletons;
 using Godot;
 using System.Linq;
 
