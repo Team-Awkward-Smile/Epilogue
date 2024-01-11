@@ -2,7 +2,7 @@ using Epilogue.props.camera;
 using Godot;
 using System.Collections.Generic;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 ///     Debug Node that draws information useful during level design, like jump distance, camera size, etc.
 /// </summary>

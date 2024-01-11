@@ -6,7 +6,7 @@ using Godot;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 ///     Base Node for every NPC in the game
 /// </summary>

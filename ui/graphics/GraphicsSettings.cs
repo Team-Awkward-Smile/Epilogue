@@ -1,5 +1,5 @@
 using Epilogue.Global.Singletons;
-using Epilogue.nodes;
+using Epilogue.Nodes;
 using Godot;
 using static Godot.DisplayServer;
 

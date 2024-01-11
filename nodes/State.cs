@@ -2,7 +2,7 @@ using Godot;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 ///		Node representing a State that an Actor can assume when using a State Machine
 /// </summary>

@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Epilogue.actors.hestmor.enums;
 using Epilogue.Global.Enums;
-using Epilogue.nodes;
+using Epilogue.Nodes;
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;

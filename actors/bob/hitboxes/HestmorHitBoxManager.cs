@@ -1,5 +1,5 @@
 using Epilogue.Global.Enums;
-using Epilogue.nodes;
+using Epilogue.Nodes;
 using Godot;
 using Godot.Collections;
 

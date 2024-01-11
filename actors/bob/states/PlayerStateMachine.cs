@@ -1,6 +1,6 @@
 using System.Linq;
 using Epilogue.Global.Singletons;
-using Epilogue.nodes;
+using Epilogue.Nodes;
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;

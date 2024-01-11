@@ -4,7 +4,7 @@ using Epilogue.Global.Singletons;
 using Godot;
 using System.Linq;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 ///		Base Node used by every gun in the game. This class can be inherited to define a more detailed execution for each gun
 /// </summary>
@@ -70,7 +70,7 @@ public partial class Gun : RigidBody2D
 	/// <summary>
 	///		Audio Player belonging to this gun. Used to play any SFX needed by the gun
 	/// </summary>
-	protected AudioStreamPlayer AudioPlayer { get; set; }
+	protected MultiAudioStreamPlayer AudioPlayer { get; set; }
 
 	/// <summary>
 	///		Singleton with every event triggered by the player character
@@ -94,7 +94,7 @@ public partial class Gun : RigidBody2D
 			GD.PrintErr($"Muzzle not defined for Gun [{Name}]. Add a Node2D names 'Muzzle' as a child of it to fix this error");
 		}
 
-		AudioPlayer = GetChildren().OfType<AudioStreamPlayer>().FirstOrDefault();
+		AudioPlayer = GetChildren().OfType<MultiAudioStreamPlayer>().FirstOrDefault();
 
 		if(AudioPlayer is null)
 		{

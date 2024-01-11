@@ -2,7 +2,7 @@ using Epilogue.Global.Enums;
 using Epilogue.props.breakable_tile;
 using Godot;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 ///		Node used as the base for every HitBox in the game
 /// </summary>

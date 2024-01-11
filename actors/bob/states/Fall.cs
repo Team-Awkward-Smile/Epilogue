@@ -1,6 +1,6 @@
 using Epilogue.actors.hestmor.enums;
 using Epilogue.constants;
-using Epilogue.nodes;
+using Epilogue.Nodes;
 using Godot;
 using System.Threading.Tasks;
 

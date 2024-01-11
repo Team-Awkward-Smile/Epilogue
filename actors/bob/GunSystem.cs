@@ -1,7 +1,7 @@
 ﻿using Epilogue.actors.hestmor.aim;
 using Epilogue.extensions;
 using Epilogue.Global.Singletons;
-using Epilogue.nodes;
+using Epilogue.Nodes;
 using Epilogue.props;
 using Godot;
 using System.Linq;

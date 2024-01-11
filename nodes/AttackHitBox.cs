@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 ///		Node for controlling the HitBoxes of attacks (usually melee, since projectiles have their own HitBoxes)
 /// </summary>

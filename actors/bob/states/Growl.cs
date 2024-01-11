@@ -1,5 +1,5 @@
 using Godot;
-using Epilogue.nodes;
+using Epilogue.Nodes;
 using Epilogue.Global.Enums;
 
 namespace Epilogue.actors.hestmor.states;
