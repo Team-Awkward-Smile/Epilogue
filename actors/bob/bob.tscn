@@ -798,6 +798,20 @@ tracks/0/keys = {
 "update": 1,
 "values": [Vector2i(4, 4)]
 }
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"AllowQuickSlide"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_366b3"]
 resource_name = "Jumping_ascend"
@@ -845,6 +859,20 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [Vector2i(5, 30), Vector2i(6, 30), Vector2i(7, 30)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"AllowQuickSlide"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_lyyfw"]
@@ -1179,3 +1207,5 @@ _lowJumpVerticalSpeed = -350.0
 _lowJumpHorizontalSpeed = 150.0
 _longJumpVerticalSpeed = -200.0
 _longJumpHorizontalSpeed = 350.0
+_longSlideCoyoteDuration = 0.4
+_kneeSlideCoyoteDuration = 0.3

@@ -1,4 +1,5 @@
 using Epilogue.actors.hestmor;
+using Epilogue.actors.hestmor.enums;
 using Epilogue.actors.hestmor.states;
 using Epilogue.extensions;
 using Epilogue.Global.Enums;
@@ -29,6 +30,8 @@ public partial class Player : Actor
 	/// </summary>
 	public bool HoldingSword { get; set; } = false;
 
+	private bool _allowQuickSlide;
+
     /// <summary>
     ///		Handles every input related to the player and directs it to the correct place. If the input matches nothing, it is send to the currently active State for further handling
     /// </summary>
@@ -46,6 +49,12 @@ public partial class Player : Actor
 		else if(@event.IsAction(InputUtils.GetInputActionName("run_modifier")))
 		{
 			RunEnabled = @event.IsPressed();
+		}
+		else if(_allowQuickSlide && @event.IsActionPressed("slide"))
+		{
+			_allowQuickSlide = false;
+
+			_playerStateMachine.OverrideState(typeof(Slide), StateType.KneeSlide);
 		}
 		else if(HoldingSword && @event.IsAction(InputUtils.GetInputActionName("pickup_or_drop_gun")) && @event.IsPressed())
 		{
@@ -189,5 +198,12 @@ public partial class Player : Actor
 		base.MoveAndSlideWithRotation();
 
 		_gunSystem.Rotation = -Rotation;
+	}
+
+	public void AllowQuickSlide()
+	{
+		_allowQuickSlide = true;
+
+		GetTree().CreateTimer(0.3f).Timeout += () => _allowQuickSlide = false;
 	}
 }

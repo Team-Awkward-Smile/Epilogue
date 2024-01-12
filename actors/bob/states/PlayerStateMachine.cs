@@ -44,12 +44,15 @@ public partial class PlayerStateMachine : StateMachine
 	[ExportSubgroup("Front Roll")]
 		[Export] private float _frontRollDuration = 0.5f;
 		[Export] private float _frontRollSpeed = 100f;
+		[Export] private float _frontRollCoyoteDuration = 0f;
 	[ExportSubgroup("Long Slide")]
 		[Export] private float _longSlideDuration = 0.5f;
 		[Export] private float _longSlideSpeed = 220f;
+		[Export] private float _longSlideCoyoteDuration = 0.2f;
 	[ExportSubgroup("Knee Slide")]
 		[Export] private float _kneeSlideDuration = 0.5f;
 		[Export] private float _kneeSlideSpeed = 160f;
+		[Export] private float _kneeSlideCoyoteDuration = 0.1f;
 
 	[ExportGroup("Walk")]
 		[Export] private float _walkSpeed = 100f;
@@ -73,7 +76,7 @@ public partial class PlayerStateMachine : StateMachine
 			new MeleeAttack(this, _slideAttackSpeed),
 			new Run(this, _runSpeed),
 			new Sleep(this),
-			new Slide(this, _frontRollDuration, _longSlideDuration, _kneeSlideDuration, _frontRollSpeed, _longSlideSpeed, _kneeSlideSpeed),
+			new Slide(this, _frontRollDuration, _longSlideDuration, _kneeSlideDuration, _frontRollSpeed, _longSlideSpeed, _kneeSlideSpeed, _frontRollCoyoteDuration, _longSlideCoyoteDuration, _kneeSlideCoyoteDuration),
 			new TakeDamage(this),
 			new Vault(this),
 			new Walk(this, _walkSpeed)
