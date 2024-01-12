@@ -200,6 +200,10 @@ public partial class Player : Actor
 		_gunSystem.Rotation = -Rotation;
 	}
 
+	/// <summary>
+	///		Flags that the Player can performed a Quick Slide if the correct input is detected.
+	///		Will turn itself off after 0.3 second
+	/// </summary>
 	public void AllowQuickSlide()
 	{
 		_allowQuickSlide = true;

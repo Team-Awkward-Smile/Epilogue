@@ -29,17 +29,20 @@ public partial class Slide : State
 	private float _currentSlideDuration;
 	private float _currentCoyoteDuration;
 
-	/// <summary>
-	/// 	State that allows Hestmor to perform slides
-	/// </summary>
-	/// <param name="stateMachine">The State Machine who owns this State</param>
-	/// <param name="frontRollDuration">The duration (in seconds) of the Front Roll</param>
-	/// <param name="longSlideDuration">The duration (in seconds) of the Long Slide</param>
-	/// <param name="kneeSlideDuration">The duration (in seconds) of the Knee Slide</param>
-	/// <param name="frontRollSpeed">The horizontal speed of the Front Slide</param>
-	/// <param name="longSlideSpeed">The horizontal speed of the Long Slide</param>
-	/// <param name="kneeSlideSpeed">The horizontal speed of the Knee Slide</param>
-	public Slide(
+    /// <summary>
+    /// 	State that allows Hestmor to perform slides
+    /// </summary>
+    /// <param name="stateMachine">The State Machine who owns this State</param>
+    /// <param name="frontRollDuration">The duration (in seconds) of the Front Roll</param>
+    /// <param name="longSlideDuration">The duration (in seconds) of the Long Slide</param>
+    /// <param name="kneeSlideDuration">The duration (in seconds) of the Knee Slide</param>
+    /// <param name="frontRollSpeed">The horizontal speed of the Front Slide</param>
+    /// <param name="longSlideSpeed">The horizontal speed of the Long Slide</param>
+    /// <param name="kneeSlideSpeed">The horizontal speed of the Knee Slide</param>
+    /// <param name="frontRollcoyoteDuration">Duration of the Coyote Time of the Front Slide</param>
+    /// <param name="longSlideCoyoteDuration">Duration of the Coyote Time of the Long Slide</param>
+    /// <param name="kneeSlideCoyoteDuration">Duration of the Coyote Time of the Knee Slide</param>
+    public Slide(
 		StateMachine stateMachine,
 		float frontRollDuration,
 		float longSlideDuration,
@@ -139,8 +142,14 @@ public partial class Slide : State
 		var velocityY = _coyoteTimer >= _currentCoyoteDuration ? _player.Velocity.Y + StateMachine.Gravity * (float)delta : 0f;
 
         _player.Velocity = new Vector2(_player.Velocity.X, velocityY);
+
 		_player.MoveAndSlide();
 		
+		if (!_player.IsOnFloor() && _coyoteTimer > _currentCoyoteDuration)
+		{
+			_canJump = false;
+		}
+
 		if(_rollType != StateType.FrontRoll && _timer > _currentSlideDuration && !_slideFinished)
 		{
 			_canJump = false;
