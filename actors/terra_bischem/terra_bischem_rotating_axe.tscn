@@ -1,0 +1,102 @@
+[gd_scene load_steps=13 format=3 uid="uid://c305ssxgpg4ad"]
+
+[ext_resource type="Script" path="res://actors/terra_bischem/RotatingAxe.cs" id="1_2hlr7"]
+[ext_resource type="Texture2D" uid="uid://dkm72is7vdb60" path="res://actors/terra_bischem/sprites/rotating_axe.png" id="1_2nuws"]
+[ext_resource type="Texture2D" uid="uid://dl7yybswebrei" path="res://actors/terra_bischem/sprites/eye.png" id="2_iqid3"]
+[ext_resource type="Material" uid="uid://bs1uvctvkmvg7" path="res://base_resources/blood_particle.tres" id="3_nyusi"]
+[ext_resource type="Script" path="res://nodes/BloodEmitter.cs" id="4_4or5e"]
+[ext_resource type="Script" path="res://nodes/HurtBox.cs" id="4_j4o2e"]
+[ext_resource type="Script" path="res://nodes/HitBox.cs" id="5_io8al"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gil5e"]
+radius = 153.721
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mclx0"]
+radius = 27.0
+height = 96.0
+
+[sub_resource type="Animation" id="Animation_hjt13"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_1on33"]
+resource_name = "swing"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [1.0472, -1.0472, 1.0472]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_d0888"]
+_data = {
+"RESET": SubResource("Animation_hjt13"),
+"swing": SubResource("Animation_1on33")
+}
+
+[node name="TerraBischemRotatingAxe" type="CharacterBody2D"]
+script = ExtResource("1_2hlr7")
+MaxHealth = 2.0
+CurrentHealth = 2.0
+
+[node name="BloodEmitter" type="GPUParticles2D" parent="."]
+position = Vector2(0, 66)
+emitting = false
+process_material = ExtResource("3_nyusi")
+script = ExtResource("4_4or5e")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_2nuws")
+offset = Vector2(0, 43)
+
+[node name="Eye" type="Sprite2D" parent="Sprite2D"]
+position = Vector2(0, 66)
+scale = Vector2(0.08, 0.08)
+texture = ExtResource("2_iqid3")
+
+[node name="HurtBox" type="Area2D" parent="Sprite2D/Eye"]
+collision_layer = 512
+collision_mask = 16
+script = ExtResource("4_j4o2e")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Eye/HurtBox"]
+shape = SubResource("CircleShape2D_gil5e")
+
+[node name="HitBox" type="Area2D" parent="Sprite2D"]
+position = Vector2(0, 73)
+rotation = 1.5708
+collision_layer = 256
+collision_mask = 32
+script = ExtResource("5_io8al")
+_damageType = 2
+Damage = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/HitBox"]
+position = Vector2(-9, 3.93403e-07)
+shape = SubResource("CapsuleShape2D_mclx0")
+
+[node name="FlipRoot" type="Node2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_d0888")
+}

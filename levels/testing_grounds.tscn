@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cjolarkdk5yoi"]
+[gd_scene load_steps=22 format=3 uid="uid://cjolarkdk5yoi"]
 
 [ext_resource type="Script" path="res://nodes/Level.cs" id="1_o245g"]
 [ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_pfrwm"]
@@ -14,10 +14,11 @@
 [ext_resource type="Script" path="res://nodes/HitBox.cs" id="13_o5dos"]
 [ext_resource type="TileSet" uid="uid://c2hf2m205a0qe" path="res://temp/tileset.tres" id="15_1ohv8"]
 [ext_resource type="PackedScene" uid="uid://cegk1cph0llpn" path="res://props/checkpoint/checkpoint.tscn" id="18_utu6l"]
+[ext_resource type="PackedScene" uid="uid://c305ssxgpg4ad" path="res://actors/terra_bischem/terra_bischem_rotating_axe.tscn" id="19_fyl2f"]
 [ext_resource type="Script" path="res://temp/NewGamePlusPath.cs" id="19_owmbm"]
 [ext_resource type="PackedScene" uid="uid://cjogekv61ycm5" path="res://props/sword/sword.tscn" id="19_t8n6g"]
+[ext_resource type="PackedScene" uid="uid://dct4o152unf8r" path="res://actors/terra_bischem/terra_bischem_swinging_axe.tscn" id="20_2a4cq"]
 [ext_resource type="PackedScene" uid="uid://6a8rb567c64u" path="res://props/breakable_tiles/test_breakable_tile.tscn" id="20_cneke"]
-[ext_resource type="PackedScene" uid="uid://cqctp6a75hq70" path="res://actors/icarasia/icarasia.tscn" id="21_bggsq"]
 [ext_resource type="Script" path="res://temp/AchievmentTimer.cs" id="21_tq176"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nkpyu"]
@@ -177,6 +178,8 @@ position = Vector2(315, -117)
 [node name="BreakableTile5" parent="BreakableTiles" instance=ExtResource("20_cneke")]
 position = Vector2(315, -135)
 
-[node name="Icarasia" parent="." instance=ExtResource("21_bggsq")]
-position = Vector2(317, -161)
-_detectionDistance = 150.0
+[node name="TerraBischemRotatingAxe" parent="." instance=ExtResource("19_fyl2f")]
+position = Vector2(381, -179)
+
+[node name="TerraBischemSwingingAxe" parent="TerraBischemRotatingAxe" instance=ExtResource("20_2a4cq")]
+position = Vector2(172, 41)

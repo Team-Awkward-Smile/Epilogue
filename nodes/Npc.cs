@@ -116,8 +116,8 @@ public abstract partial class Npc : Actor
 
 		_ = _playerEvents.Connect(PlayerEvents.SignalName.PlayerDied, Callable.From(OnPlayerDeath));
 
-		_npcStateMachine = GetChildren().OfType<NpcStateMachine>().First();
-		_npcStateMachine.Activate();
+		_npcStateMachine = GetChildren().OfType<NpcStateMachine>().FirstOrDefault();
+		_npcStateMachine?.Activate();
 	}
 
 	/// <summary>
@@ -140,7 +140,14 @@ public abstract partial class Npc : Actor
 			return;
 		}
 
-		damage *= DamageModifiers[damageType];
+		var modifier = 1f;
+
+		if (DamageModifiers.ContainsKey(damageType))
+		{
+			modifier = DamageModifiers[damageType];
+		}
+
+		damage *= modifier;
 
 		CurrentHealth -= damage;
 
