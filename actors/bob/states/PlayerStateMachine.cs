@@ -48,7 +48,7 @@ public partial class PlayerStateMachine : StateMachine
 	[ExportSubgroup("Long Slide")]
 		[Export] private float _longSlideDuration = 0.5f;
 		[Export] private float _longSlideSpeed = 220f;
-		[Export] private float _longSlideCoyoteDuration = 0.2f;
+		[Export] private float _longSlideCoyoteDuration = 0.1f;
 	[ExportSubgroup("Knee Slide")]
 		[Export] private float _kneeSlideDuration = 0.5f;
 		[Export] private float _kneeSlideSpeed = 160f;

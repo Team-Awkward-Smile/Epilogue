@@ -1207,5 +1207,3 @@ _lowJumpVerticalSpeed = -350.0
 _lowJumpHorizontalSpeed = 150.0
 _longJumpVerticalSpeed = -200.0
 _longJumpHorizontalSpeed = 350.0
-_longSlideCoyoteDuration = 0.4
-_kneeSlideCoyoteDuration = 0.3
