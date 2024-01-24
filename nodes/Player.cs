@@ -96,7 +96,7 @@ public partial class Player : Actor
 	{
 		CurrentHealth -= damage;
 
-		_playerEvents.EmitGlobalSignal(PlayerEvents.SignalName.PlayerWasDamaged, damage, CurrentHealth);
+		_playerEvents.EmitSignal(PlayerEvents.SignalName.PlayerWasDamaged, damage, CurrentHealth);
 
 		if (CurrentHealth <= 0)
 		{
@@ -125,7 +125,7 @@ public partial class Player : Actor
 	{
 		CurrentHealth += health;
 
-		_playerEvents.EmitGlobalSignal("PlayerWasHealed", health, CurrentHealth);
+		_playerEvents.EmitSignal(PlayerEvents.SignalName.PlayerWasHealed, health, CurrentHealth);
 	}
 
 	/// <summary>

@@ -9,7 +9,7 @@
 [ext_resource type="Script" path="res://nodes/HitBox.cs" id="5_io8al"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gil5e"]
-radius = 153.721
+radius = 13.3417
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mclx0"]
 radius = 27.0
@@ -70,7 +70,6 @@ offset = Vector2(0, 43)
 
 [node name="Eye" type="Sprite2D" parent="Sprite2D"]
 position = Vector2(0, 66)
-scale = Vector2(0.08, 0.08)
 texture = ExtResource("2_iqid3")
 
 [node name="HurtBox" type="Area2D" parent="Sprite2D/Eye"]

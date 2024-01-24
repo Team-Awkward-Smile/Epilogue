@@ -1,3 +1,4 @@
+using Epilogue.Global.Singletons;
 using Epilogue.Nodes;
 using Godot;
 
@@ -35,7 +36,7 @@ public partial class Shotgun : Gun
 				pellet.RotationDegrees += rand.RandfRange(-10f, 10f);
 			}
 
-			GunEvents.EmitGlobalSignal("GunFired", CurrentAmmoCount);
+			GunEvents.EmitSignal(GunEvents.SignalName.GunFired, CurrentAmmoCount);
 		}
 	}
 }

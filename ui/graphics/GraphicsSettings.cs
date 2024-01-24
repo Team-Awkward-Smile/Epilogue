@@ -14,7 +14,6 @@ public partial class GraphicsSettings : UIScreen
 	{
 		var windowOption = GetNode<OptionButton>("%WindowOption");
 
-		GD.Print("--> " + Settings.WindowMode);
 		windowOption.Select(Settings.WindowMode switch 
 		{
 			WindowMode.ExclusiveFullscreen => 0,

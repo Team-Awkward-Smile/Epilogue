@@ -56,7 +56,8 @@ public partial class GunSystem : Node2D
 		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
 		_npcEvents = GetNode<NpcEvents>("/root/NpcEvents");
 
-		_ = _npcEvents.Connect(NpcEvents.SignalName.GunAcquiredFromNpc, Callable.From((Gun gun) => EquipGun(gun)));
+		_npcEvents.Connect(NpcEvents.SignalName.GunAcquiredFromNpc, Callable.From((Gun gun) => EquipGun(gun)));
+		_playerEvents.Connect(PlayerEvents.SignalName.PlayerIsDying, Callable.From(DropGun), (uint)ConnectFlags.OneShot);
 	}
 
 	/// <summary>
@@ -112,7 +113,7 @@ public partial class GunSystem : Node2D
 
 		gun.Position = new Vector2(0f, 0f);
 
-		_gunEvents.EmitGlobalSignal("PlayerPickedUpGun", gun.CurrentAmmoCount, gun.MaxAmmoCount);
+		_gunEvents.EmitSignal(GunEvents.SignalName.PlayerPickedUpGun, gun.CurrentAmmoCount, gun.MaxAmmoCount);
 
 		if (gun is Sword)
 		{
@@ -127,7 +128,7 @@ public partial class GunSystem : Node2D
 	/// </summary>
 	public void ThrowGun()
 	{
-		Gun oldGun = UnequipGun(true);
+		var oldGun = UnequipGun(true);
 
 		oldGun.TransformIntoProjectile();
 	}
@@ -137,9 +138,14 @@ public partial class GunSystem : Node2D
 	/// </summary>
 	private void DropGun()
 	{
-		_ = InteractWithTrigger(false);
+		if (_currentGun is null)
+		{
+			return;
+		}
 
-		Gun oldGun = UnequipGun();
+		InteractWithTrigger(false);
+
+		var oldGun = UnequipGun();
 
 		if (oldGun.CurrentAmmoCount == 0)
 		{
@@ -153,7 +159,7 @@ public partial class GunSystem : Node2D
 	/// <returns>A reference to the unequipped gun to be used for further interactions</returns>
 	private Gun UnequipGun(bool keepRotation = true)
 	{
-		Gun gun = _currentGun;
+		var gun = _currentGun;
 
 		_currentGun.GetParent().RemoveChild(_currentGun);
 
@@ -168,7 +174,7 @@ public partial class GunSystem : Node2D
 		_currentGun.Freeze = false;
 		_currentGun = null;
 
-		_gunEvents.EmitGlobalSignal("GunWasDropped");
+		_gunEvents.EmitSignal(GunEvents.SignalName.GunWasDropped);
 
 		return gun;
 	}

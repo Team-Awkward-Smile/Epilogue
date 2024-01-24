@@ -26,7 +26,9 @@ public partial class Die : State
 		_player.HurtBox.SetDeferred("monitoring", false);
 		_player.CanChangeFacingDirection = false;
 
+		_playerEvents.EmitSignal(PlayerEvents.SignalName.PlayerIsDying);
+
 		AnimPlayer.Play("Combat/die");
-		AnimPlayer.AnimationFinished += (StringName animationName) => _playerEvents.EmitGlobalSignal("PlayerDied");
+		AnimPlayer.AnimationFinished += (StringName animationName) => _playerEvents.EmitSignal(PlayerEvents.SignalName.PlayerDied);
 	}
 }

@@ -59,7 +59,7 @@ public abstract partial class Npc : Actor
 	/// <summary>
 	///		Reference to the Blood Emitter of this NPC
 	/// </summary>
-	public BloodEmitter BloodEmitter { get; private set; }
+	public BloodEmitter BloodEmitter { get; private protected set; }
 
 	/// <summary>
 	///     Defines if the current position of the Player can be reached by this NPC. Used to avoid having to query the NavigationServer every time
@@ -97,7 +97,7 @@ public abstract partial class Npc : Actor
 
 		if (UseDefaultPathfinding)
 		{
-			_ = await ToSignal(GetTree(), "physics_frame");
+			_ = await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 
 			var navigationAgents = GetChildren().OfType<NavigationAgent2D>();
 
@@ -106,12 +106,13 @@ public abstract partial class Npc : Actor
 			Player = GetTree().GetLevel().Player;
 			PlayerNavigationAgent2D.TargetPosition = Player.GlobalPosition;
 
-			_ = await ToSignal(GetTree(), "physics_frame");
+			_ = await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 
 			IsPlayerReachable = PlayerNavigationAgent2D.IsTargetReachable();
 		}
 
-		BloodEmitter = GetChildren().OfType<BloodEmitter>().FirstOrDefault();
+		BloodEmitter ??= GetChildren().OfType<BloodEmitter>().FirstOrDefault();
+
 		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
 
 		_ = _playerEvents.Connect(PlayerEvents.SignalName.PlayerDied, Callable.From(OnPlayerDeath));
@@ -121,7 +122,7 @@ public abstract partial class Npc : Actor
 	}
 
 	/// <summary>
-	///     Deals damage to this NPC. If it's HP then becomes lower than it's <see cref="VulnerabilityThreshold"/>, it becomes Vulnerable
+	///     Deals damage to this NPC. If its HP then becomes lower than its <see cref="VulnerabilityThreshold"/>, it becomes Vulnerable
 	/// </summary>
 	/// <param name="damage">Ammount of damage to cause</param>
 	/// <param name="damageType">Type of the damage dealt</param>
@@ -229,12 +230,12 @@ public abstract partial class Npc : Actor
 			// Awaits between 1 and 10 physics frames before requesting a new path, to avoid having too many NPCs making requests at once
 			for (var i = 0; i < rng.RandfRange(0, 10); i++)
 			{
-				_ = await ToSignal(GetTree(), "physics_frame");
+				_ = await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 			}
 
 			PlayerNavigationAgent2D.TargetPosition = Player.GlobalPosition;
 
-			_ = await ToSignal(GetTree(), "physics_frame");
+			_ = await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 
 			IsPlayerReachable = PlayerNavigationAgent2D.IsTargetReachable();
 
@@ -316,7 +317,7 @@ public abstract partial class Npc : Actor
 		// Awaits between 1 and 10 physics frames before requesting a new path, to avoid having too many NPCs making requests at once
 		for (var i = 0; i < rng.RandfRange(0, 10); i++)
 		{
-			_ = await ToSignal(GetTree(), "physics_frame");
+			_ = await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 		}
 
 		WanderNavigationAgent2D.TargetPosition = position;

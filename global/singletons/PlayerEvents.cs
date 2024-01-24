@@ -1,12 +1,11 @@
 using Epilogue.Global.Enums;
-using Epilogue.Nodes;
 using Godot;
 
 namespace Epilogue.Global.Singletons;
 /// <summary>
 ///		Global event emitter for events related to the player character
 /// </summary>
-public partial class PlayerEvents : GlobalEvents
+public partial class PlayerEvents : Node
 {
 	/// <summary>
 	///		Event triggered whenever the game is waiting for the player to select an Execution speed
@@ -18,6 +17,8 @@ public partial class PlayerEvents : GlobalEvents
 	/// </summary>
 	/// <param name="speed">Selected Execution speed</param>
 	[Signal] public delegate void ExecutionSpeedSelectedEventHandler(ExecutionSpeed speed);
+
+	[Signal] public delegate void PlayerIsDyingEventHandler();
 
 	/// <summary>
 	///		Event triggered whenever the player dies
