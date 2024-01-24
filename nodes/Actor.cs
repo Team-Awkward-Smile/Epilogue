@@ -54,7 +54,7 @@ public abstract partial class Actor : CharacterBody2D
 	/// <summary>
 	///		Defines if this Actor can interact with Interactives in the world
 	/// </summary>
-	public bool CanInteract { get; set; }
+	public bool CanInteract { get; set; } = true;
 
 	private protected AnimationPlayer AnimationPlayer { get; set; }
 
