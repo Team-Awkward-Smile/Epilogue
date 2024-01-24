@@ -53,6 +53,13 @@ public partial class MossPlantProjectile : Projectile
 
 			_bounceRayCast2D.ForceRaycastUpdate();
 
+			if (!_bounceRayCast2D.IsColliding())
+			{
+				_bounceRayCast2D.Position = new Vector2(0, -10);
+				_bounceRayCast2D.ForceRaycastUpdate();
+				_bounceRayCast2D.Position = Vector2.Zero;
+			}
+
 			var normal = _bounceRayCast2D.GetCollisionNormal();
 			var rotationX = 180f * normal.X;
 			var rotationY = normal.Y == 0f ? 1f : normal.Y;
