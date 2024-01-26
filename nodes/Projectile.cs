@@ -14,14 +14,9 @@ public partial class Projectile : HitBox
 	[Export] public bool DestroyOnHit { get; set; } = true;
 
 	/// <summary>
-	///     Horizontal speed of this projectile
+	///     Speed of this projectile
 	/// </summary>
-	[Export] public float Speed { get; set; }
-
-	/// <summary>
-	///     Vertical force applied to this projectile while it travels. Positive values will pull the projectile down, and positive ones will make the projectile rise as it travels
-	/// </summary>
-	[Export] public float VerticalForce { get; set; } = 0f;
+	[Export] public Vector2 Speed { get; set; }
 
 	/// <summary>
 	///     This projectile will be destroyed if it doesn't hit anything in this ammount of time
@@ -54,6 +49,6 @@ public partial class Projectile : HitBox
 			QueueFree();
 		}
 
-		Position += Transform.X * Speed * (float)delta;
+		Position += Speed.Rotated(Rotation) * (float)delta;
 	}
 }

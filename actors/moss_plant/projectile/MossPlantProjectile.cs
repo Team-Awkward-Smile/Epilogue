@@ -1,6 +1,7 @@
 using Epilogue.Nodes;
 using Epilogue.Global.Enums;
 using Godot;
+using Epilogue.Extensions;
 
 namespace Epilogue.Actors.MossPlant;
 /// <summary>
@@ -8,16 +9,17 @@ namespace Epilogue.Actors.MossPlant;
 /// </summary>
 public partial class MossPlantProjectile : Projectile
 {
-	private RayCast2D _bounceRayCast2D;
+	private ShapeCast2D _bounceShapeCast2D;
 	private bool _returning;
 	private MossPlant _mossPlant;
+	private ulong _collisionFrame;
 
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
 		base._Ready();
 
-		_bounceRayCast2D = GetNode<RayCast2D>("BounceRayCast2D");
+		_bounceShapeCast2D = GetNode<ShapeCast2D>("BounceShapeCast2D");
 		_mossPlant = (MossPlant)Owner;
 
 		// Checks if the Area hit was a Melee Attack or the Plant that shot this projectile
@@ -46,25 +48,21 @@ public partial class MossPlantProjectile : Projectile
 		// Bounces around the map when hitting a surface
 		ValidBodyHit += (Node2D body) =>
 		{
-			if (_returning)
+			var currentFrame = Engine.GetPhysicsFrames();
+
+			if (_returning || _collisionFrame == currentFrame)
 			{
 				return;
 			}
 
-			_bounceRayCast2D.ForceRaycastUpdate();
+			_collisionFrame = currentFrame;
 
-			if (!_bounceRayCast2D.IsColliding())
-			{
-				_bounceRayCast2D.Position = new Vector2(0, -10);
-				_bounceRayCast2D.ForceRaycastUpdate();
-				_bounceRayCast2D.Position = Vector2.Zero;
-			}
+			_bounceShapeCast2D.ForceShapecastUpdate();
 
-			var normal = _bounceRayCast2D.GetCollisionNormal();
-			var rotationX = 180f * normal.X;
-			var rotationY = normal.Y == 0f ? 1f : normal.Y;
+			var normal = _bounceShapeCast2D.GetCollisionNormal(0);
+			var bounceVector = Speed.Rotated(Rotation).Bounce(normal);
 
-			RotationDegrees = (RotationDegrees * Mathf.Abs(rotationY) * -1) + rotationX;
+			Rotation = bounceVector.Angle();
 		};
 
 		TreeExiting += () => _mossPlant.IsProjectileActive = false;
