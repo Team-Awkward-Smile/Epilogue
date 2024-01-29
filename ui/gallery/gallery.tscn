@@ -1,0 +1,107 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3i3pas2llmb6"]
+
+[ext_resource type="Script" path="res://ui/gallery/Gallery.cs" id="1_r7yhk"]
+[ext_resource type="Texture2D" uid="uid://bwfgnv7qg1nrv" path="res://ui/gallery/pictures/icarasia_alternate.png" id="2_noaou"]
+
+[node name="Gallery" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_r7yhk")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.321569, 0.215686, 0.270588, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="PictureGrid" type="GridContainer" parent="MarginContainer/ScrollContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 4
+
+[node name="PictureView" type="CanvasLayer" parent="."]
+layer = 128
+
+[node name="ColorRect" type="ColorRect" parent="PictureView"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.439216)
+
+[node name="MarginContainer" type="MarginContainer" parent="PictureView"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 70
+theme_override_constants/margin_top = 70
+theme_override_constants/margin_right = 70
+theme_override_constants/margin_bottom = 70
+
+[node name="Picture" type="TextureRect" parent="PictureView/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("2_noaou")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="LegendMargin" type="MarginContainer" parent="PictureView/MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 425
+theme_override_constants/margin_bottom = 25
+
+[node name="LegendColor" type="ColorRect" parent="PictureView/MarginContainer/LegendMargin"]
+layout_mode = 2
+size_flags_stretch_ratio = 6.8
+color = Color(0, 0, 0, 0.521569)
+
+[node name="LegendText" type="RichTextLabel" parent="PictureView/MarginContainer/LegendMargin/LegendColor"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/normal_font_size = 19
+bbcode_enabled = true
+text = "[center]Icarasia alternate version: 
+Made By Alex Mandrei[/center]"
+fit_content = true

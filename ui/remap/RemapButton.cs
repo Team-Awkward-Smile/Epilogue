@@ -101,7 +101,9 @@ public partial class RemapButton : Button
 		SetValidInputs();
 		ButtonDown += StartWaitingForInput;
 
-		CustomMinimumSize = new Vector2(128f, 128f);
+		CustomMinimumSize = new Vector2(64f, 64f);
+		ExpandIcon = true;
+		IconAlignment = HorizontalAlignment.Center;
 	}
 
 	/// <summary>
