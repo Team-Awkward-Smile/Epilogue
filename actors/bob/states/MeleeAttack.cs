@@ -42,8 +42,6 @@ public partial class MeleeAttack : State
 
 			if (_enemy.IsVulnerable)
 			{
-				Engine.TimeScale = 0.1f;
-
 				_enemy.CanRecoverFromVulnerability = false;
 
 				_player.CanChangeFacingDirection = false;
@@ -84,8 +82,6 @@ public partial class MeleeAttack : State
 
 	private async void PerformExecution(ExecutionSpeed speed)
 	{
-		Engine.TimeScale = 1f;
-
 		_eventsSingleton.ExecutionSpeedSelected -= PerformExecution;
 
 		var animation = "Combat/execution_" + speed switch
@@ -122,8 +118,6 @@ public partial class MeleeAttack : State
 
 	internal override Task OnLeave()
 	{
-		Engine.TimeScale = 1f;
-
 		_player.CanInteract = true;
 
 		return Task.CompletedTask;
