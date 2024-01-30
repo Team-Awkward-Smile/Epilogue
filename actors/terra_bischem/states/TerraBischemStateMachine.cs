@@ -21,7 +21,8 @@ public partial class TerraBischemStateMachine : NpcStateMachine
 		{
 			new Attack(this, player, _attackRange),
 			new Combat(this, player, _attackCooldown, _attackRange),
-			new Idle(this, _detectionRange)
+			new Idle(this, _detectionRange),
+			new Laugh(this)
 		};
 
 		_currentState = _states.First(s => s.GetType() == typeof(Idle));

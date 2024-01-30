@@ -7,6 +7,8 @@ using System;
 public partial class RotatingAxe : Npc
 {
 	private Sprite2D _eyeSprite;
+	private HitBox _hitBox;
+	private AnimatedSprite2D _mouthSprite;
 
 	public override Dictionary<DamageType, float> DamageModifiers { get; set; } = new()
 	{
@@ -21,6 +23,10 @@ public partial class RotatingAxe : Npc
 		base._Ready();
 
 		_eyeSprite = GetNode<Sprite2D>("Sprite2D/Eye");
+		_hitBox = GetNode<HitBox>("%HitBox");
+		_mouthSprite = GetNode<AnimatedSprite2D>("Sprite2D/MouthAnimatedSprite2D");
+
+		_hitBox.ActorHit += (Actor actor) => _mouthSprite.Play();
 
 		AnimationPlayer.Play("swing");
 	}

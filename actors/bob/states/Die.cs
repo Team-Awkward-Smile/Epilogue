@@ -22,8 +22,7 @@ public partial class Die : State
 
 	internal override void OnEnter(params object[] args)
 	{
-		_player.HurtBox.SetDeferred("monitorable", false);
-		_player.HurtBox.SetDeferred("monitoring", false);
+		_player.HurtBox.CanRecoverFromDamage = false;
 		_player.CanChangeFacingDirection = false;
 
 		_playerEvents.EmitSignal(PlayerEvents.SignalName.PlayerIsDying);

@@ -1,3 +1,4 @@
+using Epilogue.Actors.TerraBischem.States;
 using Epilogue.Global.Enums;
 using Epilogue.Nodes;
 using Godot;
@@ -14,6 +15,7 @@ public partial class YoyoTerraBischem : Npc
 
 	private Line2D _line2D;
 	private Vector2 _pointOffset;
+	private HitBox _eyeHitBox;
 
 	public override Dictionary<DamageType, float> DamageModifiers { get; set; } = new()
 	{
@@ -32,6 +34,16 @@ public partial class YoyoTerraBischem : Npc
 		_pointOffset = new Vector2(0f, _line2D.Position.Y);
 
 		base._Ready();
+
+		_eyeHitBox = GetNode<HitBox>("%EyeHitBox");
+
+		_eyeHitBox.AreaEntered += (Area2D area) =>
+		{
+			if (area.Owner is Player)
+			{
+				_npcStateMachine.ChangeState(typeof(Laugh));
+			}
+		};
 	}
 
 	private protected override void OnDamageTaken(float damage, float currentHp, DamageType damageType)

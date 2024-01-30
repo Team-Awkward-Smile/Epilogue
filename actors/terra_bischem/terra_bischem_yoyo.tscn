@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dsr7kis4avo4p"]
+[gd_scene load_steps=17 format=3 uid="uid://dsr7kis4avo4p"]
 
 [ext_resource type="Script" path="res://actors/terra_bischem/YoyoTerraBischem.cs" id="1_r40m7"]
 [ext_resource type="Texture2D" uid="uid://cigb012rq4uf1" path="res://actors/terra_bischem/sprites/yoyo.png" id="2_brqfs"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://nodes/ActorAudioPlayer.cs" id="5_wqt47"]
 [ext_resource type="Material" uid="uid://bs1uvctvkmvg7" path="res://base_resources/blood_particle.tres" id="6_fmk1b"]
 [ext_resource type="Script" path="res://nodes/BloodEmitter.cs" id="7_3dq2p"]
+[ext_resource type="Texture2D" uid="uid://bqjw6uspi1y8y" path="res://actors/terra_bischem/sprites/mouth.png" id="10_lgxhl"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_quhi6"]
 radius = 12.6491
@@ -18,6 +19,42 @@ radius = 13.0384
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0fjhm"]
 size = Vector2(36, 90)
+
+[sub_resource type="Animation" id="Animation_q51ib"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Mouth:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_y5pnp"]
+resource_name = "laugh"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Mouth:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 3, 2, 1, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kkmrd"]
+_data = {
+"RESET": SubResource("Animation_q51ib"),
+"laugh": SubResource("Animation_y5pnp")
+}
 
 [node name="TerraBischemYoyo" type="CharacterBody2D"]
 collision_layer = 10
@@ -40,13 +77,14 @@ default_color = Color(0.494118, 0.0627451, 0.121569, 1)
 position = Vector2(0, -14)
 texture = ExtResource("3_70x8b")
 
-[node name="HitBox" type="Area2D" parent="Eye"]
+[node name="EyeHitBox" type="Area2D" parent="Eye"]
+unique_name_in_owner = true
 collision_layer = 256
 collision_mask = 32
 script = ExtResource("4_wj672")
 Damage = 1.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Eye/HitBox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Eye/EyeHitBox"]
 shape = SubResource("CircleShape2D_quhi6")
 
 [node name="HurtBox" type="Area2D" parent="Eye"]
@@ -76,3 +114,11 @@ _attackRange = 200.0
 script = ExtResource("5_wqt47")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_kkmrd")
+}
+
+[node name="Mouth" type="Sprite2D" parent="."]
+position = Vector2(1, 8)
+texture = ExtResource("10_lgxhl")
+hframes = 5

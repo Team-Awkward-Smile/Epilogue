@@ -9,10 +9,12 @@ namespace Epilogue.Nodes;
 [GlobalClass]
 public partial class HitBox : Area2D
 {
+	[Signal] public delegate void ActorHitEventHandler(Actor actor);
+
 	/// <summary>
 	///		Type of damage caused by this HitBox
 	/// </summary>
-	[Export] private DamageType _damageType;
+	[Export] public DamageType DamageType { get; set; }
 
 	/// <summary>
 	///		Damage caused by this HitBox
@@ -24,37 +26,6 @@ public partial class HitBox : Area2D
 	/// </summary>
 	public float BonusDamage { get; set; } = 0f;
 
-	/// <summary>
-	/// 	The CollisionShape used by this HitBox to detect collisions
-	/// </summary>
-	public Shape2D CollisionShape
-	{
-		get => _collisionShape;
-		set
-		{
-			_collisionShape = value;
-			SpawnCollisionShape();
-		}
-	}
-
-	private Shape2D _collisionShape;
-
-	private void SpawnCollisionShape()
-	{
-		AddChild(new CollisionShape2D()
-		{
-			Shape = CollisionShape,
-		});
-	}
-
-	/// <summary>
-	/// 	Deletes a previously created HitBox
-	/// </summary>
-	public void DeleteHitBox()
-	{
-		GetChild(0).QueueFree();
-	}
-
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
@@ -62,7 +33,7 @@ public partial class HitBox : Area2D
 		{
 			if (area.Owner is Actor actor)
 			{
-				actor.ReduceHealth(Damage, _damageType);
+				EmitSignal(SignalName.ActorHit, actor);
 			}
 		};
 
@@ -70,7 +41,7 @@ public partial class HitBox : Area2D
 		{
 			if (body is BreakableTile tile)
 			{
-				tile.DamageTile(Damage, _damageType);
+				tile.DamageTile(Damage, DamageType);
 			}
 		};
 	}
