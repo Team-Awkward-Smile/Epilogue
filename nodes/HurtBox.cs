@@ -7,14 +7,29 @@ namespace Epilogue.Nodes;
 [GlobalClass]
 public partial class HurtBox : Area2D
 {
+	/// <summary>
+	///		Signal emitted whenever this HurtBox is temporarily disabled after receiving damage
+	/// </summary>
+	[Signal] public delegate void HurtBoxDisabledEventHandler();
+
+	/// <summary>
+	///		Signal emitted whenever this HurtBox is reenabled after receiving damage
+	/// </summary>
+	[Signal] public delegate void HurtBoxEnabledEventHandler();
+
 	[Export] private double _iFrameDuration = 0.5;
 
+	/// <summary>
+	///		Defines if this HurtBox will be reenabled after receiving damage.
+	///		Setting this to false will prevent the <see cref="HurtBoxDisabled"/> signal from being emitted
+	/// </summary>
 	public bool CanRecoverFromDamage { get; set; } = true;
 
 	private Actor _actor;
 	private bool _invulnerable;
 	private double _iTimer;
 
+	/// <inheritdoc/>
 	public override void _Ready()
 	{
 		_actor = (Actor)Owner;
@@ -29,10 +44,16 @@ public partial class HurtBox : Area2D
 
 				SetDeferred(Area2D.PropertyName.Monitorable, false);
 				SetDeferred(Area2D.PropertyName.Monitoring, false);
+
+				if (CanRecoverFromDamage)
+				{
+					EmitSignal(SignalName.HurtBoxDisabled);
+				}
 			}
 		};
 	}
 
+	/// <inheritdoc/>
 	public override void _PhysicsProcess(double delta)
 	{
 		if (!CanRecoverFromDamage)
@@ -46,6 +67,8 @@ public partial class HurtBox : Area2D
 
 			SetDeferred(Area2D.PropertyName.Monitorable, true);
 			SetDeferred(Area2D.PropertyName.Monitoring, true);
+
+			EmitSignal(SignalName.HurtBoxEnabled);
 		}
 	}
 }

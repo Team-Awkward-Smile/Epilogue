@@ -1,11 +1,51 @@
-[gd_scene load_steps=12 format=3 uid="uid://dct4o152unf8r"]
+[gd_scene load_steps=13 format=3 uid="uid://dct4o152unf8r"]
 
 [ext_resource type="Script" path="res://actors/terra_bischem/SwingingAxe.cs" id="1_j2twm"]
 [ext_resource type="Script" path="res://nodes/HitBox.cs" id="2_o6g1e"]
+[ext_resource type="Material" uid="uid://bitwmbim075ep" path="res://base_resources/materials/npc.tres" id="3_1ednf"]
 [ext_resource type="Texture2D" uid="uid://cvcd7d0kmbbkb" path="res://actors/terra_bischem/sprites/swinging_axe/spritesheet(1).png" id="3_4boxu"]
 [ext_resource type="Material" uid="uid://bs1uvctvkmvg7" path="res://base_resources/blood_particle.tres" id="4_6rpcg"]
 [ext_resource type="Script" path="res://nodes/BloodEmitter.cs" id="5_c43qr"]
 [ext_resource type="Script" path="res://nodes/HurtBox.cs" id="6_jw4u4"]
+
+[sub_resource type="Animation" id="Animation_8u57s"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HitBox/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FlipRoot/Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("HurtBox/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_rmoaf"]
 resource_name = "swing"
@@ -49,45 +89,6 @@ tracks/2/keys = {
 "values": [true, false, true]
 }
 
-[sub_resource type="Animation" id="Animation_8u57s"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("HitBox/CollisionShape2D:disabled")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("FlipRoot/Sprite2D:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("HurtBox/CollisionShape2D:disabled")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_j3l6o"]
 _data = {
 "RESET": SubResource("Animation_8u57s"),
@@ -114,7 +115,6 @@ libraries = {
 collision_layer = 256
 collision_mask = 32
 script = ExtResource("2_o6g1e")
-_damageType = 4
 Damage = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
@@ -125,6 +125,7 @@ disabled = true
 [node name="FlipRoot" type="Node2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="FlipRoot"]
+material = ExtResource("3_1ednf")
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("3_4boxu")
 hframes = 27
@@ -136,6 +137,8 @@ process_material = ExtResource("4_6rpcg")
 script = ExtResource("5_c43qr")
 
 [node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 512
+collision_mask = 16
 script = ExtResource("6_jw4u4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]

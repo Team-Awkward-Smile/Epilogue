@@ -3,20 +3,28 @@ using Epilogue.Global.Enums;
 using Epilogue.Nodes;
 using Godot;
 using Godot.Collections;
-using System;
 
 namespace Epilogue.Actors.TerraBischem;
+/// <summary>
+///		Version of a Terra Bischem that launches it's eye like an yoyo towards the player
+/// </summary>
 public partial class YoyoTerraBischem : Npc
 {
-	public Sprite2D Eye { get; set; }
-
+	/// <summary>
+	///		Distance (in units) to the player
+	/// </summary>
 	public float DistanceToPlayer { get; set; }
+
+	/// <summary>
+	///		Time (in seconds) since the last attack was performed
+	/// </summary>
 	public float TimeSinceLastAttack { get; set; }
 
 	private Line2D _line2D;
 	private Vector2 _pointOffset;
 	private HitBox _eyeHitBox;
 
+	/// <inheritdoc/>
 	public override Dictionary<DamageType, float> DamageModifiers { get; set; } = new()
 	{
 		{ DamageType.Fire, 2f },
@@ -25,10 +33,12 @@ public partial class YoyoTerraBischem : Npc
 
 	private protected override bool UseDefaultPathfinding => false;
 
+	/// <inheritdoc/>
 	public override void _Ready()
 	{
-		Eye = GetNode<Sprite2D>("Eye");
+		Sprite = GetNode<Sprite2D>("Eye");
 		BloodEmitter = GetNode<BloodEmitter>("Eye/BloodEmitter");
+		HurtBox = GetNode<HurtBox>("Eye/HurtBox");
 
 		_line2D = GetNode<Line2D>("Line2D");
 		_pointOffset = new Vector2(0f, _line2D.Position.Y);
@@ -68,7 +78,7 @@ public partial class YoyoTerraBischem : Npc
 
 	private protected override void OnPlayerDeath()
 	{
-		return;
+		_npcStateMachine.ChangeState(typeof(Idle), false);
 	}
 
 	private protected override void OnVulnerabilityRecovered()
@@ -85,6 +95,6 @@ public partial class YoyoTerraBischem : Npc
 	{
 		DistanceToPlayer = GlobalPosition.DistanceTo(Player.GlobalPosition);
 
-		_line2D.SetPointPosition(1, Eye.Position - _pointOffset);
+		_line2D.SetPointPosition(1, Sprite.Position - _pointOffset);
 	}
 }

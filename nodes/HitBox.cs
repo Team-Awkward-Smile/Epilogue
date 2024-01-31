@@ -9,6 +9,10 @@ namespace Epilogue.Nodes;
 [GlobalClass]
 public partial class HitBox : Area2D
 {
+	/// <summary>
+	///		Signal emitted whenever this HitBox hits an Actor
+	/// </summary>
+	/// <param name="actor">The actor hit by the HitBox</param>
 	[Signal] public delegate void ActorHitEventHandler(Actor actor);
 
 	/// <summary>

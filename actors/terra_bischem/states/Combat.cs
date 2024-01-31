@@ -2,6 +2,7 @@ using Epilogue.Nodes;
 using Godot;
 
 namespace Epilogue.Actors.TerraBischem.States;
+/// <inheritdoc/>
 public partial class Combat : State
 {
 	private readonly YoyoTerraBischem _terraBischem;
@@ -11,6 +12,13 @@ public partial class Combat : State
 
 	private bool _tweenFinished = false;
 
+	/// <summary>
+	///		State that allows a Yoyo Terra Bischem to prepare an attack when the player is close enough
+	/// </summary>
+	/// <param name="stateMachine">The State Machine who owns this State</param>
+	/// <param name="player">The player character</param>
+	/// <param name="attackCooldown">The cooldown (in seconds) between attacks</param>
+	/// <param name="attackRange">The range (in units) the player must be for an attack to be performed</param>
 	public Combat(StateMachine stateMachine, Player player, float attackCooldown, float attackRange) : base(stateMachine)
 	{
 		_terraBischem = (YoyoTerraBischem)stateMachine.Owner;
@@ -21,12 +29,12 @@ public partial class Combat : State
 
 	internal override void OnEnter(params object[] args)
 	{
-		var eyePosition = _terraBischem.Eye.GlobalPosition;
+		var eyePosition = _terraBischem.Sprite.GlobalPosition;
 		var playerPosition = _player.GlobalPosition;
-		var rotation = Mathf.Atan2(playerPosition.Y - eyePosition.Y, playerPosition.X - eyePosition.Y);
+		var rotation = Mathf.Atan2(playerPosition.Y - eyePosition.Y, playerPosition.X - eyePosition.X);
 		var tween = StateMachine.CreateTween();
 
-		tween.TweenProperty(_terraBischem.Eye, "rotation", rotation, 0.5f);
+		tween.TweenProperty(_terraBischem.Sprite, "rotation", rotation, 0.5f);
 		tween.Finished += () => _tweenFinished = true;
 	}
 
@@ -38,7 +46,7 @@ public partial class Combat : State
 		}
 
 		_terraBischem.TimeSinceLastAttack += (float)delta;
-		_terraBischem.Eye.LookAt(_player.GlobalPosition);
+		_terraBischem.Sprite.LookAt(_player.GlobalPosition);
 
 		if (_terraBischem.TimeSinceLastAttack >= _attackCooldown && _terraBischem.DistanceToPlayer <= _attackRange)
 		{

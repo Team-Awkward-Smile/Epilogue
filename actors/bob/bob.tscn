@@ -1069,7 +1069,7 @@ _data = {
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yy212"]
 shader = ExtResource("24_ne6t2")
-shader_parameter/iframeActive = false
+shader_parameter/iFrameActive = false
 shader_parameter/blinkColor = Color(1, 1, 1, 1)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b5eh5"]
@@ -1098,7 +1098,7 @@ MaxHealth = 3.0
 CurrentHealth = 3.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-root_node = NodePath("../FlipRoot/Sprite2D")
+root_node = NodePath("../FlipRoot/MainSprite")
 libraries = {
 "": SubResource("AnimationLibrary_hko5d"),
 "Combat": SubResource("AnimationLibrary_ty2th"),
@@ -1158,7 +1158,8 @@ z_index = 1
 target_position = Vector2(8, 0)
 collision_mask = 8
 
-[node name="Sprite2D" type="Sprite2D" parent="FlipRoot" groups=["MainSprite"]]
+[node name="MainSprite" type="Sprite2D" parent="FlipRoot"]
+unique_name_in_owner = true
 material = SubResource("ShaderMaterial_yy212")
 position = Vector2(0, -30)
 texture = ExtResource("25_k53r2")
@@ -1166,7 +1167,7 @@ hframes = 11
 vframes = 36
 frame = 22
 
-[node name="LedgeAnchor" type="Node2D" parent="FlipRoot/Sprite2D"]
+[node name="LedgeAnchor" type="Node2D" parent="FlipRoot/MainSprite"]
 editor_description = "Node used by the Ledge Grab State to move the character to the correct place"
 position = Vector2(5, 13)
 

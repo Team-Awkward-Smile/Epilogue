@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://c305ssxgpg4ad"]
+[gd_scene load_steps=25 format=3 uid="uid://c305ssxgpg4ad"]
 
 [ext_resource type="Script" path="res://actors/terra_bischem/RotatingAxe.cs" id="1_2hlr7"]
 [ext_resource type="Texture2D" uid="uid://dkm72is7vdb60" path="res://actors/terra_bischem/sprites/rotating_axe.png" id="1_2nuws"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://nodes/BloodEmitter.cs" id="4_4or5e"]
 [ext_resource type="Script" path="res://nodes/HurtBox.cs" id="4_j4o2e"]
 [ext_resource type="Script" path="res://nodes/HitBox.cs" id="5_io8al"]
+[ext_resource type="Material" uid="uid://bitwmbim075ep" path="res://base_resources/materials/npc.tres" id="5_t28t8"]
 [ext_resource type="Texture2D" uid="uid://bqjw6uspi1y8y" path="res://actors/terra_bischem/sprites/mouth.png" id="8_7c1pw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gil5e"]
@@ -141,6 +142,7 @@ texture = ExtResource("1_2nuws")
 offset = Vector2(0, 43)
 
 [node name="Eye" type="Sprite2D" parent="Sprite2D"]
+material = ExtResource("5_t28t8")
 position = Vector2(0, 66)
 texture = ExtResource("2_iqid3")
 
@@ -171,8 +173,6 @@ position = Vector2(0, 83)
 sprite_frames = SubResource("SpriteFrames_tb3fn")
 frame = 8
 frame_progress = 1.0
-
-[node name="FlipRoot" type="Node2D" parent="."]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

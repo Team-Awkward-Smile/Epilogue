@@ -72,11 +72,6 @@ public abstract partial class Npc : Actor
 	public bool WaitingForNavigationQuery { get; set; }
 
 	/// <summary>
-	///		Determines if this NPC can take damage or not
-	/// </summary>
-	public bool CanTakeDamage { get; set; } = true;
-
-	/// <summary>
 	///		Determines if this NPC can recover from the Vulnerable State.
 	///		While set to <c>false</c>, the timer to recover will not be updated
 	/// </summary>
@@ -115,7 +110,7 @@ public abstract partial class Npc : Actor
 
 		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
 
-		_ = _playerEvents.Connect(PlayerEvents.SignalName.PlayerDied, Callable.From(OnPlayerDeath));
+		_ = _playerEvents.Connect(PlayerEvents.SignalName.PlayerIsDying, Callable.From(OnPlayerDeath));
 
 		_npcStateMachine = GetChildren().OfType<NpcStateMachine>().FirstOrDefault();
 		_npcStateMachine?.Activate();
@@ -128,11 +123,6 @@ public abstract partial class Npc : Actor
 	/// <param name="damageType">Type of the damage dealt</param>
 	public override void ReduceHealth(float damage, DamageType damageType)
 	{
-		if (!CanTakeDamage)
-		{
-			return;
-		}
-
 		BloodEmitter.EmitBlood();
 
 		// Prevent cases where multiple sources dealing damage at once may cause a race-condition

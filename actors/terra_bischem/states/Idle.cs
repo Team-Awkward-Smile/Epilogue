@@ -3,6 +3,7 @@ using Godot;
 using System.Threading.Tasks;
 
 namespace Epilogue.Actors.TerraBischem.States;
+/// <inheritdoc/>
 public partial class Idle : State
 {
 	private readonly YoyoTerraBischem _terraBischem;
@@ -10,7 +11,13 @@ public partial class Idle : State
 	private readonly float _detectionRange;
 
 	private Tween _tween;
+	private bool _canChangeState = true;
 
+	/// <summary>
+	///		State that allows a Yoyo Terra Bischem to look around while waiting for the player
+	/// </summary>
+	/// <param name="stateMachine"></param>
+	/// <param name="detectionRange"></param>
 	public Idle(StateMachine stateMachine, float detectionRange) : base(stateMachine)
 	{
 		_terraBischem = (YoyoTerraBischem)stateMachine.Owner;
@@ -18,14 +25,20 @@ public partial class Idle : State
 		_detectionRange = detectionRange;
 	}
 
+	// args[0] - bool - Defines if the Terra Bischem will engage in combat once the player is close enough
 	internal override void OnEnter(params object[] args)
 	{
+		if (args.Length > 0)
+		{
+			_canChangeState = (bool)args[0];
+		}
+
 		TweenEyeRotation();
 	}
 
 	internal override void Update(double delta)
 	{
-		if (_terraBischem.DistanceToPlayer <= _detectionRange)
+		if (_canChangeState && _terraBischem.DistanceToPlayer <= _detectionRange)
 		{
 			StateMachine.ChangeState(typeof(Combat));
 		}
@@ -48,7 +61,7 @@ public partial class Idle : State
 
 		_tween = StateMachine.CreateTween();
 
-		_tween.TweenProperty(_terraBischem.Eye, "rotation_degrees", rotation, 1f).SetDelay(delay);
+		_tween.TweenProperty(_terraBischem.Sprite, "rotation_degrees", rotation, 1f).SetDelay(delay);
 
 		_tween.Finished += TweenEyeRotation;
 	}

@@ -4,6 +4,9 @@ using Godot;
 using System.Linq;
 
 namespace Epilogue.Actors.TerraBischem.States;
+/// <summary>
+///		State Machine used by the Yoyo Terra Bischem
+/// </summary>
 public partial class TerraBischemStateMachine : NpcStateMachine
 {
 	[ExportCategory("General")]
@@ -13,6 +16,7 @@ public partial class TerraBischemStateMachine : NpcStateMachine
 	[Export] private float _attackRange = 100f;
 	[Export] private float _attackCooldown = 5f;
 
+	/// <inheritdoc/>
 	public override void _Ready()
 	{
 		var player = GetTree().GetLevel().Player;

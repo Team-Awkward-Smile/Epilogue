@@ -1,7 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://dsr7kis4avo4p"]
+[gd_scene load_steps=18 format=3 uid="uid://dsr7kis4avo4p"]
 
 [ext_resource type="Script" path="res://actors/terra_bischem/YoyoTerraBischem.cs" id="1_r40m7"]
 [ext_resource type="Texture2D" uid="uid://cigb012rq4uf1" path="res://actors/terra_bischem/sprites/yoyo.png" id="2_brqfs"]
+[ext_resource type="Material" uid="uid://bitwmbim075ep" path="res://base_resources/materials/npc.tres" id="3_6hq4q"]
 [ext_resource type="Texture2D" uid="uid://dl7yybswebrei" path="res://actors/terra_bischem/sprites/eye.png" id="3_70x8b"]
 [ext_resource type="Script" path="res://actors/terra_bischem/states/TerraBischemStateMachine.cs" id="4_nqpqm"]
 [ext_resource type="Script" path="res://nodes/HitBox.cs" id="4_wj672"]
@@ -74,6 +75,7 @@ width = 2.815
 default_color = Color(0.494118, 0.0627451, 0.121569, 1)
 
 [node name="Eye" type="Sprite2D" parent="."]
+material = ExtResource("3_6hq4q")
 position = Vector2(0, -14)
 texture = ExtResource("3_70x8b")
 

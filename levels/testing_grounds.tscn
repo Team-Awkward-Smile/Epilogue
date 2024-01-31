@@ -180,6 +180,9 @@ position = Vector2(315, -117)
 [node name="BreakableTile5" parent="BreakableTiles" instance=ExtResource("20_cneke")]
 position = Vector2(315, -135)
 
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(184, -92)
+
 [node name="TerraBischemSwingingAxe" parent="." instance=ExtResource("20_2a4cq")]
 position = Vector2(269, -338)
 

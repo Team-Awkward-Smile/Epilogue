@@ -3,8 +3,12 @@ using Epilogue.Nodes;
 using Godot.Collections;
 
 namespace Epilogue.Actors.TerraBischem;
+/// <summary>
+///		Version of a Terra Bischem that can swing forwards and backwards in a 2.5D manner
+/// </summary>
 public partial class SwingingAxe : Npc
 {
+	/// <inheritdoc/>
 	public override Dictionary<DamageType, float> DamageModifiers { get; set; } = new()
 	{
 		{ DamageType.Fire, 2f },
@@ -13,6 +17,7 @@ public partial class SwingingAxe : Npc
 
 	private protected override bool UseDefaultPathfinding => false;
 
+	/// <inheritdoc/>
 	public override void _Ready()
 	{
 		base._Ready();
