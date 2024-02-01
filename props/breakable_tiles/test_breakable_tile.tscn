@@ -1,19 +1,66 @@
-[gd_scene load_steps=4 format=3 uid="uid://6a8rb567c64u"]
+[gd_scene load_steps=10 format=3 uid="uid://6a8rb567c64u"]
 
 [ext_resource type="Script" path="res://props/breakable_tiles/BreakableTile.cs" id="1_h5pyw"]
+[ext_resource type="AudioStream" uid="uid://ce8a7o7n0jjw4" path="res://props/breakable_tiles/sfx/BreakingRock01.wav" id="2_bsin4"]
 [ext_resource type="Texture2D" uid="uid://ce28v6b0ipo0k" path="res://temp/tile_small.png" id="2_cckie"]
+[ext_resource type="AudioStream" uid="uid://cd6lxb54f2ry0" path="res://props/breakable_tiles/sfx/BreakingRock02.wav" id="3_tausy"]
+[ext_resource type="AudioStream" uid="uid://ulp10fj6tlkk" path="res://props/breakable_tiles/sfx/BreakingRock03.wav" id="4_uijgq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ek204"]
 size = Vector2(18, 18)
+
+[sub_resource type="Animation" id="Animation_3ndh2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_tnd1o"]
+resource_name = "break"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_h066a"]
+_data = {
+"RESET": SubResource("Animation_3ndh2"),
+"break": SubResource("Animation_tnd1o")
+}
 
 [node name="BreakableTile" type="StaticBody2D"]
 collision_layer = 8
 collision_mask = 16
 script = ExtResource("1_h5pyw")
 _health = 3.0
+_breakingSounds = Array[AudioStreamWAV]([ExtResource("2_bsin4"), ExtResource("3_tausy"), ExtResource("4_uijgq")])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_cckie")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ek204")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_h066a")
+}

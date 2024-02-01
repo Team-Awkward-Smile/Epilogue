@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 ///		Base class for every UI Screen
 /// </summary>

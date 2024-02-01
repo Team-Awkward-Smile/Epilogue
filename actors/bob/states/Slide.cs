@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Epilogue.actors.hestmor.enums;
 using Epilogue.Global.Enums;
-using Epilogue.nodes;
+using Epilogue.Nodes;
 using Godot;
 
 namespace Epilogue.actors.hestmor.states;
@@ -60,7 +60,7 @@ public partial class Slide : State
 		}
 		else if(Input.IsActionJustPressed("cancel_slide"))
 		{
-			AnimPlayer.Play("Slide/slide_end");
+			AnimPlayer.Play($"Slide/{_animation}_slide_end");
 			AnimPlayer.AnimationFinished += EndSlide; 
 		}
 	}

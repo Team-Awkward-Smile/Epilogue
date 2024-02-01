@@ -1,6 +1,6 @@
 using Epilogue.extensions;
 using Epilogue.Global.Enums;
-using Epilogue.nodes;
+using Epilogue.Nodes;
 using Godot;
 
 namespace Epilogue.actors.rob.states;

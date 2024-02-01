@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 /// 	Node that emits blood particles whenever an Actor takes damage
 /// </summary>

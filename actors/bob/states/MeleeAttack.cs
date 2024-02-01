@@ -1,125 +1,125 @@
-using System.Threading.Tasks;
 using Epilogue.actors.hestmor.enums;
 using Epilogue.Global.Enums;
 using Epilogue.Global.Singletons;
-using Epilogue.nodes;
+using Epilogue.Nodes;
 using Godot;
+using System.Threading.Tasks;
 
 namespace Epilogue.actors.hestmor.states;
 /// <inheritdoc/>
 public partial class MeleeAttack : State
 {
-	private readonly float _slideAttackSpeed;
-	private readonly Player _player;
-	
-	private PlayerEvents _eventsSingleton;
-	private Npc _enemy;
-	private StateType _attackType;
+    private readonly float _slideAttackSpeed;
+    private readonly Player _player;
 
-	/// <summary>
-	/// 	State that allows Hestmor to perform melee attacks and Executions
-	/// </summary>
-	/// <param name="stateMachine">The State Machine who owns this State</param>
-	/// <param name="slideAttackSpeed">The horizontal speed of Hestmor when performing a Slide Attack</param>
-	public MeleeAttack(StateMachine stateMachine, float slideAttackSpeed) : base(stateMachine)
-	{
-		_slideAttackSpeed = slideAttackSpeed;
-		_player = (Player) stateMachine.Owner;
-	}
+    private PlayerEvents _eventsSingleton;
+    private Npc _enemy;
+    private StateType _attackType;
 
-	internal override void OnEnter(params object[] args)
-	{
-		// The attack audio is controlled by the animation
+    /// <summary>
+    /// 	State that allows Hestmor to perform melee attacks and Executions
+    /// </summary>
+    /// <param name="stateMachine">The State Machine who owns this State</param>
+    /// <param name="slideAttackSpeed">The horizontal speed of Hestmor when performing a Slide Attack</param>
+    public MeleeAttack(StateMachine stateMachine, float slideAttackSpeed) : base(stateMachine)
+    {
+        _slideAttackSpeed = slideAttackSpeed;
+        _player = (Player)stateMachine.Owner;
+    }
 
-		_player.CanChangeFacingDirection = false;
-		_attackType = (StateType) args[0];
+    internal override void OnEnter(params object[] args)
+    {
+        // The attack audio is controlled by the animation
 
-		StateMachine.CanInteract = false;
+        _player.CanChangeFacingDirection = false;
+        _attackType = (StateType)args[0];
 
-		if(_player.RayCasts["Enemy"].IsColliding())
-		{
-			_enemy = (Npc) _player.RayCasts["Enemy"].GetCollider();
+        StateMachine.CanInteract = false;
 
-			if(_enemy.IsVulnerable)
-			{
-				Engine.TimeScale = 0.1f;
-				_player.CanChangeFacingDirection = false;
+        if (_player.RayCasts["Enemy"].IsColliding())
+        {
+            _enemy = (Npc)_player.RayCasts["Enemy"].GetCollider();
 
-				_eventsSingleton = StateMachine.GetNode<PlayerEvents>("/root/PlayerEvents");
+            if (_enemy.IsVulnerable)
+            {
+                Engine.TimeScale = 0.1f;
+                _player.CanChangeFacingDirection = false;
 
-				_eventsSingleton.EmitGlobalSignal("StateAwaitingForExecutionSpeed");
-				_eventsSingleton.ExecutionSpeedSelected += PerformExecution;
+                _eventsSingleton = StateMachine.GetNode<PlayerEvents>("/root/PlayerEvents");
 
-				return;
-			}
-		}
+                _eventsSingleton.EmitGlobalSignal("StateAwaitingForExecutionSpeed");
+                _eventsSingleton.ExecutionSpeedSelected += PerformExecution;
 
-		if(_player.HoldingSword)
-		{
-			AnimPlayer.Play("Combat/sword_slash");
-		}
-		else
-		{
-			var animation = _attackType switch
-			{
-				StateType.SlideAttack => "slide_attack",
-				_ => "melee_attack",
-			};
+                return;
+            }
+        }
 
-			AnimPlayer.Play($"Combat/{animation}");
+        if (_player.HoldingSword)
+        {
+            AnimPlayer.Play("Combat/sword_slash");
+        }
+        else
+        {
+            var animation = _attackType switch
+            {
+                StateType.SlideAttack => "slide_attack",
+                _ => "melee_attack",
+            };
 
-			if(_attackType == StateType.SlideAttack)
-			{
-				_player.Velocity = new Vector2(_slideAttackSpeed * (_player.FacingDirection == ActorFacingDirection.Left ? -1 : 1), 0f);
-			}
-		}
+            AnimPlayer.Play($"Combat/{animation}");
 
-		AnimPlayer.AnimationFinished += FinishAttack;
-	}
+            if (_attackType == StateType.SlideAttack)
+            {
+                _player.Velocity = new Vector2(_slideAttackSpeed * (_player.FacingDirection == ActorFacingDirection.Left ? -1 : 1), 0f);
+            }
+        }
 
-	private async void PerformExecution(ExecutionSpeed speed)
-	{
-		Engine.TimeScale = 1f;
+        AnimPlayer.AnimationFinished += FinishAttack;
+    }
 
-		_eventsSingleton.ExecutionSpeedSelected -= PerformExecution;
+    private async void PerformExecution(ExecutionSpeed speed)
+    {
+        Engine.TimeScale = 1f;
 
-		var animation = "Combat/execution_" + speed switch
-		{
-			ExecutionSpeed.Slow => "slow",
-			_ => "fast"
-		};
+        _eventsSingleton.ExecutionSpeedSelected -= PerformExecution;
 
-		AnimPlayer.Play(animation);
+        var animation = "Combat/execution_" + speed switch
+        {
+            ExecutionSpeed.Slow => "slow",
+            _ => "fast"
+        };
 
-		await StateMachine.ToSignal(AnimPlayer, "animation_finished");
+        AnimPlayer.Play(animation);
 
-		_enemy.Execute(speed);
+        await StateMachine.ToSignal(AnimPlayer, "animation_finished");
 
-		StateMachine.ChangeState(typeof(Idle));
-	}
+        _enemy.Execute(speed);
 
-	internal override void PhysicsUpdate(double delta)
-	{
-		if(_attackType != StateType.SlideAttack)
-		{
-			return;
-		}
+        StateMachine.ChangeState(typeof(Idle));
+    }
 
-		_player.MoveAndSlide();
-	}
+    internal override void PhysicsUpdate(double delta)
+    {
+        if (_attackType != StateType.SlideAttack)
+        {
+            return;
+        }
 
-	private void FinishAttack(StringName animName)
-	{
-		AnimPlayer.AnimationFinished -= FinishAttack;
+        _player.MoveAndSlide();
+    }
 
-		StateMachine.ChangeState(typeof(Idle));
-	}
+    private void FinishAttack(StringName animName)
+    {
+        AnimPlayer.AnimationFinished -= FinishAttack;
 
-	internal override Task OnLeave()
-	{
-		Engine.TimeScale = 1f;
-		StateMachine.CanInteract = true;
+        StateMachine.ChangeState(typeof(Idle));
+    }
 
-		return Task.CompletedTask;
-	}
+    internal override Task OnLeave()
+    {
+        Engine.TimeScale = 1f;
+        StateMachine.CanInteract = true;
+
+        return Task.CompletedTask;
+    }
 }

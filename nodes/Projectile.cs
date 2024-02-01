@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 ///     Node used as the base for all projectiles
 /// </summary>
@@ -26,11 +26,6 @@ public partial class Projectile : HitBox
     ///     Vertical force applied to this projectile while it travels. Positive values will pull the projectile down, and positive ones will make the projectile rise as it travels
     /// </summary>
     [Export] public float VerticalForce { get; set; } = 0f;
-
-    /// <summary>
-    ///     This projectile will be destroyed if it doesn't hit anything in this ammount of time
-    /// </summary>
-    [Export] public float LifeTime { get; set; }
 
     private float _timer;
 
@@ -64,13 +59,6 @@ public partial class Projectile : HitBox
 	/// <inheritdoc/>
 	public override void _PhysicsProcess(double delta)
 	{
-        _timer += (float) delta;
-
-        if(_timer >= LifeTime)
-        {
-            QueueFree();
-        }
-
         Position += Transform.X * Speed * (float) delta;
 	}
 }

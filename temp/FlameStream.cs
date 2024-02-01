@@ -1,5 +1,5 @@
 using Godot;
-using Epilogue.nodes;
+using Epilogue.Nodes;
 using System.Collections.Generic;
 
 namespace Epilogue.guns;

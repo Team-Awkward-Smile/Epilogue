@@ -7,7 +7,7 @@ using Epilogue.util;
 using Godot;
 using System.Linq;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 ///		Node used exclusively by the Player Character
 /// </summary>

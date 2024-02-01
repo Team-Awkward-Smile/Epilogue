@@ -1,6 +1,6 @@
 using Epilogue.Global.Enums;
 using Epilogue.Global.Singletons;
-using Epilogue.nodes;
+using Epilogue.Nodes;
 using Epilogue.ui.popup;
 using Godot;
 using System.Collections.Generic;

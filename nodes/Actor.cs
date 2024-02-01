@@ -3,7 +3,7 @@ using Godot;
 using Godot.Collections;
 using System.Linq;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 ///		Base class for all Actors in the game. Instead of using this one, you probably should use either <see cref="Player"/> or <see cref="Npc"/>
 /// </summary>
@@ -50,6 +50,8 @@ public abstract partial class Actor : CharacterBody2D
 	/// </summary>
 	public  HurtBox HurtBox { get; set; }
 	
+	public ActorAudioPlayer ActorAudioPlayer { get; set; }
+
 	private protected AnimationPlayer AnimationPlayer { get; set; }
 
     /// <inheritdoc/>
@@ -63,6 +65,15 @@ public abstract partial class Actor : CharacterBody2D
 		Sprite = GetNode<Node2D>("FlipRoot").GetChildren().OfType<Sprite2D>().Where(c => c.IsInGroup("MainSprite")).FirstOrDefault();
 		AnimationPlayer = GetChildren().OfType<AnimationPlayer>().FirstOrDefault();
 		HurtBox = GetChildren().OfType<HurtBox>().FirstOrDefault();
+
+		ActorAudioPlayer = GetChildren().OfType<ActorAudioPlayer>().FirstOrDefault();
+
+		if (ActorAudioPlayer is null)
+		{
+			GD.PushWarning($"ActorAudioPlayer not found in Actor [{Name}]");
+
+			return;
+		}
 	}
 
 	/// <summary>

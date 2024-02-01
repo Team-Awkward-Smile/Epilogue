@@ -8,7 +8,7 @@ using Godot;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 ///		Base Node for every level in the game (UIs are not Levels, keep that in mind)
 /// </summary>

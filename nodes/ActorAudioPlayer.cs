@@ -2,7 +2,7 @@ using Godot;
 using Godot.Collections;
 using System.Linq;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 ///		Base class for AudioPlayers used by Actors
 /// </summary>
@@ -15,12 +15,18 @@ public partial class ActorAudioPlayer : Node
 	protected virtual Dictionary<string, AudioStream> GenericSfxList { get; set; }
 
 	/// <summary>
-	///		List of available footsteps SFX to be implemented by each Actor individually
+	///		List of available footstep SFX to be implemented by each Actor individually
 	/// </summary>
 	protected virtual Dictionary<string, AudioStream> FootstepSfxList { get; set; }
 
+	/// <summary>
+	///		List of available collision SFX to be implemented by each Actor individually
+	/// </summary>
+	protected virtual Dictionary<string, AudioStream> CollisionSfxList { get; set; }
+
 	private AudioStreamPlayer2D _genericSfxPlayer;
 	private AudioStreamPlayer2D _footstepSfxPlayer;
+	private AudioStreamPlayer2D _collisionSfxPlayer;
 
 	/// <inheritdoc/>
 	public override void _Ready()
@@ -49,10 +55,22 @@ public partial class ActorAudioPlayer : Node
 			{
 				Name = "FootstepSFXPlayer",
 				MaxPolyphony = 3,
-				Bus = "SFX"
+				Bus = "Footsteps"
 			};
 
 			AddChild(_footstepSfxPlayer);
+		}
+
+		if(CollisionSfxList?.Any() == true)
+		{
+			_collisionSfxPlayer = new AudioStreamPlayer2D()
+			{
+				Name = "CollisionSFXPlayer",
+				MaxPolyphony = 3,
+				Bus = "SFX"
+			};
+
+			AddChild(_collisionSfxPlayer);
 		}
 	}
 
@@ -74,19 +92,39 @@ public partial class ActorAudioPlayer : Node
 	}
 
 	/// <summary>
-	///		Plays a predefined footstep SFX from the <see cref="FootstepSfxList"/> list belonging to the Actor who owns this Node
+	///		Plays a predefined footstep SFX from the <see cref="CollisionSfxList"/> list belonging to the Actor who owns this Node
 	/// </summary>
 	/// <param name="sfxName">Name of the Footstep SFX</param>
-	public void PlayFootstepSfx(string sfxName)
+	public void PlayCollisionSfx(string sfxName)
 	{
-		if(FootstepSfxList.TryGetValue(sfxName, out var sfx))
+		if(CollisionSfxList.TryGetValue(sfxName, out var sfx))
 		{
-			_footstepSfxPlayer.Stream = sfx;
-			_footstepSfxPlayer.Play();
+			_collisionSfxPlayer.Stream = sfx;
+			_collisionSfxPlayer.Play();
 		}
 		else
 		{
 			GD.PushWarning($"Footstep [{sfxName}] not found for Actor [{Owner.Name}]");
 		}
+	}
+
+	public void PlayRandomCollisionSfx(string prefix)
+	{
+		var rng = new RandomNumberGenerator();
+		var possibleSfx = CollisionSfxList.Where(sfx => sfx.Key.StartsWith(prefix));
+		var sfx = possibleSfx.ElementAt(rng.RandiRange(0, possibleSfx.Count() - 1)).Value;
+
+		_collisionSfxPlayer.Stream = sfx;
+		_collisionSfxPlayer.Play();
+	}
+
+	public void PlayRandomFootstepSfx(string prefix)
+	{
+		var rng = new RandomNumberGenerator();
+		var possibleSfx = FootstepSfxList.Where(sfx => sfx.Key.StartsWith(prefix));
+		var sfx = possibleSfx.ElementAt(rng.RandiRange(0, possibleSfx.Count() - 1)).Value;
+
+		_footstepSfxPlayer.Stream = sfx;
+		_footstepSfxPlayer.Play();
 	}
 }
