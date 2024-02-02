@@ -1,7 +1,35 @@
-[gd_scene load_steps=3 format=3 uid="uid://b3fpxyxkl46k6"]
+[gd_scene load_steps=13 format=3 uid="uid://b3fpxyxkl46k6"]
 
 [ext_resource type="Script" path="res://ui/remap/RemapControls.cs" id="1_hs0wb"]
 [ext_resource type="LabelSettings" uid="uid://buut7klhr2nui" path="res://base_resources/ui_section_title.tres" id="2_w3m6e"]
+[ext_resource type="StyleBox" uid="uid://tcrgcl8a1vy4" path="res://ui/styles/normal.tres" id="3_qvne1"]
+[ext_resource type="Texture2D" uid="uid://b0h3jcfss8723" path="res://ui/temp/button_red.png" id="3_w7h44"]
+[ext_resource type="StyleBox" uid="uid://bjwvdsuqfue1b" path="res://ui/styles/hover.tres" id="4_8bqmm"]
+[ext_resource type="Texture2D" uid="uid://ju3nlr6ctadc" path="res://ui/temp/button_red_hover.png" id="4_tfa6g"]
+[ext_resource type="Texture2D" uid="uid://dcpvqai04h28m" path="res://ui/temp/button_red_pressed.png" id="5_6kh52"]
+[ext_resource type="StyleBox" uid="uid://blyj4v1rjo8dw" path="res://ui/styles/pressed.tres" id="5_iy1kf"]
+[ext_resource type="StyleBox" uid="uid://bfmdlseogg3vs" path="res://ui/styles/focus.tres" id="6_xlefk"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l4c4p"]
+texture = ExtResource("3_w7h44")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ir8ja"]
+texture = ExtResource("4_tfa6g")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_715cm"]
+texture = ExtResource("5_6kh52")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 
 [node name="RemapControls" type="Control"]
 process_mode = 3
@@ -19,25 +47,36 @@ anchors_preset = 13
 anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -313.0
-offset_right = 317.0
+offset_left = -440.0
+offset_right = 440.0
+offset_bottom = -98.0
 grow_horizontal = 2
 grow_vertical = 2
 follow_focus = true
 horizontal_scroll_mode = 0
 
-[node name="Control" type="GridContainer" parent="ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Grid" type="GridContainer" parent="ScrollContainer/MarginContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/v_separation = 10
 
-[node name="Label3" type="Label" parent="ScrollContainer/Control"]
+[node name="Label3" type="Label" parent="ScrollContainer/MarginContainer/Grid"]
 layout_mode = 2
 text = "CONTROL SCHEME"
 label_settings = ExtResource("2_w3m6e")
 
-[node name="OptionButton" type="OptionButton" parent="ScrollContainer/Control"]
+[node name="OptionButton" type="OptionButton" parent="ScrollContainer/MarginContainer/Grid"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
@@ -48,65 +87,69 @@ popup/item_0/id = 0
 popup/item_1/text = "Retro"
 popup/item_1/id = 1
 
-[node name="Movement" type="Label" parent="ScrollContainer/Control"]
+[node name="Movement" type="Label" parent="ScrollContainer/MarginContainer/Grid"]
 layout_mode = 2
 text = "MOVEMENT"
 label_settings = ExtResource("2_w3m6e")
 
-[node name="MovementActions" type="GridContainer" parent="ScrollContainer/Control"]
+[node name="MovementActions" type="GridContainer" parent="ScrollContainer/MarginContainer/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
 columns = 4
 
-[node name="Combat" type="Label" parent="ScrollContainer/Control"]
+[node name="Combat" type="Label" parent="ScrollContainer/MarginContainer/Grid"]
 layout_mode = 2
 text = "COMBAT"
 label_settings = ExtResource("2_w3m6e")
 
-[node name="CombatActions" type="GridContainer" parent="ScrollContainer/Control"]
+[node name="CombatActions" type="GridContainer" parent="ScrollContainer/MarginContainer/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
 columns = 4
 
-[node name="UI" type="Label" parent="ScrollContainer/Control"]
+[node name="UI" type="Label" parent="ScrollContainer/MarginContainer/Grid"]
 layout_mode = 2
 text = "UI"
 label_settings = ExtResource("2_w3m6e")
 
-[node name="UIActions" type="GridContainer" parent="ScrollContainer/Control"]
+[node name="UIActions" type="GridContainer" parent="ScrollContainer/MarginContainer/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
 columns = 4
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
+anchors_preset = 12
 anchor_top = 1.0
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -552.0
-offset_top = -115.0
-offset_right = 552.0
-offset_bottom = -63.0
+offset_left = 176.0
+offset_top = -63.0
+offset_right = -176.0
+offset_bottom = -13.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_constants/separation = 910
+pivot_offset = Vector2(400, 25)
+theme_override_constants/separation = 485
+alignment = 1
 
 [node name="Default" type="Button" parent="HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_l4c4p")
+theme_override_styles/hover = SubResource("StyleBoxTexture_ir8ja")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_715cm")
+theme_override_styles/focus = ExtResource("6_xlefk")
 text = "Reset to Default
 "
 
-[node name="Save" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -157.0
-offset_top = 31.0
-offset_right = -22.0
-offset_bottom = 83.0
-grow_horizontal = 0
+[node name="Save" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = ExtResource("3_qvne1")
+theme_override_styles/hover = ExtResource("4_8bqmm")
+theme_override_styles/pressed = ExtResource("5_iy1kf")
+theme_override_styles/focus = ExtResource("6_xlefk")
 text = "Save"

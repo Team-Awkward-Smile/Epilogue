@@ -46,9 +46,9 @@ public partial class RemapControls : Screen
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
-		AddActionRow(GetNode<GridContainer>("ScrollContainer/Control/MovementActions"), _moveActions);
-		AddActionRow(GetNode<GridContainer>("ScrollContainer/Control/CombatActions"), _combatActions);
-		AddActionRow(GetNode<GridContainer>("ScrollContainer/Control/UIActions"), _uiActions);
+		AddActionRow(GetNode<GridContainer>("%Grid/MovementActions"), _moveActions);
+		AddActionRow(GetNode<GridContainer>("%Grid/CombatActions"), _combatActions);
+		AddActionRow(GetNode<GridContainer>("%Grid/UIActions"), _uiActions);
 
 		var actions = _moveActions.Union(_combatActions).Union(_uiActions).ToList();
 
@@ -60,7 +60,7 @@ public partial class RemapControls : Screen
 			}
 		}
 
-		GetNode<Button>("Save").ButtonDown += SaveMapping;
+		GetNode<Button>("%Save").ButtonDown += SaveMapping;
 		GetNode<Button>("%Default").ButtonDown += ResetToDefault;
 
 		var optionButton = GetNode<OptionButton>("%OptionButton");

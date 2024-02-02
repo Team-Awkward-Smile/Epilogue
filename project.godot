@@ -29,6 +29,7 @@ GunEvents="*res://global/singletons/GunEvents.cs"
 PlayerEvents="*res://global/singletons/PlayerEvents.cs"
 NpcEvents="*res://global/singletons/NpcEvents.cs"
 CustomSettings="*res://settings/CustomSettings.cs"
+NpcEvents="*res://global/singletons/NpcEvents.cs"
 
 [debug]
 
