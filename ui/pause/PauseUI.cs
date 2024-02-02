@@ -1,11 +1,12 @@
 using Epilogue.Nodes;
 using Godot;
 
-namespace Epilogue.ui.pause;
+namespace Epilogue.UI.Pause;
 /// <summary>
 ///		Screen responsible for displaying the menu when the game is paused, and reading the input to un-pause it
 /// </summary>
-public partial class PauseUI : UI
+public partial class PauseUI : Screen
+
 {
 	private CanvasLayer _pauseLayer;
 	private CanvasLayer _settingsLayer;
@@ -13,7 +14,7 @@ public partial class PauseUI : UI
 	/// <inheritdoc/>
 	public override void _Input(InputEvent @event)
 	{
-		if(@event.IsActionPressed("pause_game"))
+		if (@event.IsActionPressed("pause_game"))
 		{
 			Unpause();
 		}

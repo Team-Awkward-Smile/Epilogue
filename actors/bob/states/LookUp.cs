@@ -2,7 +2,7 @@ using Godot;
 using Epilogue.Nodes;
 using System.Threading.Tasks;
 
-namespace Epilogue.actors.hestmor.states;
+namespace Epilogue.Actors.Hestmor.States;
 /// <inheritdoc/>
 public partial class LookUp : State
 {
@@ -13,7 +13,7 @@ public partial class LookUp : State
 	private CameraAnchor _cameraAnchor;
 	private Tween _raiseCameraTween;
 	private bool _isCameraMoving = false;
-	private float _timer = 0f;
+	private float _timer;
 
 	/// <summary>
 	/// 	State that allows Hestmor to look up
@@ -23,14 +23,14 @@ public partial class LookUp : State
 	/// <param name="cameraMovementDistance">The distance (in pixels) the Camera will travel vertically up</param>
 	public LookUp(StateMachine stateMachine, float cameraMovementDelay, int cameraMovementDistance) : base(stateMachine)
 	{
-		_player = (Player) StateMachine.Owner;
+		_player = (Player)StateMachine.Owner;
 		_cameraMovementDelay = cameraMovementDelay;
 		_cameraMovementDistance = cameraMovementDistance;
 	}
 
 	internal override void OnInput(InputEvent @event)
 	{
-		if(Input.IsActionJustReleased("look_up"))
+		if (Input.IsActionJustReleased("look_up"))
 		{
 			_raiseCameraTween?.Stop();
 
@@ -47,9 +47,9 @@ public partial class LookUp : State
 
 	internal override void Update(double delta)
 	{
-		_timer += (float) delta;
+		_timer += (float)delta;
 
-		if(_timer > _cameraMovementDelay && !_isCameraMoving)
+		if (_timer > _cameraMovementDelay && !_isCameraMoving)
 		{
 			_cameraAnchor.FollowPlayer = false;
 			_isCameraMoving = true;

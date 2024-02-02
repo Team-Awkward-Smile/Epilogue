@@ -2,7 +2,7 @@ using Epilogue.Global.Enums;
 using Epilogue.Nodes;
 using Godot;
 
-namespace Epilogue.actors.hestmor.aim;
+namespace Epilogue.Actors.Hestmor.aim;
 /// <summary>
 ///		Node responsible for handling aiming inputs from a joystick
 /// </summary>

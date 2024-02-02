@@ -1,9 +1,9 @@
 using Epilogue.Global.Enums;
 using Epilogue.Global.Singletons;
-using Epilogue.util;
+using Epilogue.Util;
 using Godot;
 
-namespace Epilogue.ui;
+namespace Epilogue.UI;
 /// <summary>
 ///		UI Screen responsible for displaying 2 options to the player and reading the answer
 /// </summary>

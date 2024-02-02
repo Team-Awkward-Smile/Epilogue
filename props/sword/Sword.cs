@@ -1,7 +1,7 @@
 using Epilogue.Nodes;
 using Godot;
 
-namespace Epilogue.props;
+namespace Epilogue.Props;
 /// <summary>
 ///		Sword that can be acquired in a secret area in New Game +
 /// </summary>

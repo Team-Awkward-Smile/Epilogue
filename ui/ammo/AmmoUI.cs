@@ -1,7 +1,7 @@
 using Epilogue.Global.Singletons;
 using Godot;
 
-namespace Epilogue.ui;
+namespace Epilogue.UI;
 /// <summary>
 ///		UI Screen responsible for displaying the ammo information of the current gun (if any)
 /// </summary>

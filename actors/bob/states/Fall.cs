@@ -1,10 +1,10 @@
-using Epilogue.actors.hestmor.enums;
-using Epilogue.constants;
+using Epilogue.Actors.Hestmor.Enums;
+using Epilogue.Const;
 using Epilogue.Nodes;
 using Godot;
 using System.Threading.Tasks;
 
-namespace Epilogue.actors.hestmor.states;
+namespace Epilogue.Actors.Hestmor.States;
 /// <inheritdoc/>
 public partial class Fall : State
 {
@@ -18,15 +18,15 @@ public partial class Fall : State
 	/// 	State that allows Hestmor to fall from high places
 	/// </summary>
 	/// <param name="stateMachine">The State Machine who owns this State</param>
-	public Fall(StateMachine stateMachine) : base(stateMachine) 
+	public Fall(StateMachine stateMachine) : base(stateMachine)
 	{
-		_player = (Player) stateMachine.Owner;
+		_player = (Player)stateMachine.Owner;
 	}
 
 	internal override void OnEnter(params object[] args)
 	{
-		_jumpType = (StateType) args[0];
-		_animation = _jumpType switch 
+		_jumpType = (StateType)args[0];
+		_animation = _jumpType switch
 		{
 			StateType.StandingJump => "vertical",
 			_ => "long"
@@ -43,15 +43,15 @@ public partial class Fall : State
 
 	internal override void PhysicsUpdate(double delta)
 	{
-		if(_canGrabLedge && _player.IsOnWall() && _player.SweepForLedge(out var ledgePosition))
+		if (_canGrabLedge && _player.IsOnWall() && _player.SweepForLedge(out var ledgePosition))
 		{
 			var offset = _player.RayCasts["Head"].GlobalPosition.Y - ledgePosition.Y;
 
 			_playLandingAnimation = false;
 
-			if(offset < -20)
+			if (offset < -20)
 			{
-				_player.Position = new Vector2(_player.Position.X, ledgePosition.Y + Constants.MAP_TILE_SIZE);
+				_player.Position = new Vector2(_player.Position.X, ledgePosition.Y + Const.Constants.MAP_TILE_SIZE);
 				StateMachine.ChangeState(typeof(Vault));
 			}
 			else
@@ -66,7 +66,7 @@ public partial class Fall : State
 		_player.Velocity = new Vector2(_player.Velocity.X, _player.Velocity.Y + (StateMachine.Gravity * (float) delta));
 		_player.MoveAndSlide();
 
-		if(_player.IsOnFloor())
+		if (_player.IsOnFloor())
 		{
 			StateMachine.ChangeState(typeof(Idle));
 		}
@@ -74,7 +74,7 @@ public partial class Fall : State
 
 	internal override async Task OnLeave()
 	{
-		if(!_playLandingAnimation)
+		if (!_playLandingAnimation)
 		{
 			return;
 		}

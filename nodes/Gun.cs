@@ -1,4 +1,4 @@
-using Epilogue.extensions;
+using Epilogue.Extensions;
 using Epilogue.Global.Enums;
 using Epilogue.Global.Singletons;
 using Godot;
@@ -14,34 +14,34 @@ public partial class Gun : RigidBody2D
 	/// <summary>
 	///		Maximum ammo that a gun can hold
 	/// </summary>
-    [Export] public int MaxAmmoCount { get; protected set; }
+	[Export] public int MaxAmmoCount { get; protected set; }
 
 	/// <summary>
 	///		Firing speed of the gun, in shots/minute
 	/// </summary>
-    [Export] public float ShotsPerMinute { get; protected set; }
+	[Export] public float ShotsPerMinute { get; protected set; }
 
 	/// <summary>
 	///		Time, in seconds, since this gun was fired for the last time
 	/// </summary>
-    public float TimeSinceLastShot { get; protected set; } = 0f;
+	public float TimeSinceLastShot { get; protected set; }
 
 	/// <summary>
 	///		Current ammo present in the gun
 	/// </summary>
-    public int CurrentAmmoCount { get; protected set; }
+	public int CurrentAmmoCount { get; set; }
 
 	/// <summary>
 	///		Defines if the trigger of this gun is pressed or not. This is an abstraction, the "trigger" is whatever makes the gun shoot
 	/// </summary>
-    public bool TriggerIsPressed 
+	public bool TriggerIsPressed
 	{
 		get => _triggerIsPressed;
 		set
 		{
 			_triggerIsPressed = value;
 
-			if(_triggerIsPressed)
+			if (_triggerIsPressed)
 			{
 				OnTriggerPress();
 			}
@@ -89,21 +89,24 @@ public partial class Gun : RigidBody2D
 	{
 		Muzzle = GetNodeOrNull<Node2D>("Muzzle");
 
-		if(Muzzle is null)
+		if (Muzzle is null)
 		{
 			GD.PrintErr($"Muzzle not defined for Gun [{Name}]. Add a Node2D names 'Muzzle' as a child of it to fix this error");
 		}
 
 		AudioPlayer = GetChildren().OfType<MultiAudioStreamPlayer>().FirstOrDefault();
 
-		if(AudioPlayer is null)
+		if (AudioPlayer is null)
 		{
 			GD.Print($"Audio Player not defined for Gun [{Name}]");
 		}
 
-		CurrentAmmoCount = MaxAmmoCount;
-		ShotDelayPerSecond = 1 / (ShotsPerMinute / 60);
+		if (CurrentAmmoCount == 0)
+		{
+			CurrentAmmoCount = MaxAmmoCount;
+		}
 
+		ShotDelayPerSecond = 1 / (ShotsPerMinute / 60);
 		GunEvents = GetNode<GunEvents>("/root/GunEvents");
 		Sprite = GetChildren().OfType<Sprite2D>().FirstOrDefault();
 
@@ -113,12 +116,12 @@ public partial class Gun : RigidBody2D
 	/// <inheritdoc/>
 	public override void _Process(double delta)
 	{
-		if(TriggerIsPressed)
+		if (TriggerIsPressed)
 		{
 			OnTriggerHeld(delta);
 		}
 
-		TimeSinceLastShot += (float) delta;
+		TimeSinceLastShot += (float)delta;
 	}
 
 	/// <summary>
@@ -153,10 +156,7 @@ public partial class Gun : RigidBody2D
 		Sprite.Material = Sprite.Material.Duplicate() as Material;
 
 		GetTree().CreateTween().TweenMethod(Callable.From(
-			(float value) => 
-			{
-				Sprite.SetShaderMaterialParameter("dissolveState", value);
-			}), 0f, 1f, 1f)
+			(float value) => Sprite.SetShaderMaterialParameter("dissolveState", value)), 0f, 1f, 1f)
 			.Finished += QueueFree;
 	}
 
@@ -167,8 +167,8 @@ public partial class Gun : RigidBody2D
 	{
 		var pickupArea = GetChildren().OfType<Area2D>().First();
 
-		pickupArea.CollisionLayer = (int) CollisionLayerName.PlayerHitBox;
-		pickupArea.CollisionMask = (int) (CollisionLayerName.PlayerHurtBox | CollisionLayerName.World);
+		pickupArea.CollisionLayer = (int)CollisionLayerName.PlayerHitBox;
+		pickupArea.CollisionMask = (int)(CollisionLayerName.PlayerHurtBox | CollisionLayerName.World);
 		pickupArea.Priority = 5;
 
 		var impulseDirection = new Vector2(Mathf.RadToDeg(Transform[0].X), Mathf.RadToDeg(Transform[0].Y));
@@ -177,9 +177,9 @@ public partial class Gun : RigidBody2D
 
 		pickupArea.AreaEntered += (Area2D area) =>
 		{
-			if(area.Owner is Npc enemy)
+			if (area.Owner is Npc enemy)
 			{
-				enemy.DealDamage(1f);
+				enemy.ReduceHealth(1f, DamageType.Unarmed);
 			}
 
 			QueueFree();

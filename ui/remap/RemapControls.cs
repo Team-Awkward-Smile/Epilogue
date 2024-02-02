@@ -1,17 +1,17 @@
 using Epilogue.Global.Enums;
 using Epilogue.Global.Singletons;
 using Epilogue.Nodes;
-using Epilogue.ui.popup;
+using Epilogue.UI.popup;
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Epilogue.ui.remap;
+namespace Epilogue.UI.Remap;
 /// <summary>
 ///		Screen to allow the player to remap the controls of the game.
 ///		Presents a list of actions, and allows new events from PC and controller to be mapped to them
 /// </summary>
-public partial class RemapControls : UI
+public partial class RemapControls : Screen
 {
 	private static readonly List<GroupAction> _moveActions = new()
 	{
@@ -36,7 +36,7 @@ public partial class RemapControls : UI
 	};
 
 	private readonly Dictionary<StringName, List<InputEvent>> _originalMapping = new();
-	
+
 	private bool _hasUnsavedChanges = false;
 	private CustomPopup _instructionsPopup;
 	private InputDeviceType _validPopupInput;
@@ -52,13 +52,13 @@ public partial class RemapControls : UI
 
 		var actions = _moveActions.Union(_combatActions).Union(_uiActions).ToList();
 
-        foreach(var actionGroup in actions)
-        {
-			foreach(var action in actionGroup.Actions)
+		foreach (var actionGroup in actions)
+		{
+			foreach (var action in actionGroup.Actions)
 			{
 				_originalMapping.Add(action, InputMap.ActionGetEvents(action).ToList());
 			}
-        }
+		}
 
 		GetNode<Button>("Save").ButtonDown += SaveMapping;
 		GetNode<Button>("%Default").ButtonDown += ResetToDefault;
@@ -66,9 +66,9 @@ public partial class RemapControls : UI
 		var optionButton = GetNode<OptionButton>("%OptionButton");
 
 		optionButton.ItemSelected += UpdateControlScheme;
-		optionButton.Select((int) Settings.ControlScheme);
+		optionButton.Select((int)Settings.ControlScheme);
 
-		_originalScheme = (ControlScheme) optionButton.Selected;
+		_originalScheme = (ControlScheme)optionButton.Selected;
 
 		_instructionsPopup = CustomPopup.NewCustomPopup();
 		_instructionsPopup.DialogText = "Press any key (Esc to cancel)";
@@ -77,7 +77,7 @@ public partial class RemapControls : UI
 
 		AddChild(_instructionsPopup);
 
-		Draw += () => 
+		Draw += () =>
 		{
 			GetTree().CallGroup("remap_buttons", "UpdateIconAndText");
 		};
@@ -90,14 +90,14 @@ public partial class RemapControls : UI
 	private void OnRemapEventReceived(InputEvent @event)
 	{
 		// Only allows press inputs (and not release inputs)
-		if(@event.IsReleased())
+		if (@event.IsReleased())
 		{
 			return;
 		}
 
 		// Pressing Esc will cancel the remap
 		// TODO: 36 - Improve this logic and allow it to work with controllers as well
-		if(@event.IsAction("ui_cancel") && @event is InputEventKey)
+		if (@event.IsAction("ui_cancel") && @event is InputEventKey)
 		{
 			_instructionsPopup.Hide();
 			_selectedButton.StopWaitingForInput();
@@ -105,15 +105,15 @@ public partial class RemapControls : UI
 		}
 
 		// Filters out any invalid input depending of the button clicked
-		if(_validPopupInput == InputDeviceType.PC && @event is not (InputEventKey or InputEventMouseButton))
+		if (_validPopupInput == InputDeviceType.PC && @event is not (InputEventKey or InputEventMouseButton))
 		{
 			return;
 		}
-		else if(_validPopupInput == InputDeviceType.Controller && @event is not (InputEventJoypadButton or InputEventJoypadMotion))
+		else if (_validPopupInput == InputDeviceType.Controller && @event is not (InputEventJoypadButton or InputEventJoypadMotion))
 		{
 			return;
 		}
-		else if(@event is InputEventJoypadMotion motion && Mathf.Abs(motion.AxisValue) < 0.8f)
+		else if (@event is InputEventJoypadMotion motion && Mathf.Abs(motion.AxisValue) < 0.8f)
 		{
 			// Joystick movement inputs are only detected if they're above 0.8 in strength
 			return;
@@ -122,7 +122,7 @@ public partial class RemapControls : UI
 		_instructionsPopup.Hide();
 
 		// Checks if the detected event is already mapped to one or more actions
-		if(IsEventAlreadyMapped(@event, out var existingActions))
+		if (IsEventAlreadyMapped(@event, out var existingActions))
 		{
 			var confirmDialog = CustomPopup.NewCustomPopup();
 
@@ -134,7 +134,7 @@ public partial class RemapControls : UI
 			// Player decided to overwrite the other actions
 			confirmDialog.GetOkButton().Pressed += () =>
 			{
-				foreach(var action in existingActions)
+				foreach (var action in existingActions)
 				{
 					InputMap.ActionEraseEvent(action, @event);
 				}
@@ -202,13 +202,13 @@ public partial class RemapControls : UI
 
 			var actions = _moveActions.Union(_combatActions).Union(_uiActions).ToList();
 
-			foreach(var actionGroup in actions)
+			foreach (var actionGroup in actions)
 			{
-				foreach(var action in actionGroup.Actions)
+				foreach (var action in actionGroup.Actions)
 				{
 					var defaultAction = InputMap.ActionGetEvents($"{action}_{Settings.ControlScheme.ToString().ToLower()}");
 
-					foreach(var defaultEvent in defaultAction)
+					foreach (var defaultEvent in defaultAction)
 					{
 						InputMap.ActionAddEvent(action, defaultEvent);
 					}
@@ -232,20 +232,20 @@ public partial class RemapControls : UI
 	private void UpdateControlScheme(long index)
 	{
 		// Whenever the player changes the Control Scheme, the mapping will reset to the default of the selected scheme
-		Settings.ControlScheme = (ControlScheme) index;
+		Settings.ControlScheme = (ControlScheme)index;
 
 		var controlScheme = Settings.ControlScheme.ToString().ToLower();
 		var defaultActions = _moveActions.Union(_combatActions).Union(_uiActions).ToList();
 
 		InputMap.LoadFromProjectSettings();
 
-		foreach(var actionGroup in defaultActions)
+		foreach (var actionGroup in defaultActions)
 		{
-			foreach(var action in actionGroup.Actions)
+			foreach (var action in actionGroup.Actions)
 			{
 				var defaultAction = action + $"_{controlScheme}";
 
-				foreach(var @event in InputMap.ActionGetEvents(defaultAction))
+				foreach (var @event in InputMap.ActionGetEvents(defaultAction))
 				{
 					InputMap.ActionAddEvent(action, @event);
 				}
@@ -265,17 +265,17 @@ public partial class RemapControls : UI
 	/// <param name="actions">A Dictionary containing a string with the name of the action(s), and a List of strings with the name of each individual action that will be used with the InputMap</param>
 	private void AddActionRow(GridContainer parent, List<GroupAction> actions)
 	{
-		foreach(var actionGroup in actions)
+		foreach (var actionGroup in actions)
 		{
 			var events = InputMap.ActionGetEvents(actionGroup.Actions.First());
 
-			if(events.Count == 0)
+			if (events.Count == 0)
 			{
 				events = InputMap.ActionGetEvents(actionGroup.Actions.First() + $"_{Settings.ControlScheme.ToString().ToLower()}");
 
-				foreach(var action in actionGroup.Actions)
+				foreach (var action in actionGroup.Actions)
 				{
-					foreach(var e in events)
+					foreach (var e in events)
 					{
 						InputMap.ActionAddEvent(action, e);
 					}
@@ -319,7 +319,7 @@ public partial class RemapControls : UI
 
 			parent.AddChild(label);
 
-			foreach(var remapButton in new List<RemapButton>() { primaryButton, secondaryButton, controllerButton })
+			foreach (var remapButton in new List<RemapButton>() { primaryButton, secondaryButton, controllerButton })
 			{
 				remapButton.AddToGroup("remap_buttons");
 				remapButton.ActionWasSelected += (InputDeviceType inputType) =>
@@ -345,11 +345,11 @@ public partial class RemapControls : UI
 		var actions = _combatActions.Union(_moveActions).Union(_uiActions).ToList();
 		var actionsWithMapping = new List<string>();
 
-		foreach(var actionGroup in actions)
+		foreach (var actionGroup in actions)
 		{
-			foreach(var action in actionGroup.Actions)
+			foreach (var action in actionGroup.Actions)
 			{
-				if(InputMap.EventIsAction(@event, action, true))
+				if (InputMap.EventIsAction(@event, action, true))
 				{
 					actionsWithMapping.Add(action);
 				}
@@ -365,12 +365,12 @@ public partial class RemapControls : UI
 	public override void Close(bool unpauseTree = false)
 	{
 		// If any action is not mapped to any key, the Screen cannot be closed
-		if(!ValidateEmptyActions())
+		if (!ValidateEmptyActions())
 		{
 			return;
 		}
 
-		if(_hasUnsavedChanges)
+		if (_hasUnsavedChanges)
 		{
 			OnUnsavedChangesClose();
 		}
@@ -389,20 +389,20 @@ public partial class RemapControls : UI
 		var actions = _moveActions.Union(_uiActions).Union(_combatActions).ToList();
 		var emptyActions = new List<string>();
 
-		foreach(var actionGroup in actions)
+		foreach (var actionGroup in actions)
 		{
-			foreach(var action in actionGroup.Actions)
+			foreach (var action in actionGroup.Actions)
 			{
 				var events = InputMap.ActionGetEvents(action);
 
-				if(events.Count == 0)
+				if (events.Count == 0)
 				{
 					emptyActions.Add(action);
 				}
 			}
 		}
 
-		if(emptyActions.Count > 0)
+		if (emptyActions.Count > 0)
 		{
 			var popup = CustomPopup.NewCustomPopup();
 
@@ -451,13 +451,13 @@ public partial class RemapControls : UI
 		{
 			confirmPopup.Hide();
 
-			if(action == "exit_no_save")
+			if (action == "exit_no_save")
 			{
-				foreach(var mapping in _originalMapping)
+				foreach (var mapping in _originalMapping)
 				{
 					InputMap.ActionEraseEvents(mapping.Key);
 
-					foreach(var @event in mapping.Value)
+					foreach (var @event in mapping.Value)
 					{
 						InputMap.ActionAddEvent(mapping.Key, @event);
 					}

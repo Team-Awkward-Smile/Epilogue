@@ -3,7 +3,7 @@ using Godot;
 using Godot.Collections;
 using System.Linq;
 
-namespace Epilogue.actors.hestmor;
+namespace Epilogue.Actors.Hestmor;
 /// <summary>
 ///		Node responsible for playing footstep SFX
 /// </summary>
@@ -31,11 +31,11 @@ public partial class FootstepFxManager : Node
 	/// <param name="nodeName"></param>
 	public void PlayFootstepSfx(string nodeName)
 	{
-		var foot = _feet[nodeName];
+		Node2D foot = _feet[nodeName];
 		var pos = new Vector2(foot.GlobalPosition.X, foot.GlobalPosition.Y + 5);
-		var groundType = (string) _level.GetTileDataAtPosition(pos)?.GetCustomData("ground_type");
+		var groundType = (string)_level.GetTileDataAtPosition(pos)?.GetCustomData("ground_type");
 
-		if(groundType is not null)
+		if (groundType is not null)
 		{
 			_audioPlayer.PlayCollisionSfx(groundType);
 		}

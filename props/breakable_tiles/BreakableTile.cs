@@ -3,7 +3,7 @@ using Godot;
 using Godot.Collections;
 using System.Linq;
 
-namespace Epilogue.props.breakable_tile;
+namespace Epilogue.Props.BreakableTile;
 /// <summary>
 ///		A static sprite that can detect damage caused to it and be destroyed.
 ///		Meant to look like a regular tile at first glance

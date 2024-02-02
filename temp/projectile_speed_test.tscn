@@ -1,0 +1,75 @@
+[gd_scene load_steps=4 format=3 uid="uid://dnl3wj7270e8d"]
+
+[ext_resource type="PackedScene" uid="uid://thd4hnxnie4c" path="res://actors/icarasia/projectiles/projectile.tscn" id="1_nloq3"]
+[ext_resource type="Script" path="res://temp/ProjectileSpeed.cs" id="2_mylkg"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_alxsn"]
+radius = 0.1
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Projectile" parent="." instance=ExtResource("1_nloq3")]
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(100, 0)
+collision_mask = 16
+script = ExtResource("2_mylkg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_alxsn")
+
+[node name="Area2D2" type="Area2D" parent="."]
+position = Vector2(200, 0)
+collision_mask = 16
+script = ExtResource("2_mylkg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+shape = SubResource("CircleShape2D_alxsn")
+
+[node name="Area2D3" type="Area2D" parent="."]
+position = Vector2(300, 0)
+collision_mask = 16
+script = ExtResource("2_mylkg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D3"]
+shape = SubResource("CircleShape2D_alxsn")
+
+[node name="Area2D4" type="Area2D" parent="."]
+position = Vector2(400, 0)
+collision_mask = 16
+script = ExtResource("2_mylkg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D4"]
+shape = SubResource("CircleShape2D_alxsn")
+
+[node name="Area2D5" type="Area2D" parent="."]
+position = Vector2(500, 0)
+collision_mask = 16
+script = ExtResource("2_mylkg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D5"]
+shape = SubResource("CircleShape2D_alxsn")
+
+[node name="Area2D6" type="Area2D" parent="."]
+position = Vector2(600, 0)
+collision_mask = 16
+script = ExtResource("2_mylkg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D6"]
+shape = SubResource("CircleShape2D_alxsn")
+
+[node name="Area2D7" type="Area2D" parent="."]
+position = Vector2(700, 0)
+collision_mask = 16
+script = ExtResource("2_mylkg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D7"]
+shape = SubResource("CircleShape2D_alxsn")
+
+[node name="Area2D8" type="Area2D" parent="."]
+position = Vector2(800, 0)
+collision_mask = 16
+script = ExtResource("2_mylkg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D8"]
+shape = SubResource("CircleShape2D_alxsn")

@@ -1,9 +1,9 @@
 using System.Linq;
-using Epilogue.extensions;
+using Epilogue.Extensions;
 using Epilogue.Nodes;
 using Godot;
 
-namespace Epilogue.actors.rob.states;
+namespace Epilogue.Actors.rob.states;
 /// <summary>
 /// 	State Machine exclusive to Rob
 /// </summary>

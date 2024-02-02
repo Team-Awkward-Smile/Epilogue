@@ -1,7 +1,7 @@
 using Epilogue.Global.Enums;
 using Epilogue.Global.Singletons;
 
-namespace Epilogue.util;
+namespace Epilogue.Util;
 /// <summary>
 ///		Methods that are useful when dealing with Inputs
 /// </summary>

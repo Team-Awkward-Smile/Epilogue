@@ -3,11 +3,11 @@ using Epilogue.Nodes;
 using Godot;
 using System.Linq;
 
-namespace Epilogue.ui.audio;
+namespace Epilogue.UI.audio;
 /// <summary>
 ///		Screen responsible for changing the volume of different audio buses
 /// </summary>
-public partial class AudioSettings : UI
+public partial class AudioSettings : Screen
 {
 	/// <inheritdoc/>
 	public override void _Ready()

@@ -1,9 +1,9 @@
-using Epilogue.extensions;
+using Epilogue.Extensions;
 using Epilogue.Global.Enums;
 using Epilogue.Nodes;
 using Godot;
 
-namespace Epilogue.actors.rob.states;
+namespace Epilogue.Actors.rob.states;
 /// <inheritdoc/>
 public partial class Move : State
 {

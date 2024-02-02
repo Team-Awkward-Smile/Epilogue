@@ -2,7 +2,7 @@ using Epilogue.Nodes;
 using Godot;
 using System.Threading.Tasks;
 
-namespace Epilogue.actors.hestmor.states;
+namespace Epilogue.Actors.Hestmor.States;
 /// <inheritdoc/>
 public partial class Crouch : State
 {
@@ -14,12 +14,12 @@ public partial class Crouch : State
 	/// <param name="stateMachine">The State Machine who owns this State</param>
 	public Crouch(StateMachine stateMachine) : base(stateMachine)
 	{
-		_player = (Player) stateMachine.Owner;
+		_player = (Player)stateMachine.Owner;
 	}
 
 	internal override void OnInput(InputEvent @event)
 	{
-		if(@event.IsActionReleased("crouch"))
+		if (@event.IsActionReleased("crouch", true))
 		{
 			StateMachine.ChangeState(typeof(Idle));
 		}

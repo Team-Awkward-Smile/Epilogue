@@ -33,8 +33,9 @@ namespace Epilogue.Nodes;
 	}
 
 	/// <inheritdoc/>
-	public void EmitBlood()
+	public void EmitBlood(int amount = 50)
 	{
+		Amount = amount;
 		Emitting = true;
 	}
 }

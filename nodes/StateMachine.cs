@@ -10,6 +10,16 @@ namespace Epilogue.Nodes;
 public partial class StateMachine : Node
 {
 	/// <summary>
+	/// 	Signal emitted when a new State replaces another State (right after it becomes active)
+	/// </summary>
+	[Signal] public delegate void StateEnteredEventHandler();
+
+	/// <summary>
+	/// 	Signal emitted when a State is replaced by another one (right after it is replaced)
+	/// </summary>
+	[Signal] public delegate void StateExitedEventHandler();
+
+	/// <summary>
 	///		Defines if the current State allows the Actor to interact with the world
 	/// </summary>
 	public bool CanInteract { get; set; } = true;
@@ -19,7 +29,7 @@ public partial class StateMachine : Node
 	/// </summary>
 	public float Gravity { get; set; }
 
-    private protected HashSet<State> _states = new();
+	private protected HashSet<State> _states = new();
 	private protected State _currentState;
 
 	/// <summary>
@@ -59,17 +69,17 @@ public partial class StateMachine : Node
 	///		If the informed State is valid, the methods <c>OnLeave</c> and <c>OnLeaveAsync</c> of the current State will be called.
 	///		Then the State will be replaced by the new one, and the method <c>OnEnter</c> of the new State will be called
 	/// </summary>
-    /// <param name="newStateType">Type of the new State that will replace the current one</param>
-    /// <param name="args">Optional list of arguments that may be used by specific States</param>
+	/// <param name="newStateType">Type of the new State that will replace the current one</param>
+	/// <param name="args">Optional list of arguments that may be used by specific States</param>
 	public async void ChangeState(Type newStateType, params object[] args)
 	{
 		var oldState = _currentState;
 
 		_currentState = null;
 
-		var newState = _states.Where(s => s.GetType() == newStateType).FirstOrDefault();
+		var newState = _states.FirstOrDefault(s => s.GetType() == newStateType);
 
-		if(newState is null)
+		if (newState is null)
 		{
 			GD.PushWarning($"State [{newStateType}] not found");
 
@@ -80,7 +90,11 @@ public partial class StateMachine : Node
 
 		await oldState.OnLeave();
 
+		EmitSignal(SignalName.StateExited);
+
 		_currentState = newState;
 		_currentState.OnEnter(args);
+
+		_ = EmitSignal(SignalName.StateEntered);
 	}
 }
