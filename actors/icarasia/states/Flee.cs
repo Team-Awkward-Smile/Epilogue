@@ -44,7 +44,7 @@ public partial class Flee : State
 			return;
 		}
 
-		_icarasia.Velocity = (_player.GlobalPosition - new Vector2(0f, Constants.Constants.PLAYER_HEIGHT / 2) - _icarasia.GlobalPosition).Normalized() * _moveSpeed * -1;
+		_icarasia.Velocity = (_player.GlobalPosition - new Vector2(0f, Const.Constants.PLAYER_HEIGHT / 2) - _icarasia.GlobalPosition).Normalized() * _moveSpeed * -1;
 
 		if (_icarasia.Velocity.X != 0f)
 		{

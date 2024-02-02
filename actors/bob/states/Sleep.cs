@@ -46,6 +46,6 @@ public partial class Sleep : State
 	{
 		AnimPlayer.Play("Sleep/sleep_end");
 
-		_ = await StateMachine.ToSignal(AnimPlayer, "animation_finished");
+        await StateMachine.ToSignal(AnimPlayer, "animation_finished");
 	}
 }

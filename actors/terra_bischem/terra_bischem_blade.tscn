@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cq3gk81ploy03"]
+[gd_scene load_steps=24 format=3 uid="uid://cq3gk81ploy03"]
 
 [ext_resource type="Script" path="res://BladeTerraBischem.cs" id="1_tfik2"]
 [ext_resource type="Texture2D" uid="uid://sgw65fycxbaq" path="res://actors/terra_bischem/sprites/blade/tb_1.png" id="2_sj3j4"]
@@ -15,6 +15,9 @@
 [ext_resource type="Texture2D" uid="uid://s2714q7y82yh" path="res://actors/terra_bischem/sprites/blade/tb_12.png" id="13_w4rqy"]
 [ext_resource type="Script" path="res://nodes/HurtBox.cs" id="14_nxseg"]
 [ext_resource type="Script" path="res://nodes/HitBox.cs" id="15_55oud"]
+[ext_resource type="Material" uid="uid://bitwmbim075ep" path="res://base_resources/materials/npc.tres" id="16_7k0j0"]
+[ext_resource type="Material" uid="uid://bs1uvctvkmvg7" path="res://base_resources/blood_particle.tres" id="16_d4hmt"]
+[ext_resource type="Script" path="res://nodes/BloodEmitter.cs" id="17_t5ts8"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_no1hc"]
 animations = [{
@@ -76,10 +79,8 @@ height = 24.0
 
 [node name="BladeTerraBischem" type="CharacterBody2D"]
 script = ExtResource("1_tfik2")
-VulnerabilityThreshold = null
-VulnerabilityDuration = null
-MaxHealth = null
-CurrentHealth = null
+MaxHealth = 2.0
+CurrentHealth = 2.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.4, 0.4)
@@ -90,8 +91,9 @@ offset = Vector2(12, -37)
 
 [node name="HurtBox" type="Area2D" parent="."]
 position = Vector2(0, -22)
+collision_layer = 512
+collision_mask = 16
 script = ExtResource("14_nxseg")
-_iFrameDuration = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
 position = Vector2(0, -2.5)
@@ -125,8 +127,16 @@ shape = SubResource("CapsuleShape2D_mcbbl")
 debug_color = Color(1, 0, 0, 0.0784314)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+material = ExtResource("16_7k0j0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -12)
 shape = SubResource("CapsuleShape2D_8anax")
 debug_color = Color(0, 0, 1, 0.0784314)
+
+[node name="BloodEmitter" type="GPUParticles2D" parent="."]
+position = Vector2(0, -25)
+emitting = false
+process_material = ExtResource("16_d4hmt")
+one_shot = true
+script = ExtResource("17_t5ts8")

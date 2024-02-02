@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://cjolarkdk5yoi"]
+[gd_scene load_steps=22 format=3 uid="uid://cjolarkdk5yoi"]
 
 [ext_resource type="Script" path="res://nodes/Level.cs" id="1_o245g"]
 [ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_pfrwm"]
@@ -8,11 +8,10 @@
 [ext_resource type="Script" path="res://props/camera/Camera.cs" id="6_1is1f"]
 [ext_resource type="Script" path="res://nodes/KonamiCode.cs" id="7_xoqku"]
 [ext_resource type="PackedScene" uid="uid://di5pn4kqpf3t7" path="res://temp/shotgun.tscn" id="9_p440d"]
-[ext_resource type="PackedScene" uid="uid://dkxb60ljnimb7" path="res://temp/flamethrower.tscn" id="10_87ooh"]
-[ext_resource type="PackedScene" uid="uid://8sw5jwntdfl1" path="res://temp/minigun.tscn" id="11_x1ya1"]
 [ext_resource type="Texture2D" uid="uid://dv8i8cyrioyus" path="res://temp/spikes.png" id="12_1mhei"]
 [ext_resource type="Script" path="res://nodes/HitBox.cs" id="13_o5dos"]
 [ext_resource type="TileSet" uid="uid://c2hf2m205a0qe" path="res://temp/tileset.tres" id="15_1ohv8"]
+[ext_resource type="PackedScene" uid="uid://cq3gk81ploy03" path="res://actors/terra_bischem/terra_bischem_blade.tscn" id="18_21bth"]
 [ext_resource type="PackedScene" uid="uid://cegk1cph0llpn" path="res://props/checkpoint/checkpoint.tscn" id="18_utu6l"]
 [ext_resource type="PackedScene" uid="uid://c305ssxgpg4ad" path="res://actors/terra_bischem/terra_bischem_rotating_axe.tscn" id="19_fyl2f"]
 [ext_resource type="Script" path="res://temp/NewGamePlusPath.cs" id="19_owmbm"]
@@ -31,10 +30,8 @@ script = ExtResource("1_o245g")
 
 [node name="DebugInfo" type="CanvasLayer" parent="."]
 script = ExtResource("2_pfrwm")
-_playerSpeed = null
 _branchName = false
 _aimWheel = true
-_inputType = null
 
 [node name="HBoxContainer" type="HBoxContainer" parent="DebugInfo"]
 anchors_preset = 12
@@ -79,7 +76,6 @@ script = ExtResource("6_1is1f")
 
 [node name="KonamiCode" type="Node" parent="."]
 script = ExtResource("7_xoqku")
-_cheatInputTimer = null
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 
@@ -94,13 +90,7 @@ grow_vertical = 0
 text = "Remap Controls"
 
 [node name="Shotgun" parent="." instance=ExtResource("9_p440d")]
-position = Vector2(166, -155)
-
-[node name="Flamethrower" parent="." instance=ExtResource("10_87ooh")]
-position = Vector2(576, -81)
-
-[node name="Minigun" parent="." instance=ExtResource("11_x1ya1")]
-position = Vector2(427.5, -84.5)
+position = Vector2(455, -67)
 
 [node name="Spikes" type="Node2D" parent="."]
 position = Vector2(105, -64)
@@ -113,7 +103,6 @@ texture = ExtResource("12_1mhei")
 collision_layer = 16
 collision_mask = 32
 script = ExtResource("13_o5dos")
-DamageType = null
 Damage = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Spikes/HitBox"]
@@ -187,15 +176,14 @@ position = Vector2(315, -135)
 [node name="Node2D" type="Node2D" parent="."]
 position = Vector2(184, -92)
 
-[node name="TerraBischemSwingingAxe" parent="." instance=ExtResource("20_2a4cq")]
-position = Vector2(269, -338)
-VulnerabilityThreshold = null
-VulnerabilityDuration = null
+[node name="BladeTerraBischem" parent="." instance=ExtResource("18_21bth")]
+position = Vector2(624, -54)
 
 [node name="TerraBischemRotatingAxe" parent="." instance=ExtResource("19_fyl2f")]
 position = Vector2(380, -347)
-VulnerabilityThreshold = null
-VulnerabilityDuration = null
 
 [node name="TerraBischemYoyo" parent="." instance=ExtResource("21_xq228")]
 position = Vector2(90, -171)
+
+[node name="TerraBischemSwingingAxe" parent="." instance=ExtResource("20_2a4cq")]
+position = Vector2(149, -360)

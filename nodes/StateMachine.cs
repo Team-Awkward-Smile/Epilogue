@@ -85,7 +85,7 @@ public partial class StateMachine : Node
 
 		await oldState.OnLeave();
 
-		_ = EmitSignal(SignalName.StateExited);
+		EmitSignal(SignalName.StateExited);
 
 		_currentState = newState;
 		_currentState.OnEnter(args);

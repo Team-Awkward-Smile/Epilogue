@@ -7,7 +7,7 @@ namespace Epilogue.UI.Display;
 /// <summary>
 ///		Screen responsible for settings that change what's displayed on-screen
 /// </summary>
-public partial class DisplaySettings : UIScreen
+public partial class DisplaySettings : Screen
 {
 	/// <inheritdoc/>
 	public override void _Ready()

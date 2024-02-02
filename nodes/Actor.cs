@@ -56,7 +56,9 @@ public abstract partial class Actor : CharacterBody2D
 	/// </summary>
 	public bool CanInteract { get; set; } = true;
 
-	private protected AnimationPlayer AnimationPlayer { get; set; }
+    public ActorAudioPlayer ActorAudioPlayer { get; set; }
+
+    private protected AnimationPlayer AnimationPlayer { get; set; }
 
 	/// <inheritdoc/>
 	public override void _Ready()

@@ -1,5 +1,5 @@
 using Epilogue.Global.Enums;
-using Epilogue.props.breakable_tile;
+using Epilogue.Props.BreakableTile;
 using Godot;
 
 namespace Epilogue.Nodes;
@@ -9,11 +9,9 @@ namespace Epilogue.Nodes;
 [GlobalClass]
 public partial class HitBox : Area2D
 {
-	/// <summary>
-	///		Signal emitted whenever this HitBox hits an Actor
-	/// </summary>
-	/// <param name="actor">The actor hit by the HitBox</param>
-	[Signal] public delegate void ActorHitEventHandler(Actor actor);
+	[Signal] public delegate void ActorHitEventHandler();
+
+	[Signal] public delegate void TileHitEventHandler(DamageType damageType, bool isTileBreakable);
 
 	/// <summary>
 	///		Type of damage caused by this HitBox
@@ -33,11 +31,13 @@ public partial class HitBox : Area2D
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
+		Owner ??= GetParent();
+
 		AreaEntered += (Area2D area) =>
 		{
 			if (area.Owner is Actor actor)
 			{
-				EmitSignal(SignalName.ActorHit, actor);
+				EmitSignal(SignalName.ActorHit);
 			}
 		};
 

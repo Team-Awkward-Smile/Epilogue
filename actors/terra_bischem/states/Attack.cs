@@ -1,3 +1,4 @@
+using Epilogue.Const;
 using Epilogue.Nodes;
 using Godot;
 using static Godot.GodotObject;
@@ -28,7 +29,7 @@ public partial class Attack : State
 
 	internal override void OnEnter(params object[] args)
 	{
-		var attackDirection = (_player.GlobalPosition - new Vector2(0f, Constants.Constants.PLAYER_HEIGHT / 2) - _terraBischem.Sprite.GlobalPosition).Normalized();
+		var attackDirection = (_player.GlobalPosition - new Vector2(0f, Constants.PLAYER_HEIGHT / 2) - _terraBischem.Sprite.GlobalPosition).Normalized();
 		var targetPosition =  attackDirection * _attackRange;
 		var windUpPosition = attackDirection * -20f + _terraBischem.Sprite.Position;
 

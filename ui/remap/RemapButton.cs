@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Epilogue.UI.remap;
+namespace Epilogue.UI.Remap;
 /// <summary>
 ///		Button used in the Remap Controls Screen to display the correct icons and allow the player to remap the controls
 /// </summary>
@@ -101,7 +101,9 @@ public partial class RemapButton : Button
 		SetValidInputs();
 		ButtonDown += StartWaitingForInput;
 
-		CustomMinimumSize = new Vector2(128f, 128f);
+		CustomMinimumSize = new Vector2(64f, 64f);
+		ExpandIcon = true;
+		IconAlignment = HorizontalAlignment.Center;
 	}
 
 	/// <summary>

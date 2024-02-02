@@ -118,9 +118,8 @@ public partial class Slide : State
 
 	internal override void PhysicsUpdate(double delta)
 	{
-		_player.Velocity = new Vector2(_player.Velocity.X, _player.Velocity.Y + StateMachine.Gravity * (float)delta);
-
-		_ = _player.MoveAndSlide();
+		_player.Velocity = new Vector2(_player.Velocity.X, _player.Velocity.Y + StateMachine.Gravity * (float) delta);
+		_player.MoveAndSlide();
 
 		_timer += delta;
 

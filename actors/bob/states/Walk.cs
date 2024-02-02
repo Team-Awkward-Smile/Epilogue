@@ -78,7 +78,7 @@ public partial class Walk : State
 			_player.Velocity = velocity;
 		}
 
-		_ = _player.MoveAndSlide();
+		_player.MoveAndSlide();
 
 		//var floorNormal = _player.GetFloorNormal();
 		//var goingDownSlope = (movementDirection < 0 && floorNormal.X < 0) || (movementDirection > 0 && floorNormal.X > 0);

@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Epilogue.UI.hp;
+namespace Epilogue.UI.HP;
 /// <summary>
 ///		Object representing 1 Heart shown in the HP Screen
 /// </summary>

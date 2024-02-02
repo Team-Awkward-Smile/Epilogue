@@ -81,11 +81,6 @@ public partial class YoyoTerraBischem : Npc
 		_npcStateMachine.ChangeState(typeof(Idle), false);
 	}
 
-	private protected override void OnVulnerabilityRecovered()
-	{
-		return;
-	}
-
 	private protected override void OnVulnerabilityTriggered()
 	{
 		return;

@@ -1,4 +1,3 @@
-using Epilogue.Global.Enums;
 using Godot;
 
 namespace Epilogue.Nodes;
@@ -14,24 +13,11 @@ public partial class Projectile : HitBox
 	[Export] public bool DestroyOnHit { get; set; } = true;
 
 	/// <summary>
-	///     Horizontal speed of this projectile
+	///     Speed of this projectile
 	/// </summary>
-	[Export] public float Speed { get; set; }
+	[Export] public Vector2 Speed { get; set; }
 
-	/// <summary>
-	///     Type of damage caused by this projectile
-	/// </summary>
-	[Export] public DamageType DamageType { get; set; }
-
-	/// <summary>
-	///     Vertical force applied to this projectile while it travels. Positive values will pull the projectile down, and positive ones will make the projectile rise as it travels
-	/// </summary>
-	[Export] public float VerticalForce { get; set; } = 0f;
-
-	/// <summary>
-	///     This projectile will be destroyed if it doesn't hit anything in this ammount of time
-	/// </summary>
-	[Export] public float LifeTime { get; set; }
+	[Export] private double _lifetime;
 
 	private float _timer;
 
@@ -67,11 +53,11 @@ public partial class Projectile : HitBox
 	{
 		_timer += (float)delta;
 
-		if (_timer >= LifeTime)
+		if (_timer >= _lifetime)
 		{
 			QueueFree();
 		}
 
-		Position += Transform.X * Speed * (float)delta;
+		Position += Speed.Rotated(Rotation) * (float)delta;
 	}
 }

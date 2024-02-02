@@ -165,11 +165,6 @@ public partial class Icarasia : Npc
 		_npcStateMachine.ChangeState(typeof(Vulnerable));
 	}
 
-	private protected override void OnVulnerabilityRecovered()
-	{
-		_npcStateMachine.ChangeState(typeof(Charge));
-	}
-
 	private protected override void OnHealthDepleted(DamageType damageType)
 	{
 		if (damageType == DamageType.Unarmed)

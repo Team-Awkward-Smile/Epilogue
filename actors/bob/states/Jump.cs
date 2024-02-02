@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using Epilogue.Actors.Hestmor.Enums;
-using Epilogue.Constants;
+using Epilogue.Const;
 using Epilogue.Global.Enums;
 using Epilogue.Global.Singletons;
 using Epilogue.Nodes;
@@ -106,7 +106,7 @@ public partial class Jump : State
 
 			if (offset < -30)
 			{
-				_player.Position = new Vector2(_player.Position.X, ledgePosition.Y + Constants.Constants.MAP_TILE_SIZE);
+				_player.Position = new Vector2(_player.Position.X, ledgePosition.Y + Const.Constants.MAP_TILE_SIZE);
 				StateMachine.ChangeState(typeof(Vault));
 			}
 			else
@@ -120,9 +120,8 @@ public partial class Jump : State
 
 		_frameDelay = _frameDelay >= 3 ? 0 : _frameDelay;
 
-		_player.Velocity = new Vector2(_player.Velocity.X, _player.Velocity.Y + (StateMachine.Gravity * (float)delta));
-
-		_ = _player.MoveAndSlide();
+		_player.Velocity = new Vector2(_player.Velocity.X, _player.Velocity.Y + (StateMachine.Gravity * (float) delta));
+		_player.MoveAndSlide();
 
 		if (_player.Velocity.Y > 0)
 		{

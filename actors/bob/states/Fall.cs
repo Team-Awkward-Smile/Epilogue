@@ -1,5 +1,5 @@
 using Epilogue.Actors.Hestmor.Enums;
-using Epilogue.Constants;
+using Epilogue.Const;
 using Epilogue.Nodes;
 using Godot;
 using System.Threading.Tasks;
@@ -51,7 +51,7 @@ public partial class Fall : State
 
 			if (offset < -20)
 			{
-				_player.Position = new Vector2(_player.Position.X, ledgePosition.Y + Constants.Constants.MAP_TILE_SIZE);
+				_player.Position = new Vector2(_player.Position.X, ledgePosition.Y + Const.Constants.MAP_TILE_SIZE);
 				StateMachine.ChangeState(typeof(Vault));
 			}
 			else
@@ -63,8 +63,8 @@ public partial class Fall : State
 			return;
 		}
 
-		_player.Velocity = new Vector2(_player.Velocity.X, _player.Velocity.Y + (StateMachine.Gravity * (float)delta));
-		_ = _player.MoveAndSlide();
+		_player.Velocity = new Vector2(_player.Velocity.X, _player.Velocity.Y + (StateMachine.Gravity * (float) delta));
+		_player.MoveAndSlide();
 
 		if (_player.IsOnFloor())
 		{
@@ -82,6 +82,6 @@ public partial class Fall : State
 		AudioPlayer.PlayGenericSfx("Land");
 		AnimPlayer.Play($"Jump/{_animation}_jump_land");
 
-		_ = await StateMachine.ToSignal(AnimPlayer, "animation_finished");
+		await StateMachine.ToSignal(AnimPlayer, "animation_finished");
 	}
 }

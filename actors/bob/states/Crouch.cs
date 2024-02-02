@@ -36,6 +36,6 @@ public partial class Crouch : State
 	{
 		AnimPlayer.PlayBackwards("crouch");
 
-		_ = await StateMachine.ToSignal(AnimPlayer, "animation_finished");
+		await StateMachine.ToSignal(AnimPlayer, "animation_finished");
 	}
 }

@@ -50,11 +50,6 @@ public partial class SwingingAxe : Npc
 		return;
 	}
 
-	private protected override void OnVulnerabilityRecovered()
-	{
-		return;
-	}
-
 	private protected override void OnVulnerabilityTriggered()
 	{
 		return;

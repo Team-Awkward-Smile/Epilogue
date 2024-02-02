@@ -52,15 +52,10 @@ public partial class BladeTerraBischem : Npc
 
 	private protected override void OnHealthDepleted(DamageType damageType)
 	{
-		return;
+		QueueFree();
 	}
 
 	private protected override void OnPlayerDeath()
-	{
-		return;
-	}
-
-	private protected override void OnVulnerabilityRecovered()
 	{
 		return;
 	}

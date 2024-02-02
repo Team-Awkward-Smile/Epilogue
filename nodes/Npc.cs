@@ -1,3 +1,4 @@
+using Epilogue.Const;
 using Epilogue.Extensions;
 using Epilogue.Global.Enums;
 using Epilogue.Global.Singletons;
@@ -101,7 +102,7 @@ public abstract partial class Npc : Actor
 			Player = GetTree().GetLevel().Player;
 			PlayerNavigationAgent2D.TargetPosition = Player.GlobalPosition;
 
-			_ = await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+			_ = await ToSignal(GetTree(), "physics_frame");
 
 			IsPlayerReachable = PlayerNavigationAgent2D.IsTargetReachable();
 		}
@@ -142,6 +143,7 @@ public abstract partial class Npc : Actor
 
 		CurrentHealth -= damage;
 
+		GD.Print(CurrentHealth);
 		if (CurrentHealth <= 0f)
 		{
 			if (damageType == DamageType.Unarmed)
@@ -153,7 +155,7 @@ public abstract partial class Npc : Actor
 		}
 		else
 		{
-			if (!IsVulnerable && CurrentHealth <= VulnerabilityThreshold)
+			if (!IsVulnerable && CurrentHealth <= VulnerabilityThreshold && VulnerabilityThreshold != 0f)
 			{
 				IsVulnerable = true;
 
@@ -211,7 +213,7 @@ public abstract partial class Npc : Actor
 	public override async void _PhysicsProcess(double delta)
 	{
 		// Queries a new path to the Player if the Player moved too far away from the last position
-		if (UseDefaultPathfinding && !WaitingForNavigationQuery && Player.GlobalPosition.DistanceTo(PlayerNavigationAgent2D.TargetPosition) > Constants.Constants.PATH_REQUERY_THRESHOLD_DISTANCE)
+		if (UseDefaultPathfinding && !WaitingForNavigationQuery && Player.GlobalPosition.DistanceTo(PlayerNavigationAgent2D.TargetPosition) > Const.Constants.PATH_REQUERY_THRESHOLD_DISTANCE)
 		{
 			WaitingForNavigationQuery = true;
 
@@ -234,18 +236,6 @@ public abstract partial class Npc : Actor
 			return;
 		}
 
-		if (IsVulnerable && CanRecoverFromVulnerability)
-		{
-			_vulnerabilityElapsedTime += (float)delta;
-
-			if (_vulnerabilityElapsedTime >= VulnerabilityDuration)
-			{
-				_vulnerabilityElapsedTime = 0f;
-
-				OnVulnerabilityRecovered();
-			}
-		}
-
 		ProcessFrame(delta);
 	}
 
@@ -259,11 +249,6 @@ public abstract partial class Npc : Actor
 	///     Method that runs whenever this NPC becomes Vulnerable for the first time
 	/// </summary>
 	private protected abstract void OnVulnerabilityTriggered();
-
-	/// <summary>
-	///		Method that runs whenever this NPC recovers from the Vulnerability stun
-	/// </summary>
-	private protected abstract void OnVulnerabilityRecovered();
 
 	/// <summary>
 	///     Method that runs whenever this NPC's HP drops to 0

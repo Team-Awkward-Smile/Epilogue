@@ -34,7 +34,7 @@ public partial class RotatingAxe : Npc
 		_hitBox = GetNode<HitBox>("%HitBox");
 		_mouthSprite = GetNode<AnimatedSprite2D>("Sprite2D/MouthAnimatedSprite2D");
 
-		_hitBox.ActorHit += (Actor actor) => _mouthSprite.Play();
+		_hitBox.ActorHit += () => _mouthSprite.Play();
 
 		AnimationPlayer.Play("swing");
 	}
@@ -60,11 +60,6 @@ public partial class RotatingAxe : Npc
 	}
 
 	private protected override void OnPlayerDeath()
-	{
-		return;
-	}
-
-	private protected override void OnVulnerabilityRecovered()
 	{
 		return;
 	}
