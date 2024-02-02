@@ -1,8 +1,8 @@
 using Godot;
-using Epilogue.nodes;
+using Epilogue.Nodes;
 using System.Collections.Generic;
 
-namespace Epilogue.guns;
+namespace Epilogue.Guns;
 /// <summary>
 ///		Temporary projectile used for testing purposes
 /// </summary>

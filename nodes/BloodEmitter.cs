@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 /// 	Node that emits blood particles whenever an Actor takes damage
 /// </summary>
@@ -33,8 +33,9 @@ namespace Epilogue.nodes;
 	}
 
 	/// <inheritdoc/>
-	public void EmitBlood()
+	public void EmitBlood(int amount = 50)
 	{
+		Amount = amount;
 		Emitting = true;
 	}
 }

@@ -1,9 +1,10 @@
-using Epilogue.actors.rob.states;
+using Epilogue.Actors.rob.states;
 using Epilogue.Global.Enums;
-using Epilogue.nodes;
+using Epilogue.Nodes;
 using Godot;
+using Godot.Collections;
 
-namespace Epilogue.actors.rob;
+namespace Epilogue.Actors.rob;
 /// <summary>
 /// 	Base class for the NPC Rob, with the logic necessary for it's AI
 /// </summary>
@@ -39,19 +40,29 @@ public partial class Rob : Npc
 	/// </summary>
 	public float SpeedMultiplier { get; set; } = 1f;
 
+    private protected override bool UseDefaultPathfinding => true;
+
+	/// <inheritdoc/>
+	public override Dictionary<DamageType, float> DamageModifiers { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
 	private protected override void ProcessFrame(double delta)
 	{
 		AttackTimer += (float) delta;
 	}
 
-	private protected override void OnDamageTaken(float damage, float currentHp)
+	private protected override void OnDamageTaken(float damage, float currentHp, DamageType damageType)
 	{
 		CanShoot = false;
 	}
 
-	private protected override void OnGrowl(float effectStrength)
+	private protected override void OnGrowl(GrowlType growlType)
 	{
-		FleeDuration = effectStrength / 10f;
+		FleeDuration = growlType switch
+		{
+			GrowlType.Weak => 2f,
+			GrowlType.Medium => 5f,
+			_ => 10f
+		};
 	}
 
 	private protected override void OnStunExpired()
@@ -66,7 +77,7 @@ public partial class Rob : Npc
         _npcStateMachine.ChangeState(typeof(Stun));
     }
 
-    private protected override void OnHealthDepleted()
+    private protected override void OnHealthDepleted(DamageType damageType)
     {
         _npcStateMachine.ChangeState(typeof(Die));
     }

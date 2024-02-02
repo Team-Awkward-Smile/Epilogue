@@ -1,20 +1,20 @@
-using Epilogue.nodes;
+using Epilogue.Nodes;
 
 using Godot;
 
-namespace Epilogue.actors.hestmor.states;
+namespace Epilogue.Actors.Hestmor.States;
 /// <inheritdoc/>
 public partial class TakeDamage : State
 {
 	private readonly Player _player;
-	
+
 	/// <summary>
 	/// 	State that allows Hestmor to react to damage taken
 	/// </summary>
 	/// <param name="stateMachine">The State Machine who owns this State</param>
 	public TakeDamage(StateMachine stateMachine) : base(stateMachine)
 	{
-		_player = (Player) stateMachine.Owner;
+		_player = (Player)stateMachine.Owner;
 	}
 
 	internal override void OnEnter(params object[] args)

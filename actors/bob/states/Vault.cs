@@ -1,8 +1,8 @@
-using Epilogue.actors.hestmor.enums;
-using Epilogue.nodes;
+using Epilogue.Actors.Hestmor.Enums;
+using Epilogue.Nodes;
 using Godot;
 
-namespace Epilogue.actors.hestmor.states;
+namespace Epilogue.Actors.Hestmor.States;
 /// <inheritdoc/>
 public partial class Vault : State
 {
@@ -16,7 +16,7 @@ public partial class Vault : State
 	/// <param name="stateMachine">The State Machine who owns this State</param>
 	public Vault(StateMachine stateMachine) : base(stateMachine)
 	{
-		_player = (Player) stateMachine.Owner;
+		_player = (Player)stateMachine.Owner;
 	}
 
 	internal override void OnEnter(params object[] args)

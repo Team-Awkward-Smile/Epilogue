@@ -28,10 +28,10 @@ public partial class Settings : Node
 	/// </summary>
     public static InputDeviceBrand ControllerType 
 	{
-		get => _controllerType;
+		get => s_controllerType;
 		set
 		{
-			_controllerType = value;
+			s_controllerType = value;
 
 			ProjectSettings.SetSetting("epilogue/controls/controller_type", (int) value);
 		}
@@ -42,17 +42,17 @@ public partial class Settings : Node
     /// </summary>
     public static ControlScheme ControlScheme
 	{
-		get => _controlScheme;
+		get => s_controlScheme;
 		set
 		{
-			_controlScheme = value;
+			s_controlScheme = value;
 
 			ProjectSettings.SetSetting("epilogue/controls/control_scheme", (int) value);
 		}
 	}
 
-	private static ControlScheme _controlScheme = (ControlScheme) ProjectSettings.GetSetting("epilogue/controls/control_scheme").AsInt32();
-	private static InputDeviceBrand _controllerType = (InputDeviceBrand) ProjectSettings.GetSetting("epilogue/controls/controller_type").AsInt32();
+	private static ControlScheme s_controlScheme = (ControlScheme) ProjectSettings.GetSetting("epilogue/controls/control_scheme").AsInt32();
+	private static InputDeviceBrand s_controllerType = (InputDeviceBrand) ProjectSettings.GetSetting("epilogue/controls/controller_type").AsInt32();
 
 	/// <inheritdoc/>
 	public override void _EnterTree()

@@ -1,4 +1,4 @@
-namespace Epilogue.actors.hestmor.enums;
+namespace Epilogue.Actors.Hestmor.Enums;
 /// <summary>
 ///		Represents different information about States
 /// </summary>

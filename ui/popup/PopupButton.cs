@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Epilogue.ui.popup;
+namespace Epilogue.UI.popup;
 /// <summary>
 ///		Object used when creating custom buttons with the <see cref="CustomPopup"/> class
 /// </summary>

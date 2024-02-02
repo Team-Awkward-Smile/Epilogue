@@ -1,14 +1,14 @@
 using Epilogue.Global.Enums;
 using Epilogue.Global.Singletons;
-using Epilogue.props.camera;
-using Epilogue.ui;
-using Epilogue.ui.hp;
-using Epilogue.ui.pause;
+using Epilogue.Props.camera;
+using Epilogue.UI;
+using Epilogue.UI.HP;
+using Epilogue.UI.Pause;
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 ///		Base Node for every level in the game (UIs are not Levels, keep that in mind)
 /// </summary>
@@ -167,9 +167,6 @@ public partial class Level : Node2D
 		}
 
 		_camera = GetViewport().GetCamera2D() as Camera;
-        Player = GD.Load<PackedScene>("res://actors/bob/bob.tscn").Instantiate() as Player;
-
-		AddChild(Player);
 
         Player.Position = _checkpoints.Where(c => c.Current).FirstOrDefault().Position;
 		_camera.Position = Player.Position;

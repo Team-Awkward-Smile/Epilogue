@@ -1,9 +1,10 @@
+using Epilogue.Extensions;
 using Epilogue.Global.Enums;
 using Godot;
 using Godot.Collections;
 using System.Linq;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 ///		Base class for all Actors in the game. Instead of using this one, you probably should use either <see cref="Player"/> or <see cref="Npc"/>
 /// </summary>
@@ -13,12 +14,12 @@ public abstract partial class Actor : CharacterBody2D
 	/// <summary>
 	///		Max HP of this Actor
 	/// </summary>
-    [Export] public float MaxHealth { get; private protected set; }
+	[Export] public float MaxHealth { get; private protected set; }
 
 	/// <summary>
 	///		Current HP of this Actor
 	/// </summary>
-    [Export] public float CurrentHealth { get; private protected set; }
+	[Export] public float CurrentHealth { get; private protected set; }
 
 	/// <summary>
 	///		All RayCast2D's belonging to this Actor, accessed by their names (minus the 'RayCast2D' suffix)
@@ -28,7 +29,7 @@ public abstract partial class Actor : CharacterBody2D
 	/// <summary>
 	///		Direction (Left/Right) this Actor is currently facing
 	/// </summary>
-    public ActorFacingDirection FacingDirection { get; private set; } = ActorFacingDirection.Right;
+	public ActorFacingDirection FacingDirection { get; private set; } = ActorFacingDirection.Right;
 
 	/// <summary>
 	///		Defines if this Actor can change the direction it is facing
@@ -38,7 +39,7 @@ public abstract partial class Actor : CharacterBody2D
 	/// <summary>
 	///		Reference to the main Sprite used by the Actor
 	/// </summary>
-    public Sprite2D Sprite { get; set; }
+	public Sprite2D Sprite { get; set; }
 
 	/// <summary>
 	///		Size of this Sprite, in units (X = width; Y = height)
@@ -50,19 +51,27 @@ public abstract partial class Actor : CharacterBody2D
 	/// </summary>
 	public  HurtBox HurtBox { get; set; }
 	
+	public ActorAudioPlayer ActorAudioPlayer { get; set; }
+
 	private protected AnimationPlayer AnimationPlayer { get; set; }
 
-    /// <inheritdoc/>
-    public override void _Ready()
+	/// <inheritdoc/>
+	public override void _Ready()
 	{
-		GetNode<Node2D>("FlipRoot").GetChildren().OfType<RayCast2D>().ToList().ForEach(r =>
-		{
-			RayCasts.Add(r.Name.ToString().Replace("RayCast2D", ""), r);
-		});
+		GetNode<Node2D>("FlipRoot").GetChildren().OfType<RayCast2D>().ToList().ForEach(r => RayCasts.Add(r.Name.ToString().Replace("RayCast2D", ""), r));
 
-		Sprite = GetNode<Node2D>("FlipRoot").GetChildren().OfType<Sprite2D>().Where(c => c.IsInGroup("MainSprite")).FirstOrDefault();
+		Sprite = GetNode<Node2D>("FlipRoot").GetChildren().OfType<Sprite2D>().FirstOrDefault(c => c.IsInGroup("MainSprite"));
 		AnimationPlayer = GetChildren().OfType<AnimationPlayer>().FirstOrDefault();
 		HurtBox = GetChildren().OfType<HurtBox>().FirstOrDefault();
+
+		ActorAudioPlayer = GetChildren().OfType<ActorAudioPlayer>().FirstOrDefault();
+
+		if (ActorAudioPlayer is null)
+		{
+			GD.PushWarning($"ActorAudioPlayer not found in Actor [{Name}]");
+
+			return;
+		}
 	}
 
 	/// <summary>
@@ -71,7 +80,7 @@ public abstract partial class Actor : CharacterBody2D
 	/// <param name="newDirection">The flag enum representing the new direction</param>
 	public void SetFacingDirection(ActorFacingDirection newDirection)
 	{
-		if(!CanChangeFacingDirection)
+		if (!CanChangeFacingDirection)
 		{
 			return;
 		}
@@ -94,25 +103,25 @@ public abstract partial class Actor : CharacterBody2D
 	/// </summary>
 	public virtual void MoveAndSlideWithRotation()
 	{
-		MoveAndSlide();
+		_ = MoveAndSlide();
 
-		if(IsOnFloor())
+		if (IsOnFloor())
 		{
 			var floorRadianAngle = GetFloorAngle();
-			var floorNormal = GetFloorNormal();
+			Vector2 floorNormal = GetFloorNormal();
 
-			if(floorRadianAngle is > 0 and < 1)
+			if (floorRadianAngle is > 0 and < 1)
 			{
-				CreateTween().TweenProperty(this, "rotation", floorRadianAngle * (floorNormal.X > 0 ? 1 : -1), 0.05f);
+				_ = CreateTween().TweenProperty(this, "rotation", floorRadianAngle * (floorNormal.X > 0 ? 1 : -1), 0.05f);
 			}
-			else if(floorRadianAngle == 0)
+			else if (floorRadianAngle == 0)
 			{
-				CreateTween().TweenProperty(this, "rotation", 0f, 0.05f);
+				_ = CreateTween().TweenProperty(this, "rotation", 0f, 0.05f);
 			}
 		}
 		else
 		{
-			CreateTween().TweenProperty(this, "rotation", 0f, 0.05f);
+			_ = CreateTween().TweenProperty(this, "rotation", 0f, 0.05f);
 		}
 	}
 
@@ -120,13 +129,14 @@ public abstract partial class Actor : CharacterBody2D
 	///		Deals the indicated ammount of damage to this Actor
 	/// </summary>
 	/// <param name="damage">The ammount of damage to deal to this Actor</param>
-	public abstract void DealDamage(float damage);
+	/// <param name="damageType">Type of the damage dealt</param>
+	public abstract void ReduceHealth(float damage, DamageType damageType);
 
 	/// <summary>
 	///		Heals the indicated ammount of HP to this Actor.
 	/// </summary>
 	/// <param name="health">The ammount of HP to recover</param>
-	public abstract void ApplyHealth(float health);
+	public abstract void RecoverHealth(float health);
 
 	/// <summary>
 	///		Makes this Actor turn towards and face the informed Node
@@ -143,8 +153,32 @@ public abstract partial class Actor : CharacterBody2D
 	/// <param name="globalPosition">The position (in global coordinates) this Actor will turn to</param>
 	public void TurnTowards(Vector2 globalPosition)
 	{
-		var offset = globalPosition - GlobalPosition;
+		Vector2 offset = globalPosition - GlobalPosition;
 
 		SetFacingDirection(offset.X > 0f ? ActorFacingDirection.Right : ActorFacingDirection.Left);
+	}
+
+	/// <summary>
+	///		Flips the direction this Actor is facing (from left to right or vice-versa)
+	/// </summary>
+	public void FlipFacingDirection()
+	{
+		SetFacingDirection(FacingDirection == ActorFacingDirection.Right ? ActorFacingDirection.Left : ActorFacingDirection.Right);
+	}
+
+	/// <summary>
+	///		Starts the blinking of the sprite to indicate this Actor is immune to damage
+	/// </summary>
+	protected void ActivateIFrameBlink()
+	{
+		Sprite.SetShaderMaterialParameter("iFrameActive", true);
+	}
+
+	/// <summary>
+	///		Stops the blinking of the sprite to indicate this Actor can be damaged again
+	/// </summary>
+	protected void DeactivateIFrameBlink()
+	{
+		Sprite.SetShaderMaterialParameter("iFrameActive", false);
 	}
 }

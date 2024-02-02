@@ -1,18 +1,18 @@
-[gd_scene load_steps=17 format=3 uid="uid://bv14n54nl5fpi"]
+[gd_scene load_steps=17 format=3 uid="uid://nng3614d5rr1"]
 
 [ext_resource type="Script" path="res://ui/pause/PauseUI.cs" id="1_v0tlv"]
 [ext_resource type="StyleBox" uid="uid://tcrgcl8a1vy4" path="res://ui/styles/normal.tres" id="2_myxmy"]
-[ext_resource type="PackedScene" uid="uid://dbb26cg7y5rty" path="res://ui/display/display_ui.tscn" id="2_xf10g"]
+[ext_resource type="PackedScene" path="res://ui/display/display_ui.tscn" id="2_xf10g"]
 [ext_resource type="PackedScene" uid="uid://b3fpxyxkl46k6" path="res://ui/remap/remap_controls.tscn" id="3_f65f6"]
 [ext_resource type="StyleBox" uid="uid://bjwvdsuqfue1b" path="res://ui/styles/hover.tres" id="3_l2wkc"]
 [ext_resource type="Texture2D" uid="uid://bru5obevrfqw5" path="res://ui/temp/button_gray_hover.png" id="3_p5kra"]
-[ext_resource type="PackedScene" uid="uid://d4cifcokrv6dr" path="res://ui/graphics/graphics_ui.tscn" id="4_iauj6"]
+[ext_resource type="PackedScene" path="res://ui/graphics/graphics_ui.tscn" id="4_iauj6"]
 [ext_resource type="StyleBox" uid="uid://blyj4v1rjo8dw" path="res://ui/styles/pressed.tres" id="4_r12o4"]
 [ext_resource type="Texture2D" uid="uid://4ywkgs2c2ega" path="res://ui/temp/tab_gray.png" id="5_gopsr"]
-[ext_resource type="PackedScene" uid="uid://44ekewtgh1io" path="res://ui/audio/audio_ui.tscn" id="5_nehv1"]
+[ext_resource type="PackedScene" path="res://ui/audio/audio_ui.tscn" id="5_nehv1"]
 [ext_resource type="StyleBox" uid="uid://bfmdlseogg3vs" path="res://ui/styles/focus.tres" id="5_s0n1a"]
 [ext_resource type="Texture2D" uid="uid://bnyn5qxbk2lj7" path="res://ui/temp/tab_dark_gray.png" id="6_kys7n"]
-[ext_resource type="PackedScene" uid="uid://b3i3pas2llmb6" path="res://ui/gallery/gallery.tscn" id="13_t7op6"]
+[ext_resource type="PackedScene" path="res://ui/gallery/gallery.tscn" id="13_t7op6"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qxojs"]
 texture = ExtResource("5_gopsr")

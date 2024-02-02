@@ -1,10 +1,10 @@
 using Epilogue.Global.Enums;
 using Epilogue.Global.Singletons;
-using Epilogue.nodes;
+using Epilogue.Nodes;
 using Godot;
 using Godot.Collections;
 
-namespace Epilogue.actors.hestmor.aim;
+namespace Epilogue.Actors.Hestmor.aim;
 /// <summary>
 ///		Node responsible for handling the aiming inputs and setting the correct angles
 /// </summary>

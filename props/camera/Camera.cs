@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Epilogue.props.camera;
+namespace Epilogue.Props.camera;
 /// <summary>
 ///		Camera Nodes with functionalities required by this project
 /// </summary>

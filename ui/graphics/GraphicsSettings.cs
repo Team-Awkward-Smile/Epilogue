@@ -1,13 +1,13 @@
 using Epilogue.Global.Singletons;
-using Epilogue.nodes;
+using Epilogue.Nodes;
 using Godot;
 using static Godot.DisplayServer;
 
-namespace Epilogue.ui.video;
+namespace Epilogue.UI.Video;
 /// <summary>
 ///		Screen responsible for changing different video settings
 /// </summary>
-public partial class GraphicsSettings : UI
+public partial class GraphicsSettings : Screen
 {
 	/// <inheritdoc/>
 	public override void _Ready()

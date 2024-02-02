@@ -10,6 +10,11 @@ public enum DamageType
 	Unarmed,
 
 	/// <summary>
+	/// 	Damage caused by a thrown gun
+	/// </summary>
+	GunThrow,
+
+	/// <summary>
 	///		Damage caused by an attack that pierces the target
 	/// </summary>
 	Piercing,

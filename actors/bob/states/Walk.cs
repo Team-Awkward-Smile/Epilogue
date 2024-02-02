@@ -1,9 +1,9 @@
-using Epilogue.actors.hestmor.enums;
+using Epilogue.Actors.Hestmor.Enums;
 using Epilogue.Global.Enums;
-using Epilogue.nodes;
+using Epilogue.Nodes;
 using Godot;
 
-namespace Epilogue.actors.hestmor.states;
+namespace Epilogue.Actors.Hestmor.States;
 /// <inheritdoc/>
 public partial class Walk : State
 {
@@ -18,14 +18,14 @@ public partial class Walk : State
 	public Walk(StateMachine stateMachine, float walkSpeed) : base(stateMachine)
 	{
 		_walkSpeed = walkSpeed;
-		_player = (Player) stateMachine.Owner;
+		_player = (Player)stateMachine.Owner;
 	}
 
 	internal override void OnInput(InputEvent @event)
 	{
-		if(Input.IsActionJustPressed("jump"))
+		if (Input.IsActionJustPressed("jump"))
 		{
-			if(_player.RayCasts["Head"].IsColliding() && !_player.RayCasts["Ledge"].IsColliding())
+			if (_player.RayCasts["Head"].IsColliding() && !_player.RayCasts["Ledge"].IsColliding())
 			{
 				StateMachine.ChangeState(typeof(GrabLedge));
 			}
@@ -34,15 +34,15 @@ public partial class Walk : State
 				StateMachine.ChangeState(typeof(Jump), StateType.LowJump);
 			}
 		}
-		else if(Input.IsActionJustPressed("melee"))
+		else if (Input.IsActionJustPressed("melee"))
 		{
 			StateMachine.ChangeState(typeof(MeleeAttack), StateType.UppercutPunch);
 		}
-		else if(Input.IsActionJustPressed("crouch"))
+		else if (Input.IsActionJustPressed("crouch"))
 		{
 			StateMachine.ChangeState(typeof(Crouch));
 		}
-		else if(Input.IsActionJustPressed("slide"))
+		else if (Input.IsActionJustPressed("slide"))
 		{
 			StateMachine.ChangeState(typeof(Slide), StateType.KneeSlide);
 		}
@@ -60,16 +60,16 @@ public partial class Walk : State
 	{
 		var movementDirection = Input.GetAxis("move_left", "move_right");
 
-		if(movementDirection != 0f)
+		if (movementDirection != 0f)
 		{
 			movementDirection = movementDirection > 0 ? 1 : -1;
 
 			var velocity = _player.Velocity;
 
-			velocity.Y += StateMachine.Gravity * (float) delta;
-			velocity.X = movementDirection * _walkSpeed * (float) delta * 60f;
+			velocity.Y += StateMachine.Gravity * (float)delta;
+			velocity.X = movementDirection * _walkSpeed * (float)delta * 60f;
 
-			if((movementDirection > 0 && _player.FacingDirection == ActorFacingDirection.Left) ||
+			if ((movementDirection > 0 && _player.FacingDirection == ActorFacingDirection.Left) ||
 				(movementDirection < 0 && _player.FacingDirection == ActorFacingDirection.Right))
 			{
 				velocity.X /= 2;
@@ -83,15 +83,15 @@ public partial class Walk : State
 		//var floorNormal = _player.GetFloorNormal();
 		//var goingDownSlope = (movementDirection < 0 && floorNormal.X < 0) || (movementDirection > 0 && floorNormal.X > 0);
 
-		if(movementDirection == 0f || _player.IsOnWall())
+		if (movementDirection == 0f || _player.IsOnWall())
 		{
 			StateMachine.ChangeState(typeof(Idle));
 		}
-		else if(!_player.IsOnFloor())
+		else if (!_player.IsOnFloor())
 		{
 			StateMachine.ChangeState(typeof(Fall), StateType.LongJump);
 		}
-		else if(_player.RunEnabled)
+		else if (_player.RunEnabled)
 		{
 			StateMachine.ChangeState(typeof(Run));
 		}

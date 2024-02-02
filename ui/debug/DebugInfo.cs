@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Epilogue.ui.debug;
+namespace Epilogue.UI.debug;
 /// <summary>
 ///		Prints various messages on-screen to help with debugging
 /// </summary>

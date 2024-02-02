@@ -13,9 +13,9 @@ collision_layer = 16
 collision_mask = 520
 collision_priority = 100.0
 script = ExtResource("1_7m3ab")
-Speed = 1000.0
-DamageType = 1
+Speed = Vector2(700, 0)
 LifeTime = 1.0
+DamageType = 1
 Damage = 0.5
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

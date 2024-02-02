@@ -1,9 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://dulc4vm30o030"]
+[gd_scene load_steps=10 format=3 uid="uid://dulc4vm30o030"]
 
 [ext_resource type="Script" path="res://guns/Handgun.cs" id="1_vptcf"]
 [ext_resource type="Material" uid="uid://ym1yvynv3i7b" path="res://temp/gun_material.tres" id="2_lgq03"]
 [ext_resource type="Texture2D" uid="uid://b36gdcpttbmd" path="res://temp/handgun.png" id="3_ava73"]
-[ext_resource type="AudioStream" uid="uid://culv4am0q6vgd" path="res://temp/handgun.mp3" id="4_5825p"]
+[ext_resource type="Script" path="res://nodes/MultiAudioStreamPlayer.cs" id="4_u1hii"]
+[ext_resource type="AudioStream" uid="uid://bgc1f7hffeyid" path="res://props/handgun/sfx/GunshotRev01.wav" id="5_842jg"]
+[ext_resource type="AudioStream" uid="uid://cn3rnbtklm70a" path="res://props/handgun/sfx/GunshotRev02.wav" id="6_daker"]
+[ext_resource type="AudioStream" uid="uid://invnhvsb8jox" path="res://props/handgun/sfx/GunshotRev03.wav" id="7_xysc4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2riue"]
 size = Vector2(26.5528, 17.6798)
@@ -41,5 +44,6 @@ position = Vector2(7.85722, -0.0701542)
 shape = SubResource("CircleShape2D_a0c6f")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_5825p")
 max_polyphony = 5
+script = ExtResource("4_u1hii")
+_audioStreams = Array[AudioStream]([ExtResource("5_842jg"), ExtResource("6_daker"), ExtResource("7_xysc4")])

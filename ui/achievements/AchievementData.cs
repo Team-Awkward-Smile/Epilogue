@@ -2,7 +2,7 @@ using Epilogue.Global.Enums;
 
 using Godot;
 
-namespace Epilogue.ui;
+namespace Epilogue.UI;
 /// <summary>
 ///		Object used to hold the data of achievements to be displayed to be player
 /// </summary>

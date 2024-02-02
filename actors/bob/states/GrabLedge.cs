@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
-using Epilogue.actors.hestmor.enums;
-using Epilogue.nodes;
+using Epilogue.Actors.Hestmor.Enums;
+using Epilogue.Nodes;
 using Godot;
 
-namespace Epilogue.actors.hestmor.states;
+namespace Epilogue.Actors.Hestmor.States;
 /// <inheritdoc/>
 public partial class GrabLedge : State
 {
@@ -15,17 +15,17 @@ public partial class GrabLedge : State
 	/// <param name="stateMachine">State that allows Hestmor to fall from high places</param>
 	public GrabLedge(StateMachine stateMachine) : base(stateMachine)
 	{
-		_player = (Player) stateMachine.Owner;
+		_player = (Player)stateMachine.Owner;
 	}
 
 	internal override void OnInput(InputEvent @event)
 	{
-		if(Input.IsActionJustPressed("jump"))
+		if (Input.IsActionJustPressed("jump"))
 		{
 			AnimPlayer.Play("ledge_climb");
 			AnimPlayer.AnimationFinished += MoveToTop;
 		}
-		else if(Input.IsActionJustPressed("crouch"))
+		else if (Input.IsActionJustPressed("crouch"))
 		{
 			StateMachine.ChangeState(typeof(Fall), StateType.StandingJump);
 		}
@@ -37,7 +37,7 @@ public partial class GrabLedge : State
 		_player.CanChangeFacingDirection = false;
 		_player.RayCasts["Feet"].ForceRaycastUpdate();
 
-		if(_player.RayCasts["Feet"].IsColliding())
+		if (_player.RayCasts["Feet"].IsColliding())
 		{
 			AnimPlayer.Play("grab_wall");
 			AnimPlayer.AnimationFinished += StayOnEdge;

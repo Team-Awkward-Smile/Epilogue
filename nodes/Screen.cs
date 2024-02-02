@@ -1,11 +1,11 @@
 using Godot;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 ///		Base class for every UI Screen
 /// </summary>
 [GlobalClass]
-public partial class UI : Control
+public partial class Screen : Control
 {
 	/// <summary>
 	///		Enables this Screen

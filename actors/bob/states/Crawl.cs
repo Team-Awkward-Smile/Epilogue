@@ -1,7 +1,7 @@
-using Epilogue.nodes;
+using Epilogue.Nodes;
 using Godot;
 
-namespace Epilogue.actors.hestmor.states;
+namespace Epilogue.Actors.Hestmor.States;
 /// <inheritdoc/>
 public partial class Crawl : State
 {
@@ -15,7 +15,7 @@ public partial class Crawl : State
 	/// <param name="crawlSpeed">Speed in which Hestmor will crawl while in this State</param>
 	public Crawl(StateMachine stateMachine, float crawlSpeed) : base(stateMachine)
 	{
-		_player = (Player) stateMachine.Owner;
+		_player = (Player)stateMachine.Owner;
 		_crawlSpeed = crawlSpeed;
 	}
 
@@ -28,19 +28,19 @@ public partial class Crawl : State
 	{
 		var movementDirection = Input.GetAxis("move_left", "move_right");
 
-		if(movementDirection == 0f)
+		if (movementDirection == 0f)
 		{
 			AnimPlayer.Pause();
 		}
-		else if(!AnimPlayer.IsPlaying())
+		else if (!AnimPlayer.IsPlaying())
 		{
 			AnimPlayer.Play();
 		}
 
 		var velocity = _player.Velocity;
 
-		velocity.Y += StateMachine.Gravity * (float) delta;
-		velocity.X = movementDirection * _crawlSpeed * (float) delta * 60f;
+		velocity.Y += StateMachine.Gravity * (float)delta;
+		velocity.X = movementDirection * _crawlSpeed * (float)delta * 60f;
 
 		_player.Velocity = velocity;
 
@@ -49,11 +49,11 @@ public partial class Crawl : State
 		var slopeNormal = _player.GetFloorNormal();
 		var goingDownSlope = (movementDirection < 0 && slopeNormal.X < 0) || (movementDirection > 0 && slopeNormal.X > 0);
 
-		if(!_player.IsOnFloor())
+		if (!_player.IsOnFloor())
 		{
 			StateMachine.ChangeState(typeof(Fall));
 		}
-		else if(goingDownSlope || _player.RotationDegrees < 40f)
+		else if (goingDownSlope || _player.RotationDegrees < 40f)
 		{
 			StateMachine.ChangeState(typeof(Idle));
 		}

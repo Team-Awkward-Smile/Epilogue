@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
-using Epilogue.nodes;
+using Epilogue.Nodes;
 using Godot;
 
-namespace Epilogue.actors.rob.states;
+namespace Epilogue.Actors.rob.states;
 /// <inheritdoc/>
 public partial class Stun : State
 {
