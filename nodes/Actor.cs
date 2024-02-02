@@ -63,7 +63,7 @@ public abstract partial class Actor : CharacterBody2D
 	{
 		GetNodeOrNull<Node2D>("FlipRoot")?.GetChildren().OfType<RayCast2D>().ToList().ForEach(r => RayCasts.Add(r.Name.ToString().Replace("RayCast2D", ""), r));
 
-		Sprite ??= GetNode<Node2D>("FlipRoot").GetChildren().OfType<Sprite2D>().FirstOrDefault();
+		Sprite ??= GetNodeOrNull<Node2D>("FlipRoot")?.GetChildren().OfType<Sprite2D>().FirstOrDefault();
 
 		if (Sprite is null)
 		{

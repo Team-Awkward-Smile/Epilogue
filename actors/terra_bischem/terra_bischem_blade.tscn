@@ -1,0 +1,132 @@
+[gd_scene load_steps=21 format=3 uid="uid://cq3gk81ploy03"]
+
+[ext_resource type="Script" path="res://BladeTerraBischem.cs" id="1_tfik2"]
+[ext_resource type="Texture2D" uid="uid://sgw65fycxbaq" path="res://actors/terra_bischem/sprites/blade/tb_1.png" id="2_sj3j4"]
+[ext_resource type="Texture2D" uid="uid://bcse534vtb7sc" path="res://actors/terra_bischem/sprites/blade/tb_2.png" id="3_8vy0v"]
+[ext_resource type="Texture2D" uid="uid://bs5m3vbup86el" path="res://actors/terra_bischem/sprites/blade/tb_3.png" id="4_ku1ms"]
+[ext_resource type="Texture2D" uid="uid://gapsv03mc4hq" path="res://actors/terra_bischem/sprites/blade/tb_4.png" id="5_qklki"]
+[ext_resource type="Texture2D" uid="uid://hnp2mfcc0uso" path="res://actors/terra_bischem/sprites/blade/tb_5.png" id="6_n6nhg"]
+[ext_resource type="Texture2D" uid="uid://4tfswf1ew5ae" path="res://actors/terra_bischem/sprites/blade/tb_6.png" id="7_o2nv2"]
+[ext_resource type="Texture2D" uid="uid://bslqedljydmbf" path="res://actors/terra_bischem/sprites/blade/tb_7.png" id="8_rj0vv"]
+[ext_resource type="Texture2D" uid="uid://c0mww7cl2vq75" path="res://actors/terra_bischem/sprites/blade/tb_8.png" id="9_pwjtx"]
+[ext_resource type="Texture2D" uid="uid://g785nneqfu73" path="res://actors/terra_bischem/sprites/blade/tb_9.png" id="10_oc6ud"]
+[ext_resource type="Texture2D" uid="uid://cha1oenkrjqs8" path="res://actors/terra_bischem/sprites/blade/tb_10.png" id="11_kuoig"]
+[ext_resource type="Texture2D" uid="uid://cvw577nc0nvd7" path="res://actors/terra_bischem/sprites/blade/tb_11.png" id="12_m0l83"]
+[ext_resource type="Texture2D" uid="uid://s2714q7y82yh" path="res://actors/terra_bischem/sprites/blade/tb_12.png" id="13_w4rqy"]
+[ext_resource type="Script" path="res://nodes/HurtBox.cs" id="14_nxseg"]
+[ext_resource type="Script" path="res://nodes/HitBox.cs" id="15_55oud"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_no1hc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_sj3j4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_8vy0v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ku1ms")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_qklki")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_n6nhg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_o2nv2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_rj0vv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_pwjtx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_oc6ud")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_kuoig")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_m0l83")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_w4rqy")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 12.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6fjbo"]
+size = Vector2(16, 7)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_usncj"]
+radius = 5.0
+height = 76.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mcbbl"]
+radius = 5.0
+height = 76.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8anax"]
+height = 24.0
+
+[node name="BladeTerraBischem" type="CharacterBody2D"]
+script = ExtResource("1_tfik2")
+VulnerabilityThreshold = null
+VulnerabilityDuration = null
+MaxHealth = null
+CurrentHealth = null
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.4, 0.4)
+sprite_frames = SubResource("SpriteFrames_no1hc")
+animation = &"new_animation"
+autoplay = "new_animation"
+offset = Vector2(12, -37)
+
+[node name="HurtBox" type="Area2D" parent="."]
+position = Vector2(0, -22)
+script = ExtResource("14_nxseg")
+_iFrameDuration = null
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(0, -2.5)
+shape = SubResource("RectangleShape2D_6fjbo")
+debug_color = Color(0, 1, 0, 0.0784314)
+
+[node name="HitBoxLeft" type="Area2D" parent="."]
+collision_layer = 256
+collision_mask = 32
+script = ExtResource("15_55oud")
+DamageType = 4
+Damage = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxLeft"]
+position = Vector2(-45, -17)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_usncj")
+debug_color = Color(1, 0, 0, 0.0784314)
+
+[node name="HitBoxRight" type="Area2D" parent="."]
+collision_layer = 256
+collision_mask = 32
+script = ExtResource("15_55oud")
+DamageType = 4
+Damage = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxRight"]
+position = Vector2(45, -17)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_mcbbl")
+debug_color = Color(1, 0, 0, 0.0784314)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -12)
+shape = SubResource("CapsuleShape2D_8anax")
+debug_color = Color(0, 0, 1, 0.0784314)

@@ -1185,6 +1185,7 @@ position = Vector2(22, -34)
 collision_layer = 16
 collision_mask = 512
 script = ExtResource("27_3ycpy")
+DamageType = null
 Damage = 1.0
 
 [node name="temp_SwordSlash" type="Sprite2D" parent="FlipRoot"]
@@ -1197,6 +1198,7 @@ hframes = 6
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["MainHitbox"]]
 position = Vector2(0, -22)
 shape = SubResource("CapsuleShape2D_b5eh5")
+debug_color = Color(0, 0, 1, 0.0784314)
 
 [node name="GunSystem" type="Node2D" parent="."]
 script = ExtResource("29_7wd37")
@@ -1221,22 +1223,37 @@ position = Vector2(18, -1)
 collision_layer = 32
 collision_mask = 256
 script = ExtResource("30_5ul0a")
+_iFrameDuration = null
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="HurtBox"]
 visibility_layer = 2
 position = Vector2(0, -25)
 shape = SubResource("CapsuleShape2D_swilf")
-debug_color = Color(0.835294, 0.356863, 0.419608, 0.419608)
+debug_color = Color(0, 1, 0, 0.0784314)
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("15_417v3")
+_slideAttackSpeed = null
+_crawlSpeed = null
 _weakGrowlRadius = 100.0
 _mediumGrowlRadius = 200.0
 _strongGrowlRadius = 500.0
+_standingJumpVerticalSpeed = null
 _lowJumpVerticalSpeed = -350.0
 _lowJumpHorizontalSpeed = 150.0
 _longJumpVerticalSpeed = -200.0
 _longJumpHorizontalSpeed = 350.0
+_cameraMovementDelay = null
+_cameraMovementDistance = null
+_runSpeed = null
+_sleepDelay = null
+_frontRollDuration = null
+_frontRollSpeed = null
+_longSlideDuration = null
+_longSlideSpeed = null
+_kneeSlideDuration = null
+_kneeSlideSpeed = null
+_walkSpeed = null
 
 [node name="GrowlEffectArea" type="Area2D" parent="."]
 position = Vector2(0, -24)

@@ -1,10 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://bv14n54nl5fpi"]
+[gd_scene load_steps=6 format=3 uid="uid://nng3614d5rr1"]
 
 [ext_resource type="Script" path="res://ui/pause/PauseUI.cs" id="1_v0tlv"]
-[ext_resource type="PackedScene" uid="uid://dbb26cg7y5rty" path="res://ui/display/display_ui.tscn" id="2_xf10g"]
+[ext_resource type="PackedScene" path="res://ui/display/display_ui.tscn" id="2_xf10g"]
 [ext_resource type="PackedScene" uid="uid://b3fpxyxkl46k6" path="res://ui/remap/remap_controls.tscn" id="3_f65f6"]
-[ext_resource type="PackedScene" uid="uid://d4cifcokrv6dr" path="res://ui/graphics/graphics_ui.tscn" id="4_iauj6"]
-[ext_resource type="PackedScene" uid="uid://44ekewtgh1io" path="res://ui/audio/audio_ui.tscn" id="5_nehv1"]
+[ext_resource type="PackedScene" path="res://ui/graphics/graphics_ui.tscn" id="4_iauj6"]
+[ext_resource type="PackedScene" path="res://ui/audio/audio_ui.tscn" id="5_nehv1"]
 
 [node name="PauseUI" type="Control"]
 process_mode = 2

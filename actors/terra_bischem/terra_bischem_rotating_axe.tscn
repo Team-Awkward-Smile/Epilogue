@@ -153,6 +153,7 @@ script = ExtResource("4_j4o2e")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Eye/HurtBox"]
 shape = SubResource("CircleShape2D_gil5e")
+debug_color = Color(0, 1, 0, 0.0784314)
 
 [node name="HitBox" type="Area2D" parent="Sprite2D"]
 unique_name_in_owner = true
@@ -167,6 +168,7 @@ Damage = 1.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/HitBox"]
 position = Vector2(-9, 3.93403e-07)
 shape = SubResource("CapsuleShape2D_mclx0")
+debug_color = Color(1, 0, 0, 0.0784314)
 
 [node name="MouthAnimatedSprite2D" type="AnimatedSprite2D" parent="Sprite2D"]
 position = Vector2(0, 83)

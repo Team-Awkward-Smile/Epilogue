@@ -31,8 +31,10 @@ script = ExtResource("1_o245g")
 
 [node name="DebugInfo" type="CanvasLayer" parent="."]
 script = ExtResource("2_pfrwm")
+_playerSpeed = null
 _branchName = false
 _aimWheel = true
+_inputType = null
 
 [node name="HBoxContainer" type="HBoxContainer" parent="DebugInfo"]
 anchors_preset = 12
@@ -77,6 +79,7 @@ script = ExtResource("6_1is1f")
 
 [node name="KonamiCode" type="Node" parent="."]
 script = ExtResource("7_xoqku")
+_cheatInputTimer = null
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 
@@ -110,6 +113,7 @@ texture = ExtResource("12_1mhei")
 collision_layer = 16
 collision_mask = 32
 script = ExtResource("13_o5dos")
+DamageType = null
 Damage = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Spikes/HitBox"]
@@ -185,9 +189,13 @@ position = Vector2(184, -92)
 
 [node name="TerraBischemSwingingAxe" parent="." instance=ExtResource("20_2a4cq")]
 position = Vector2(269, -338)
+VulnerabilityThreshold = null
+VulnerabilityDuration = null
 
 [node name="TerraBischemRotatingAxe" parent="." instance=ExtResource("19_fyl2f")]
 position = Vector2(380, -347)
+VulnerabilityThreshold = null
+VulnerabilityDuration = null
 
 [node name="TerraBischemYoyo" parent="." instance=ExtResource("21_xq228")]
 position = Vector2(90, -171)
