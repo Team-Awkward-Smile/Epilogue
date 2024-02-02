@@ -10,49 +10,49 @@ namespace Epilogue.Actors.Hestmor.States;
 public partial class PlayerStateMachine : StateMachine
 {
 	[ExportGroup("Attack")]
-	[Export] private float _slideAttackSpeed = 150f;
+		[Export] private float _slideAttackSpeed = 150f;
 
 	[ExportGroup("Crawl")]
-	[Export] private float _crawlSpeed = 50f;
+		[Export] private float _crawlSpeed = 50f;
 
 	[ExportGroup("Growl")]
-	[Export] private float _weakGrowlRadius;
-	[Export] private float _mediumGrowlRadius;
-	[Export] private float _strongGrowlRadius;
+		[Export] private float _weakGrowlRadius;
+		[Export] private float _mediumGrowlRadius;
+		[Export] private float _strongGrowlRadius;
 
 	[ExportGroup("Jump")]
 	[ExportSubgroup("Standing Jump")]
-	[Export] private float _standingJumpVerticalSpeed = -400f;
+		[Export] private float _standingJumpVerticalSpeed = -400f;
 	[ExportSubgroup("Low Jump")]
-	[Export] private float _lowJumpVerticalSpeed = -400f;
-	[Export] private float _lowJumpHorizontalSpeed = 80f;
+		[Export] private float _lowJumpVerticalSpeed = -400f;
+		[Export] private float _lowJumpHorizontalSpeed = 80f;
 	[ExportSubgroup("Long Jump")]
-	[Export] private float _longJumpVerticalSpeed = -400f;
-	[Export] private float _longJumpHorizontalSpeed = 160f;
+		[Export] private float _longJumpVerticalSpeed = -400f;
+		[Export] private float _longJumpHorizontalSpeed = 160f;
 
 	[ExportGroup("Look Up")]
-	[Export] private float _cameraMovementDelay = 0.5f;
-	[Export] private int _cameraMovementDistance = 100;
+		[Export] private float _cameraMovementDelay = 0.5f;
+		[Export] private int _cameraMovementDistance = 100;
 
 	[ExportGroup("Run")]
-	[Export] private float _runSpeed = 200f;
+		[Export] private float _runSpeed = 200f;
 
 	[ExportGroup("Sleep")]
-	[Export] private float _sleepDelay = 5f;
+		[Export] private float _sleepDelay = 5f;
 
 	[ExportGroup("Slide")]
 	[ExportSubgroup("Front Roll")]
-	[Export] private float _frontRollDuration = 0.5f;
-	[Export] private float _frontRollSpeed = 100f;
+		[Export] private float _frontRollDuration = 0.5f;
+		[Export] private float _frontRollSpeed = 100f;
 	[ExportSubgroup("Long Slide")]
-	[Export] private float _longSlideDuration = 0.5f;
-	[Export] private float _longSlideSpeed = 220f;
+		[Export] private float _longSlideDuration = 0.5f;
+		[Export] private float _longSlideSpeed = 220f;
 	[ExportSubgroup("Knee Slide")]
-	[Export] private float _kneeSlideDuration = 0.5f;
-	[Export] private float _kneeSlideSpeed = 160f;
+		[Export] private float _kneeSlideDuration = 0.5f;
+		[Export] private float _kneeSlideSpeed = 160f;
 
 	[ExportGroup("Walk")]
-	[Export] private float _walkSpeed = 100f;
+		[Export] private float _walkSpeed = 100f;
 
 	/// <inheritdoc/>
 	public override void _Ready()

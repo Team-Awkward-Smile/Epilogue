@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Epilogue.ui.remap;
+namespace Epilogue.UI.Remap;
 /// <summary>
 ///		Button used in the Remap Controls Screen to display the correct icons and allow the player to remap the controls
 /// </summary>

@@ -70,7 +70,7 @@ public partial class Run : State
 		{
 			movementDirection = movementDirection > 0 ? 1 : -1;
 
-			Vector2 velocity = _player.Velocity;
+			var velocity = _player.Velocity;
 
 			velocity.Y += StateMachine.Gravity * (float)delta;
 			velocity.X = movementDirection * _runSpeed;
@@ -86,7 +86,7 @@ public partial class Run : State
 
 		_player.MoveAndSlide();
 
-		Vector2 floorNormal = _player.GetFloorNormal();
+		var floorNormal = _player.GetFloorNormal();
 		var goingDownSlope = (movementDirection < 0 && floorNormal.X < 0) || (movementDirection > 0 && floorNormal.X > 0);
 
 		if (movementDirection == 0f || _player.IsOnWall())

@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid="uid://44ekewtgh1io"]
+
+[ext_resource type="Script" path="res://ui/audio/AudioSettings.cs" id="1_w3i83"]
+[ext_resource type="AudioStream" uid="uid://du6y602wljqta" path="res://temp/ding.mp3" id="2_mknrr"]
+
+[node name="AudioSettings" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_w3i83")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 300
+theme_override_constants/margin_right = 300
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Master" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Master"]
+layout_mode = 2
+text = "Master Volume"
+
+[node name="Slider" type="HSlider" parent="MarginContainer/VBoxContainer/Master"]
+layout_mode = 2
+value = 100.0
+
+[node name="Value" type="Label" parent="MarginContainer/VBoxContainer/Master"]
+layout_mode = 2
+text = "100"
+horizontal_alignment = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_mknrr")

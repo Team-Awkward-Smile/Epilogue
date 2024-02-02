@@ -49,7 +49,9 @@ public abstract partial class Actor : CharacterBody2D
 	/// <summary>
 	///		HurtBox of this Actor, used to detect collisions against objects that can hurt it
 	/// </summary>
-	public HurtBox HurtBox { get; set; }
+	public  HurtBox HurtBox { get; set; }
+	
+	public ActorAudioPlayer ActorAudioPlayer { get; set; }
 
 	private protected AnimationPlayer AnimationPlayer { get; set; }
 
@@ -61,6 +63,15 @@ public abstract partial class Actor : CharacterBody2D
 		Sprite = GetNode<Node2D>("FlipRoot").GetChildren().OfType<Sprite2D>().FirstOrDefault(c => c.IsInGroup("MainSprite"));
 		AnimationPlayer = GetChildren().OfType<AnimationPlayer>().FirstOrDefault();
 		HurtBox = GetChildren().OfType<HurtBox>().FirstOrDefault();
+
+		ActorAudioPlayer = GetChildren().OfType<ActorAudioPlayer>().FirstOrDefault();
+
+		if (ActorAudioPlayer is null)
+		{
+			GD.PushWarning($"ActorAudioPlayer not found in Actor [{Name}]");
+
+			return;
+		}
 	}
 
 	/// <summary>

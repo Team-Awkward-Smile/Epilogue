@@ -63,8 +63,8 @@ public partial class Fall : State
 			return;
 		}
 
-		_player.Velocity = new Vector2(_player.Velocity.X, _player.Velocity.Y + (StateMachine.Gravity * (float)delta));
-		_ = _player.MoveAndSlide();
+		_player.Velocity = new Vector2(_player.Velocity.X, _player.Velocity.Y + (StateMachine.Gravity * (float) delta));
+		_player.MoveAndSlide();
 
 		if (_player.IsOnFloor())
 		{
@@ -82,6 +82,6 @@ public partial class Fall : State
 		AudioPlayer.PlayGenericSfx("Land");
 		AnimPlayer.Play($"Jump/{_animation}_jump_land");
 
-		_ = await StateMachine.ToSignal(AnimPlayer, "animation_finished");
+		await StateMachine.ToSignal(AnimPlayer, "animation_finished");
 	}
 }

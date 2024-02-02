@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Epilogue.ui.debug;
+namespace Epilogue.UI.debug;
 /// <summary>
 /// 	Displays the X and Y velocity of Hestmor during the game
 /// </summary>

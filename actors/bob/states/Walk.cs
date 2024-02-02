@@ -64,7 +64,7 @@ public partial class Walk : State
 		{
 			movementDirection = movementDirection > 0 ? 1 : -1;
 
-			Vector2 velocity = _player.Velocity;
+			var velocity = _player.Velocity;
 
 			velocity.Y += StateMachine.Gravity * (float)delta;
 			velocity.X = movementDirection * _walkSpeed * (float)delta * 60f;
@@ -78,7 +78,7 @@ public partial class Walk : State
 			_player.Velocity = velocity;
 		}
 
-		_ = _player.MoveAndSlide();
+		_player.MoveAndSlide();
 
 		//var floorNormal = _player.GetFloorNormal();
 		//var goingDownSlope = (movementDirection < 0 && floorNormal.X < 0) || (movementDirection > 0 && floorNormal.X > 0);

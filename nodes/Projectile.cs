@@ -1,4 +1,3 @@
-using Epilogue.Global.Enums;
 using Godot;
 
 namespace Epilogue.Nodes;
@@ -17,11 +16,6 @@ public partial class Projectile : HitBox
 	///     Speed of this projectile
 	/// </summary>
 	[Export] public Vector2 Speed { get; set; }
-
-	/// <summary>
-	///     This projectile will be destroyed if it doesn't hit anything in this ammount of time
-	/// </summary>
-	[Export] public float LifeTime { get; set; }
 
 	private float _timer;
 

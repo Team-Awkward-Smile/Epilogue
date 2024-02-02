@@ -37,7 +37,7 @@ public partial class Crawl : State
 			AnimPlayer.Play();
 		}
 
-		Vector2 velocity = _player.Velocity;
+		var velocity = _player.Velocity;
 
 		velocity.Y += StateMachine.Gravity * (float)delta;
 		velocity.X = movementDirection * _crawlSpeed * (float)delta * 60f;
@@ -46,7 +46,7 @@ public partial class Crawl : State
 
 		_player.MoveAndSlideWithRotation();
 
-		Vector2 slopeNormal = _player.GetFloorNormal();
+		var slopeNormal = _player.GetFloorNormal();
 		var goingDownSlope = (movementDirection < 0 && slopeNormal.X < 0) || (movementDirection > 0 && slopeNormal.X > 0);
 
 		if (!_player.IsOnFloor())

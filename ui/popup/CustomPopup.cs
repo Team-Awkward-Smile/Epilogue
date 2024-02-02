@@ -1,8 +1,7 @@
-using Epilogue.Const;
 using Godot;
 using System.Collections.Generic;
 
-namespace Epilogue.ui.popup;
+namespace Epilogue.UI.popup;
 /// <summary>
 ///		Custom Popup with the default texture used in this project, and methods to easily add more buttons
 /// </summary>
@@ -28,7 +27,7 @@ public partial class CustomPopup : AcceptDialog
 	{
 		GetLabel().HorizontalAlignment = HorizontalAlignment.Center;
 
-		foreach(var button in CustomButtons)
+		foreach (var button in CustomButtons)
 		{
 			AddButton(button.ButtonText, button.Right, button.Action);
 		}

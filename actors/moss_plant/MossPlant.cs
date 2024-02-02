@@ -26,7 +26,7 @@ public partial class MossPlant : Npc
 	/// </summary>
 	public bool IsProjectileActive { get; set; } = false;
 
-	private float _projectileRaycastTimer;
+	private double _projectileRaycastTimer;
 	private RayCast2D _projectileRaycast;
 	private Node2D _projectileSpawnPoint;
 
@@ -102,7 +102,7 @@ public partial class MossPlant : Npc
 	{
 		AttackTimer += (float)delta;
 
-		_projectileRaycastTimer += (float)delta;
+		_projectileRaycastTimer += delta;
 
 		if (_projectileRaycastTimer >= 0.1f)
 		{
