@@ -121,7 +121,7 @@ Damage = 1.0
 position = Vector2(-1, 55)
 shape = SubResource("CircleShape2D_ig1sm")
 disabled = true
-debug_color = Color(1, 0, 0, 0.0784314)
+debug_color = Color(1, 0, 0, 0)
 
 [node name="FlipRoot" type="Node2D" parent="."]
 
@@ -146,4 +146,4 @@ script = ExtResource("6_jw4u4")
 position = Vector2(0, 34)
 shape = SubResource("CircleShape2D_jndew")
 disabled = true
-debug_color = Color(0, 1, 0, 0.0784314)
+debug_color = Color(0, 1, 0, 0)

@@ -23,3 +23,4 @@ texture = SubResource("PlaceholderTexture2D_qsle8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_kh4j2")
+debug_color = Color(0, 0.6, 0.7, 0.42)

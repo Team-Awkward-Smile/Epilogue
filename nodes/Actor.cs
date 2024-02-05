@@ -56,6 +56,9 @@ public abstract partial class Actor : CharacterBody2D
 	/// </summary>
 	public bool CanInteract { get; set; } = true;
 
+	/// <summary>
+	///		The Audio Player used by the Actor to play it's own SFX
+	/// </summary>
     public ActorAudioPlayer ActorAudioPlayer { get; set; }
 
     private protected AnimationPlayer AnimationPlayer { get; set; }

@@ -143,7 +143,6 @@ public abstract partial class Npc : Actor
 
 		CurrentHealth -= damage;
 
-		GD.Print(CurrentHealth);
 		if (CurrentHealth <= 0f)
 		{
 			if (damageType == DamageType.Unarmed)

@@ -88,7 +88,7 @@ Damage = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Eye/EyeHitBox"]
 shape = SubResource("CircleShape2D_quhi6")
-debug_color = Color(1, 0, 0, 0.0784314)
+debug_color = Color(1, 0, 0, 0)
 
 [node name="HurtBox" type="Area2D" parent="Eye"]
 collision_layer = 512
@@ -97,7 +97,7 @@ script = ExtResource("5_q824q")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Eye/HurtBox"]
 shape = SubResource("CircleShape2D_xdwot")
-debug_color = Color(0, 1, 0, 0.0784314)
+debug_color = Color(0, 1, 0, 0)
 
 [node name="BloodEmitter" type="GPUParticles2D" parent="Eye"]
 emitting = false
@@ -107,7 +107,7 @@ script = ExtResource("7_3dq2p")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_0fjhm")
-debug_color = Color(0, 0, 1, 0.0784314)
+debug_color = Color(0, 0, 1, 0)
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("4_nqpqm")

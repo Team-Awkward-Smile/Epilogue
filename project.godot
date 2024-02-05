@@ -33,6 +33,7 @@ CustomSettings="*res://settings/CustomSettings.cs"
 [debug]
 
 file_logging/enable_file_logging=true
+shapes/collision/shape_color=Color(0, 0, 1, 0.509804)
 
 [display]
 

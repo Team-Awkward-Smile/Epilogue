@@ -4,8 +4,12 @@ using Godot;
 using Godot.Collections;
 
 namespace Epilogue.Actors.TerraBischem;
+/// <summary>
+///		A version of Terra Bischem in the form of a blade that swings around it's pivot points trying to hit the player
+/// </summary>
 public partial class BladeTerraBischem : Npc
 {
+	/// <inheritdoc/>
 	public override Dictionary<DamageType, float> DamageModifiers { get; set; } = new()
 	{
 		{ DamageType.Fire, 2f },
@@ -18,6 +22,7 @@ public partial class BladeTerraBischem : Npc
 	private CollisionShape2D _leftHitBox;
 	private CollisionShape2D _rightHitBox;
 
+	/// <inheritdoc/>
 	public override void _Ready()
 	{
 		Sprite = GetNode<Sprite2D>("Sprite2D");

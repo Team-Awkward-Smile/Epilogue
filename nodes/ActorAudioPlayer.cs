@@ -108,6 +108,10 @@ public partial class ActorAudioPlayer : Node
 		}
 	}
 
+	/// <summary>
+	///		Plays a random Collision SFX whose name starts with <paramref name="prefix"/>
+	/// </summary>
+	/// <param name="prefix">The prefix of the category of SFX to be played</param>
 	public void PlayRandomCollisionSfx(string prefix)
 	{
 		var rng = new RandomNumberGenerator();
@@ -118,6 +122,10 @@ public partial class ActorAudioPlayer : Node
 		_collisionSfxPlayer.Play();
 	}
 
+	/// <summary>
+	///		Plays a random Footstep SFX whose name starts with <paramref name="prefix"/>
+	/// </summary>
+	/// <param name="prefix">The prefix of the category of the SFX to be played</param>
 	public void PlayRandomFootstepSfx(string prefix)
 	{
 		var rng = new RandomNumberGenerator();

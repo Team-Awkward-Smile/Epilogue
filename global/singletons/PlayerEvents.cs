@@ -18,10 +18,13 @@ public partial class PlayerEvents : Node
 	/// <param name="speed">Selected Execution speed</param>
 	[Signal] public delegate void ExecutionSpeedSelectedEventHandler(ExecutionSpeed speed);
 
+	/// <summary>
+	///		Signal emitted when the player's HP reaches 0 and they start dying
+	/// </summary>
 	[Signal] public delegate void PlayerIsDyingEventHandler();
 
 	/// <summary>
-	///		Event triggered whenever the player dies
+	///		Event triggered whenever the player finishes dying
 	/// </summary>
 	[Signal] public delegate void PlayerDiedEventHandler();
 

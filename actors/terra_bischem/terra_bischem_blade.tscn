@@ -98,7 +98,7 @@ script = ExtResource("14_nxseg")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
 position = Vector2(0, -2.5)
 shape = SubResource("RectangleShape2D_6fjbo")
-debug_color = Color(0, 1, 0, 0.0784314)
+debug_color = Color(0, 1, 0, 0)
 
 [node name="HitBoxLeft" type="Area2D" parent="."]
 collision_layer = 256
@@ -111,7 +111,7 @@ Damage = 1.0
 position = Vector2(-45, -17)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_usncj")
-debug_color = Color(1, 0, 0, 0.0784314)
+debug_color = Color(1, 0, 0, 0)
 
 [node name="HitBoxRight" type="Area2D" parent="."]
 collision_layer = 256
@@ -124,7 +124,7 @@ Damage = 1.0
 position = Vector2(45, -17)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_mcbbl")
-debug_color = Color(1, 0, 0, 0.0784314)
+debug_color = Color(1, 0, 0, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = ExtResource("16_7k0j0")
@@ -132,7 +132,7 @@ material = ExtResource("16_7k0j0")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -12)
 shape = SubResource("CapsuleShape2D_8anax")
-debug_color = Color(0, 0, 1, 0.0784314)
+debug_color = Color(0, 0, 1, 0)
 
 [node name="BloodEmitter" type="GPUParticles2D" parent="."]
 position = Vector2(0, -25)

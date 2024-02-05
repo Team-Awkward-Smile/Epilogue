@@ -13,6 +13,7 @@ public partial class Fall : State
 	private bool _canGrabLedge;
 	private StateType _jumpType;
 	private string _animation;
+	private int _frameDelay;
 
 	/// <summary>
 	/// 	State that allows Hestmor to fall from high places
@@ -43,7 +44,9 @@ public partial class Fall : State
 
 	internal override void PhysicsUpdate(double delta)
 	{
-		if (_canGrabLedge && _player.IsOnWall() && _player.SweepForLedge(out var ledgePosition))
+		_frameDelay++;
+
+		if (_canGrabLedge && (_frameDelay == 3 || _player.IsOnWall()) && _player.SweepForLedge(out var ledgePosition))
 		{
 			var offset = _player.RayCasts["Head"].GlobalPosition.Y - ledgePosition.Y;
 
@@ -62,6 +65,8 @@ public partial class Fall : State
 
 			return;
 		}
+
+		_frameDelay %= 3;
 
 		_player.Velocity = new Vector2(_player.Velocity.X, _player.Velocity.Y + (StateMachine.Gravity * (float) delta));
 		_player.MoveAndSlide();

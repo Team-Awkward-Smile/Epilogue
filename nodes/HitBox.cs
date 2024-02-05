@@ -9,7 +9,16 @@ namespace Epilogue.Nodes;
 [GlobalClass]
 public partial class HitBox : Area2D
 {
+	/// <summary>
+	///		Signal emitted whenever this HitBox hits an Actor (in other words, it collides with a HurtBox that is a child of an Actor)
+	/// </summary>
 	[Signal] public delegate void ActorHitEventHandler();
+
+	/// <summary>
+	///		Signal emitted whenever a tile is hit by this HitBox
+	/// </summary>
+	/// <param name="damageType">Type of the damage caused by the HitBox</param>
+	/// <param name="isTileBreakable">Defines if the tile hit is breakable or not</param>
 
 	[Signal] public delegate void TileHitEventHandler(DamageType damageType, bool isTileBreakable);
 

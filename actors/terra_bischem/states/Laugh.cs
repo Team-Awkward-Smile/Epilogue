@@ -3,13 +3,15 @@ using Godot;
 using static Godot.GodotObject;
 
 namespace Epilogue.Actors.TerraBischem.States;
+/// <inheritdoc/>
 public partial class Laugh : State
 {
-	private readonly YoyoTerraBischem _terraBischem;
-
+	/// <summary>
+	///		State that allows the Terra Bischem to laught after hitting Hestmor
+	/// </summary>
+	/// <param name="stateMachine">State Machine that owns this State</param>
 	public Laugh(StateMachine stateMachine) : base(stateMachine)
 	{
-		_terraBischem = (YoyoTerraBischem)stateMachine.Owner;
 	}
 
 	internal override void OnEnter(params object[] args)

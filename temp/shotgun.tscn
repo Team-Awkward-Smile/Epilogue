@@ -29,6 +29,7 @@ offset = Vector2(200, -50)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(12, -3)
 shape = SubResource("RectangleShape2D_aofev")
+debug_color = Color(0, 0, 1, 0)
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 64
@@ -37,6 +38,7 @@ collision_layer = 64
 position = Vector2(13, -3)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_swae0")
+debug_color = Color(1, 1, 0, 0)
 
 [node name="Muzzle" type="Node2D" parent="."]
 position = Vector2(32, -6)

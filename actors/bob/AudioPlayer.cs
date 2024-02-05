@@ -56,10 +56,9 @@ public partial class AudioPlayer : ActorAudioPlayer
 		{ "ScratchRock_06", GD.Load<AudioStream>($"{PATH}//collision//melee//rock//scratch_short_02.wav") },
 	};
 
-    public override void _Ready()
+	/// <inheritdoc/>
+	public override void _Ready()
     {
         base._Ready();
-
-
     }
 }
