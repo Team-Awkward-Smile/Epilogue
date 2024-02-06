@@ -134,10 +134,10 @@ FirstCheckpoint = true
 position = Vector2(766, -118)
 
 [node name="Checkpoint3" parent="Checkpoints" instance=ExtResource("18_utu6l")]
-position = Vector2(652, -64)
+position = Vector2(549, -196)
 
 [node name="Checkpoint4" parent="Checkpoints" instance=ExtResource("18_utu6l")]
-position = Vector2(590, -66)
+position = Vector2(509, -66)
 
 [node name="Spikes2" type="Node2D" parent="."]
 position = Vector2(351, -47)
