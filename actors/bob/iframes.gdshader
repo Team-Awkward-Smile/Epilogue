@@ -1,10 +1,10 @@
 shader_type canvas_item;
 
-uniform bool iframeActive = false;
+uniform bool iFrameActive = false;
 uniform vec4 blinkColor : source_color = vec4(1.0);
 
 void fragment() {
-	if(iframeActive)
+	if(iFrameActive)
 	{
 		float timer = sin(TIME * 30.0);
 		

@@ -55,16 +55,5 @@ public partial class Attack : State
 		var area = StateMachine.GetNode<HitBox>("../../FlipRoot/HitBox");
 
 		area.Damage = 1f;
-		area.CollisionShape = GD.Load<CircleShape2D>("res://actors/rob/hitboxes/slam.tres");
-	}
-
-	/// <summary>
-	/// 	Destroyes a previously created HitBox
-	/// </summary>
-	public void DestroyHitBox()
-	{
-		var area = StateMachine.GetNode<HitBox>("../../FlipRoot/HitBox");
-
-		area.DeleteHitBox();
 	}
 }

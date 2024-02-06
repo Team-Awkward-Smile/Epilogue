@@ -6,9 +6,7 @@ namespace Epilogue.Actors.Icarasia.States;
 public partial class Vulnerable : State
 {
 	private readonly Icarasia _icarasia;
-	private readonly float _vulnerabilityTimer;
 
-	private float _exitTimer;
 	private float _deathTimer;
 	private float? _timer;
 
@@ -16,11 +14,9 @@ public partial class Vulnerable : State
 	///		State used by the Icarasia when becoming vulnerable
 	/// </summary>
 	/// <param name="stateMachine">State Machine who owns this State</param>
-	/// <param name="vulnerabilityTimer">Duration (in seconds) the Icarasia will remain stunned</param>
-	public Vulnerable(StateMachine stateMachine, float vulnerabilityTimer) : base(stateMachine)
+	public Vulnerable(StateMachine stateMachine) : base(stateMachine)
 	{
 		_icarasia = (Icarasia)stateMachine.Owner;
-		_vulnerabilityTimer = vulnerabilityTimer;
 	}
 
 	// args[0] - float? - Time to Die
@@ -36,13 +32,7 @@ public partial class Vulnerable : State
 
 	internal override void PhysicsUpdate(double delta)
 	{
-		_exitTimer += (float)delta;
 		_deathTimer += (float)delta;
-
-		if (_exitTimer >= _vulnerabilityTimer)
-		{
-			StateMachine.ChangeState(typeof(Charge));
-		}
 
 		if (_timer is not null && _deathTimer >= _timer)
 		{

@@ -1,6 +1,6 @@
 using Epilogue.Nodes;
-
 using Godot;
+using static Godot.GodotObject;
 
 namespace Epilogue.Actors.Hestmor.States;
 /// <inheritdoc/>
@@ -22,12 +22,6 @@ public partial class TakeDamage : State
 		_player.CanChangeFacingDirection = false;
 
 		AnimPlayer.Play("Combat/take_damage");
-		AnimPlayer.AnimationFinished += FinishAnimation;
-	}
-
-	private void FinishAnimation(StringName animationName)
-	{
-		AnimPlayer.AnimationFinished -= FinishAnimation;
-		StateMachine.ChangeState(typeof(Idle));
+		AnimPlayer.Connect(AnimationMixer.SignalName.AnimationFinished, Callable.From((string animName) => StateMachine.ChangeState(typeof(Idle))), (uint)ConnectFlags.OneShot);
 	}
 }

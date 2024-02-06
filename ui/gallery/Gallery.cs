@@ -3,6 +3,9 @@ using Godot;
 using System.Collections.Generic;
 
 namespace Epilogue.UI.Gallery;
+/// <summary>
+///		Gallery Screen, showing all the available artwork that can be viewed by the player
+/// </summary>
 public partial class Gallery : Screen
 {
 	private List<(CompressedTexture2D, string)> _pictureList;
@@ -12,6 +15,7 @@ public partial class Gallery : Screen
 	private RichTextLabel _label;
 	private int _currentIndex;
 
+	/// <inheritdoc/>
 	public override void _UnhandledInput(InputEvent @event)
 	{
 		if (@event.IsActionPressed("pause_game"))
@@ -39,6 +43,7 @@ public partial class Gallery : Screen
 		}
 	}
 
+	/// <inheritdoc/>
 	public override void _Ready()
 	{
 		_pictureList = new()
@@ -70,6 +75,11 @@ public partial class Gallery : Screen
 		}
 	}
 
+	/// <summary>
+	///		Displays a picture to the player
+	/// </summary>
+	/// <param name="picture">The picture to be displayed</param>
+	/// <param name="label">The text to be shown under the picture</param>
 	private void DisplayPicture(CompressedTexture2D picture, string label)
 	{
 		_currentIndex = _pictureList.IndexOf((picture, label));
@@ -80,6 +90,11 @@ public partial class Gallery : Screen
 		_pictureView.Show();
 	}
 
+	/// <summary>
+	///		"Slides" the current picture shown left or right, displaying the previous/next available picture respectively (if any).
+	///		Sliding left on the first picture or sliding right on the last picture will do nothing
+	/// </summary>
+	/// <param name="direction">The direction of the slide</param>
 	private void SlideCurrentPicture(MouseButton direction)
 	{
 		var newIndex = Mathf.Clamp(_currentIndex + (direction == MouseButton.WheelUp ? 1 : -1), 0, _pictureList.Count - 1);

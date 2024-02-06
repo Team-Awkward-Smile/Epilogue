@@ -37,16 +37,10 @@ public partial class MossPlantProjectile : Projectile
 			}
 		};
 
-		ValidAreaHit += (Area2D area) =>
-		{
-			if (area.Owner is Actor)
-			{
-				QueueFree();
-			}
-		};
+		ActorHit += QueueFree;
 
 		// Bounces around the map when hitting a surface
-		ValidBodyHit += (Node2D body) =>
+		BodyEntered += (Node2D body) =>
 		{
 			var currentFrame = Engine.GetPhysicsFrames();
 

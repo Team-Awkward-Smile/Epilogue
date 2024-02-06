@@ -29,11 +29,11 @@ GunEvents="*res://global/singletons/GunEvents.cs"
 PlayerEvents="*res://global/singletons/PlayerEvents.cs"
 NpcEvents="*res://global/singletons/NpcEvents.cs"
 CustomSettings="*res://settings/CustomSettings.cs"
-NpcEvents="*res://global/singletons/NpcEvents.cs"
 
 [debug]
 
 file_logging/enable_file_logging=true
+shapes/collision/shape_color=Color(0, 0, 1, 0.509804)
 
 [display]
 

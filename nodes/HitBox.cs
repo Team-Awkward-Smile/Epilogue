@@ -9,31 +9,23 @@ namespace Epilogue.Nodes;
 [GlobalClass]
 public partial class HitBox : Area2D
 {
+	/// <summary>
+	///		Signal emitted whenever this HitBox hits an Actor (in other words, it collides with a HurtBox that is a child of an Actor)
+	/// </summary>
 	[Signal] public delegate void ActorHitEventHandler();
 
+	/// <summary>
+	///		Signal emitted whenever a tile is hit by this HitBox
+	/// </summary>
+	/// <param name="damageType">Type of the damage caused by the HitBox</param>
+	/// <param name="isTileBreakable">Defines if the tile hit is breakable or not</param>
+
 	[Signal] public delegate void TileHitEventHandler(DamageType damageType, bool isTileBreakable);
-
-	/// <summary>
-	///		Signal emitted whenever a valid Area2D is hit (does not register hits against the Owner of the HitBox)
-	/// </summary>
-	/// <param name="area">The area that was hit</param>
-	[Signal] public delegate void ValidAreaHitEventHandler(Area2D area);
-
-	/// <summary>
-	///		Signal emitted whenever a valid Node2D is hit
-	/// </summary>
-	/// <param name="node">The node that was hit</param>
-	[Signal] public delegate void ValidBodyHitEventHandler(Node2D node);
 
 	/// <summary>
 	///		Type of damage caused by this HitBox
 	/// </summary>
 	[Export] public DamageType DamageType { get; set; }
-
-	/// <summary>
-	///		Duration (in seconds) this HitBox will remain active
-	/// </summary>
-    [Export] public float LifeTime { get; set; }
 
 	/// <summary>
 	///		Damage caused by this HitBox
@@ -45,38 +37,6 @@ public partial class HitBox : Area2D
 	/// </summary>
 	public float BonusDamage { get; set; } = 0f;
 
-	/// <summary>
-	/// 	The CollisionShape used by this HitBox to detect collisions
-	/// </summary>
-	public Shape2D CollisionShape
-	{
-		get => _collisionShape;
-		set
-		{
-			_collisionShape = value;
-			SpawnCollisionShape();
-		}
-	}
-
-    private Shape2D _collisionShape;
-	private float _timer;
-
-	private void SpawnCollisionShape()
-	{
-		AddChild(new CollisionShape2D()
-		{
-			Shape = CollisionShape,
-		});
-	}
-
-	/// <summary>
-	/// 	Deletes a previously created HitBox
-	/// </summary>
-	public void DeleteHitBox()
-	{
-		GetChild(0).QueueFree();
-	}
-
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
@@ -84,39 +44,18 @@ public partial class HitBox : Area2D
 
 		AreaEntered += (Area2D area) =>
 		{
-			// Ignores the parent Node2D, never damaging it
-			if (area is HurtBox && area.Owner != Owner && area.Owner is Actor actor)
+			if (area.Owner is Actor actor)
 			{
-				EmitSignal(SignalName.ValidAreaHit, area);
-
-				actor.ReduceHealth(Damage, DamageType);
+				EmitSignal(SignalName.ActorHit);
 			}
 		};
 
 		BodyEntered += (Node2D body) =>
 		{
-			EmitSignal(SignalName.ValidBodyHit, body);
-
 			if (body is BreakableTile tile)
 			{
 				tile.DamageTile(Damage, DamageType);
-
-				EmitSignal(SignalName.TileHit, true);
-			}
-			else
-			{
-				EmitSignal(SignalName.TileHit, false);
 			}
 		};
 	}
-
-    public override void _Process(double delta)
-    {
-		_timer += (float)delta;
-
-		if (_timer >= LifeTime)
-		{
-			QueueFree();
-		}
-    }
 }

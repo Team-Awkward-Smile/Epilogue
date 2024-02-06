@@ -14,8 +14,10 @@ public static class CanvasItemExtension
 	/// <param name="value">Value of the parameter</param>
 	public static void SetShaderMaterialParameter(this CanvasItem item, StringName parameterName, Variant value)
 	{
-		var shaderMaterial = (ShaderMaterial)item.Material;
+		var shaderMaterial = (ShaderMaterial)item.Material.Duplicate();
 
 		shaderMaterial.SetShaderParameter(parameterName, value);
+
+		item.Material = shaderMaterial;
 	}
 }

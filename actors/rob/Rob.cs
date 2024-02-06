@@ -40,14 +40,14 @@ public partial class Rob : Npc
 	/// </summary>
 	public float SpeedMultiplier { get; set; } = 1f;
 
-    private protected override bool UseDefaultPathfinding => true;
+	private protected override bool UseDefaultPathfinding => true;
 
 	/// <inheritdoc/>
 	public override Dictionary<DamageType, float> DamageModifiers { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
 	private protected override void ProcessFrame(double delta)
 	{
-		AttackTimer += (float) delta;
+		AttackTimer += (float)delta;
 	}
 
 	private protected override void OnDamageTaken(float damage, float currentHp, DamageType damageType)
@@ -65,35 +65,23 @@ public partial class Rob : Npc
 		};
 	}
 
-	private protected override void OnStunExpired()
+	private protected override void OnVulnerabilityTriggered()
 	{
-		SpeedMultiplier = 1.2f;
-
-		GetNode<HitBox>("FlipRoot/HitBox").BonusDamage = 2f;
+		_npcStateMachine.ChangeState(typeof(Stun));
 	}
-
-    private protected override void OnVulnerabilityTriggered()
-    {
-        _npcStateMachine.ChangeState(typeof(Stun));
-    }
 
     private protected override void OnHealthDepleted(DamageType damageType)
     {
         _npcStateMachine.ChangeState(typeof(Die));
     }
 
-    private protected override void OnExecutionPerformed(ExecutionSpeed executionSpeed)
-    {
-        _npcStateMachine.ChangeState(executionSpeed == ExecutionSpeed.Slow ? typeof(Executed) : typeof(Die));
-    }
+	private protected override void OnExecutionPerformed(ExecutionSpeed executionSpeed)
+	{
+		_npcStateMachine.ChangeState(executionSpeed == ExecutionSpeed.Slow ? typeof(Executed) : typeof(Die));
+	}
 
-    private protected override void OnStunTriggered()
-    {
-        _npcStateMachine.ChangeState(typeof(Stun));
-    }
-
-    private protected override void OnPlayerDeath()
-    {
-        _npcStateMachine.ChangeState(typeof(Wander));
-    }
+	private protected override void OnPlayerDeath()
+	{
+		_npcStateMachine.ChangeState(typeof(Wander));
+	}
 }

@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" path="res://ui/audio/audio_ui.tscn" id="5_nehv1"]
 [ext_resource type="StyleBox" uid="uid://bfmdlseogg3vs" path="res://ui/styles/focus.tres" id="5_s0n1a"]
 [ext_resource type="Texture2D" uid="uid://bnyn5qxbk2lj7" path="res://ui/temp/tab_dark_gray.png" id="6_kys7n"]
-[ext_resource type="PackedScene" path="res://ui/gallery/gallery.tscn" id="13_t7op6"]
+[ext_resource type="PackedScene" uid="uid://b3i3pas2llmb6" path="res://ui/gallery/gallery.tscn" id="13_t7op6"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qxojs"]
 texture = ExtResource("5_gopsr")

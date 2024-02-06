@@ -3,7 +3,7 @@ using Epilogue.Nodes;
 using Godot;
 using System.Linq;
 
-namespace Epilogue.UI.audio;
+namespace Epilogue.UI.Audio;
 /// <summary>
 ///		Screen responsible for changing the volume of different audio buses
 /// </summary>

@@ -39,7 +39,7 @@ public partial class Player : Actor
 			return;
 		}
 
-		if (_retroModeEnabled && @event.IsAction("toggle_walk_run") && @event.IsPressed())
+		if (_retroModeEnabled && @event.IsActionPressed("toggle_walk_run"))
 		{
 			RunEnabled = !RunEnabled;
 		}
@@ -47,11 +47,11 @@ public partial class Player : Actor
 		{
 			RunEnabled = @event.IsPressed();
 		}
-		else if (HoldingSword && @event.IsAction(InputUtils.GetInputActionName("pickup_or_drop_gun")) && @event.IsPressed())
+		else if (HoldingSword && @event.IsActionPressed(InputUtils.GetInputActionName("pickup_or_drop_gun")))
 		{
 			_playerStateMachine.ChangeState(typeof(MeleeAttack));
 		}
-		else if (_gunSystem.HasGunEquipped && @event.IsAction(InputUtils.GetInputActionName("shoot")))
+		else if (CanInteract && _gunSystem.HasGunEquipped && @event.IsAction(InputUtils.GetInputActionName("shoot")))
 		{
 			// Tries to press/release the trigger of the equipped gun. If the gun is empty when the trigger is pressed, throw it instead
 			if (!_gunSystem.InteractWithTrigger(@event.IsPressed()))
@@ -59,16 +59,16 @@ public partial class Player : Actor
 				_gunSystem.ThrowGun();
 			}
 		}
-		else if ((_gunSystem.IsAnyGunNearby || _gunSystem.HasGunEquipped) && @event.IsActionPressed(InputUtils.GetInputActionName("pickup_or_drop_gun")))
+		else if (CanInteract && (_gunSystem.IsAnyGunNearby || _gunSystem.HasGunEquipped) && @event.IsActionPressed(InputUtils.GetInputActionName("pickup_or_drop_gun")))
 		{
 			_gunSystem.InteractWithGun();
 		}
-		else if (@event.IsAction("debug_add_hp") && @event.IsPressed())
+		else if (@event.IsActionPressed("debug_add_hp"))
 		{
 			// TODO: 189 - Remove this later, or at least move it to a better place
 			RecoverHealth(1);
 		}
-		else if (@event.IsAction("debug_remove_hp") && @event.IsPressed())
+		else if (@event.IsActionPressed("debug_remove_hp"))
 		{
 			ReduceHealth(1, DamageType.Unarmed);
 		}
@@ -81,6 +81,8 @@ public partial class Player : Actor
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
+		Sprite = GetNode<Sprite2D>("%MainSprite");
+
 		base._Ready();
 
 		// TODO: 68 - Reset this value when the Input Mode is changed during gameplay
@@ -96,7 +98,7 @@ public partial class Player : Actor
 	{
 		CurrentHealth -= damage;
 
-		_playerEvents.EmitGlobalSignal(PlayerEvents.SignalName.PlayerWasDamaged, damage, CurrentHealth);
+		_playerEvents.EmitSignal(PlayerEvents.SignalName.PlayerWasDamaged, damage, CurrentHealth);
 
 		if (CurrentHealth <= 0)
 		{
@@ -107,17 +109,6 @@ public partial class Player : Actor
 		{
 			_playerStateMachine.ChangeState(typeof(TakeDamage));
 		}
-
-		Sprite.SetShaderMaterialParameter("iframeActive", true);
-
-		GetChildren().OfType<HurtBox>().First().CollisionMask = 0;
-
-		GetTree().CreateTimer(1f).Timeout += () =>
-		{
-			Sprite.SetShaderMaterialParameter("iframeActive", false);
-
-			GetChildren().OfType<HurtBox>().First().CollisionMask = (int)CollisionLayerName.NpcHitBox;
-		};
 	}
 
 	/// <inheritdoc/>
@@ -125,7 +116,7 @@ public partial class Player : Actor
 	{
 		CurrentHealth += health;
 
-		_playerEvents.EmitGlobalSignal("PlayerWasHealed", health, CurrentHealth);
+		_playerEvents.EmitSignal(PlayerEvents.SignalName.PlayerWasHealed, health, CurrentHealth);
 	}
 
 	/// <summary>

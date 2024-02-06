@@ -83,16 +83,6 @@ public partial class MossPlant : Npc
 		_npcStateMachine.ChangeState(typeof(Idle));
 	}
 
-	private protected override void OnStunExpired()
-	{
-		return;
-	}
-
-	private protected override void OnStunTriggered()
-	{
-		return;
-	}
-
 	private protected override void OnVulnerabilityTriggered()
 	{
 		return;

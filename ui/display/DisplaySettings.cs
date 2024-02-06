@@ -3,7 +3,7 @@ using Epilogue.Global.Singletons;
 using Epilogue.Nodes;
 using Godot;
 
-namespace Epilogue.UI.display;
+namespace Epilogue.UI.Display;
 /// <summary>
 ///		Screen responsible for settings that change what's displayed on-screen
 /// </summary>

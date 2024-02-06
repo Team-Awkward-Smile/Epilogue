@@ -118,7 +118,7 @@ public partial class Jump : State
 			return;
 		}
 
-		_frameDelay = _frameDelay >= 3 ? 0 : _frameDelay;
+		_frameDelay %= 3;
 
 		_player.Velocity = new Vector2(_player.Velocity.X, _player.Velocity.Y + (StateMachine.Gravity * (float) delta));
 		_player.MoveAndSlide();

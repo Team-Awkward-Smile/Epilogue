@@ -1,3 +1,4 @@
+using Epilogue.Global.Singletons;
 using Epilogue.Nodes;
 using Godot;
 
@@ -39,7 +40,7 @@ public partial class Minigun : Gun
 
 			CurrentAmmoCount--;
 
-			GunEvents.EmitGlobalSignal("GunFired", CurrentAmmoCount);
+			GunEvents.EmitSignal(GunEvents.SignalName.GunFired, CurrentAmmoCount);
 		}
 	}
 
