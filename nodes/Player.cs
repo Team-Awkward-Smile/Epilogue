@@ -81,6 +81,8 @@ public partial class Player : Actor
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
+		Sprite = GetNode<Sprite2D>("%MainSprite");
+
 		base._Ready();
 
 		// TODO: 68 - Reset this value when the Input Mode is changed during gameplay
@@ -96,7 +98,7 @@ public partial class Player : Actor
 	{
 		CurrentHealth -= damage;
 
-		_playerEvents.EmitGlobalSignal(PlayerEvents.SignalName.PlayerWasDamaged, damage, CurrentHealth);
+		_playerEvents.EmitSignal(PlayerEvents.SignalName.PlayerWasDamaged, damage, CurrentHealth);
 
 		if (CurrentHealth <= 0)
 		{
@@ -107,17 +109,6 @@ public partial class Player : Actor
 		{
 			_playerStateMachine.ChangeState(typeof(TakeDamage));
 		}
-
-		Sprite.SetShaderMaterialParameter("iframeActive", true);
-
-		GetChildren().OfType<HurtBox>().First().CollisionMask = 0;
-
-		GetTree().CreateTimer(1f).Timeout += () =>
-		{
-			Sprite.SetShaderMaterialParameter("iframeActive", false);
-
-			GetChildren().OfType<HurtBox>().First().CollisionMask = (int)CollisionLayerName.NpcHitBox;
-		};
 	}
 
 	/// <inheritdoc/>
@@ -125,7 +116,7 @@ public partial class Player : Actor
 	{
 		CurrentHealth += health;
 
-		_playerEvents.EmitGlobalSignal("PlayerWasHealed", health, CurrentHealth);
+		_playerEvents.EmitSignal(PlayerEvents.SignalName.PlayerWasHealed, health, CurrentHealth);
 	}
 
 	/// <summary>

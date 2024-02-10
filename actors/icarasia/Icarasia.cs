@@ -165,11 +165,6 @@ public partial class Icarasia : Npc
 		_npcStateMachine.ChangeState(typeof(Vulnerable));
 	}
 
-	private protected override void OnVulnerabilityRecovered()
-	{
-		_npcStateMachine.ChangeState(typeof(Charge));
-	}
-
 	private protected override void OnHealthDepleted(DamageType damageType)
 	{
 		if (damageType == DamageType.Unarmed)
@@ -187,8 +182,6 @@ public partial class Icarasia : Npc
 	{
 		var blinkTime = damageType == DamageType.Unarmed ? 0.4f : 0.2f;
 
-		CanTakeDamage = false;
-
 		if (CurrentGrowlInEffect is GrowlType.Strong or GrowlType.Weak)
 		{
 			_npcStateMachine.ChangeState(typeof(Stun), 2f);
@@ -204,15 +197,6 @@ public partial class Icarasia : Npc
 					(uint)ConnectFlags.OneShot);
 			}
 		}
-
-		ActivateIFrameBlink();
-
-		GetTree().CreateTimer(blinkTime).Timeout += () =>
-		{
-			CanTakeDamage = true;
-
-			DeactivateIFrameBlink();
-		};
 	}
 
 	private protected override void OnExecutionPerformed(ExecutionSpeed executionSpeed)

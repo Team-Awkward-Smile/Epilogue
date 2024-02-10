@@ -2,6 +2,7 @@ using Epilogue.Nodes;
 using Godot;
 using System.Linq;
 using System.Threading.Tasks;
+using static Godot.GodotObject;
 
 namespace Epilogue.Actors.Hestmor.States;
 /// <inheritdoc/>
@@ -25,6 +26,8 @@ public partial class Sleep : State
 		foreach (var a in actions.Where(action => @event.IsActionPressed(action)))
 		{
 			StateMachine.ChangeState(typeof(Idle));
+
+			return;
 		}
 	}
 
@@ -33,19 +36,13 @@ public partial class Sleep : State
 		_player.CanChangeFacingDirection = false;
 
 		AnimPlayer.Play("Sleep/sleep_start");
-		AnimPlayer.AnimationFinished += StartSleepLoop;
-	}
-
-	private void StartSleepLoop(StringName animName)
-	{
-		AnimPlayer.AnimationFinished -= StartSleepLoop;
-		AnimPlayer.Play("Sleep/sleep_loop");
+		AnimPlayer.Connect(AnimationMixer.SignalName.AnimationFinished, Callable.From((StringName animName) => AnimPlayer.Play("Sleep/sleep_loop")), (uint)ConnectFlags.OneShot);
 	}
 
 	internal override async Task OnLeave()
 	{
 		AnimPlayer.Play("Sleep/sleep_end");
 
-		_ = await StateMachine.ToSignal(AnimPlayer, "animation_finished");
+        await StateMachine.ToSignal(AnimPlayer, "animation_finished");
 	}
 }

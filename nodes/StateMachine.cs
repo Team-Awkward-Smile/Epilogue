@@ -15,7 +15,7 @@ public partial class StateMachine : Node
 	[Signal] public delegate void StateEnteredEventHandler();
 
 	/// <summary>
-	/// 	Signal emitted when a State is replaced by another one (right after it is replaced)
+	/// 	Signal emitted when a State is replaced by another one (right after it is deactivated)
 	/// </summary>
 	[Signal] public delegate void StateExitedEventHandler();
 
@@ -85,11 +85,11 @@ public partial class StateMachine : Node
 
 		await oldState.OnLeave();
 
-		_ = EmitSignal(SignalName.StateExited);
+		EmitSignal(SignalName.StateExited);
 
 		_currentState = newState;
 		_currentState.OnEnter(args);
 
-		_ = EmitSignal(SignalName.StateEntered);
+		EmitSignal(SignalName.StateEntered);
 	}
 }

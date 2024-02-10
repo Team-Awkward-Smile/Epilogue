@@ -1,8 +1,8 @@
 using Epilogue.Global.Enums;
 using Epilogue.Global.Singletons;
-using Epilogue.props.camera;
+using Epilogue.Props.camera;
 using Epilogue.UI;
-using Epilogue.UI.hp;
+using Epilogue.UI.HP;
 using Epilogue.UI.Pause;
 using Godot;
 using System.Collections.Generic;

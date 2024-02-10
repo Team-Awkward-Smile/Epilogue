@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Epilogue.Actors.Hestmor.Enums;
 using Epilogue.Nodes;
@@ -28,6 +29,13 @@ public partial class GrabLedge : State
 		else if (Input.IsActionJustPressed("crouch"))
 		{
 			StateMachine.ChangeState(typeof(Fall), StateType.StandingJump);
+
+			var c = AnimPlayer.GetSignalConnectionList(AnimationMixer.SignalName.AnimationFinished).FirstOrDefault()?["callable"];
+
+			if (c is not null)
+			{
+				AnimPlayer.Disconnect(AnimationMixer.SignalName.AnimationFinished, (Callable)c);
+			}
 		}
 	}
 
@@ -65,6 +73,7 @@ public partial class GrabLedge : State
 	internal override Task OnLeave()
 	{
 		_player.RayCasts["Head"].Enabled = false;
+
 		StateMachine.GetTree().CreateTimer(0.5f).Timeout += () => _player.RayCasts["Head"].Enabled = true;
 
 		return Task.CompletedTask;

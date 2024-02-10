@@ -56,16 +56,35 @@ public abstract partial class Actor : CharacterBody2D
 	/// </summary>
 	public bool CanInteract { get; set; } = true;
 
-	private protected AnimationPlayer AnimationPlayer { get; set; }
+	/// <summary>
+	///		The Audio Player used by the Actor to play it's own SFX
+	/// </summary>
+    public ActorAudioPlayer ActorAudioPlayer { get; set; }
+
+    private protected AnimationPlayer AnimationPlayer { get; set; }
 
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
-		GetNode<Node2D>("FlipRoot").GetChildren().OfType<RayCast2D>().ToList().ForEach(r => RayCasts.Add(r.Name.ToString().Replace("RayCast2D", ""), r));
+		GetNodeOrNull<Node2D>("FlipRoot")?.GetChildren().OfType<RayCast2D>().ToList().ForEach(r => RayCasts.Add(r.Name.ToString().Replace("RayCast2D", ""), r));
 
-		Sprite = GetNode<Node2D>("FlipRoot").GetChildren().OfType<Sprite2D>().FirstOrDefault(c => c.IsInGroup("MainSprite"));
+		Sprite ??= GetNodeOrNull<Node2D>("FlipRoot")?.GetChildren().OfType<Sprite2D>().FirstOrDefault();
+
+		if (Sprite is null)
+		{
+			GD.PrintErr($"Sprite not found for Actor [{Name}]. Add a Sprite2D as a child of the FlipRoot, or set it manually before _Ready");
+		}
+
 		AnimationPlayer = GetChildren().OfType<AnimationPlayer>().FirstOrDefault();
-		HurtBox = GetChildren().OfType<HurtBox>().FirstOrDefault();
+		HurtBox ??= GetChildren().OfType<HurtBox>().FirstOrDefault();
+
+		if (HurtBox is null)
+		{
+			GD.PrintErr($"HurtBox not found for Actor [{Name}]. Add the HurtBox as a child of the Actor, or set it manually before _Ready");
+		}
+
+		HurtBox.HurtBoxDisabled += () => SetIFrameBlink(true);
+		HurtBox.HurtBoxEnabled += () => SetIFrameBlink(false);
 	}
 
 	/// <summary>
@@ -160,19 +179,23 @@ public abstract partial class Actor : CharacterBody2D
 		SetFacingDirection(FacingDirection == ActorFacingDirection.Right ? ActorFacingDirection.Left : ActorFacingDirection.Right);
 	}
 
-	/// <summary>
-	///		Starts the blinking of the sprite to indicate this Actor is immune to damage
-	/// </summary>
-	protected void ActivateIFrameBlink()
+	public void ClearAnimationFinishedSignal()
 	{
-		Sprite.SetShaderMaterialParameter("iFrameActive", true);
+		foreach (var signal in AnimationPlayer.GetSignalConnectionList(AnimationMixer.SignalName.AnimationFinished))
+		{
+            if (AnimationPlayer.IsConnected(AnimationMixer.SignalName.AnimationFinished, (Callable)signal["callable"])) 
+            {
+                AnimationPlayer.Disconnect(AnimationMixer.SignalName.AnimationFinished, (Callable)signal["callable"]);
+            }
+		}
 	}
 
 	/// <summary>
-	///		Stops the blinking of the sprite to indicate this Actor can be damaged again
+	///		Starts or stops the blinking of the sprite to indicate this Actor is immune to damage
 	/// </summary>
-	protected void DeactivateIFrameBlink()
+	/// <param name="state">Whether the blinking should start (true) or stop (false)</param>
+	protected void SetIFrameBlink(bool state)
 	{
-		Sprite.SetShaderMaterialParameter("iFrameActive", false);
+		Sprite.SetShaderMaterialParameter("iFrameActive", state);
 	}
 }

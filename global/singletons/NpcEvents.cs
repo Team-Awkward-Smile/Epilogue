@@ -5,7 +5,7 @@ namespace Epilogue.Global.Singletons;
 /// <summary>
 ///		Singleton with events emitted by NPCs
 /// </summary>
-public partial class NpcEvents : GlobalEvents
+public partial class NpcEvents : Node
 {
 	/// <summary>
 	///		Signal emitted whenever an NPC is executed and a gun is spawned from it

@@ -17,7 +17,7 @@ public partial class CustomPopup : AcceptDialog
 	/// </summary>
 	public static CustomPopup NewCustomPopup()
 	{
-		var scene = GD.Load<PackedScene>(Constants.Constants.CUSTOM_POPUP_SCENE).Instantiate() as AcceptDialog;
+		var scene = GD.Load<PackedScene>(Const.Constants.CUSTOM_POPUP_SCENE).Instantiate() as AcceptDialog;
 
 		return scene.Duplicate() as CustomPopup;
 	}
@@ -27,7 +27,7 @@ public partial class CustomPopup : AcceptDialog
 	{
 		GetLabel().HorizontalAlignment = HorizontalAlignment.Center;
 
-		foreach(var button in CustomButtons)
+		foreach (var button in CustomButtons)
 		{
 			AddButton(button.ButtonText, button.Right, button.Action);
 		}

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Epilogue.UI.remap;
+namespace Epilogue.UI.Remap;
 /// <summary>
 ///		Object representing a group of actions that can be remapped at once
 /// </summary>

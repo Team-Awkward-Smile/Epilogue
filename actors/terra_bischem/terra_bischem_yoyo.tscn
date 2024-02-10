@@ -1,0 +1,128 @@
+[gd_scene load_steps=18 format=3 uid="uid://dsr7kis4avo4p"]
+
+[ext_resource type="Script" path="res://actors/terra_bischem/YoyoTerraBischem.cs" id="1_r40m7"]
+[ext_resource type="Texture2D" uid="uid://cigb012rq4uf1" path="res://actors/terra_bischem/sprites/yoyo.png" id="2_brqfs"]
+[ext_resource type="Material" uid="uid://bitwmbim075ep" path="res://base_resources/materials/npc.tres" id="3_6hq4q"]
+[ext_resource type="Texture2D" uid="uid://dl7yybswebrei" path="res://actors/terra_bischem/sprites/eye.png" id="3_70x8b"]
+[ext_resource type="Script" path="res://actors/terra_bischem/states/TerraBischemStateMachine.cs" id="4_nqpqm"]
+[ext_resource type="Script" path="res://nodes/HitBox.cs" id="4_wj672"]
+[ext_resource type="Script" path="res://nodes/HurtBox.cs" id="5_q824q"]
+[ext_resource type="Script" path="res://nodes/ActorAudioPlayer.cs" id="5_wqt47"]
+[ext_resource type="Material" uid="uid://bs1uvctvkmvg7" path="res://base_resources/blood_particle.tres" id="6_fmk1b"]
+[ext_resource type="Script" path="res://nodes/BloodEmitter.cs" id="7_3dq2p"]
+[ext_resource type="Texture2D" uid="uid://bqjw6uspi1y8y" path="res://actors/terra_bischem/sprites/mouth.png" id="10_lgxhl"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_quhi6"]
+radius = 12.6491
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xdwot"]
+radius = 13.0384
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0fjhm"]
+size = Vector2(36, 90)
+
+[sub_resource type="Animation" id="Animation_q51ib"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Mouth:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_y5pnp"]
+resource_name = "laugh"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Mouth:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 3, 2, 1, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kkmrd"]
+_data = {
+"RESET": SubResource("Animation_q51ib"),
+"laugh": SubResource("Animation_y5pnp")
+}
+
+[node name="TerraBischemYoyo" type="CharacterBody2D"]
+collision_layer = 10
+script = ExtResource("1_r40m7")
+MaxHealth = 2.0
+CurrentHealth = 2.0
+
+[node name="FlipRoot" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="FlipRoot"]
+texture = ExtResource("2_brqfs")
+
+[node name="Line2D" type="Line2D" parent="."]
+position = Vector2(0, -14)
+points = PackedVector2Array(0, 0, 0, 0)
+width = 2.815
+default_color = Color(0.494118, 0.0627451, 0.121569, 1)
+
+[node name="Eye" type="Sprite2D" parent="."]
+material = ExtResource("3_6hq4q")
+position = Vector2(0, -14)
+texture = ExtResource("3_70x8b")
+
+[node name="EyeHitBox" type="Area2D" parent="Eye"]
+unique_name_in_owner = true
+collision_layer = 256
+collision_mask = 32
+script = ExtResource("4_wj672")
+Damage = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Eye/EyeHitBox"]
+shape = SubResource("CircleShape2D_quhi6")
+debug_color = Color(1, 0, 0, 0)
+
+[node name="HurtBox" type="Area2D" parent="Eye"]
+collision_layer = 512
+collision_mask = 16
+script = ExtResource("5_q824q")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Eye/HurtBox"]
+shape = SubResource("CircleShape2D_xdwot")
+debug_color = Color(0, 1, 0, 0)
+
+[node name="BloodEmitter" type="GPUParticles2D" parent="Eye"]
+emitting = false
+process_material = ExtResource("6_fmk1b")
+one_shot = true
+script = ExtResource("7_3dq2p")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_0fjhm")
+debug_color = Color(0, 0, 1, 0)
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("4_nqpqm")
+_detectionRange = 400.0
+_attackRange = 200.0
+
+[node name="ActorAudioPlayer" type="Node" parent="."]
+script = ExtResource("5_wqt47")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_kkmrd")
+}
+
+[node name="Mouth" type="Sprite2D" parent="."]
+position = Vector2(1, 8)
+texture = ExtResource("10_lgxhl")
+hframes = 5

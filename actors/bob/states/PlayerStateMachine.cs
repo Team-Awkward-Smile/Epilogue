@@ -80,6 +80,8 @@ public partial class PlayerStateMachine : StateMachine
 		};
 
 		_currentState = _states.First(s => s.GetType() == typeof(Idle));
+
+		StateExited += () => ((Player)Owner).ClearAnimationFinishedSignal();
 	}
 
 	/// <summary>

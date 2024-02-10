@@ -70,7 +70,7 @@ public partial class Gun : RigidBody2D
 	/// <summary>
 	///		Audio Player belonging to this gun. Used to play any SFX needed by the gun
 	/// </summary>
-	protected AudioStreamPlayer AudioPlayer { get; set; }
+	protected MultiAudioStreamPlayer AudioPlayer { get; set; }
 
 	/// <summary>
 	///		Singleton with every event triggered by the player character
@@ -94,7 +94,7 @@ public partial class Gun : RigidBody2D
 			GD.PrintErr($"Muzzle not defined for Gun [{Name}]. Add a Node2D names 'Muzzle' as a child of it to fix this error");
 		}
 
-		AudioPlayer = GetChildren().OfType<AudioStreamPlayer>().FirstOrDefault();
+		AudioPlayer = GetChildren().OfType<MultiAudioStreamPlayer>().FirstOrDefault();
 
 		if (AudioPlayer is null)
 		{
@@ -168,7 +168,7 @@ public partial class Gun : RigidBody2D
 		var pickupArea = GetChildren().OfType<Area2D>().First();
 
 		pickupArea.CollisionLayer = (int)CollisionLayerName.PlayerHitBox;
-		pickupArea.CollisionMask = (int)(CollisionLayerName.PlayerHurtBox | CollisionLayerName.World);
+		pickupArea.CollisionMask = (int)(CollisionLayerName.NpcHurtBox | CollisionLayerName.World);
 		pickupArea.Priority = 5;
 
 		var impulseDirection = new Vector2(Mathf.RadToDeg(Transform[0].X), Mathf.RadToDeg(Transform[0].Y));
@@ -185,9 +185,6 @@ public partial class Gun : RigidBody2D
 			QueueFree();
 		};
 
-		pickupArea.BodyEntered += (Node2D body) =>
-		{
-			SelfDestruct();
-		};
+		pickupArea.BodyEntered += (Node2D body) => SelfDestruct();
 	}
 }

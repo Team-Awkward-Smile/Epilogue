@@ -7,7 +7,7 @@ namespace Epilogue.UI.Audio;
 /// <summary>
 ///		Screen responsible for changing the volume of different audio buses
 /// </summary>
-public partial class AudioSettings : UIScreen
+public partial class AudioSettings : Screen
 {
 	/// <inheritdoc/>
 	public override void _Ready()

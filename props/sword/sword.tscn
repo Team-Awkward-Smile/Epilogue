@@ -26,6 +26,7 @@ texture = ExtResource("2_ine6o")
 position = Vector2(28, 0)
 rotation = -1.5708
 shape = SubResource("CapsuleShape2D_h4s6u")
+debug_color = Color(0, 0, 1, 0)
 
 [node name="Muzzle" type="Node2D" parent="."]
 position = Vector2(58, 0)
@@ -36,3 +37,4 @@ collision_layer = 64
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(27, 0)
 shape = SubResource("CircleShape2D_t3q2o")
+debug_color = Color(1, 1, 0, 0)

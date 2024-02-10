@@ -1,0 +1,64 @@
+[gd_scene load_steps=11 format=3 uid="uid://c2opqdka41yi"]
+
+[ext_resource type="Script" path="res://actors/moss_plant/MossPlant.cs" id="1_cdf3i"]
+[ext_resource type="Texture2D" uid="uid://dqn61kn4jmo4n" path="res://temp/2271401_3714c.png" id="1_cjkdr"]
+[ext_resource type="Material" uid="uid://bitwmbim075ep" path="res://base_resources/materials/npc.tres" id="2_cgcjx"]
+[ext_resource type="Script" path="res://nodes/HurtBox.cs" id="3_r668f"]
+[ext_resource type="Script" path="res://actors/moss_plant/states/MossPlantStateMachine.cs" id="4_k2g3w"]
+[ext_resource type="Material" uid="uid://bs1uvctvkmvg7" path="res://base_resources/blood_particle.tres" id="5_2smeb"]
+[ext_resource type="Script" path="res://nodes/BloodEmitter.cs" id="6_ktebh"]
+[ext_resource type="Script" path="res://nodes/ActorAudioPlayer.cs" id="7_qqmwo"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w0so5"]
+radius = 12.0416
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6a6ol"]
+radius = 16.0
+
+[node name="MossPlant" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 8
+script = ExtResource("1_cdf3i")
+MaxHealth = 2.0
+CurrentHealth = 2.0
+
+[node name="FlipRoot" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="FlipRoot"]
+material = ExtResource("2_cgcjx")
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("1_cjkdr")
+
+[node name="ProjectileRayCast2D" type="RayCast2D" parent="FlipRoot"]
+target_position = Vector2(200, 0)
+collision_mask = 9
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_w0so5")
+debug_color = Color(0, 0, 1, 0)
+
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 512
+collision_mask = 272
+script = ExtResource("3_r668f")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+shape = SubResource("CircleShape2D_6a6ol")
+debug_color = Color(0, 1, 0, 0)
+
+[node name="ProjectileSpawnPoint" type="Node2D" parent="."]
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("4_k2g3w")
+_projectileCooldown = 2.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="BloodEmitter" type="GPUParticles2D" parent="."]
+emitting = false
+process_material = ExtResource("5_2smeb")
+one_shot = true
+script = ExtResource("6_ktebh")
+
+[node name="ActorAudioPlayer" type="Node" parent="."]
+script = ExtResource("7_qqmwo")

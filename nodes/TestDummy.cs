@@ -1,4 +1,4 @@
-using Epilogue.props.camera;
+using Epilogue.Props.camera;
 using Godot;
 using System.Collections.Generic;
 

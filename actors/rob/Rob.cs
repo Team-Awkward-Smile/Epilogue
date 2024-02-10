@@ -1,6 +1,7 @@
 using Epilogue.Actors.rob.states;
 using Epilogue.Global.Enums;
 using Epilogue.Nodes;
+using Godot;
 using Godot.Collections;
 
 namespace Epilogue.Actors.rob;
@@ -69,10 +70,10 @@ public partial class Rob : Npc
 		_npcStateMachine.ChangeState(typeof(Stun));
 	}
 
-	private protected override void OnHealthDepleted(DamageType damageType)
-	{
-		_npcStateMachine.ChangeState(typeof(Die));
-	}
+    private protected override void OnHealthDepleted(DamageType damageType)
+    {
+        _npcStateMachine.ChangeState(typeof(Die));
+    }
 
 	private protected override void OnExecutionPerformed(ExecutionSpeed executionSpeed)
 	{
@@ -82,10 +83,5 @@ public partial class Rob : Npc
 	private protected override void OnPlayerDeath()
 	{
 		_npcStateMachine.ChangeState(typeof(Wander));
-	}
-
-	private protected override void OnVulnerabilityRecovered()
-	{
-		throw new System.NotImplementedException();
 	}
 }

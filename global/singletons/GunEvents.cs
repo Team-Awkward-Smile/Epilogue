@@ -4,7 +4,7 @@ namespace Epilogue.Global.Singletons;
 /// <summary>
 ///		Global event emitter for events related to guns
 /// </summary>
-public partial class GunEvents : GlobalEvents
+public partial class GunEvents : Node
 {
 	/// <summary>
 	///		Event triggered whenever the player picks up a gun

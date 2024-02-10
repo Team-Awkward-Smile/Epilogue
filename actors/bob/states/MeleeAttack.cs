@@ -1,9 +1,10 @@
-using System.Threading.Tasks;
 using Epilogue.Actors.Hestmor.Enums;
 using Epilogue.Global.Enums;
 using Epilogue.Global.Singletons;
 using Epilogue.Nodes;
 using Godot;
+using System.Threading.Tasks;
+using static Godot.GodotObject;
 
 namespace Epilogue.Actors.Hestmor.States;
 /// <inheritdoc/>
@@ -77,7 +78,7 @@ public partial class MeleeAttack : State
 			}
 		}
 
-		AnimPlayer.AnimationFinished += FinishAttack;
+		AnimPlayer.AnimationFinished += (StringName animName) => StateMachine.ChangeState(typeof(Idle));
 	}
 
 	private async void PerformExecution(ExecutionSpeed speed)
@@ -92,7 +93,7 @@ public partial class MeleeAttack : State
 
 		AnimPlayer.Play(animation);
 
-		_ = await StateMachine.ToSignal(AnimPlayer, "animation_finished");
+		await StateMachine.ToSignal(AnimPlayer, "animation_finished");
 
 		_enemy.Execute(speed);
 
@@ -106,14 +107,7 @@ public partial class MeleeAttack : State
 			return;
 		}
 
-		_ = _player.MoveAndSlide();
-	}
-
-	private void FinishAttack(StringName animName)
-	{
-		AnimPlayer.AnimationFinished -= FinishAttack;
-
-		StateMachine.ChangeState(typeof(Idle));
+		_player.MoveAndSlide();
 	}
 
 	internal override Task OnLeave()

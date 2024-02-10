@@ -33,7 +33,7 @@ public partial class Charge : State
 	internal override void OnEnter(params object[] args)
 	{
 		_timer = 0f;
-		_targetPosition = _player.GlobalPosition - new Vector2(0f, Constants.Constants.PLAYER_HEIGHT / 2);
+		_targetPosition = _player.GlobalPosition - new Vector2(0f, Const.Constants.PLAYER_HEIGHT / 2);
 		_chargeDirection = (_targetPosition - _icarasia.GlobalPosition).Normalized() * _chargeSpeed;
 		_icarasia.Velocity = _chargeDirection;
 

@@ -17,7 +17,7 @@ config/icon="res://temp/icon.png"
 
 [audio]
 
-buses/default_bus_layout=""
+buses/default_bus_layout="res://base_resources/audio_buses.tres"
 
 [autoload]
 
@@ -33,6 +33,7 @@ CustomSettings="*res://settings/CustomSettings.cs"
 [debug]
 
 file_logging/enable_file_logging=true
+shapes/collision/shape_color=Color(0, 0, 1, 0.509804)
 
 [display]
 

@@ -22,5 +22,15 @@ public enum DamageType
 	/// <summary>
 	///		Damage caused by an attack that engulfs the target in flames
 	/// </summary>
-	Fire
+	Fire,
+
+	/// <summary>
+	///		Damage caused by an attack that slices the target with a blade
+	/// </summary>
+	Slashing,
+
+	/// <summary>
+	///		Damage caused by an attack that blinds the target
+	/// </summary>
+	Light
 }
