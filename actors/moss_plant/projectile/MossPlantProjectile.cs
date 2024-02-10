@@ -1,7 +1,6 @@
-using Epilogue.Nodes;
 using Epilogue.Global.Enums;
+using Epilogue.Nodes;
 using Godot;
-using Epilogue.Extensions;
 
 namespace Epilogue.Actors.MossPlant;
 /// <summary>

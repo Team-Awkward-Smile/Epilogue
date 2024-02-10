@@ -7,8 +7,8 @@ public partial class Vulnerable : State
 {
 	private readonly Icarasia _icarasia;
 
-	private float _deathTimer;
-	private float? _timer;
+	private double _vulnerableTimer;
+	private double? _deathTimer;
 
 	/// <summary>
 	///		State used by the Icarasia when becoming vulnerable
@@ -26,17 +26,24 @@ public partial class Vulnerable : State
 
 		if (args.Length > 0)
 		{
-			_timer = (float)args[0];
+			_deathTimer = (double)args[0];
 		}
 	}
 
 	internal override void PhysicsUpdate(double delta)
 	{
-		_deathTimer += (float)delta;
+		_vulnerableTimer += delta;
 
-		if (_timer is not null && _deathTimer >= _timer)
+		if (_deathTimer is not null && _vulnerableTimer >= _deathTimer)
 		{
 			StateMachine.ChangeState(typeof(Die));
+
+			return;
+		}
+
+		if (_vulnerableTimer > 3f)
+		{
+			StateMachine.ChangeState(typeof(Charge));
 		}
 	}
 }

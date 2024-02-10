@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://nodes/HitBox.cs" id="11_28e73"]
 [ext_resource type="Shape2D" uid="uid://3mco74p24h1u" path="res://actors/bob/hitboxes/melee_1.tres" id="12_mjjre"]
 [ext_resource type="Script" path="res://actors/bob/states/PlayerStateMachine.cs" id="15_417v3"]
-[ext_resource type="Script" path="res://actors/bob/GrowlEffectArea.cs" id="16_ldru2"]
+[ext_resource type="Script" path="res://actors/bob/GrowlEffectArea.cs" id="16_ke3mw"]
 [ext_resource type="Script" path="res://actors/bob/AudioPlayer.cs" id="18_ucai5"]
 [ext_resource type="Script" path="res://actors/bob/aim/Aim.cs" id="19_imqwf"]
 [ext_resource type="Script" path="res://actors/bob/aim/MouseAim.cs" id="20_ja3mh"]
@@ -174,18 +174,6 @@ tracks/12/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, -16)]
-}
-tracks/13/type = "value"
-tracks/13/imported = false
-tracks/13/enabled = true
-tracks/13/path = NodePath(".:frame")
-tracks/13/interp = 1
-tracks/13/loop_wrap = true
-tracks/13/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [89]
 }
 
 [sub_resource type="Animation" id="Animation_woke4"]
@@ -593,6 +581,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [Vector2(0, -28)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("%MainSprite/../MeleeHitBox/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_6bxxv"]
 resource_name = "glory_kill_fast"
@@ -751,6 +751,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [Vector2i(0, 21)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("%MainSprite/../MeleeHitBox/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ty2th"]
 _data = {
@@ -780,11 +792,11 @@ tracks/0/keys = {
 tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../../GrowlEffectArea")
+tracks/1/path = NodePath("%MainSprite/../../GrowlEffectArea")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.3, 0.5),
+"times": PackedFloat32Array(0.2, 0.6),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
@@ -813,11 +825,11 @@ tracks/0/keys = {
 tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../../GrowlEffectArea")
+tracks/1/path = NodePath("%MainSprite/../../GrowlEffectArea")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.5, 1),
+"times": PackedFloat32Array(0.8, 1.1),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
@@ -846,7 +858,7 @@ tracks/0/keys = {
 tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../../GrowlEffectArea")
+tracks/1/path = NodePath("%MainSprite/../../GrowlEffectArea")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -1596,7 +1608,7 @@ position = Vector2(0, -30)
 texture = ExtResource("25_k53r2")
 hframes = 11
 vframes = 36
-frame = 89
+frame = 22
 
 [node name="LedgeAnchor" type="Node2D" parent="FlipRoot/MainSprite"]
 editor_description = "Node used by the Ledge Grab State to move the character to the correct place"
@@ -1658,8 +1670,8 @@ debug_color = Color(0, 1, 0, 0)
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("15_417v3")
-_weakGrowlRadius = 100.0
-_mediumGrowlRadius = 200.0
+_weakGrowlRadius = 150.0
+_mediumGrowlRadius = 300.0
 _strongGrowlRadius = 500.0
 _lowJumpVerticalSpeed = -350.0
 _lowJumpHorizontalSpeed = 150.0
@@ -1669,7 +1681,7 @@ _longJumpHorizontalSpeed = 350.0
 [node name="GrowlEffectArea" type="Area2D" parent="."]
 position = Vector2(0, -24)
 collision_mask = 2
-script = ExtResource("16_ldru2")
+script = ExtResource("16_ke3mw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GrowlEffectArea"]
 shape = SubResource("CircleShape2D_o5mpv")

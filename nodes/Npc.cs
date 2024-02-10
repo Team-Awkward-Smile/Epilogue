@@ -81,9 +81,6 @@ public abstract partial class Npc : Actor
 	private protected NpcStateMachine _npcStateMachine;
 	private protected PlayerEvents _playerEvents;
 
-	private float _vulnerabilityElapsedTime;
-	private bool _isStunned;
-
 	/// <inheritdoc/>
 	public override async void _Ready()
 	{
@@ -93,16 +90,16 @@ public abstract partial class Npc : Actor
 
 		if (UseDefaultPathfinding)
 		{
-			_ = await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+			await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 
 			var navigationAgents = GetChildren().OfType<NavigationAgent2D>();
 
 			PlayerNavigationAgent2D = navigationAgents.First(na => na.Name.ToString().Contains("Player"));
 			WanderNavigationAgent2D = navigationAgents.First(na => na.Name.ToString().Contains("Wander"));
-			Player = GetTree().GetLevel().Player;
+
 			PlayerNavigationAgent2D.TargetPosition = Player.GlobalPosition;
 
-			_ = await ToSignal(GetTree(), "physics_frame");
+			await ToSignal(GetTree(), "physics_frame");
 
 			IsPlayerReachable = PlayerNavigationAgent2D.IsTargetReachable();
 		}
@@ -111,7 +108,7 @@ public abstract partial class Npc : Actor
 
 		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
 
-		_ = _playerEvents.Connect(PlayerEvents.SignalName.PlayerIsDying, Callable.From(OnPlayerDeath));
+		_playerEvents.Connect(PlayerEvents.SignalName.PlayerIsDying, Callable.From(OnPlayerDeath));
 
 		_npcStateMachine = GetChildren().OfType<NpcStateMachine>().FirstOrDefault();
 		_npcStateMachine?.Activate();
@@ -124,7 +121,7 @@ public abstract partial class Npc : Actor
 	/// <param name="damageType">Type of the damage dealt</param>
 	public override void ReduceHealth(float damage, DamageType damageType)
 	{
-		BloodEmitter.EmitBlood();
+		BloodEmitter?.EmitBlood();
 
 		// Prevent cases where multiple sources dealing damage at once may cause a race-condition
 		if (CurrentHealth == 0)
@@ -221,12 +218,12 @@ public abstract partial class Npc : Actor
 			// Awaits between 1 and 10 physics frames before requesting a new path, to avoid having too many NPCs making requests at once
 			for (var i = 0; i < rng.RandfRange(0, 10); i++)
 			{
-				_ = await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+				await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 			}
 
 			PlayerNavigationAgent2D.TargetPosition = Player.GlobalPosition;
 
-			_ = await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+			await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 
 			IsPlayerReachable = PlayerNavigationAgent2D.IsTargetReachable();
 
@@ -291,7 +288,7 @@ public abstract partial class Npc : Actor
 		// Awaits between 1 and 10 physics frames before requesting a new path, to avoid having too many NPCs making requests at once
 		for (var i = 0; i < rng.RandfRange(0, 10); i++)
 		{
-			_ = await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+			await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 		}
 
 		WanderNavigationAgent2D.TargetPosition = position;

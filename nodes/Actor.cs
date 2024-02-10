@@ -179,6 +179,17 @@ public abstract partial class Actor : CharacterBody2D
 		SetFacingDirection(FacingDirection == ActorFacingDirection.Right ? ActorFacingDirection.Left : ActorFacingDirection.Right);
 	}
 
+	public void ClearAnimationFinishedSignal()
+	{
+		foreach (var signal in AnimationPlayer.GetSignalConnectionList(AnimationMixer.SignalName.AnimationFinished))
+		{
+            if (AnimationPlayer.IsConnected(AnimationMixer.SignalName.AnimationFinished, (Callable)signal["callable"])) 
+            {
+                AnimationPlayer.Disconnect(AnimationMixer.SignalName.AnimationFinished, (Callable)signal["callable"]);
+            }
+		}
+	}
+
 	/// <summary>
 	///		Starts or stops the blinking of the sprite to indicate this Actor is immune to damage
 	/// </summary>

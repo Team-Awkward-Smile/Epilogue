@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cjolarkdk5yoi"]
+[gd_scene load_steps=24 format=3 uid="uid://cjolarkdk5yoi"]
 
 [ext_resource type="Script" path="res://nodes/Level.cs" id="1_o245g"]
 [ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_pfrwm"]
@@ -11,7 +11,9 @@
 [ext_resource type="Texture2D" uid="uid://dv8i8cyrioyus" path="res://temp/spikes.png" id="12_1mhei"]
 [ext_resource type="Script" path="res://nodes/HitBox.cs" id="13_o5dos"]
 [ext_resource type="TileSet" uid="uid://c2hf2m205a0qe" path="res://temp/tileset.tres" id="15_1ohv8"]
+[ext_resource type="PackedScene" uid="uid://c2opqdka41yi" path="res://actors/moss_plant/moss_plant.tscn" id="17_50j4x"]
 [ext_resource type="PackedScene" uid="uid://cq3gk81ploy03" path="res://actors/terra_bischem/terra_bischem_blade.tscn" id="18_21bth"]
+[ext_resource type="PackedScene" uid="uid://cqctp6a75hq70" path="res://actors/icarasia/icarasia.tscn" id="18_eite0"]
 [ext_resource type="PackedScene" uid="uid://cegk1cph0llpn" path="res://props/checkpoint/checkpoint.tscn" id="18_utu6l"]
 [ext_resource type="PackedScene" uid="uid://c305ssxgpg4ad" path="res://actors/terra_bischem/terra_bischem_rotating_axe.tscn" id="19_fyl2f"]
 [ext_resource type="Script" path="res://temp/NewGamePlusPath.cs" id="19_owmbm"]
@@ -79,16 +81,6 @@ script = ExtResource("7_xoqku")
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 
-[node name="RemapControls" type="Button" parent="UILayer"]
-unique_name_in_owner = true
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -8.0
-offset_right = 8.0
-grow_vertical = 0
-text = "Remap Controls"
-
 [node name="Shotgun" parent="." instance=ExtResource("9_p440d")]
 position = Vector2(455, -67)
 
@@ -127,11 +119,11 @@ layer_2/tile_data = PackedInt32Array()
 [node name="Checkpoints" type="Node2D" parent="."]
 
 [node name="Checkpoint" parent="Checkpoints" instance=ExtResource("18_utu6l")]
-position = Vector2(345, -69)
+position = Vector2(690, -68)
 FirstCheckpoint = true
 
 [node name="Checkpoint2" parent="Checkpoints" instance=ExtResource("18_utu6l")]
-position = Vector2(766, -118)
+position = Vector2(797, -118)
 
 [node name="Checkpoint3" parent="Checkpoints" instance=ExtResource("18_utu6l")]
 position = Vector2(549, -196)
@@ -178,8 +170,14 @@ position = Vector2(315, -135)
 [node name="Node2D" type="Node2D" parent="."]
 position = Vector2(184, -92)
 
+[node name="MossPlant" parent="." instance=ExtResource("17_50j4x")]
+position = Vector2(759, -120)
+
+[node name="Icarasia" parent="." instance=ExtResource("18_eite0")]
+position = Vector2(318.539, -177.501)
+
 [node name="BladeTerraBischem" parent="." instance=ExtResource("18_21bth")]
-position = Vector2(624, -54)
+position = Vector2(411, -54)
 
 [node name="TerraBischemRotatingAxe" parent="." instance=ExtResource("19_fyl2f")]
 position = Vector2(380, -347)

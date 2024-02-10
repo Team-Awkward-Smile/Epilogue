@@ -160,15 +160,16 @@ texture = ExtResource("3_aruhq")
 collision_layer = 256
 collision_mask = 32
 script = ExtResource("4_dp5yy")
-_damageType = 2
 Damage = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FlipRoot/StingerPivot/HitBox"]
 position = Vector2(20, 0)
+debug_color = Color(1, 0, 0, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -2)
 shape = SubResource("CircleShape2D_51ab6")
+debug_color = Color(0, 0, 1, 0)
 
 [node name="BloodEmitter" type="GPUParticles2D" parent="."]
 emitting = false
@@ -186,7 +187,7 @@ script = ExtResource("5_ya76l")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="HurtBox"]
 shape = SubResource("CircleShape2D_4alh5")
-debug_color = Color(0.929412, 0.235294, 0.317647, 0.419608)
+debug_color = Color(0, 1, 0, 0)
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("6_0pg05")

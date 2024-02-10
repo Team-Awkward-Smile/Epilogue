@@ -44,9 +44,11 @@ public partial class HitBox : Area2D
 
 		AreaEntered += (Area2D area) =>
 		{
-			if (area.Owner is Actor actor)
+			if (area.Owner != Owner && area is HurtBox hurtBox)
 			{
 				EmitSignal(SignalName.ActorHit);
+
+				hurtBox.OnHit(this);
 			}
 		};
 

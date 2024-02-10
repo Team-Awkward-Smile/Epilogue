@@ -14,7 +14,7 @@ collision_priority = 10.0
 script = ExtResource("1_ebjpp")
 DestroyOnHit = false
 Speed = Vector2(150, 0)
-LifeTime = 5.0
+_lifetime = 5.0
 DamageType = 2
 Damage = 1.0
 
@@ -23,8 +23,10 @@ texture = ExtResource("2_2tda5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_wddsq")
+debug_color = Color(1, 0, 0, 0)
 
 [node name="BounceShapeCast2D" type="ShapeCast2D" parent="."]
+visible = false
 shape = SubResource("CircleShape2D_rf1qx")
 target_position = Vector2(15, 0)
 max_results = 3

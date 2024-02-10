@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://c2opqdka41yi"]
+[gd_scene load_steps=11 format=3 uid="uid://c2opqdka41yi"]
 
 [ext_resource type="Script" path="res://actors/moss_plant/MossPlant.cs" id="1_cdf3i"]
 [ext_resource type="Texture2D" uid="uid://dqn61kn4jmo4n" path="res://temp/2271401_3714c.png" id="1_cjkdr"]
+[ext_resource type="Material" uid="uid://bitwmbim075ep" path="res://base_resources/materials/npc.tres" id="2_cgcjx"]
 [ext_resource type="Script" path="res://nodes/HurtBox.cs" id="3_r668f"]
 [ext_resource type="Script" path="res://actors/moss_plant/states/MossPlantStateMachine.cs" id="4_k2g3w"]
 [ext_resource type="Material" uid="uid://bs1uvctvkmvg7" path="res://base_resources/blood_particle.tres" id="5_2smeb"]
@@ -24,6 +25,7 @@ CurrentHealth = 2.0
 [node name="FlipRoot" type="Node2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="FlipRoot"]
+material = ExtResource("2_cgcjx")
 scale = Vector2(0.6, 0.6)
 texture = ExtResource("1_cjkdr")
 
@@ -33,6 +35,7 @@ collision_mask = 9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_w0so5")
+debug_color = Color(0, 0, 1, 0)
 
 [node name="HurtBox" type="Area2D" parent="."]
 collision_layer = 512
@@ -41,7 +44,7 @@ script = ExtResource("3_r668f")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
 shape = SubResource("CircleShape2D_6a6ol")
-debug_color = Color(0.815686, 0.0980392, 0.376471, 0.337255)
+debug_color = Color(0, 1, 0, 0)
 
 [node name="ProjectileSpawnPoint" type="Node2D" parent="."]
 
@@ -54,6 +57,7 @@ _projectileCooldown = 2.0
 [node name="BloodEmitter" type="GPUParticles2D" parent="."]
 emitting = false
 process_material = ExtResource("5_2smeb")
+one_shot = true
 script = ExtResource("6_ktebh")
 
 [node name="ActorAudioPlayer" type="Node" parent="."]

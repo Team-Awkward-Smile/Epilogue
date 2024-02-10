@@ -34,6 +34,7 @@ position = Vector2(21.5222, -5.9678)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(7.88246, 0.347313)
 shape = SubResource("RectangleShape2D_2riue")
+debug_color = Color(0, 0, 1, 0)
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 64
@@ -42,6 +43,7 @@ input_pickable = false
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(7.85722, -0.0701542)
 shape = SubResource("CircleShape2D_a0c6f")
+debug_color = Color(1, 1, 0, 0)
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 max_polyphony = 5

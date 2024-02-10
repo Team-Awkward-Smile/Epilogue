@@ -22,6 +22,6 @@ public partial class TakeDamage : State
 		_player.CanChangeFacingDirection = false;
 
 		AnimPlayer.Play("Combat/take_damage");
-		AnimPlayer.Connect(AnimationMixer.SignalName.AnimationFinished, Callable.From((string animName) => StateMachine.ChangeState(typeof(Idle))), (uint)ConnectFlags.OneShot);
+		AnimPlayer.AnimationFinished += (StringName animname) => StateMachine.ChangeState(typeof(Idle));
 	}
 }

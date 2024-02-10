@@ -118,6 +118,7 @@ script = ExtResource("2_o6g1e")
 Damage = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+z_index = 5
 position = Vector2(-1, 55)
 shape = SubResource("CircleShape2D_ig1sm")
 disabled = true
@@ -143,6 +144,7 @@ collision_mask = 16
 script = ExtResource("6_jw4u4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+z_index = 5
 position = Vector2(0, 34)
 shape = SubResource("CircleShape2D_jndew")
 disabled = true

@@ -168,7 +168,7 @@ public partial class Gun : RigidBody2D
 		var pickupArea = GetChildren().OfType<Area2D>().First();
 
 		pickupArea.CollisionLayer = (int)CollisionLayerName.PlayerHitBox;
-		pickupArea.CollisionMask = (int)(CollisionLayerName.PlayerHurtBox | CollisionLayerName.World);
+		pickupArea.CollisionMask = (int)(CollisionLayerName.NpcHurtBox | CollisionLayerName.World);
 		pickupArea.Priority = 5;
 
 		var impulseDirection = new Vector2(Mathf.RadToDeg(Transform[0].X), Mathf.RadToDeg(Transform[0].Y));
@@ -185,9 +185,6 @@ public partial class Gun : RigidBody2D
 			QueueFree();
 		};
 
-		pickupArea.BodyEntered += (Node2D body) =>
-		{
-			SelfDestruct();
-		};
+		pickupArea.BodyEntered += (Node2D body) => SelfDestruct();
 	}
 }

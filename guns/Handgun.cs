@@ -30,6 +30,8 @@ public partial class Handgun : Gun
 
 			AudioPlayer.Play();
 			GunEvents.EmitSignal(GunEvents.SignalName.GunFired, CurrentAmmoCount);
+
+			AudioPlayer.PlayRandom();
 		}
 	}
 }

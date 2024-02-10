@@ -1,6 +1,5 @@
 using Epilogue.Global.Enums;
 using Epilogue.Global.Singletons;
-using Epilogue.Util;
 using Godot;
 using System.Linq;
 
@@ -18,15 +17,15 @@ public partial class GloryKillPrompt : Control
 			return;
 		}
 
-		if(@event.IsActionPressed("execute_slow"))
+		if (@event.IsActionPressed("execute_slow"))
 		{
-			GetNode<PlayerEvents>("/root/PlayerEvents").EmitSignal(PlayerEvents.SignalName.ExecutionSpeedSelected, (int) ExecutionSpeed.Slow);
+			GetNode<PlayerEvents>("/root/PlayerEvents").EmitSignal(PlayerEvents.SignalName.ExecutionSpeedSelected, (int)ExecutionSpeed.Slow);
 			GetViewport().SetInputAsHandled();
 			Disable();
 		}
-		else if(@event.IsActionPressed("execute_fast"))
+		else if (@event.IsActionPressed("execute_fast"))
 		{
-			GetNode<PlayerEvents>("/root/PlayerEvents").EmitSignal(PlayerEvents.SignalName.ExecutionSpeedSelected, (int) ExecutionSpeed.Fast);
+			GetNode<PlayerEvents>("/root/PlayerEvents").EmitSignal(PlayerEvents.SignalName.ExecutionSpeedSelected, (int)ExecutionSpeed.Fast);
 			GetViewport().SetInputAsHandled();
 			Disable();
 		}
@@ -44,7 +43,7 @@ public partial class GloryKillPrompt : Control
 	/// <summary>
 	///		Disables this Screen
 	/// </summary>
-	public void Disable() 
+	public void Disable()
 	{
 		Visible = false;
 		ProcessMode = ProcessModeEnum.Disabled;

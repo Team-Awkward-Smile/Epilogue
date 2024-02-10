@@ -26,26 +26,13 @@ public partial class Projectile : HitBox
 	{
 		base._Ready();
 
-		AreaEntered += (Area2D area) =>
+		ActorHit += () =>
 		{
 			if (DestroyOnHit)
 			{
 				QueueFree();
 			}
 		};
-	}
-
-	/// <summary>
-	///     Checks if the collision happened with an Actor. If so, deals damage to it
-	/// </summary>
-	/// <param name="area"></param>
-	private void DamageActor(Area2D area)
-	{
-		if (area.Owner is Actor actor)
-		{
-			GD.Print($"Dealing [{Damage}] to [{actor.Name}]");
-			actor.ReduceHealth(Damage, DamageType);
-		}
 	}
 
 	/// <inheritdoc/>

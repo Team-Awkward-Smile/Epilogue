@@ -33,24 +33,6 @@ public partial class HurtBox : Area2D
 	public override void _Ready()
 	{
 		_actor = (Actor)Owner;
-
-		AreaEntered += (Area2D area) =>
-		{
-			if (area is HitBox hitBox)
-			{
-				_actor.ReduceHealth(hitBox.Damage, hitBox.DamageType);
-				_invulnerable = true;
-				_iTimer = _iFrameDuration;
-
-				SetDeferred(Area2D.PropertyName.Monitorable, false);
-				SetDeferred(Area2D.PropertyName.Monitoring, false);
-
-				if (CanRecoverFromDamage)
-				{
-					EmitSignal(SignalName.HurtBoxDisabled);
-				}
-			}
-		};
 	}
 
 	/// <inheritdoc/>
@@ -69,6 +51,26 @@ public partial class HurtBox : Area2D
 			SetDeferred(Area2D.PropertyName.Monitoring, true);
 
 			EmitSignal(SignalName.HurtBoxEnabled);
+		}
+	}
+
+	/// <summary>
+	///		Method called by a HitBox hitting this HurtBox.
+	///		Reduces the Actor's HP and makes them blink
+	/// </summary>
+	/// <param name="hitBox">The HitBox that hit this HurtBox</param>
+	public void OnHit(HitBox hitBox)
+	{
+		_actor.ReduceHealth(hitBox.Damage, hitBox.DamageType);
+		_invulnerable = true;
+		_iTimer = _iFrameDuration;
+
+		SetDeferred(Area2D.PropertyName.Monitorable, false);
+		SetDeferred(Area2D.PropertyName.Monitoring, false);
+
+		if (CanRecoverFromDamage)
+		{
+			EmitSignal(SignalName.HurtBoxDisabled);
 		}
 	}
 }

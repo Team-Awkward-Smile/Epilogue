@@ -4,6 +4,7 @@ using Epilogue.Global.Singletons;
 using Epilogue.Nodes;
 using Godot;
 using System.Threading.Tasks;
+using static Godot.GodotObject;
 
 namespace Epilogue.Actors.Hestmor.States;
 /// <inheritdoc/>
@@ -42,8 +43,6 @@ public partial class MeleeAttack : State
 
 			if (_enemy.IsVulnerable)
 			{
-				Engine.TimeScale = 0.1f;
-
 				_enemy.CanRecoverFromVulnerability = false;
 
 				_player.CanChangeFacingDirection = false;
@@ -79,13 +78,11 @@ public partial class MeleeAttack : State
 			}
 		}
 
-		AnimPlayer.AnimationFinished += FinishAttack;
+		AnimPlayer.AnimationFinished += (StringName animName) => StateMachine.ChangeState(typeof(Idle));
 	}
 
 	private async void PerformExecution(ExecutionSpeed speed)
 	{
-		Engine.TimeScale = 1f;
-
 		_eventsSingleton.ExecutionSpeedSelected -= PerformExecution;
 
 		var animation = "Combat/execution_" + speed switch
@@ -113,17 +110,8 @@ public partial class MeleeAttack : State
 		_player.MoveAndSlide();
 	}
 
-	private void FinishAttack(StringName animName)
-	{
-		AnimPlayer.AnimationFinished -= FinishAttack;
-
-		StateMachine.ChangeState(typeof(Idle));
-	}
-
 	internal override Task OnLeave()
 	{
-		Engine.TimeScale = 1f;
-
 		_player.CanInteract = true;
 
 		return Task.CompletedTask;
