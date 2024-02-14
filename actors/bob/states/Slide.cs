@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
-using Epilogue.actors.hestmor.enums;
+using Epilogue.Actors.Hestmor.Enums;
 using Epilogue.Global.Enums;
-using Epilogue.nodes;
+using Epilogue.Nodes;
 using Godot;
 
-namespace Epilogue.actors.hestmor.states;
+namespace Epilogue.Actors.Hestmor.States;
 /// <inheritdoc/>
 public partial class Slide : State
 {
@@ -54,7 +54,7 @@ public partial class Slide : State
 		float longSlideCoyoteDuration,
 		float kneeSlideCoyoteDuration) : base(stateMachine)
 	{
-		_player = (Player) stateMachine.Owner;
+		_player = (Player)stateMachine.Owner;
 		_frontRollDuration = frontRollDuration;
 		_longSlideDuration = longSlideDuration;
 		_kneeSlideDuration = kneeSlideDuration;
@@ -68,14 +68,14 @@ public partial class Slide : State
 
 	internal override void OnInput(InputEvent @event)
 	{
-		if(_canJump && Input.IsActionJustPressed("jump"))
+		if (_canJump && Input.IsActionJustPressed("jump"))
 		{
-			StateMachine.ChangeState(typeof(Jump), StateType.LongJump);
+			StateMachine.ChangeState(typeof(Jump), _player.IsOnFloor() ? StateType.LongJump : StateType.CoyoteJump);
 		}
-		else if(Input.IsActionJustPressed("cancel_slide"))
+		else if (Input.IsActionJustPressed("cancel_slide"))
 		{
 			AnimPlayer.Play("Slide/slide_end");
-			AnimPlayer.AnimationFinished += EndSlide; 
+			AnimPlayer.AnimationFinished += EndSlide;
 		}
 	}
 
@@ -83,9 +83,9 @@ public partial class Slide : State
 	{
 		var speed = 0f;
 
-		_rollType = (StateType) args[0];
+		_rollType = (StateType)args[0];
 
-		switch(_rollType)
+		switch (_rollType)
 		{
 			case StateType.FrontRoll:
 				speed = _frontRollSpeed;
@@ -113,6 +113,7 @@ public partial class Slide : State
 		_timer = 0f;
 		_coyoteTimer = 0f;
 		_startingRotation = _player.Rotation;
+		_canJump = true;
 
 		var direction = _player.FacingDirection == ActorFacingDirection.Left ? -1 : 1;
 
@@ -125,9 +126,10 @@ public partial class Slide : State
 
 		AnimPlayer.Play($"Slide/{_animation}_slide_start");
 
-		if(_rollType == StateType.FrontRoll)
+		if (_rollType == StateType.FrontRoll)
 		{
 			_canJump = false;
+
 			AnimPlayer.AnimationFinished += EndSlide;
 		}
 
@@ -137,7 +139,6 @@ public partial class Slide : State
 	internal override void PhysicsUpdate(double delta)
 	{
 		_timer += delta;
-		_coyoteTimer += delta;
 
 		var velocityY = _coyoteTimer >= _currentCoyoteDuration ? _player.Velocity.Y + StateMachine.Gravity * (float)delta : 0f;
 
@@ -145,19 +146,19 @@ public partial class Slide : State
 
 		_player.MoveAndSlide();
 		
-		if (!_player.IsOnFloor() && _coyoteTimer > _currentCoyoteDuration)
+		if (!_player.IsOnFloor() && (_coyoteTimer += delta) > _currentCoyoteDuration)
 		{
 			_canJump = false;
 		}
 
-		if(_rollType != StateType.FrontRoll && _timer > _currentSlideDuration && !_slideFinished)
+		if (_rollType != StateType.FrontRoll && _timer > _currentSlideDuration && !_slideFinished)
 		{
 			_canJump = false;
 			_slideFinished = true;
 
 			_player.Velocity = new Vector2(_player.Velocity.X / 2, _player.Velocity.Y);
 			AnimPlayer.Play($"Slide/{_animation}_slide_end");
-			AnimPlayer.AnimationFinished += EndSlide; 
+			AnimPlayer.AnimationFinished += EndSlide;
 		}
 	}
 

@@ -17,6 +17,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_vdyik")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
@@ -29,14 +30,16 @@ grow_vertical = 2
 theme_override_constants/separation = 970
 alignment = 1
 
-[node name="Label" type="Label" parent="HBoxContainer"]
+[node name="SlowExecutionLabel" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "LMB
 Slow"
 label_settings = SubResource("LabelSettings_r4ylv")
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="HBoxContainer"]
+[node name="FastExecutionLabel" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "RMB
 Quick"

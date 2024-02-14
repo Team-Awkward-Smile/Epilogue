@@ -1,12 +1,12 @@
-﻿using Epilogue.actors.hestmor.aim;
-using Epilogue.extensions;
+﻿using Epilogue.Actors.Hestmor.aim;
+using Epilogue.Extensions;
 using Epilogue.Global.Singletons;
-using Epilogue.nodes;
-using Epilogue.props;
+using Epilogue.Nodes;
+using Epilogue.Props;
 using Godot;
 using System.Linq;
 
-namespace Epilogue.actors.hestmor;
+namespace Epilogue.Actors.Hestmor;
 /// <summary>
 ///		Node responsible for the gun currently equipped by Hestmor. Constrols shooting, picking and dropping, etc.
 /// </summary>
@@ -20,29 +20,30 @@ public partial class GunSystem : Node2D
 	/// <summary>
 	///		Defines if there are any nearby guns that player can interact with
 	/// </summary>
-    public bool IsAnyGunNearby => _pickupArea.GetOverlappingAreas().Any();
+	public bool IsAnyGunNearby => _pickupArea.GetOverlappingAreas().Any();
 
-    private Aim _aim;
+	private Aim _aim;
 	private Area2D _pickupArea;
 	private Gun _currentGun;
 	private Node2D _aimingArm;
 	private Node2D _gunAnchor;
 	private GunEvents _gunEvents;
 	private PlayerEvents _playerEvents;
+	private NpcEvents _npcEvents;
 
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
 		_aim = Owner.GetChildren().OfType<Aim>().FirstOrDefault();
 
-		if(_aim is null)
+		if (_aim is null)
 		{
 			GD.PrintErr($"Aim Node not present in Actor [{Owner.Name}]. Node Gun will not work properly");
 		}
 
 		_pickupArea = GetNode<Area2D>("PickupRange");
 
-		if(_pickupArea is null)
+		if (_pickupArea is null)
 		{
 			GD.PrintErr($"Pickup Area not defined for Actor [{Owner.Name}]. Guns won't be able to be picked up");
 		}
@@ -50,9 +51,13 @@ public partial class GunSystem : Node2D
 		_aim.AimAngleUpdated += UpdateGunRotation;
 
 		_aimingArm = GetNode<Node2D>("AimingArm");
-		_gunAnchor = (Node2D) _aimingArm.GetChild(0);
+		_gunAnchor = (Node2D)_aimingArm.GetChild(0);
 		_gunEvents = GetNode<GunEvents>("/root/GunEvents");
 		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
+		_npcEvents = GetNode<NpcEvents>("/root/NpcEvents");
+
+		_npcEvents.Connect(NpcEvents.SignalName.GunAcquiredFromNpc, Callable.From((Gun gun) => EquipGun(gun)));
+		_playerEvents.Connect(PlayerEvents.SignalName.PlayerIsDying, Callable.From(DropGun), (uint)ConnectFlags.OneShot);
 	}
 
 	/// <summary>
@@ -62,7 +67,7 @@ public partial class GunSystem : Node2D
 	/// <returns><c>true</c>, if the gun had ammo to operate when the trigger is activated; <c>false</c>, otherwise</returns>
 	public bool InteractWithTrigger(bool triggerIsPressed)
 	{
-		if(triggerIsPressed && _currentGun.CurrentAmmoCount == 0)
+		if (triggerIsPressed && _currentGun.CurrentAmmoCount == 0)
 		{
 			return false;
 		}
@@ -77,9 +82,9 @@ public partial class GunSystem : Node2D
 	/// </summary>
 	public void InteractWithGun()
 	{
-		if(HasGunEquipped)
+		if (HasGunEquipped)
 		{
-			if(_currentGun is not Sword)
+			if (_currentGun is not Sword)
 			{
 				DropGun();
 			}
@@ -92,21 +97,30 @@ public partial class GunSystem : Node2D
 
 	private void PickUpGun()
 	{
-		_currentGun = (Gun) _pickupArea.GetOverlappingAreas().First().Owner;
-		_currentGun.GetParent().RemoveChild(_currentGun);
-		_currentGun.Freeze = true;
-		_currentGun.RotationDegrees = 0f;
+		var gun = (Gun)_pickupArea.GetOverlappingAreas()[0].Owner;
 
-		_gunAnchor.AddChild(_currentGun);
+		gun.GetParent().RemoveChild(gun);
 
-		_currentGun.Position = new Vector2(0f, 0f);
+		EquipGun(gun);
+	}
 
-		_gunEvents.EmitGlobalSignal("PlayerPickedUpGun", _currentGun.CurrentAmmoCount, _currentGun.MaxAmmoCount);
+	private void EquipGun(Gun gun)
+	{
+		gun.Freeze = true;
+		gun.RotationDegrees = 0f;
 
-		if(_currentGun is Sword)
+		_gunAnchor.AddChild(gun);
+
+		gun.Position = new Vector2(0f, 0f);
+
+		_gunEvents.EmitSignal(GunEvents.SignalName.PlayerPickedUpGun, gun.CurrentAmmoCount, gun.MaxAmmoCount);
+
+		if (gun is Sword)
 		{
-			((Player) Owner).HoldingSword = true;
+			((Player)Owner).HoldingSword = true;
 		}
+
+		_currentGun = gun;
 	}
 
 	/// <summary>
@@ -124,11 +138,16 @@ public partial class GunSystem : Node2D
 	/// </summary>
 	private void DropGun()
 	{
+		if (_currentGun is null)
+		{
+			return;
+		}
+
 		InteractWithTrigger(false);
 
 		var oldGun = UnequipGun();
 
-		if(oldGun.CurrentAmmoCount == 0)
+		if (oldGun.CurrentAmmoCount == 0)
 		{
 			oldGun.SelfDestruct();
 		}
@@ -146,7 +165,7 @@ public partial class GunSystem : Node2D
 
 		GetTree().GetLevel().AddChild(_currentGun);
 
-		if(keepRotation)
+		if (keepRotation)
 		{
 			_currentGun.Rotation = _aimingArm.Rotation;
 		}
@@ -155,7 +174,7 @@ public partial class GunSystem : Node2D
 		_currentGun.Freeze = false;
 		_currentGun = null;
 
-		_gunEvents.EmitGlobalSignal("GunWasDropped");
+		_gunEvents.EmitSignal(GunEvents.SignalName.GunWasDropped);
 
 		return gun;
 	}

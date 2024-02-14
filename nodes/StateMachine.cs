@@ -3,24 +3,31 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 ///		Node that controls the State Machine of an Actor, defining it's current State and the code that will run
 /// </summary>
 public partial class StateMachine : Node
 {
-    /// <summary>
-    ///		Defines if the current State allows the Actor to interact with the world
-    /// </summary>
-    public bool CanInteract { get; set; } = true;
+	/// <summary>
+	/// 	Signal emitted when a new State replaces another State (right after it becomes active)
+	/// </summary>
+	[Signal] public delegate void StateEnteredEventHandler();
+
+	/// <summary>
+	/// 	Signal emitted when a State is replaced by another one (right after it is deactivated)
+	/// </summary>
+	[Signal] public delegate void StateExitedEventHandler();
 
     /// <summary>
     /// 	Value of the gravity affecting every State from this StateMachine
     /// </summary>
     public float Gravity { get; set; }
 
-    private protected HashSet<State> _states = new();
-    private protected State _currentState;
+	private protected HashSet<State> _states = new();
+	private protected State _currentState;
+
+    private bool _canProcess = true;
 
     /// <summary>
     ///		Activates this State Machine and allow States to work
@@ -45,33 +52,38 @@ public partial class StateMachine : Node
     /// <inheritdoc/>
     public override void _Process(double delta)
     {
-        _currentState?.Update(delta);
+        if (_canProcess)
+        {
+            _currentState?.Update(delta);
+        }
     }
 
     /// <inheritdoc/>
     public override void _PhysicsProcess(double delta)
     {
-        _currentState?.PhysicsUpdate(delta);
+        if (_canProcess)
+        {
+            _currentState?.PhysicsUpdate(delta);
+        }
     }
 
-    /// <summary>
-    ///		Changes the current State of the Actor. 
-    ///		If the informed State is valid, the methods <c>OnLeave</c> and <c>OnLeaveAsync</c> of the current State will be called.
-    ///		Then the State will be replaced by the new one, and the method <c>OnEnter</c> of the new State will be called
-    /// </summary>
-    /// <param name="newStateType">Type of the new State that will replace the current one</param>
-    /// <param name="args">Optional list of arguments that may be used by specific States</param>
-    public async void ChangeState(Type newStateType, params object[] args)
-    {
-        var oldState = _currentState;
+	/// <summary>
+	///		Changes the current State of the Actor. 
+	///		If the informed State is valid, the methods <c>OnLeave</c> and <c>OnLeaveAsync</c> of the current State will be called.
+	///		Then the State will be replaced by the new one, and the method <c>OnEnter</c> of the new State will be called
+	/// </summary>
+	/// <param name="newStateType">Type of the new State that will replace the current one</param>
+	/// <param name="args">Optional list of arguments that may be used by specific States</param>
+	public async void ChangeState(Type newStateType, params object[] args)
+	{
+        _canProcess = false;
 
-        _currentState = null;
+		var oldState = _currentState;
+		var newState = _states.FirstOrDefault(s => s.GetType() == newStateType);
 
-        var newState = _states.Where(s => s.GetType() == newStateType).FirstOrDefault();
-
-        if (newState is null)
-        {
-            GD.PushWarning($"State [{newStateType}] not found");
+		if (newState is null)
+		{
+			GD.PushWarning($"State [{newStateType}] not found");
 
             _currentState = oldState;
 
@@ -80,19 +92,13 @@ public partial class StateMachine : Node
 
         await oldState.OnLeave();
 
-        _currentState = newState;
-        _currentState.OnEnter(args);
-    }
+		EmitSignal(SignalName.StateExited);
 
-    /// <summary>
-    ///     Overrides the current State, without allowing it to run it's "On Leave" logic
-    /// </summary>
-    /// <param name="newStateType">Type of the new State that will replace the current one</param>
-    /// <param name="args">Optional list of arguments that may be used by specific States</param>
-    public void OverrideState(Type newStateType, params object[] args)
-    {
-        _currentState = _states.FirstOrDefault(s => s.GetType() == newStateType);
+		_currentState = newState;
+		_currentState.OnEnter(args);
 
-        _currentState.OnEnter(args);
-    }
+		EmitSignal(SignalName.StateEntered);
+
+        _canProcess = true;
+	}
 }

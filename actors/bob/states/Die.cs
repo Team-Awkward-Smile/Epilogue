@@ -1,9 +1,8 @@
 using Epilogue.Global.Singletons;
-using Epilogue.nodes;
-
+using Epilogue.Nodes;
 using Godot;
 
-namespace Epilogue.actors.hestmor.states;
+namespace Epilogue.Actors.Hestmor.States;
 /// <inheritdoc/>
 public partial class Die : State
 {
@@ -17,20 +16,18 @@ public partial class Die : State
 	/// <param name="playerEvents">The Singleton that manages events related to the player</param>
 	public Die(StateMachine stateMachine, PlayerEvents playerEvents) : base(stateMachine)
 	{
-		_player = (Player) stateMachine.Owner;
+		_player = (Player)stateMachine.Owner;
 		_playerEvents = playerEvents;
 	}
 
 	internal override void OnEnter(params object[] args)
 	{
-		_player.HurtBox.SetDeferred("monitorable", false);
-		_player.HurtBox.SetDeferred("monitoring", false);
+		_player.HurtBox.CanRecoverFromDamage = false;
 		_player.CanChangeFacingDirection = false;
 
+		_playerEvents.EmitSignal(PlayerEvents.SignalName.PlayerIsDying);
+
 		AnimPlayer.Play("Combat/die");
-		AnimPlayer.AnimationFinished += (StringName animationName) =>
-		{
-			_playerEvents.EmitGlobalSignal("PlayerDied");
-		};
+		AnimPlayer.AnimationFinished += (StringName animationName) => _playerEvents.EmitSignal(PlayerEvents.SignalName.PlayerDied);
 	}
 }

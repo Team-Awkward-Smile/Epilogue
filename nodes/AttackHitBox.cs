@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 ///		Node for controlling the HitBoxes of attacks (usually melee, since projectiles have their own HitBoxes)
 /// </summary>
@@ -22,6 +22,8 @@ public partial class AttackHitBox : HitBox
 		};
 
 		AddChild(_collisionShape);
+
+		_collisionShape.Owner = Owner;
 
 		GetTree().CreateTimer(lifespan).Timeout += () => _collisionShape.QueueFree();
 	}

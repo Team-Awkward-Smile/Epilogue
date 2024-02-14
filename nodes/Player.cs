@@ -1,14 +1,14 @@
-using Epilogue.actors.hestmor;
-using Epilogue.actors.hestmor.enums;
-using Epilogue.actors.hestmor.states;
-using Epilogue.extensions;
+using Epilogue.Actors.Hestmor;
+using Epilogue.Actors.Hestmor.Enums;
+using Epilogue.Actors.Hestmor.States;
+using Epilogue.Extensions;
 using Epilogue.Global.Enums;
 using Epilogue.Global.Singletons;
-using Epilogue.util;
+using Epilogue.Util;
 using Godot;
 using System.Linq;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 ///		Node used exclusively by the Player Character
 /// </summary>
@@ -19,6 +19,9 @@ public partial class Player : Actor
 	private PlayerEvents _playerEvents;
 	private GunSystem _gunSystem;
 	private PlayerStateMachine _playerStateMachine;
+	private double _quickSlideTimer;
+
+	[Export] private bool _allowQuickSlide;
 
 	/// <summary>
 	///		Defines if the player toggled the Run mode while playing in Retro Mode
@@ -30,23 +33,21 @@ public partial class Player : Actor
 	/// </summary>
 	public bool HoldingSword { get; set; } = false;
 
-	private bool _allowQuickSlide;
-
-    /// <summary>
-    ///		Handles every input related to the player and directs it to the correct place. If the input matches nothing, it is send to the currently active State for further handling
-    /// </summary>
-    public override void _UnhandledInput(InputEvent @event)
+	/// <summary>
+	///		Handles every input related to the player and directs it to the correct place. If the input matches nothing, it is send to the currently active State for further handling
+	/// </summary>
+	public override void _UnhandledInput(InputEvent @event)
 	{
-		if(@event.IsEcho())
+		if (@event.IsEcho())
 		{
 			return;
 		}
 
-		if(_retroModeEnabled && @event.IsAction("toggle_walk_run") && @event.IsPressed())
+		if (_retroModeEnabled && @event.IsActionPressed("toggle_walk_run"))
 		{
 			RunEnabled = !RunEnabled;
 		}
-		else if(@event.IsAction(InputUtils.GetInputActionName("run_modifier")))
+		else if (@event.IsAction(InputUtils.GetInputActionName("run_modifier")))
 		{
 			RunEnabled = @event.IsPressed();
 		}
@@ -54,32 +55,32 @@ public partial class Player : Actor
 		{
 			_allowQuickSlide = false;
 
-			_playerStateMachine.OverrideState(typeof(Slide), StateType.KneeSlide);
+			_playerStateMachine.ChangeState(typeof(Slide), StateType.KneeSlide);
 		}
 		else if(HoldingSword && @event.IsAction(InputUtils.GetInputActionName("pickup_or_drop_gun")) && @event.IsPressed())
 		{
 			_playerStateMachine.ChangeState(typeof(MeleeAttack));
 		}
-		else if(_gunSystem.HasGunEquipped && @event.IsAction(InputUtils.GetInputActionName("shoot")))
+		else if (CanInteract && _gunSystem.HasGunEquipped && @event.IsAction(InputUtils.GetInputActionName("shoot")))
 		{
 			// Tries to press/release the trigger of the equipped gun. If the gun is empty when the trigger is pressed, throw it instead
-			if(!_gunSystem.InteractWithTrigger(@event.IsPressed()))
+			if (!_gunSystem.InteractWithTrigger(@event.IsPressed()))
 			{
 				_gunSystem.ThrowGun();
 			}
 		}
-		else if((_gunSystem.IsAnyGunNearby || _gunSystem.HasGunEquipped) && @event.IsActionPressed(InputUtils.GetInputActionName("pickup_or_drop_gun")))
+		else if (CanInteract && (_gunSystem.IsAnyGunNearby || _gunSystem.HasGunEquipped) && @event.IsActionPressed(InputUtils.GetInputActionName("pickup_or_drop_gun")))
 		{
 			_gunSystem.InteractWithGun();
 		}
-		else if(@event.IsAction("debug_add_hp") && @event.IsPressed())
+		else if (@event.IsActionPressed("debug_add_hp"))
 		{
 			// TODO: 189 - Remove this later, or at least move it to a better place
-			ApplyHealth(1);
+			RecoverHealth(1);
 		}
-		else if(@event.IsAction("debug_remove_hp") && @event.IsPressed())
+		else if (@event.IsActionPressed("debug_remove_hp"))
 		{
-			DealDamage(1);
+			ReduceHealth(1, DamageType.Unarmed);
 		}
 		else
 		{
@@ -88,27 +89,43 @@ public partial class Player : Actor
 	}
 
 	/// <inheritdoc/>
-    public override void _Ready()
-    {
-        base._Ready();
+	public override void _Ready()
+	{
+		Sprite = GetNode<Sprite2D>("%MainSprite");
+
+		base._Ready();
 
 		// TODO: 68 - Reset this value when the Input Mode is changed during gameplay
 		_retroModeEnabled = Settings.ControlScheme == ControlScheme.Retro;
 		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
 		_gunSystem = GetNode<GunSystem>("GunSystem");
 		_playerStateMachine = GetChildren().OfType<PlayerStateMachine>().First();
-		GD.Print(_playerStateMachine);
 		_playerStateMachine.Activate();
-    }
+	}
 
     /// <inheritdoc/>
-    public override void DealDamage(float damage)
+	public override void _Process(double delta)
+	{
+		if (_allowQuickSlide)
+		{
+			_quickSlideTimer += delta;
+
+			if (_quickSlideTimer >= 0.15)
+			{
+				_allowQuickSlide = false;
+				_quickSlideTimer = 0;
+			}
+		}
+	}
+
+	/// <inheritdoc/>
+	public override void ReduceHealth(float damage, DamageType damageType)
 	{
 		CurrentHealth -= damage;
 
-		_playerEvents.EmitGlobalSignal(PlayerEvents.SignalName.PlayerWasDamaged, damage, CurrentHealth);
+		_playerEvents.EmitSignal(PlayerEvents.SignalName.PlayerWasDamaged, damage, CurrentHealth);
 
-		if(CurrentHealth <= 0)
+		if (CurrentHealth <= 0)
 		{
 			_playerStateMachine.ChangeState(typeof(Die));
 			return;
@@ -117,25 +134,14 @@ public partial class Player : Actor
 		{
 			_playerStateMachine.ChangeState(typeof(TakeDamage));
 		}
-
-		Sprite.SetShaderMaterialParameter("iframeActive", true);
-
-		GetChildren().OfType<HurtBox>().First().CollisionLayer = 0;
-
-		GetTree().CreateTimer(1f).Timeout += () =>
-		{
-			Sprite.SetShaderMaterialParameter("iframeActive", false);
-
-			GetChildren().OfType<HurtBox>().First().CollisionMask = (int) CollisionLayerName.NpcHitBox;
-		};
 	}
 
 	/// <inheritdoc/>
-	public override void ApplyHealth(float health)
+	public override void RecoverHealth(float health)
 	{
 		CurrentHealth += health;
 
-		_playerEvents.EmitGlobalSignal("PlayerWasHealed", health, CurrentHealth);
+		_playerEvents.EmitSignal(PlayerEvents.SignalName.PlayerWasHealed, health, CurrentHealth);
 	}
 
 	/// <summary>
@@ -146,14 +152,14 @@ public partial class Player : Actor
 	/// <returns><c>true</c>, if a ledge is detected (in this case, <paramref name="ledgePosition"/> will contain the position of the ledge); <c>false</c>, otherwise</returns>
 	public bool SweepForLedge(out Vector2 ledgePosition, int sweepUntil = 0)
 	{
-		var headRaycast = RayCasts["Head"];
-		var ledgeRaycast = RayCasts["Ledge"];
+		RayCast2D headRaycast = RayCasts["Head"];
+		RayCast2D ledgeRaycast = RayCasts["Ledge"];
 		var originalPositions = new Vector2(headRaycast.Position.Y, ledgeRaycast.Position.Y);
 		var offset = originalPositions.Y - originalPositions.X;
 
 		ledgePosition = new Vector2(0f, 0f);
 
-		for(var i = originalPositions.X; i <= sweepUntil; i++)
+		for (var i = originalPositions.X; i <= sweepUntil; i++)
 		{
 			headRaycast.Position = new Vector2(0f, i);
 			ledgeRaycast.Position = new Vector2(0f, headRaycast.Position.Y + offset);
@@ -161,15 +167,15 @@ public partial class Player : Actor
 			headRaycast.ForceRaycastUpdate();
 			ledgeRaycast.ForceRaycastUpdate();
 
-			if(headRaycast.IsColliding() && !ledgeRaycast.IsColliding())
+			if (headRaycast.IsColliding() && !ledgeRaycast.IsColliding())
 			{
-				var feetRaycast = RayCasts["Feet"];
-				var originalTarget = feetRaycast.TargetPosition;
+				RayCast2D feetRaycast = RayCasts["Feet"];
+				Vector2 originalTarget = feetRaycast.TargetPosition;
 
 				feetRaycast.TargetPosition = new Vector2(0f, 30f);
 				feetRaycast.ForceRaycastUpdate();
 
-				if(feetRaycast.IsColliding())
+				if (feetRaycast.IsColliding())
 				{
 					feetRaycast.TargetPosition = originalTarget;
 
@@ -198,16 +204,5 @@ public partial class Player : Actor
 		base.MoveAndSlideWithRotation();
 
 		_gunSystem.Rotation = -Rotation;
-	}
-
-	/// <summary>
-	///		Flags that the Player can performed a Quick Slide if the correct input is detected.
-	///		Will turn itself off after 0.3 second
-	/// </summary>
-	public void AllowQuickSlide()
-	{
-		_allowQuickSlide = true;
-
-		GetTree().CreateTimer(0.3f).Timeout += () => _allowQuickSlide = false;
 	}
 }

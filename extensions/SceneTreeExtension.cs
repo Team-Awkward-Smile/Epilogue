@@ -1,8 +1,8 @@
-using Epilogue.nodes;
+using Epilogue.Nodes;
 using Godot;
 using System.Linq;
 
-namespace Epilogue.extensions;
+namespace Epilogue.Extensions;
 /// <summary>
 /// 	Helper methods for the SceneTree
 /// </summary>

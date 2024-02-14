@@ -1,7 +1,8 @@
-using Epilogue.nodes;
+using Epilogue.Global.Singletons;
+using Epilogue.Nodes;
 using Godot;
 
-namespace Epilogue.guns;
+namespace Epilogue.Guns;
 /// <summary>
 ///		Shotgun used for testing purposes
 /// </summary>
@@ -35,7 +36,7 @@ public partial class Shotgun : Gun
 				pellet.RotationDegrees += rand.RandfRange(-10f, 10f);
 			}
 
-			GunEvents.EmitGlobalSignal("GunFired", CurrentAmmoCount);
+			GunEvents.EmitSignal(GunEvents.SignalName.GunFired, CurrentAmmoCount);
 		}
 	}
 }

@@ -2,7 +2,7 @@ using Godot;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 ///		Node representing a State that an Actor can assume when using a State Machine
 /// </summary>
@@ -29,14 +29,14 @@ public class State
 		StateMachine = stateMachine;
 		AnimPlayer = StateMachine.Owner.GetChildren().OfType<AnimationPlayer>().FirstOrDefault();
 
-		if(AnimPlayer is null)
+		if (AnimPlayer is null)
 		{
 			GD.PrintErr($"Animation Player not found for Actor [{StateMachine.Owner.Name}]");
 		}
 
 		AudioPlayer = StateMachine.Owner.GetChildren().OfType<ActorAudioPlayer>().FirstOrDefault();
 
-		if(AudioPlayer is null)
+		if (AudioPlayer is null)
 		{
 			GD.PrintErr($"Audio Player not found for Actor [{StateMachine.Owner.Name}]");
 		}

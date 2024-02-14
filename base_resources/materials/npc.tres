@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bitwmbim075ep"]
+
+[ext_resource type="Shader" path="res://base_resources/materials/npc.gdshader" id="1_apm72"]
+
+[resource]
+shader = ExtResource("1_apm72")
+shader_parameter/iFrameActive = false
+shader_parameter/vulnerabilityActive = false

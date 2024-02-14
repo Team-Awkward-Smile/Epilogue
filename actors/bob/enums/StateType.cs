@@ -1,4 +1,4 @@
-namespace Epilogue.actors.hestmor.enums;
+namespace Epilogue.Actors.Hestmor.Enums;
 /// <summary>
 ///		Represents different information about States
 /// </summary>
@@ -18,6 +18,11 @@ public enum StateType
 	///		A long jump forward
 	/// </summary>
 	LongJump,
+
+	/// <summary>
+	///		A long jump that begins while the player is sliding mid-air
+	/// </summary>
+	CoyoteJump,
 
 	/// <summary>
 	///		A swipe with claws

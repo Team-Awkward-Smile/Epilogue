@@ -1,8 +1,9 @@
-using Epilogue.nodes;
+using Epilogue.Nodes;
+using Epilogue.Global.Singletons;
 
 using Godot;
 
-namespace Epilogue.guns;
+namespace Epilogue.Guns;
 /// <summary>
 ///		Flamethrower used for testing purposes
 /// </summary>
@@ -32,7 +33,7 @@ public partial class Flamethrower : Gun
 
 			flame.GlobalTransform = Muzzle.GlobalTransform;
 
-			GunEvents.EmitGlobalSignal("GunFired", CurrentAmmoCount);
+			GunEvents.EmitSignal(GunEvents.SignalName.GunFired, CurrentAmmoCount);
 
 			_flameStream.AddProjectile(flame);
 		}

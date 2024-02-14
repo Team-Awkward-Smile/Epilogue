@@ -15,14 +15,14 @@ collision_priority = 100.0
 input_pickable = false
 priority = 100
 script = ExtResource("1_bdo8k")
-Speed = 1000.0
+Speed = Vector2(700, 0)
+_lifetime = 1.0
 DamageType = 1
-LifeTime = 1.0
-_damage = 1.0
-_damageType = 1
+Damage = 1.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = SubResource("PlaceholderTexture2D_v8vg4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ok2h4")
+debug_color = Color(1, 0, 0, 0)

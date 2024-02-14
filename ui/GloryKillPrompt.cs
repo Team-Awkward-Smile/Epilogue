@@ -1,25 +1,32 @@
 using Epilogue.Global.Enums;
 using Epilogue.Global.Singletons;
-using Epilogue.util;
 using Godot;
+using System.Linq;
 
-namespace Epilogue.ui;
+namespace Epilogue.UI;
 /// <summary>
 ///		UI Screen responsible for displaying 2 options to the player and reading the answer
 /// </summary>
 public partial class GloryKillPrompt : Control
 {
 	/// <inheritdoc/>
-	public override void _GuiInput(InputEvent @event)
+	public override void _UnhandledInput(InputEvent @event)
 	{
-		if(@event.IsAction(InputUtils.GetInputActionName("execute_slow")) && @event.IsPressed())
+		if (@event.IsEcho())
 		{
-			GetNode<PlayerEvents>("/root/PlayerEvents").EmitGlobalSignal("ExecutionSpeedSelected", (int) ExecutionSpeed.Slow);
+			return;
+		}
+
+		if (@event.IsActionPressed("execute_slow"))
+		{
+			GetNode<PlayerEvents>("/root/PlayerEvents").EmitSignal(PlayerEvents.SignalName.ExecutionSpeedSelected, (int)ExecutionSpeed.Slow);
+			GetViewport().SetInputAsHandled();
 			Disable();
 		}
-		else if(@event.IsAction(InputUtils.GetInputActionName("execute_fast")) && @event.IsPressed())
+		else if (@event.IsActionPressed("execute_fast"))
 		{
-			GetNode<PlayerEvents>("/root/PlayerEvents").EmitGlobalSignal("ExecutionSpeedSelected", (int) ExecutionSpeed.Fast);
+			GetNode<PlayerEvents>("/root/PlayerEvents").EmitSignal(PlayerEvents.SignalName.ExecutionSpeedSelected, (int)ExecutionSpeed.Fast);
+			GetViewport().SetInputAsHandled();
 			Disable();
 		}
 	}
@@ -36,9 +43,16 @@ public partial class GloryKillPrompt : Control
 	/// <summary>
 	///		Disables this Screen
 	/// </summary>
-	public void Disable() 
+	public void Disable()
 	{
 		Visible = false;
 		ProcessMode = ProcessModeEnum.Disabled;
+	}
+
+	/// <inheritdoc/>
+	public override void _Ready()
+	{
+		GetNode<Label>("%SlowExecutionLabel").Text = InputMap.ActionGetEvents("execute_slow").First().AsText() + "\nSlow";
+		GetNode<Label>("%FastExecutionLabel").Text = InputMap.ActionGetEvents("execute_fast").First().AsText() + "\nFast";
 	}
 }

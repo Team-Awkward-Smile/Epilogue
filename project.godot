@@ -17,7 +17,7 @@ config/icon="res://temp/icon.png"
 
 [audio]
 
-buses/default_bus_layout=""
+buses/default_bus_layout="res://base_resources/audio_buses.tres"
 
 [autoload]
 
@@ -27,14 +27,18 @@ CheckpointManager="*res://global/singletons/CheckpointManager.cs"
 Achievements="*res://global/singletons/Achievements.cs"
 GunEvents="*res://global/singletons/GunEvents.cs"
 PlayerEvents="*res://global/singletons/PlayerEvents.cs"
+NpcEvents="*res://global/singletons/NpcEvents.cs"
 CustomSettings="*res://settings/CustomSettings.cs"
 
 [debug]
 
 file_logging/enable_file_logging=true
+shapes/collision/shape_color=Color(0, 0, 1, 0.509804)
 
 [display]
 
+window/stretch/mode="viewport"
+window/stretch/scale_mode="integer"
 window/vsync/vsync_mode=0
 
 [dotnet]

@@ -1,0 +1,201 @@
+[gd_scene load_steps=19 format=3 uid="uid://cqctp6a75hq70"]
+
+[ext_resource type="Script" path="res://actors/icarasia/Icarasia.cs" id="1_7ax2p"]
+[ext_resource type="Material" uid="uid://bitwmbim075ep" path="res://base_resources/materials/npc.tres" id="2_o42c3"]
+[ext_resource type="Texture2D" uid="uid://bup128r2rr1cn" path="res://temp/icarasia.png" id="2_yqo4e"]
+[ext_resource type="Texture2D" uid="uid://gt1yrshmngdt" path="res://temp/stinger.png" id="3_aruhq"]
+[ext_resource type="Material" uid="uid://bs1uvctvkmvg7" path="res://base_resources/blood_particle.tres" id="3_e5i7h"]
+[ext_resource type="Script" path="res://nodes/BloodEmitter.cs" id="4_5558n"]
+[ext_resource type="Script" path="res://nodes/HitBox.cs" id="4_dp5yy"]
+[ext_resource type="Script" path="res://nodes/HurtBox.cs" id="5_ya76l"]
+[ext_resource type="Script" path="res://actors/icarasia/states/IcarasiaStateMachine.cs" id="6_0pg05"]
+[ext_resource type="Script" path="res://nodes/ActorAudioPlayer.cs" id="10_iimqh"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_51ab6"]
+radius = 14.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4alh5"]
+radius = 25.0799
+
+[sub_resource type="Animation" id="Animation_c72qv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FlipRoot/StingerPivot/StingerSprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FlipRoot/StingerPivot/HitBox/CollisionShape2D:shape")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [null]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("FlipRoot/Sprite2D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_o7qk5"]
+resource_name = "move"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w8fwv"]
+
+[sub_resource type="Animation" id="Animation_q57cg"]
+resource_name = "sting"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FlipRoot/StingerPivot/StingerSprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FlipRoot/StingerPivot/HitBox/CollisionShape2D:shape")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.7, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [null, SubResource("CircleShape2D_w8fwv"), null]
+}
+
+[sub_resource type="Animation" id="Animation_ggvq2"]
+resource_name = "stun"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FlipRoot/Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(-5, 0), Vector2(5, 0), Vector2(-5, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8lni4"]
+_data = {
+"RESET": SubResource("Animation_c72qv"),
+"move": SubResource("Animation_o7qk5"),
+"sting": SubResource("Animation_q57cg"),
+"stun": SubResource("Animation_ggvq2")
+}
+
+[node name="Icarasia" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 0
+motion_mode = 1
+script = ExtResource("1_7ax2p")
+VulnerabilityThreshold = 1.0
+VulnerabilityDuration = 5.0
+MaxHealth = 2.0
+CurrentHealth = 2.0
+
+[node name="FlipRoot" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="FlipRoot" groups=["MainSprite"]]
+material = ExtResource("2_o42c3")
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_yqo4e")
+
+[node name="ProjectilePivot" type="Node2D" parent="FlipRoot"]
+
+[node name="ProjectileSpawn" type="Node2D" parent="FlipRoot/ProjectilePivot"]
+position = Vector2(11, 0)
+
+[node name="ProjectileRayCast2D" type="RayCast2D" parent="FlipRoot"]
+enabled = false
+target_position = Vector2(200, 0)
+collision_mask = 9
+
+[node name="StingerRayCast2D" type="RayCast2D" parent="FlipRoot"]
+enabled = false
+target_position = Vector2(30, 0)
+
+[node name="WanderRayCast2D" type="RayCast2D" parent="FlipRoot"]
+target_position = Vector2(50, 0)
+collision_mask = 8
+
+[node name="StingerPivot" type="Node2D" parent="FlipRoot"]
+
+[node name="StingerSprite" type="Sprite2D" parent="FlipRoot/StingerPivot"]
+visible = false
+position = Vector2(20, 0)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("3_aruhq")
+
+[node name="HitBox" type="Area2D" parent="FlipRoot/StingerPivot"]
+collision_layer = 256
+collision_mask = 32
+script = ExtResource("4_dp5yy")
+Damage = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FlipRoot/StingerPivot/HitBox"]
+position = Vector2(20, 0)
+debug_color = Color(1, 0, 0, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2)
+shape = SubResource("CircleShape2D_51ab6")
+debug_color = Color(0, 0, 1, 0)
+
+[node name="BloodEmitter" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 50
+process_material = ExtResource("3_e5i7h")
+one_shot = true
+explosiveness = 1.0
+script = ExtResource("4_5558n")
+BloodColor = Color(0.858824, 0.156863, 0.478431, 1)
+
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 512
+collision_mask = 16
+script = ExtResource("5_ya76l")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="HurtBox"]
+shape = SubResource("CircleShape2D_4alh5")
+debug_color = Color(0, 1, 0, 0)
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("6_0pg05")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_8lni4")
+}
+
+[node name="ActorAudioPlayer" type="Node" parent="."]
+script = ExtResource("10_iimqh")

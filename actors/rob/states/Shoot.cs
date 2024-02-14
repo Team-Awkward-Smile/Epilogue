@@ -1,7 +1,8 @@
-using Epilogue.nodes;
+using Epilogue.Extensions;
+using Epilogue.Nodes;
 using Godot;
 
-namespace Epilogue.actors.rob.states;
+namespace Epilogue.Actors.rob.states;
 /// <inheritdoc/>
 public partial class Shoot : State
 {
@@ -39,6 +40,7 @@ public partial class Shoot : State
 	public void SpawnProjectile()
 	{
 		var _projectile = GD.Load<PackedScene>("res://actors/rob/projectiles/projectile.tscn").Instantiate() as Projectile;
+		
 		StateMachine.GetTree().Root.AddChild(_projectile);
 
 		_projectile.GlobalTransform = StateMachine.GetNode<Node2D>("../../FlipRoot/ProjectileSpawn").GlobalTransform;

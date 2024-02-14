@@ -1,7 +1,7 @@
 using Godot;
 using System.Collections.Generic;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 ///		Node used to read inputs from the player and unlocking secrets when the Konami Code is read
 /// </summary>

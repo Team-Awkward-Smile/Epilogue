@@ -10,4 +10,5 @@ Windows, Linux, macOS, and maybe Android (if Godot releases the Android build te
 ## Genres
 * 2D shooter 
 * Run & Gun
-*  Melee (Considered but not finalized)
+* Platformer
+*  Melee 

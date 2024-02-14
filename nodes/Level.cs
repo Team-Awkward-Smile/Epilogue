@@ -1,14 +1,14 @@
 using Epilogue.Global.Enums;
 using Epilogue.Global.Singletons;
-using Epilogue.props.camera;
-using Epilogue.ui;
-using Epilogue.ui.hp;
-using Epilogue.ui.pause;
+using Epilogue.Props.camera;
+using Epilogue.UI;
+using Epilogue.UI.HP;
+using Epilogue.UI.Pause;
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Epilogue.nodes;
+namespace Epilogue.Nodes;
 /// <summary>
 ///		Base Node for every level in the game (UIs are not Levels, keep that in mind)
 /// </summary>
@@ -18,9 +18,9 @@ public partial class Level : Node2D
 	/// <summary>
 	///		Reference to the player character
 	/// </summary>
-    public Player Player { get; set; }
+	public Player Player { get; set; }
 
-    private PauseUI _pauseUI;
+	private PauseUI _pauseUI;
 	private AmmoUI _ammoUI;
 	private HPUI _hpUI;
 	private Window _console;
@@ -39,15 +39,15 @@ public partial class Level : Node2D
 
 		var checkpoints = GetNodeOrNull("Checkpoints");
 
-		if(checkpoints is null || checkpoints.GetChildCount() == 0)
+		if (checkpoints is null || checkpoints.GetChildCount() == 0)
 		{
 			warnings.Add("This Level has no Checkpoints set.\nTo set a Checkpoint, add a Node2D called 'Checkpoints' as a child of this Level, and add the Checkpoints as children of it");
 		}
-		else if(!checkpoints.GetChildren().OfType<Checkpoint>().Where(c => c.FirstCheckpoint).Any())
+		else if (!checkpoints.GetChildren().OfType<Checkpoint>().Where(c => c.FirstCheckpoint).Any())
 		{
 			warnings.Add("This Level has no default Checkpoint set.\nThe first Checkpoint found will be used");
 		}
-		else if(checkpoints.GetChildren().OfType<Checkpoint>().Where(c => c.FirstCheckpoint).Count() > 1)
+		else if (checkpoints.GetChildren().OfType<Checkpoint>().Where(c => c.FirstCheckpoint).Count() > 1)
 		{
 			var firstCheckpoints = checkpoints.GetChildren().OfType<Checkpoint>().Where(c => c.FirstCheckpoint);
 
@@ -60,13 +60,13 @@ public partial class Level : Node2D
 	/// <inheritdoc/>
 	public override void _Input(InputEvent @event)
 	{
-		if(@event.IsActionPressed("pause_game"))
+		if (@event.IsActionPressed("pause_game"))
 		{
 			_pauseUI.Enable();
 
 			GetViewport().SetInputAsHandled();
 		}
-		else if(@event.IsActionPressed("console"))
+		else if (@event.IsActionPressed("console"))
 		{
 			_console.Visible = !_console.Visible;
 		}
@@ -75,7 +75,7 @@ public partial class Level : Node2D
 	/// <inheritdoc/>
 	public override void _EnterTree()
 	{
-		if(Engine.IsEditorHint())
+		if (Engine.IsEditorHint())
 		{
 			return;
 		}
@@ -88,7 +88,7 @@ public partial class Level : Node2D
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
-		if(Engine.IsEditorHint())
+		if (Engine.IsEditorHint())
 		{
 			return;
 		}
@@ -104,8 +104,8 @@ public partial class Level : Node2D
 		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
 		_checkpointManager = GetNode<CheckpointManager>("/root/CheckpointManager");
 
-		_playerEvents.Connect("PlayerDied", Callable.From(RespawnPlayer));
-		_playerEvents.Connect("StateAwaitingForExecutionSpeed", Callable.From(_killPrompt.Enable));
+		_playerEvents.Connect(PlayerEvents.SignalName.PlayerDied, Callable.From(RespawnPlayer));
+		_playerEvents.Connect(PlayerEvents.SignalName.QueryExecutionSpeed, Callable.From(_killPrompt.Enable));
 
 		_tileMap = GetChildren().OfType<TileMap>().FirstOrDefault();
 
@@ -129,12 +129,12 @@ public partial class Level : Node2D
 
 		var checkpointParent = GetNodeOrNull("Checkpoints");
 
-		if(checkpointParent is not null)
+		if (checkpointParent is not null)
 		{
 			var i = 0;
 
 			// Setting every Checkpoint present in the Level
-			foreach(var checkpoint in checkpointParent.GetChildren().OfType<Checkpoint>())
+			foreach (var checkpoint in checkpointParent.GetChildren().OfType<Checkpoint>())
 			{
 				_checkpoints.Add(checkpoint);
 
@@ -142,7 +142,7 @@ public partial class Level : Node2D
 				checkpoint.ID = i++;
 
 				// Marking the Checkpoint as Used if the player already touched it
-				if(_checkpointManager.UsedCheckpointsIDs.Contains(checkpoint.ID))
+				if (_checkpointManager.UsedCheckpointsIDs.Contains(checkpoint.ID))
 				{
 					checkpoint.Monitoring = false;
 					checkpoint.SetCheckpointState(CheckpointState.Used);
@@ -150,28 +150,25 @@ public partial class Level : Node2D
 			}
 
 			// Setting the current Checkpoint from the CheckpointManager singleton
-			if(_checkpointManager.CurrentCheckpointID is not null)
+			if (_checkpointManager.CurrentCheckpointID is not null)
 			{
 				_checkpoints.Where(c => c.ID == _checkpointManager.CurrentCheckpointID).First().Current = true;
 			}
-			else if(_checkpoints.Count > 0)
+			else if (_checkpoints.Count > 0)
 			{
 				// If the singleton has no current Checkpoint, set the current one to the First
 				_checkpoints.Where(c => c.FirstCheckpoint).First().Current = true;
-				
-				if(!_checkpoints.Any(c => c.Current))
+
+				if (!_checkpoints.Any(c => c.Current))
 				{
 					_checkpoints.First().Current = true;
 				}
 			}
 		}
 
+		Player.Position = _checkpoints.FirstOrDefault(c => c.Current).Position;
+
 		_camera = GetViewport().GetCamera2D() as Camera;
-        Player = GD.Load<PackedScene>("res://actors/bob/bob.tscn").Instantiate() as Player;
-
-		AddChild(Player);
-
-        Player.Position = _checkpoints.Where(c => c.Current).FirstOrDefault().Position;
 		_camera.Position = Player.Position;
 		_camera.SetCameraTarget(Player.GetNode<Node2D>("CameraAnchor"));
 	}
@@ -232,16 +229,16 @@ public partial class Level : Node2D
 		var localPosition = _tileMap.LocalToMap(tilePosition);
 		var tileData = _tileMap.GetCellTileData(0, localPosition);
 
-		if(tileData is null)
+		if (tileData is null)
 		{
 			return;
 		}
 
-		if(tileData.GetCustomData("destructible").AsBool())
+		if (tileData.GetCustomData("destructible").AsBool())
 		{
 			var currentHp = tileData.GetCustomData("tile_hp").AsDouble() - damage;
 
-			if(currentHp <= 0)
+			if (currentHp <= 0)
 			{
 				_tileMap.EraseCell(0, localPosition);
 			}

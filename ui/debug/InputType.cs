@@ -1,7 +1,7 @@
 using Epilogue.Global.Singletons;
 using Godot;
 
-namespace Epilogue.ui.debug;
+namespace Epilogue.UI.debug;
 /// <summary>
 /// 	Displays the type of the last input received (PC or Controller)
 /// </summary>

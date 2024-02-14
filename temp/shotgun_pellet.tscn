@@ -13,9 +13,9 @@ collision_layer = 16
 collision_mask = 520
 collision_priority = 100.0
 script = ExtResource("1_7m3ab")
-Speed = 1000.0
+Speed = Vector2(700, 0)
+_lifetime = 1.0
 DamageType = 1
-LifeTime = 1.0
 Damage = 0.5
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -23,3 +23,4 @@ texture = SubResource("PlaceholderTexture2D_qsle8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_kh4j2")
+debug_color = Color(0, 0.6, 0.7, 0.42)

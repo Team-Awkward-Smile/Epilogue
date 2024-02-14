@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Epilogue.extensions;
+namespace Epilogue.Extensions;
 /// <summary>
 /// 	Helper methods for NavigationAgent2D's
 /// </summary>

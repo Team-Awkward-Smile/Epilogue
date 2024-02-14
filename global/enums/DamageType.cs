@@ -10,6 +10,11 @@ public enum DamageType
 	Unarmed,
 
 	/// <summary>
+	/// 	Damage caused by a thrown gun
+	/// </summary>
+	GunThrow,
+
+	/// <summary>
 	///		Damage caused by an attack that pierces the target
 	/// </summary>
 	Piercing,
@@ -17,5 +22,15 @@ public enum DamageType
 	/// <summary>
 	///		Damage caused by an attack that engulfs the target in flames
 	/// </summary>
-	Fire
+	Fire,
+
+	/// <summary>
+	///		Damage caused by an attack that slices the target with a blade
+	/// </summary>
+	Slashing,
+
+	/// <summary>
+	///		Damage caused by an attack that blinds the target
+	/// </summary>
+	Light
 }

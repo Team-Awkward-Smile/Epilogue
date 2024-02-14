@@ -1,9 +1,9 @@
 using System.Linq;
 using Epilogue.Global.Singletons;
-using Epilogue.nodes;
+using Epilogue.Nodes;
 using Godot;
 
-namespace Epilogue.actors.hestmor.states;
+namespace Epilogue.Actors.Hestmor.States;
 /// <summary>
 /// 	The State Machine responsible for controlling Hestmor
 /// </summary>
@@ -69,7 +69,7 @@ public partial class PlayerStateMachine : StateMachine
 			new Die(this, GetNode<PlayerEvents>("/root/PlayerEvents")),
 			new Fall(this),
 			new GrabLedge(this),
-			new Growl(this, _weakGrowlRadius, _mediumGrowlRadius, _strongGrowlRadius),
+			new Growl(this, GetNode<GrowlEffectArea>("../GrowlEffectArea"), _weakGrowlRadius, _mediumGrowlRadius, _strongGrowlRadius),
 			new Idle(this, _sleepDelay),
 			new Jump(this, _standingJumpVerticalSpeed, _lowJumpVerticalSpeed, _lowJumpHorizontalSpeed, _longJumpVerticalSpeed, _longJumpHorizontalSpeed),
 			new LookUp(this, _cameraMovementDelay, _cameraMovementDistance),
@@ -82,7 +82,9 @@ public partial class PlayerStateMachine : StateMachine
 			new Walk(this, _walkSpeed)
 		};
 
-		_currentState = _states.Where(s => s.GetType() == typeof(Idle)).First();
+		_currentState = _states.First(s => s.GetType() == typeof(Idle));
+
+		StateExited += () => ((Player)Owner).ClearAnimationFinishedSignal();
 	}
 
 	/// <summary>
