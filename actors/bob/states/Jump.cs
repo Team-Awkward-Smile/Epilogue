@@ -1,10 +1,9 @@
-using System.Threading.Tasks;
 using Epilogue.Actors.Hestmor.Enums;
-using Epilogue.Const;
 using Epilogue.Global.Enums;
 using Epilogue.Global.Singletons;
 using Epilogue.Nodes;
 using Godot;
+using System.Threading.Tasks;
 
 namespace Epilogue.Actors.Hestmor.States;
 /// <inheritdoc/>
@@ -50,14 +49,6 @@ public partial class Jump : State
 		_longJumpVerticalSpeed = longJumpVerticalSpeed;
 	}
 
-	private void StartJump(StringName animName)
-	{
-		var modifier = _player.FacingDirection == ActorFacingDirection.Left ? -1 : 1;
-
-		AnimPlayer.AnimationFinished -= StartJump;
-		_player.Velocity = new Vector2(_horizontalVelocity * modifier, _currentJumpVerticalSpeed);
-	}
-
 	internal override void OnEnter(params object[] args)
 	{
 		_jumpType = (StateType)args[0];
@@ -78,7 +69,7 @@ public partial class Jump : State
 				_animation = "long";
 				break;
 
-			case StateType.LongJump:
+			case StateType.LongJump or StateType.CoyoteJump:
 				_horizontalVelocity = _longJumpHorizontalSpeed;
 				_currentJumpVerticalSpeed = _longJumpVerticalSpeed;
 				_animation = "long";
@@ -91,16 +82,16 @@ public partial class Jump : State
 		_player.CanChangeFacingDirection = false;
 
 		AnimPlayer.Play($"Jump/{_animation}_jump_up", customSpeed: 2);
-		AnimPlayer.AnimationFinished += StartJump;
 
+		var modifier = _player.FacingDirection == ActorFacingDirection.Left ? -1 : 1;
+
+		_player.Velocity = new Vector2(_horizontalVelocity * modifier, _currentJumpVerticalSpeed);
 		_achievements.JumpCount++;
 	}
 
 	internal override void PhysicsUpdate(double delta)
 	{
-		_frameDelay++;
-
-		if ((_frameDelay == 3 || _player.IsOnWall()) && _player.SweepForLedge(out Vector2 ledgePosition))
+		if ((_frameDelay++ == 3 || _player.IsOnWall()) && _player.SweepForLedge(out Vector2 ledgePosition))
 		{
 			var offset = _player.RayCasts["Head"].GlobalPosition.Y - ledgePosition.Y;
 
@@ -120,7 +111,8 @@ public partial class Jump : State
 
 		_frameDelay %= 3;
 
-		_player.Velocity = new Vector2(_player.Velocity.X, _player.Velocity.Y + (StateMachine.Gravity * (float) delta));
+		_player.Velocity = new Vector2(_player.Velocity.X, _player.Velocity.Y + (StateMachine.Gravity * (float)delta));
+
 		_player.MoveAndSlide();
 
 		if (_player.Velocity.Y > 0)

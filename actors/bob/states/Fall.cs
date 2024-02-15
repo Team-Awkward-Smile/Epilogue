@@ -14,6 +14,8 @@ public partial class Fall : State
 	private StateType _jumpType;
 	private string _animation;
 	private int _frameDelay;
+	private bool _slideQueued;
+	private double _slideQueueTimer;
 
 	/// <summary>
 	/// 	State that allows Hestmor to fall from high places
@@ -22,6 +24,15 @@ public partial class Fall : State
 	public Fall(StateMachine stateMachine) : base(stateMachine)
 	{
 		_player = (Player)stateMachine.Owner;
+	}
+
+	internal override void OnInput(InputEvent @event)
+	{
+		// If the Slide key is pressed mid-air, there will be a 0.15 second time where a Slide will be instantly performed upon landing
+		if (@event.IsActionPressed("slide"))
+		{
+			_slideQueued = true;
+		}
 	}
 
 	internal override void OnEnter(params object[] args)
@@ -33,13 +44,22 @@ public partial class Fall : State
 			_ => "long"
 		};
 
-		_canGrabLedge = false;
-		_playLandingAnimation = true;
+        _canGrabLedge = false;
+        _playLandingAnimation = true;
 
-		AnimPlayer.Play($"Jump/{_animation}_jump_down");
-		_player.CanChangeFacingDirection = true;
+        AnimPlayer.Play($"Jump/{_animation}_jump_down");
+        _player.CanChangeFacingDirection = true;
 
-		StateMachine.GetTree().CreateTimer(0.1f).Timeout += () => _canGrabLedge = true;
+        StateMachine.GetTree().CreateTimer(0.1f).Timeout += () => _canGrabLedge = true;
+    }
+
+	internal override void Update(double delta)
+	{
+		if (_slideQueued && (_slideQueueTimer += delta) >= 0.15)
+		{
+			_slideQueued = false;
+			_slideQueueTimer = 0;
+		}
 	}
 
 	internal override void PhysicsUpdate(double delta)
@@ -50,7 +70,7 @@ public partial class Fall : State
 		{
 			var offset = _player.RayCasts["Head"].GlobalPosition.Y - ledgePosition.Y;
 
-			_playLandingAnimation = false;
+            _playLandingAnimation = false;
 
 			if (offset < -20)
 			{
@@ -63,8 +83,8 @@ public partial class Fall : State
 				StateMachine.ChangeState(typeof(GrabLedge));
 			}
 
-			return;
-		}
+            return;
+        }
 
 		_frameDelay %= 3;
 
@@ -73,7 +93,16 @@ public partial class Fall : State
 
 		if (_player.IsOnFloor())
 		{
-			StateMachine.ChangeState(typeof(Idle));
+			if (_slideQueued)
+			{
+				_playLandingAnimation = false;
+
+				StateMachine.ChangeState(typeof(Slide), StateType.KneeSlide);
+			}
+			else
+			{
+				StateMachine.ChangeState(typeof(Idle));
+			}
 		}
 	}
 
@@ -84,9 +113,9 @@ public partial class Fall : State
 			return;
 		}
 
-		AudioPlayer.PlayGenericSfx("Land");
-		AnimPlayer.Play($"Jump/{_animation}_jump_land");
+        AudioPlayer.PlayGenericSfx("Land");
+        AnimPlayer.Play($"Jump/{_animation}_jump_land");
 
-		await StateMachine.ToSignal(AnimPlayer, "animation_finished");
-	}
+        await StateMachine.ToSignal(AnimPlayer, "animation_finished");
+    }
 }

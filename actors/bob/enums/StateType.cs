@@ -20,6 +20,11 @@ public enum StateType
 	LongJump,
 
 	/// <summary>
+	///		A long jump that begins while the player is sliding mid-air
+	/// </summary>
+	CoyoteJump,
+
+	/// <summary>
 	///		A swipe with claws
 	/// </summary>
 	SwipeAttack,

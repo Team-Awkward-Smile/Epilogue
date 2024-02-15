@@ -1,4 +1,5 @@
 using Epilogue.Actors.Hestmor;
+using Epilogue.Actors.Hestmor.Enums;
 using Epilogue.Actors.Hestmor.States;
 using Epilogue.Extensions;
 using Epilogue.Global.Enums;
@@ -18,6 +19,9 @@ public partial class Player : Actor
 	private PlayerEvents _playerEvents;
 	private GunSystem _gunSystem;
 	private PlayerStateMachine _playerStateMachine;
+	private double _quickSlideTimer;
+
+	[Export] private bool _allowQuickSlide;
 
 	/// <summary>
 	///		Defines if the player toggled the Run mode while playing in Retro Mode
@@ -47,7 +51,13 @@ public partial class Player : Actor
 		{
 			RunEnabled = @event.IsPressed();
 		}
-		else if (HoldingSword && @event.IsActionPressed(InputUtils.GetInputActionName("pickup_or_drop_gun")))
+		else if(_allowQuickSlide && @event.IsActionPressed("slide"))
+		{
+			_allowQuickSlide = false;
+
+			_playerStateMachine.ChangeState(typeof(Slide), StateType.KneeSlide);
+		}
+		else if(HoldingSword && @event.IsAction(InputUtils.GetInputActionName("pickup_or_drop_gun")) && @event.IsPressed())
 		{
 			_playerStateMachine.ChangeState(typeof(MeleeAttack));
 		}
@@ -91,6 +101,21 @@ public partial class Player : Actor
 		_gunSystem = GetNode<GunSystem>("GunSystem");
 		_playerStateMachine = GetChildren().OfType<PlayerStateMachine>().First();
 		_playerStateMachine.Activate();
+	}
+
+    /// <inheritdoc/>
+	public override void _Process(double delta)
+	{
+		if (_allowQuickSlide)
+		{
+			_quickSlideTimer += delta;
+
+			if (_quickSlideTimer >= 0.15)
+			{
+				_allowQuickSlide = false;
+				_quickSlideTimer = 0;
+			}
+		}
 	}
 
 	/// <inheritdoc/>

@@ -75,7 +75,6 @@ public partial class Idle : State
 		_sleepTimer = 0f;
 
 		_player.CanChangeFacingDirection = true;
-		_player.Velocity = new Vector2(0f, 0f);
 
 		AnimPlayer.Play("idle");
 	}
