@@ -82,7 +82,7 @@ script = ExtResource("7_xoqku")
 [node name="UILayer" type="CanvasLayer" parent="."]
 
 [node name="Shotgun" parent="." instance=ExtResource("9_p440d")]
-position = Vector2(455, -67)
+position = Vector2(536, -67)
 
 [node name="Spikes" type="Node2D" parent="."]
 position = Vector2(105, -64)

@@ -1579,7 +1579,7 @@ libraries = {
 bus = &"Footsteps"
 script = ExtResource("18_ucai5")
 
-[node name="Aim" type="Node" parent="." groups=["InputType"]]
+[node name="Aim" type="Node" parent="." groups=["InputReadingUpdatesSubscribers"]]
 editor_description = "Base Node to control the aiming system, regardless of the input method"
 script = ExtResource("19_imqwf")
 

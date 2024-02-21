@@ -64,7 +64,7 @@ public partial class Idle : State
 		{
 			StateMachine.ChangeState(typeof(LookUp));
 		}
-		else if (Input.IsActionJustPressed("growl"))
+		else if (@event.IsActionPressed("growl"))
 		{
 			StateMachine.ChangeState(typeof(Growl));
 		}

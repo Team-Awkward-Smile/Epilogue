@@ -2,7 +2,7 @@ using Epilogue.Global.Enums;
 
 using Godot;
 
-namespace Epilogue.input_icons;
+namespace Epilogue.InputIcons;
 /// <summary>
 ///		Class that automatically maps an InputEvent coming from a controller to it's icon
 /// </summary>
