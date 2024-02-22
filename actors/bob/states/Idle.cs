@@ -25,6 +25,8 @@ public partial class Idle : State
 
 	internal override void OnInput(InputEvent @event)
 	{
+		_sleepTimer = 0f;
+
 		if (Input.IsActionJustPressed("jump"))
 		{
 			if (!_player.RayCasts["Head"].IsColliding() && _player.RayCasts["Feet"].IsColliding())
