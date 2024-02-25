@@ -68,11 +68,11 @@ public partial class Slide : State
 
 	internal override void OnInput(InputEvent @event)
 	{
-		if (_canJump && Input.IsActionJustPressed("jump"))
+		if (_canJump && @event.IsActionPressed("jump"))
 		{
 			StateMachine.ChangeState(typeof(Jump), _player.IsOnFloor() ? StateType.LongJump : StateType.CoyoteJump);
 		}
-		else if (Input.IsActionJustPressed("cancel_slide"))
+		else if (@event.IsActionPressed("cancel_slide"))
 		{
 			AnimPlayer.Play("Slide/slide_end");
 			AnimPlayer.AnimationFinished += EndSlide;

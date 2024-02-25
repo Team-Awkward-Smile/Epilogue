@@ -30,7 +30,7 @@ public partial class LookUp : State
 
 	internal override void OnInput(InputEvent @event)
 	{
-		if (Input.IsActionJustReleased("look_up"))
+		if (@event.IsActionReleased("look_up"))
 		{
 			_raiseCameraTween?.Stop();
 

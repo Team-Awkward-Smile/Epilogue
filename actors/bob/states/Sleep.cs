@@ -44,5 +44,8 @@ public partial class Sleep : State
 		AnimPlayer.Play("Sleep/sleep_end");
 
 		await StateMachine.ToSignal(AnimPlayer, AnimationMixer.SignalName.AnimationFinished);
+
+		_player.CanChangeFacingDirection = true;
+		_player.CanInteract = true;
 	}
 }
