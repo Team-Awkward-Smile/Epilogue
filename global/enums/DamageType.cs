@@ -32,5 +32,15 @@ public enum DamageType
 	/// <summary>
 	///		Damage caused by an attack that blinds the target
 	/// </summary>
-	Light
+	Light,
+
+	/// <summary>
+	///		Damage caused by an attack that douses the Actor with water
+	/// </summary>
+	Water,
+
+	/// <summary>
+	///		TODO: add description
+	/// </summary>
+	Spread
 }

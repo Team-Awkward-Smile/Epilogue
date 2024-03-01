@@ -170,7 +170,7 @@ public partial class Level : Node2D
 
 		_camera = GetViewport().GetCamera2D() as Camera;
 		_camera.Position = Player.Position;
-		_camera.SetCameraTarget(Player.GetNode<Node2D>("CameraAnchor"));
+		_camera.SetCameraTarget(Player.GetNode<Node2D>("FlipRoot/CameraAnchor"));
 	}
 
 	/// <summary>

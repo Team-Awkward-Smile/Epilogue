@@ -37,7 +37,7 @@ public partial class Vault : State
 		_player.GlobalPosition = _player.Sprite.GetNode<Node2D>("LedgeAnchor").GlobalPosition;
 		_player.Sprite.Position = _spriteOriginalPosition;
 
-		StateMachine.ChangeState(typeof(Fall), StateType.StandingJump);
+		StateMachine.ChangeState(typeof(Idle));
 	}
 }
 

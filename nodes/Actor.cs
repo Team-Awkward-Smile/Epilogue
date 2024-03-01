@@ -26,6 +26,8 @@ public abstract partial class Actor : CharacterBody2D
 	/// </summary>
 	public Dictionary<string, RayCast2D> RayCasts { get; set; } = new();
 
+	public Dictionary<string, ShapeCast2D> ShapeCasts { get; set; } = new();
+
 	/// <summary>
 	///		Direction (Left/Right) this Actor is currently facing
 	/// </summary>
@@ -61,12 +63,23 @@ public abstract partial class Actor : CharacterBody2D
 	/// </summary>
     public ActorAudioPlayer ActorAudioPlayer { get; set; }
 
-    private protected AnimationPlayer AnimationPlayer { get; set; }
+	/// <summary>
+	///		Velocity relative to the Actor's facing direction. 
+	///		A positive X value means the Actor is moving forwards, while a negative value means the Actor is moving backwards
+	/// </summary>
+	public Vector2 RelativeVelocity 
+	{
+		get => new(Velocity.X * (FacingDirection == ActorFacingDirection.Left ? -1f : 1f), Velocity.Y);
+		set => Velocity = new Vector2(value.X * (FacingDirection == ActorFacingDirection.Left ? -1f : 1f), value.Y);
+	}
+
+	private protected AnimationPlayer AnimationPlayer { get; set; }
 
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
 		GetNodeOrNull<Node2D>("FlipRoot")?.GetChildren().OfType<RayCast2D>().ToList().ForEach(r => RayCasts.Add(r.Name.ToString().Replace("RayCast2D", ""), r));
+		GetNodeOrNull<Node2D>("FlipRoot")?.GetChildren().OfType<ShapeCast2D>().ToList().ForEach(s => ShapeCasts.Add(s.Name.ToString().Replace("ShapeCast2D", ""), s));
 
 		Sprite ??= GetNodeOrNull<Node2D>("FlipRoot")?.GetChildren().OfType<Sprite2D>().FirstOrDefault();
 
@@ -85,6 +98,13 @@ public abstract partial class Actor : CharacterBody2D
 
 		HurtBox.HurtBoxDisabled += () => SetIFrameBlink(true);
 		HurtBox.HurtBoxEnabled += () => SetIFrameBlink(false);
+
+		var stateMachine = GetChildren().OfType<StateMachine>().FirstOrDefault();
+
+		if (stateMachine is not null)
+		{
+			stateMachine.StateExited += () => ClearAnimationFinishedSignal();
+		}
 	}
 
 	/// <summary>

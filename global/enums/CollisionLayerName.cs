@@ -60,5 +60,10 @@ public enum CollisionLayerName
 	/// <summary>
 	/// 	Layer containing Area2D's of the NPCs representing their HurtBoxes
 	/// </summary>
-	NpcHurtBox = 1 << 9
+	NpcHurtBox = 1 << 9,
+
+	/// <summary>
+	///		Layer containing platforms that act as ground but can be jumped through
+	/// </summary>
+	Platforms = 1 << 10,
 }

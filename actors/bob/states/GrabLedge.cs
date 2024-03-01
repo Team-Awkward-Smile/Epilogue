@@ -21,21 +21,14 @@ public partial class GrabLedge : State
 
 	internal override void OnInput(InputEvent @event)
 	{
-		if (Input.IsActionJustPressed("jump"))
+		if (@event.IsActionPressed("jump"))
 		{
 			AnimPlayer.Play("ledge_climb");
 			AnimPlayer.AnimationFinished += MoveToTop;
 		}
-		else if (Input.IsActionJustPressed("crouch"))
+		else if (@event.IsActionPressed("crouch"))
 		{
 			StateMachine.ChangeState(typeof(Fall), StateType.StandingJump);
-
-			var c = AnimPlayer.GetSignalConnectionList(AnimationMixer.SignalName.AnimationFinished).FirstOrDefault()?["callable"];
-
-			if (c is not null)
-			{
-				AnimPlayer.Disconnect(AnimationMixer.SignalName.AnimationFinished, (Callable)c);
-			}
 		}
 	}
 

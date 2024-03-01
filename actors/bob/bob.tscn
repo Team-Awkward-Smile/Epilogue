@@ -175,6 +175,42 @@ tracks/12/keys = {
 "update": 0,
 "values": [Vector2(0, -16)]
 }
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("../CameraAnchor:position")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("../CameraAnchor:FollowPlayer")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath(".:frame")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [102]
+}
 
 [sub_resource type="Animation" id="Animation_woke4"]
 resource_name = "crawl"
@@ -373,6 +409,7 @@ tracks/1/keys = {
 [sub_resource type="Animation" id="Animation_pblvt"]
 resource_name = "ledge_climb"
 length = 0.5
+step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -388,40 +425,78 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath(".:frame_coords")
+tracks/1/path = NodePath("LedgeAnchor:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [Vector2i(0, 9), Vector2i(1, 9), Vector2i(2, 9), Vector2i(3, 9), Vector2i(4, 9)]
+"times": PackedFloat32Array(0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 12), Vector2(1, 13)]
 }
-tracks/2/type = "value"
+tracks/2/type = "method"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("LedgeAnchor:position")
+tracks/2/path = NodePath("../../AudioStreamPlayer2D")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.4),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 12)]
-}
-tracks/3/type = "method"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../../AudioStreamPlayer2D")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
 "times": PackedFloat32Array(0.1),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": ["ClimbRock"],
 "method": &"PlayRandomCollisionSfx"
 }]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../CameraAnchor:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -24), Vector2(21, -63)]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../CameraAnchor")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"ResetPosition"
+}]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../CameraAnchor:FollowPlayer")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".:frame")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [99, 100, 101, 102, 103]
 }
 
 [sub_resource type="Animation" id="Animation_v5gsv"]
@@ -477,7 +552,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0.5),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(-1, 25)]
+"values": [Vector2(-1, 27)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -503,6 +578,44 @@ tracks/3/keys = {
 "values": [{
 "args": ["ClimbRock"],
 "method": &"PlayRandomCollisionSfx"
+}]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../CameraAnchor:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -24), Vector2(21, -39)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../CameraAnchor:FollowPlayer")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../CameraAnchor")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"ResetPosition"
 }]
 }
 
@@ -1552,13 +1665,13 @@ height = 48.0
 radius = 0.01
 
 [node name="Bob" type="CharacterBody2D" groups=["Player"]]
-collision_mask = 8
+collision_mask = 1032
 floor_constant_speed = true
 floor_max_angle = 0.802851
 floor_snap_length = 5.0
 platform_on_leave = 2
-platform_floor_layers = 4294901768
-platform_wall_layers = 8
+platform_floor_layers = 4294902792
+platform_wall_layers = 1032
 script = ExtResource("1_cnm5v")
 _allowQuickSlide = true
 MaxHealth = 3.0
@@ -1595,24 +1708,26 @@ script = ExtResource("21_y6wuk")
 editor_description = "Node to control aiming with an analog stick"
 script = ExtResource("22_vq52y")
 
-[node name="CameraAnchor" type="Node2D" parent="."]
-editor_description = "Node that serves as the anchor for the Camera. Moving this Node also moves the Camera"
-position = Vector2(18, -18)
-script = ExtResource("23_7fw8f")
-
 [node name="FlipRoot" type="Node2D" parent="."]
 
 [node name="HeadRayCast2D" type="RayCast2D" parent="FlipRoot"]
 editor_description = "RayCast used to test collisions against walls. Alongside the regular CharacterBody2D, can be used to determine is the character is near a ledge"
 position = Vector2(0, -41)
 target_position = Vector2(8, 0)
-collision_mask = 8
+collision_mask = 1032
 
 [node name="LedgeRayCast2D" type="RayCast2D" parent="FlipRoot"]
 editor_description = "RayCast used to test collisions against walls. Alongside the regular CharacterBody2D, can be used to determine is the character is near a ledge"
 position = Vector2(0, -45)
 target_position = Vector2(8, 0)
-collision_mask = 8
+collision_mask = 1032
+
+[node name="PlatformRayCast2D" type="RayCast2D" parent="FlipRoot"]
+editor_description = "RayCast used to test collisions against walls. Alongside the regular CharacterBody2D, can be used to determine is the character is near a ledge"
+position = Vector2(0, -45)
+target_position = Vector2(8, 0)
+collision_mask = 1024
+hit_from_inside = true
 
 [node name="EnemyRayCast2D" type="RayCast2D" parent="FlipRoot"]
 position = Vector2(0, -20)
@@ -1624,7 +1739,7 @@ editor_description = "RayCast used to test collisions against walls. Alongside t
 modulate = Color(0, 0, 0, 1)
 z_index = 1
 target_position = Vector2(8, 0)
-collision_mask = 8
+collision_mask = 1032
 
 [node name="MainSprite" type="Sprite2D" parent="FlipRoot"]
 unique_name_in_owner = true
@@ -1633,7 +1748,7 @@ position = Vector2(0, -30)
 texture = ExtResource("25_k53r2")
 hframes = 11
 vframes = 36
-frame = 22
+frame = 102
 
 [node name="LedgeAnchor" type="Node2D" parent="FlipRoot/MainSprite"]
 editor_description = "Node used by the Ledge Grab State to move the character to the correct place"
@@ -1657,6 +1772,11 @@ position = Vector2(18, -29)
 shape = ExtResource("12_mjjre")
 disabled = true
 debug_color = Color(1, 0, 0, 0)
+
+[node name="CameraAnchor" type="Node2D" parent="FlipRoot"]
+editor_description = "Node that serves as the anchor for the Camera. Moving this Node also moves the Camera"
+script = ExtResource("23_7fw8f")
+FollowPlayer = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["MainHitbox"]]
 position = Vector2(0, -16)

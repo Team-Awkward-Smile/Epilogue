@@ -25,7 +25,7 @@ public partial class Idle : State
 
 	internal override void OnInput(InputEvent @event)
 	{
-		if (Input.IsActionJustPressed("jump"))
+		if (@event.IsActionPressed("jump"))
 		{
 			if (!_player.RayCasts["Head"].IsColliding() && _player.RayCasts["Feet"].IsColliding())
 			{
@@ -48,23 +48,23 @@ public partial class Idle : State
 				StateMachine.ChangeState(typeof(Jump), StateType.StandingJump);
 			}
 		}
-		else if (Input.IsActionJustPressed("crouch"))
+		else if (@event.IsActionPressed("crouch"))
 		{
 			StateMachine.ChangeState(typeof(Crouch));
 		}
-		else if (Input.IsActionJustPressed("melee"))
+		else if (@event.IsActionPressed("melee"))
 		{
 			StateMachine.ChangeState(typeof(MeleeAttack), StateType.SwipeAttack);
 		}
-		else if (Input.IsActionJustPressed("slide"))
+		else if (@event.IsActionPressed("slide"))
 		{
 			StateMachine.ChangeState(typeof(Slide), StateType.FrontRoll);
 		}
-		else if (Input.IsActionJustPressed("look_up"))
+		else if (@event.IsActionPressed("look_up"))
 		{
 			StateMachine.ChangeState(typeof(LookUp));
 		}
-		else if (Input.IsActionJustPressed("growl"))
+		else if (@event.IsActionPressed("growl"))
 		{
 			StateMachine.ChangeState(typeof(Growl));
 		}
@@ -82,6 +82,10 @@ public partial class Idle : State
 	internal override void PhysicsUpdate(double delta)
 	{
 		_sleepTimer += (float)delta;
+
+		_player.Velocity = new Vector2(0f, _player.Velocity.Y * StateMachine.Gravity * (float)delta);
+
+		_player.MoveAndSlide();
 
 		if (_sleepTimer >= _sleepDelay)
 		{
@@ -105,12 +109,8 @@ public partial class Idle : State
 			}
 
 			StateMachine.ChangeState(_player.RunEnabled ? typeof(Run) : typeof(Walk));
-			return;
-		}
 
-		if (Input.IsActionPressed("crouch"))
-		{
-			StateMachine.ChangeState(typeof(Crouch));
+			return;
 		}
 	}
 }

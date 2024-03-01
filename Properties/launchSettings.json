@@ -5,9 +5,9 @@
     },
     "Godot Debug": {
       "commandName": "Executable",
-      "executablePath": "C:\\Users\\Vitor\\Documents\\Godot 4 C#\\Godot_v4.2-dev4_mono_win64.exe",
+      "executablePath": "C:\\Users\\blue_\\OneDrive\\Documentos\\Godot 4.2\\Godot_v4.2-stable_mono_win64.exe",
       "commandLineArgs": "--path . --verbose --debug-collisions",
-      "workingDirectory": "C:\\Users\\Vitor\\Documents\\Godot Stuff\\Epilogue"
+      "workingDirectory": "C:\\Users\\blue_\\OneDrive\\Documentos\\Godot Stuff\\Epilogue"
     },
     "Godot Editor": {
       "commandName": "Executable",
