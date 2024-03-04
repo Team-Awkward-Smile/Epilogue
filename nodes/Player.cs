@@ -21,6 +21,9 @@ public partial class Player : Actor
 	private GunSystem _gunSystem;
 	private PlayerStateMachine _playerStateMachine;
 	private double _quickSlideTimer;
+	private bool _retroInteractHalf1 = false;
+	private bool _retroInteractHalf2 = false;
+	private bool _retroInteract = false;
 
 	[Export] private bool _allowQuickSlide;
 
@@ -44,11 +47,18 @@ public partial class Player : Actor
 			return;
 		}
 
-		if (_retroModeEnabled && @event.IsActionPressed("toggle_walk_run"))
+		if (@event.IsAction("retro_interact_1"))
 		{
-			RunEnabled = !RunEnabled;
+			_retroInteractHalf1 = @event.IsPressed();
 		}
-		else if (@event.IsAction(InputUtils.GetInputActionName("run_modifier")))
+		else if (@event.IsAction("retro_interact_2"))
+		{
+			_retroInteractHalf2 = @event.IsPressed();
+		}
+
+		_retroInteract = _retroInteractHalf1 && _retroInteractHalf2;
+
+		if (@event.IsAction("toggle_run"))
 		{
 			RunEnabled = @event.IsPressed();
 		}
@@ -58,11 +68,11 @@ public partial class Player : Actor
 
 			_playerStateMachine.ChangeState(typeof(Slide), StateType.KneeSlide);
 		}
-		else if(HoldingSword && @event.IsAction(InputUtils.GetInputActionName("pickup_or_drop_gun")) && @event.IsPressed())
+		else if(HoldingSword && (@event.IsActionPressed("interact") || _retroInteract))
 		{
 			_playerStateMachine.ChangeState(typeof(MeleeAttack));
 		}
-		else if (CanInteract && _gunSystem.HasGunEquipped && @event.IsAction(InputUtils.GetInputActionName("shoot")))
+		else if (CanInteract && _gunSystem.HasGunEquipped && @event.IsActionPressed("shoot"))
 		{
 			// Tries to press/release the trigger of the equipped gun. If the gun is empty when the trigger is pressed, throw it instead
 			if (!_gunSystem.InteractWithTrigger(@event.IsPressed()))
@@ -70,18 +80,21 @@ public partial class Player : Actor
 				_gunSystem.ThrowGun();
 			}
 		}
-		else if (CanInteract && (_gunSystem.IsAnyGunNearby || _gunSystem.HasGunEquipped) && @event.IsActionPressed(InputUtils.GetInputActionName("pickup_or_drop_gun")))
+		else if (CanInteract && (_gunSystem.IsAnyGunNearby || _gunSystem.HasGunEquipped) && (@event.IsActionPressed("interact") || _retroInteract))
 		{
 			_gunSystem.InteractWithGun();
 		}
-		else if (@event.IsActionPressed("debug_add_hp"))
+		else if (_retroInteract)
 		{
-			// TODO: 189 - Remove this later, or at least move it to a better place
-			RecoverHealth(1);
-		}
-		else if (@event.IsActionPressed("debug_remove_hp"))
-		{
-			ReduceHealth(1, DamageType.Unarmed);
+			_retroInteract = _retroInteractHalf1 = _retroInteractHalf2 = false;
+
+			var input = new InputEventAction()
+			{
+				Action = "growl",
+				Pressed = true
+			};
+
+			Input.ParseInputEvent(input);
 		}
 		else
 		{

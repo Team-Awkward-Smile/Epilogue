@@ -24,7 +24,7 @@ public partial class Run : State
 
 	internal override void OnInput(InputEvent @event)
 	{
-		if (Input.IsActionJustPressed("jump"))
+		if (@event.IsActionPressed("jump"))
 		{
 			if (_player.IsOnWall())
 			{
@@ -44,11 +44,11 @@ public partial class Run : State
 				StateMachine.ChangeState(typeof(Jump), StateType.LongJump);
 			}
 		}
-		else if (Input.IsActionJustPressed("melee"))
+		else if (@event.IsActionPressed("melee"))
 		{
 			StateMachine.ChangeState(typeof(MeleeAttack), StateType.SlideAttack);
 		}
-		else if (Input.IsActionJustPressed("slide"))
+		else if (@event.IsActionPressed("slide"))
 		{
 			StateMachine.ChangeState(typeof(Slide), StateType.LongSlide);
 		}

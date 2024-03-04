@@ -1,5 +1,4 @@
 using Epilogue.Actors.Hestmor.Enums;
-using Epilogue.Const;
 using Epilogue.Nodes;
 using Godot;
 
@@ -25,6 +24,8 @@ public partial class Idle : State
 
 	internal override void OnInput(InputEvent @event)
 	{
+		_sleepTimer = 0f;
+
 		if (@event.IsActionPressed("jump"))
 		{
 			if (!_player.RayCasts["Head"].IsColliding() && _player.RayCasts["Feet"].IsColliding())

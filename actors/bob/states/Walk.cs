@@ -23,7 +23,7 @@ public partial class Walk : State
 
 	internal override void OnInput(InputEvent @event)
 	{
-		if (Input.IsActionJustPressed("jump"))
+		if (@event.IsActionPressed("jump"))
 		{
 			if (_player.RayCasts["Head"].IsColliding() && !_player.RayCasts["Ledge"].IsColliding())
 			{
@@ -34,15 +34,15 @@ public partial class Walk : State
 				StateMachine.ChangeState(typeof(Jump), StateType.LowJump);
 			}
 		}
-		else if (Input.IsActionJustPressed("melee"))
+		else if (@event.IsActionPressed("melee"))
 		{
 			StateMachine.ChangeState(typeof(MeleeAttack), StateType.UppercutPunch);
 		}
-		else if (Input.IsActionJustPressed("crouch"))
+		else if (@event.IsActionPressed("crouch"))
 		{
 			StateMachine.ChangeState(typeof(Crouch));
 		}
-		else if (Input.IsActionJustPressed("slide"))
+		else if (@event.IsActionPressed("slide"))
 		{
 			StateMachine.ChangeState(typeof(Slide), StateType.KneeSlide);
 		}
@@ -95,9 +95,5 @@ public partial class Walk : State
 		{
 			StateMachine.ChangeState(typeof(Run));
 		}
-		// else if(goingDownSlope)
-		// {
-		// 	StateMachine.ChangeState(typeof(Crawl));
-		// }
 	}
 }

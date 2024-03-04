@@ -161,7 +161,7 @@ tracks/11/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [32.0]
+"values": [42.0]
 }
 tracks/12/type = "value"
 tracks/12/imported = false
@@ -173,7 +173,7 @@ tracks/12/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0, -16)]
+"values": [Vector2(0, -21)]
 }
 tracks/13/type = "value"
 tracks/13/imported = false
@@ -251,10 +251,10 @@ tracks/1/path = NodePath("../../CollisionShape2D:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [Vector2(0, -22), Vector2(0, -19), Vector2(0, -17), Vector2(0, -16)]
+"values": [Vector2(0, -22), Vector2(0, -19), Vector2(0, -17)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -263,10 +263,10 @@ tracks/2/path = NodePath("../../CollisionShape2D:shape:height")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [44.0, 38.0, 34.0, 32.0]
+"values": [44.0, 38.0, 34.0]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -275,10 +275,10 @@ tracks/3/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:shape:heig
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [48.0, 42.0, 38.0, 36.0]
+"values": [48.0, 42.0, 38.0]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -287,10 +287,10 @@ tracks/4/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [Vector2(0, -24), Vector2(0, -21), Vector2(0, -19), Vector2(0, -18)]
+"values": [Vector2(0, -24), Vector2(0, -21), Vector2(0, -19)]
 }
 
 [sub_resource type="Animation" id="Animation_wktmx"]
@@ -1388,9 +1388,9 @@ tracks/2/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:shape:heig
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.3),
+"times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
+"update": 1,
 "values": [34.0]
 }
 tracks/3/type = "value"
@@ -1400,9 +1400,9 @@ tracks/3/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0.3),
+"times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
+"update": 1,
 "values": [Vector2(0, -17)]
 }
 tracks/4/type = "value"
@@ -1412,9 +1412,9 @@ tracks/4/path = NodePath("%MainSprite/../../CollisionShape2D:shape:height")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0.3),
+"times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
+"update": 1,
 "values": [32.0]
 }
 tracks/5/type = "value"
@@ -1424,9 +1424,9 @@ tracks/5/path = NodePath("%MainSprite/../../CollisionShape2D:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0.3),
+"times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
+"update": 1,
 "values": [Vector2(0, -16)]
 }
 
@@ -1652,7 +1652,7 @@ shader_parameter/blinkColor = Color(1, 1, 1, 1)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b5eh5"]
 radius = 7.0
-height = 32.0
+height = 42.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0k2f7"]
 radius = 4.0
@@ -1692,7 +1692,7 @@ libraries = {
 bus = &"Footsteps"
 script = ExtResource("18_ucai5")
 
-[node name="Aim" type="Node" parent="." groups=["InputType"]]
+[node name="Aim" type="Node" parent="." groups=["InputReadingUpdatesSubscribers"]]
 editor_description = "Base Node to control the aiming system, regardless of the input method"
 script = ExtResource("19_imqwf")
 
@@ -1779,7 +1779,7 @@ script = ExtResource("23_7fw8f")
 FollowPlayer = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["MainHitbox"]]
-position = Vector2(0, -16)
+position = Vector2(0, -21)
 shape = SubResource("CapsuleShape2D_b5eh5")
 debug_color = Color(0, 0, 1, 0)
 

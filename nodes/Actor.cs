@@ -103,7 +103,7 @@ public abstract partial class Actor : CharacterBody2D
 
 		if (stateMachine is not null)
 		{
-			stateMachine.StateExited += () => ClearAnimationFinishedSignal();
+			stateMachine.StateExited += () => ResetAnimation();
 		}
 	}
 
@@ -199,7 +199,7 @@ public abstract partial class Actor : CharacterBody2D
 		SetFacingDirection(FacingDirection == ActorFacingDirection.Right ? ActorFacingDirection.Left : ActorFacingDirection.Right);
 	}
 
-	public void ClearAnimationFinishedSignal()
+	public void ResetAnimation()
 	{
 		foreach (var signal in AnimationPlayer.GetSignalConnectionList(AnimationMixer.SignalName.AnimationFinished))
 		{
@@ -208,6 +208,9 @@ public abstract partial class Actor : CharacterBody2D
                 AnimationPlayer.Disconnect(AnimationMixer.SignalName.AnimationFinished, (Callable)signal["callable"]);
             }
 		}
+
+		AnimationPlayer.Play("RESET");
+		AnimationPlayer.Advance(0);
 	}
 
 	/// <summary>
