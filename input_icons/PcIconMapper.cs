@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Epilogue.input_icons;
+namespace Epilogue.InputIcons;
 /// <summary>
 ///		Class that automatically maps mouse button events to their corresponding icons
 /// </summary>

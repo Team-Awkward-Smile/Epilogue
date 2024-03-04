@@ -1,8 +1,7 @@
-using Godot;
-using Epilogue.Nodes;
-using Epilogue.Global.Enums;
 using Epilogue.Global.DTO;
-using static Godot.GodotObject;
+using Epilogue.Global.Enums;
+using Epilogue.Nodes;
+using Godot;
 
 namespace Epilogue.Actors.Hestmor.States;
 /// <inheritdoc/>
@@ -65,6 +64,6 @@ public partial class Growl : State
 		_growlEffectArea.SetUpGrowl(growlDto);
 
 		AnimPlayer.Play($"Growl/{growlDto.Animation}");
-		AnimPlayer.Connect(AnimationMixer.SignalName.AnimationFinished, Callable.From((StringName animName) => StateMachine.ChangeState(typeof(Idle))), (uint)ConnectFlags.OneShot);
+		AnimPlayer.AnimationFinished += (StringName animName) => StateMachine.ChangeState(typeof(Idle));
 	}
 }

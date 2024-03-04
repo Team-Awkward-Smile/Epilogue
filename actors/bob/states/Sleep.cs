@@ -2,7 +2,6 @@ using Epilogue.Nodes;
 using Godot;
 using System.Linq;
 using System.Threading.Tasks;
-using static Godot.GodotObject;
 
 namespace Epilogue.Actors.Hestmor.States;
 /// <inheritdoc/>
@@ -34,15 +33,19 @@ public partial class Sleep : State
 	internal override void OnEnter(params object[] args)
 	{
 		_player.CanChangeFacingDirection = false;
+		_player.CanInteract = false;
 
 		AnimPlayer.Play("Sleep/sleep_start");
-		AnimPlayer.Connect(AnimationMixer.SignalName.AnimationFinished, Callable.From((StringName animName) => AnimPlayer.Play("Sleep/sleep_loop")), (uint)ConnectFlags.OneShot);
+		AnimPlayer.AnimationFinished += (StringName animName) => AnimPlayer.Play("Sleep/sleep_loop");
 	}
 
 	internal override async Task OnLeave()
 	{
 		AnimPlayer.Play("Sleep/sleep_end");
 
-        await StateMachine.ToSignal(AnimPlayer, "animation_finished");
+		await StateMachine.ToSignal(AnimPlayer, AnimationMixer.SignalName.AnimationFinished);
+
+		_player.CanChangeFacingDirection = true;
+		_player.CanInteract = true;
 	}
 }
