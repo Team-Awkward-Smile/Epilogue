@@ -15,7 +15,7 @@ public partial class Jump : State
 	private readonly float _lowJumpHorizontalSpeed;
 	private readonly float _longJumpHorizontalSpeed;
 	private readonly Player _player;
-	private readonly Achievements _achievements;
+	private readonly PlayerEvents _playerEvents;
 
 	private float _horizontalVelocity;
 	private StateType _jumpType;
@@ -41,7 +41,7 @@ public partial class Jump : State
 		float longJumpHorizontalSpeed) : base(stateMachine)
 	{
 		_player = (Player)stateMachine.Owner;
-		_achievements = StateMachine.GetNode<Achievements>("/root/Achievements");
+		_playerEvents = StateMachine.GetNode<PlayerEvents>("/root/PlayerEvents");
 		_standingJumpVerticalSpeed = standingJumpVerticalSpeed;
 		_lowJumpVerticalSpeed = lowJumpVerticalSpeed;
 		_lowJumpHorizontalSpeed = lowJumpHorizontalSpeed;
@@ -86,7 +86,8 @@ public partial class Jump : State
 		var modifier = _player.FacingDirection == ActorFacingDirection.Left ? -1 : 1;
 
 		_player.Velocity = new Vector2(_horizontalVelocity * modifier, _currentJumpVerticalSpeed);
-		_achievements.JumpCount++;
+
+		_playerEvents.EmitSignal(PlayerEvents.SignalName.PlayerJumped);
 	}
 
 	internal override void PhysicsUpdate(double delta)

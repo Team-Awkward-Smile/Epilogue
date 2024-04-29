@@ -12,4 +12,10 @@ public partial class NpcEvents : Node
 	/// </summary>
 	/// <param name="gun">Gun spawned by the NPC</param>
 	[Signal] public delegate void GunAcquiredFromNpcEventHandler(Gun gun);
+
+	/// <summary>
+	///		Signal emitted whenever an NPC dies
+	/// </summary>
+	/// <param name="npc">The killed NPC</param>
+	[Signal] public delegate void EnemyKilledEventHandler(Npc npc);
 }

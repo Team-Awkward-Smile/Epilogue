@@ -7,10 +7,20 @@ public enum Achievement
 	/// <summary>
 	///		Play for 100 seconds
 	/// </summary>
-	Play100Seconds,
+	Addiction,
 
 	/// <summary>
 	///		Jump 10 times
 	/// </summary>
-	Jump10Times
+	Froggy,
+
+	/// <summary>
+	///		Kill 1 enemy
+	/// </summary>
+	TasteForBlood,
+
+	/// <summary>
+	///		Kill 1 Terra Bischem
+	/// </summary>
+	YoyoMaster
 }

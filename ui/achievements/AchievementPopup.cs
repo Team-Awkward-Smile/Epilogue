@@ -1,3 +1,4 @@
+using Epilogue.Achievements;
 using Epilogue.Global.Enums;
 using Epilogue.Global.Singletons;
 using Godot;
@@ -10,53 +11,86 @@ namespace Epilogue.UI;
 /// </summary>
 public partial class AchievementPopup : Control
 {
-	private List<AchievementData> _achievementData;
+	/// <summary>
+	///		Signal emitted whenever the Achievement Popup finishes it's animation and becomes hidden
+	/// </summary>
+	[Signal] public delegate void PopupHiddenEventHandler();
+
+	private readonly List<Achievement> _queriedAchievements = new();
+
+	private AchievementList _achievementList;
 	private Control _popup;
+	private Label _nameLabel;
+	private Label _descriptionLabel;
+	private TextureRect _iconRect;
+	private bool _popupVisible = false;
 
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
 		_popup = GetChild(0) as Control;
+
+		_nameLabel = _popup.GetNode<Label>("Name");
+		_descriptionLabel = _popup.GetNode<Label>("Description");
+		_iconRect = _popup.GetNode<TextureRect>("Icon");
+
 		_popup.Position = new Vector2(_popup.Position.X, -_popup.Size.Y - 10f);
 
-		// TODO: 118 - This should be in a separate file
-		_achievementData = new()
+		_achievementList = new AchievementList();
+
+		GetNode<AchievementManager>("/root/AchievementManager").AchievementUnlocked += QueryAchievementPopup;
+
+		PopupHidden += () =>
 		{
-			new AchievementData()
+			if (_queriedAchievements.Any())
 			{
-				ID = Achievement.Play100Seconds,
-				Name = "Addiction",
-				Description = "Play for 100 seconds"
-			},
-			new AchievementData()
-			{
-				ID = Achievement.Jump10Times,
-				Name = "Froggy",
-				Description = "Jump 10 times"
+				DisplayPopup();
 			}
 		};
-
-		GetNode<Achievements>("/root/Achievements").AchievementUnlocked += DisplayPopup;
 	}
 
-	// TODO: 118 - Allow more than one achievement to be unlocked at once, by querying the remaining notifications and displaying them one at a time
-	private async void DisplayPopup(Achievement achievementID)
+	// Queries a popup to be displayed
+	private void QueryAchievementPopup(Achievement achievement)
 	{
-		var data = _achievementData.Where(d => d.ID == achievementID).First();
+		_queriedAchievements.Add(achievement);
 
-		// TODO: 118 - Add icons as well
-		_popup.GetNode<Label>("Name").Text = data.Name;
-		_popup.GetNode<Label>("Description").Text = data.Description;
-
-		var tween = GetTree().CreateTween();
-			
-		tween.TweenProperty(_popup, "position", new Vector2(_popup.Position.X, 10), 0.5f);
-
-		await ToSignal(tween, "finished");
-
-		GetTree().CreateTimer(5f).Timeout += () =>
+		if (!_popupVisible)
 		{
-			GetTree().CreateTween().TweenProperty(_popup, "position", new Vector2(_popup.Position.X, -_popup.Size.Y - 10), 1f);
+			DisplayPopup();
+		}
+	}
+
+	// Displays a popup for the first queried achievement. If there are any remaining achievements, more popups will be displayed until no more achievements remain
+	private async void DisplayPopup()
+	{
+		_popupVisible = true;
+
+		var achievement = _queriedAchievements.First();
+		var data = _achievementList.Achievements.Where(d => d.ID == achievement).First();
+
+		_nameLabel.Text = data.Name;
+		_descriptionLabel.Text = data.Description;
+		_iconRect.Texture = GD.Load<CompressedTexture2D>($"res://ui/achievements/icons/{data.ID}.png");
+
+		var showTween = GetTree().CreateTween();
+			
+		showTween.TweenProperty(_popup, "position", new Vector2(_popup.Position.X, 10), 0.5f);
+
+		await ToSignal(showTween, "finished");
+
+		GetTree().CreateTimer(5f).Timeout += async () =>
+		{
+			_queriedAchievements.Remove(achievement);
+
+			var hideTween = GetTree().CreateTween();
+			
+			hideTween.TweenProperty(_popup, "position", new Vector2(_popup.Position.X, -_popup.Size.Y - 10), 1f);
+
+			await ToSignal(hideTween, "finished");
+
+			_popupVisible = false;
+
+			EmitSignal(SignalName.PopupHidden);
 		};
 	}
 }
