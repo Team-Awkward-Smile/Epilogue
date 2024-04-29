@@ -61,10 +61,6 @@ public partial class Idle : State
 		{
 			StateMachine.ChangeState(typeof(Slide), StateType.FrontRoll);
 		}
-		else if (@event.IsActionPressed("look_up"))
-		{
-			StateMachine.ChangeState(typeof(LookUp));
-		}
 		else if (@event.IsActionPressed("growl"))
 		{
 			StateMachine.ChangeState(typeof(Growl));
