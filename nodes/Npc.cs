@@ -80,6 +80,7 @@ public abstract partial class Npc : Actor
 
 	private protected NpcStateMachine _npcStateMachine;
 	private protected PlayerEvents _playerEvents;
+	private protected NpcEvents _npcEvents;
 
 	/// <inheritdoc/>
 	public override async void _Ready()
@@ -107,6 +108,7 @@ public abstract partial class Npc : Actor
 		BloodEmitter ??= GetChildren().OfType<BloodEmitter>().FirstOrDefault();
 
 		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
+		_npcEvents = GetNode<NpcEvents>("/root/NpcEvents");
 
 		_playerEvents.Connect(PlayerEvents.SignalName.PlayerIsDying, Callable.From(OnPlayerDeath));
 
@@ -148,6 +150,8 @@ public abstract partial class Npc : Actor
 			}
 
 			OnHealthDepleted(damageType);
+
+			_npcEvents.EmitSignal(NpcEvents.SignalName.EnemyKilled, this);
 		}
 		else
 		{

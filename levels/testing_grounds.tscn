@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://cjolarkdk5yoi"]
+[gd_scene load_steps=22 format=3 uid="uid://cjolarkdk5yoi"]
 
 [ext_resource type="Script" path="res://nodes/Level.cs" id="1_o245g"]
 [ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_pfrwm"]
@@ -13,14 +13,12 @@
 [ext_resource type="TileSet" uid="uid://c2hf2m205a0qe" path="res://temp/tileset.tres" id="15_1ohv8"]
 [ext_resource type="PackedScene" uid="uid://c2opqdka41yi" path="res://actors/moss_plant/moss_plant.tscn" id="17_50j4x"]
 [ext_resource type="PackedScene" uid="uid://cq3gk81ploy03" path="res://actors/terra_bischem/terra_bischem_blade.tscn" id="18_21bth"]
-[ext_resource type="PackedScene" uid="uid://cqctp6a75hq70" path="res://actors/icarasia/icarasia.tscn" id="18_eite0"]
 [ext_resource type="PackedScene" uid="uid://cegk1cph0llpn" path="res://props/checkpoint/checkpoint.tscn" id="18_utu6l"]
 [ext_resource type="PackedScene" uid="uid://c305ssxgpg4ad" path="res://actors/terra_bischem/terra_bischem_rotating_axe.tscn" id="19_fyl2f"]
 [ext_resource type="Script" path="res://temp/NewGamePlusPath.cs" id="19_owmbm"]
 [ext_resource type="PackedScene" uid="uid://cjogekv61ycm5" path="res://props/sword/sword.tscn" id="19_t8n6g"]
 [ext_resource type="PackedScene" uid="uid://dct4o152unf8r" path="res://actors/terra_bischem/terra_bischem_swinging_axe.tscn" id="20_2a4cq"]
 [ext_resource type="PackedScene" uid="uid://6a8rb567c64u" path="res://props/breakable_tiles/test_breakable_tile.tscn" id="20_cneke"]
-[ext_resource type="Script" path="res://temp/AchievmentTimer.cs" id="21_tq176"]
 [ext_resource type="PackedScene" uid="uid://dsr7kis4avo4p" path="res://actors/terra_bischem/terra_bischem_yoyo.tscn" id="21_xq228"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nkpyu"]
@@ -82,7 +80,7 @@ script = ExtResource("7_xoqku")
 [node name="UILayer" type="CanvasLayer" parent="."]
 
 [node name="Shotgun" parent="." instance=ExtResource("9_p440d")]
-position = Vector2(536, -67)
+position = Vector2(236, -69)
 
 [node name="Spikes" type="Node2D" parent="."]
 position = Vector2(105, -64)
@@ -119,7 +117,7 @@ layer_2/tile_data = PackedInt32Array()
 [node name="Checkpoints" type="Node2D" parent="."]
 
 [node name="Checkpoint" parent="Checkpoints" instance=ExtResource("18_utu6l")]
-position = Vector2(690, -68)
+position = Vector2(279, -68)
 FirstCheckpoint = true
 
 [node name="Checkpoint2" parent="Checkpoints" instance=ExtResource("18_utu6l")]
@@ -136,12 +134,6 @@ position = Vector2(351, -47)
 
 [node name="Sword" parent="." instance=ExtResource("19_t8n6g")]
 position = Vector2(890, -34)
-
-[node name="AchievementTimer" type="Timer" parent="."]
-wait_time = 100.0
-one_shot = true
-autostart = true
-script = ExtResource("21_tq176")
 
 [node name="TileMap2" type="TileMap" parent="."]
 modulate = Color(0.407843, 0.407843, 0.796078, 1)
@@ -172,9 +164,6 @@ position = Vector2(184, -92)
 
 [node name="MossPlant" parent="." instance=ExtResource("17_50j4x")]
 position = Vector2(482, -250)
-
-[node name="Icarasia" parent="." instance=ExtResource("18_eite0")]
-position = Vector2(-15, -178)
 
 [node name="BladeTerraBischem" parent="." instance=ExtResource("18_21bth")]
 position = Vector2(411, -54)

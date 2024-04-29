@@ -41,4 +41,9 @@ public partial class PlayerEvents : Node
 	/// <param name="healAmount">The amount of HP restored</param>
 	/// <param name="currentHP">The remaining HP after being healed</param>
 	[Signal] public delegate void PlayerWasHealedEventHandler(float healAmount, float currentHP);
+
+	/// <summary>
+	///		Event triggered whenever the player character jumps
+	/// </summary>
+	[Signal] public delegate void PlayerJumpedEventHandler();
 }
