@@ -28,7 +28,15 @@ public abstract partial class Npc : Actor
 	/// <summary>
 	///		Current Growl type affecting this NPC. If no Growl is active, it will be null
 	/// </summary>
-	public GrowlType? CurrentGrowlInEffect { get; private protected set; }
+	public GrowlType? CurrentGrowlInEffect 
+	{
+		get => _currentGrowlInEffect;
+		private protected set
+		{
+			_currentGrowlInEffect = value;
+			_currentGrowlResetTimer = value is not null ? 5f : null;
+		}
+	}
 
 	/// <summary>
 	///     Defines if this NPC is Vulnerable and able to be Executed
@@ -76,12 +84,21 @@ public abstract partial class Npc : Actor
 	/// </summary>
 	public bool CanRecoverFromVulnerability { get; set; } = true;
 
+	/// <summary>
+	///		Distance (in units) this NPC is from the player
+	/// </summary>
 	public float DistanceFromPlayer { get; set; }
 
+	/// <summary>
+	///		Determines if this NPC is currently interacting with a NavigationLink
+	/// </summary>
 	public bool InteractingWithNavigationLink { get; set; } = false;
 
 	private protected NpcStateMachine _npcStateMachine;
 	private protected PlayerEvents _playerEvents;
+
+	private GrowlType? _currentGrowlInEffect;
+	private double? _currentGrowlResetTimer;
 
 	/// <inheritdoc/>
 	public override async void _Ready()
@@ -123,7 +140,7 @@ public abstract partial class Npc : Actor
 	}
 
 	/// <summary>
-	///     Deals damage to this NPC. If its HP then becomes lower than its <see cref="VulnerabilityThreshold"/>, it becomes Vulnerable
+	///     Deals damage to this NPC. If it's HP then becomes 0, it becomes Vulnerable
 	/// </summary>
 	/// <param name="damage">Ammount of damage to cause</param>
 	/// <param name="damageType">Type of the damage dealt</param>
@@ -132,43 +149,30 @@ public abstract partial class Npc : Actor
 		BloodEmitter?.EmitBlood();
 
 		// Prevent cases where multiple sources dealing damage at once may cause a race-condition
-		if (CurrentHealth == 0)
+		if (CurrentHealth == 0 && !IsVulnerable)
 		{
 			return;
 		}
 
-		var modifier = 1f;
+		var modifiedDamage = damage * (DamageModifiers.TryGetValue(damageType, out var modifier) ? modifier : 1f);
 
-		if (DamageModifiers.ContainsKey(damageType))
+		if ((CurrentHealth -= modifiedDamage) <= 0f)
 		{
-			modifier = DamageModifiers[damageType];
-		}
-
-		damage *= modifier;
-
-		CurrentHealth -= damage;
-
-		if (CurrentHealth <= 0f)
-		{
-			if (damageType == DamageType.Unarmed)
+			switch (IsVulnerable)
 			{
-				IsVulnerable = true;
-			}
+				case false:
+					IsVulnerable = true;
+					OnVulnerabilityTriggered();
+					break;
 
-			OnHealthDepleted(damageType);
+				case true:
+					OnHealthDepleted(damageType);
+					break;
+			}
 		}
 		else
 		{
-			if (!IsVulnerable && CurrentHealth <= 0)
-			{
-				IsVulnerable = true;
-
-				OnVulnerabilityTriggered();
-			}
-			else
-			{
-				OnDamageTaken(damage, CurrentHealth, damageType);
-			}
+			OnDamageTaken(modifiedDamage, CurrentHealth, damageType);
 		}
 	}
 
@@ -213,9 +217,30 @@ public abstract partial class Npc : Actor
 		OnGrowl(growlType);
 	}
 
+	/// <summary>
+	///		Notifies this NPC of a projectile about to collide with it
+	/// </summary>
+	public void TriggerProjectileNotification()
+	{
+		OnProjectileNotification();
+	}
+
+	/// <summary>
+	///		Trigger this NPC's Desperation behavior (if any)
+	/// </summary>
+	public void TriggerDesperation()
+	{
+		OnDesperationTriggered();
+	}
+
 	/// <inheritdoc/>
 	public override async void _PhysicsProcess(double delta)
 	{
+		if (_currentGrowlResetTimer is not null && (_currentGrowlResetTimer -= delta) <= 0)
+		{
+			CurrentGrowlInEffect = null;
+		}
+
 		// Queries a new path to the Player if the Player moved too far away from the last position
 		if (UseDefaultPathfinding && !WaitingForNavigationQuery && Player.GlobalPosition.DistanceTo(PlayerNavigationAgent2D.TargetPosition) > Const.Constants.PATH_REQUERY_THRESHOLD_DISTANCE)
 		{
@@ -284,6 +309,10 @@ public abstract partial class Npc : Actor
 	///     Method that runs whenever the Player dies
 	/// </summary>
 	private protected abstract void OnPlayerDeath();
+
+	private protected abstract void OnDesperationTriggered();
+
+	private protected abstract void OnProjectileNotification();
 
 	/// <summary>
 	///     Updates the Wander NavigationAgent2D with the informed point. 

@@ -157,6 +157,7 @@ public partial class Slide : State
 			_slideFinished = true;
 
 			_player.Velocity = new Vector2(_player.Velocity.X / 2, _player.Velocity.Y);
+
 			AnimPlayer.Play($"Slide/{_animation}_slide_end");
 			AnimPlayer.AnimationFinished += EndSlide;
 		}

@@ -28,6 +28,11 @@ public class State
 	/// </summary>
 	public bool Deactivating { get; set; } = false;
 
+	/// <summary>
+	///		If <c>true</c>, this State is the currently active State of the State Machine
+	/// </summary>
+	public bool Active { get; set; }
+
 	/// <inheritdoc/>
 	public State(StateMachine stateMachine)
 	{

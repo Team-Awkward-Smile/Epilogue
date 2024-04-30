@@ -26,6 +26,9 @@ public abstract partial class Actor : CharacterBody2D
 	/// </summary>
 	public Dictionary<string, RayCast2D> RayCasts { get; set; } = new();
 
+	/// <summary>
+	///		All ShapeCast2D's belonging to this Actor, accessed by their names (minus the 'ShapeCast2D' suffix)
+	/// </summary>
 	public Dictionary<string, ShapeCast2D> ShapeCasts { get; set; } = new();
 
 	/// <summary>
@@ -136,7 +139,7 @@ public abstract partial class Actor : CharacterBody2D
 	/// </summary>
 	public virtual void MoveAndSlideWithRotation()
 	{
-		_ = MoveAndSlide();
+		MoveAndSlide();
 
 		if (IsOnFloor())
 		{
@@ -145,16 +148,16 @@ public abstract partial class Actor : CharacterBody2D
 
 			if (floorRadianAngle is > 0 and < 1)
 			{
-				_ = CreateTween().TweenProperty(this, "rotation", floorRadianAngle * (floorNormal.X > 0 ? 1 : -1), 0.05f);
+				CreateTween().TweenProperty(this, "rotation", floorRadianAngle * (floorNormal.X > 0 ? 1 : -1), 0.05f);
 			}
 			else if (floorRadianAngle == 0)
 			{
-				_ = CreateTween().TweenProperty(this, "rotation", 0f, 0.05f);
+				CreateTween().TweenProperty(this, "rotation", 0f, 0.05f);
 			}
 		}
 		else
 		{
-			_ = CreateTween().TweenProperty(this, "rotation", 0f, 0.05f);
+			CreateTween().TweenProperty(this, "rotation", 0f, 0.05f);
 		}
 	}
 
@@ -199,16 +202,11 @@ public abstract partial class Actor : CharacterBody2D
 		SetFacingDirection(FacingDirection == ActorFacingDirection.Right ? ActorFacingDirection.Left : ActorFacingDirection.Right);
 	}
 
+	/// <summary>
+	///		Resets the properties of the Actor by playing the RESET animation
+	/// </summary>
 	public void ResetAnimation()
 	{
-		foreach (var signal in AnimationPlayer.GetSignalConnectionList(AnimationMixer.SignalName.AnimationFinished))
-		{
-            if (AnimationPlayer.IsConnected(AnimationMixer.SignalName.AnimationFinished, (Callable)signal["callable"])) 
-            {
-                AnimationPlayer.Disconnect(AnimationMixer.SignalName.AnimationFinished, (Callable)signal["callable"]);
-            }
-		}
-
 		AnimationPlayer.Play("RESET");
 		AnimationPlayer.Advance(0);
 	}

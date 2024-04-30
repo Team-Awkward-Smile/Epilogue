@@ -18,6 +18,8 @@ public partial class GrowlEffectArea : Area2D
 	{
 		_player = (Player)Owner;
 		_collisionShape = GetChild(0) as CollisionShape2D;
+
+		BodyEntered += OnBodyEntered;
 	}
 
 	/// <summary>
@@ -36,27 +38,13 @@ public partial class GrowlEffectArea : Area2D
 	{
 		((CircleShape2D)_collisionShape.Shape).Radius = _growlDto.Radius;
 		_collisionShape.Disabled = false;
-
-		BodyEntered += OnBodyEntered;
 	}
 
 	private void OnBodyEntered(Node2D body)
 	{
 		if (body is Npc enemy)
 		{
-			var offset = _player.SpriteSize.Y / 2;
-
-			var raycast = new RayCast2D()
-			{
-				Position = new Vector2(0f, -offset),
-				TargetPosition = enemy.GlobalPosition - _player.GlobalPosition,
-				CollisionMask = (int)CollisionLayerName.World
-			};
-
-			_player.AddChild(raycast);
-			raycast.ForceRaycastUpdate();
 			enemy.ReactToGrowl(_growlDto.GrowlType);
-			raycast.QueueFree();
 		}
 	}
 
@@ -69,7 +57,5 @@ public partial class GrowlEffectArea : Area2D
 		((CircleShape2D)collisionShape.Shape).Radius = 0f;
 
 		_growlDto = null;
-
-		BodyEntered -= OnBodyEntered;
 	}
 }

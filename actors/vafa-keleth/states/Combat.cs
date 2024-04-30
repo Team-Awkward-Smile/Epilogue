@@ -4,20 +4,24 @@ using Godot;
 using Godot.Collections;
 
 namespace Epilogue.Actors.VafaKeleth.States;
+/// <inheritdoc/>
 public partial class Combat : State
 {
 	private readonly VafaKeleth _vafaKeleth;
-	private readonly Player _player;
 	private readonly double _spitFireCooldown;
 
 	private ShapeCast2D _fireStreamShapeCast;
 	private double _sweepTimer;
 	private bool _isMoving = false;
 
-	public Combat(StateMachine stateMachine, Player player, double spitFireCooldown) : base(stateMachine)
+	/// <summary>
+	///		State that allows the Vafa'Keleth to engage the player in combat
+	/// </summary>
+	/// <param name="stateMachine">State Machine that owns this State</param>
+	/// <param name="spitFireCooldown">Minimum time (in seconds) between each Spit Fire attack</param>
+	public Combat(StateMachine stateMachine, double spitFireCooldown) : base(stateMachine)
 	{
 		_vafaKeleth = (VafaKeleth)stateMachine.Owner;
-		_player = player;
 		_spitFireCooldown = spitFireCooldown;
 	}
 
@@ -37,6 +41,7 @@ public partial class Combat : State
 	internal override void OnEnter(params object[] args)
 	{
 		AnimPlayer.Play("idle");
+		_vafaKeleth.CanAttemptSlide = true;
 
 		_isMoving = false;
 		_fireStreamShapeCast = _vafaKeleth.ShapeCasts["Attack"];
@@ -105,8 +110,6 @@ public partial class Combat : State
 
 			if (_fireStreamShapeCast.IsColliding())
 			{
-				_fireStreamShapeCast.RotationDegrees = 0;
-
 				hitAngle = angle;
 				hitDistance = _vafaKeleth.GlobalPosition.DistanceTo(_fireStreamShapeCast.GetCollisionPoint(0));
 

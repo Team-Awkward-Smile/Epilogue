@@ -1,9 +1,8 @@
-using Epilogue.Nodes;
 using Epilogue.Global.Singletons;
-
+using Epilogue.Nodes;
 using Godot;
 
-namespace Epilogue.Guns;
+namespace Epilogue.Guns.Flamethrower;
 /// <summary>
 ///		Flamethrower used for testing purposes
 /// </summary>
@@ -22,7 +21,7 @@ public partial class Flamethrower : Gun
 
 	private protected override void OnTriggerHeld(double delta)
 	{
-		if(TimeSinceLastShot >= _shotDelay && CurrentAmmoCount > 0)
+		if (TimeSinceLastShot >= _shotDelay && CurrentAmmoCount > 0)
 		{
 			TimeSinceLastShot = 0;
 			CurrentAmmoCount--;

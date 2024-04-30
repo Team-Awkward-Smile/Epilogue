@@ -28,10 +28,7 @@ public partial class Icarasia : Npc
 	/// <inheritdoc/>
 	public override Dictionary<DamageType, float> DamageModifiers { get; set; } = new()
 	{
-		{ DamageType.Unarmed, 1f },
-		{ DamageType.GunThrow, 2f },
-		{ DamageType.Piercing, 1f },
-		{ DamageType.Fire, 1f }
+		{ DamageType.GunThrow, 2f }
 	};
 
 	/// <summary>
@@ -76,7 +73,6 @@ public partial class Icarasia : Npc
 	private float _projectileSweepTimer;
 	private float _stingerSweepTimer;
 	private bool _isIsCombatMode;
-
 
 	/// <summary>
 	///     Checks detection of player
@@ -215,11 +211,7 @@ public partial class Icarasia : Npc
 
 				// Returns the Melee weakness to normal after leaving the Stun State
 				_ = _npcStateMachine.Connect(StateMachine.SignalName.StateExited,
-						Callable.From(() =>
-						{
-							DamageModifiers[DamageType.Unarmed] = 1f;
-							CurrentGrowlInEffect = null;
-						}),
+						Callable.From(() => DamageModifiers[DamageType.Unarmed] = 1f),
 						(uint)ConnectFlags.OneShot);
 
 				break;
@@ -231,11 +223,7 @@ public partial class Icarasia : Npc
 
 				// Returns the Melee weakness to normal after leaving the Stun State
 				_ = _npcStateMachine.Connect(StateMachine.SignalName.StateExited,
-						Callable.From(() =>
-						{
-							DamageModifiers[DamageType.Unarmed] = 1f;
-							CurrentGrowlInEffect = null;
-						}),
+						Callable.From(() => DamageModifiers[DamageType.Unarmed] = 1f),
 						(uint)ConnectFlags.OneShot);
 
 				break;
@@ -247,11 +235,7 @@ public partial class Icarasia : Npc
 
 				// Returns the Melee weakness to normal after leaving the Stun State
 				_ = _npcStateMachine.Connect(StateMachine.SignalName.StateExited,
-						Callable.From(() =>
-						{
-							DamageModifiers[DamageType.Unarmed] = 1f;
-							CurrentGrowlInEffect = null;
-						}),
+						Callable.From(() => DamageModifiers[DamageType.Unarmed] = 1f),
 						(uint)ConnectFlags.OneShot);
 
 				break;
@@ -261,5 +245,15 @@ public partial class Icarasia : Npc
 	private protected override void OnPlayerDeath()
 	{
 		_npcStateMachine.ChangeState(typeof(Wander));
+	}
+
+	private protected override void OnProjectileNotification()
+	{
+		return;
+	}
+
+	private protected override void OnDesperationTriggered()
+	{
+		throw new System.NotImplementedException();
 	}
 }

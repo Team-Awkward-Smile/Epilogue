@@ -1,11 +1,10 @@
-using Epilogue.Extensions;
 using Epilogue.Global.Enums;
 using Epilogue.Nodes;
 using Godot;
 using System.Threading.Tasks;
-using static Godot.GodotObject;
 
 namespace Epilogue.Actors.VafaKeleth.States;
+/// <inheritdoc/>
 public partial class Jump : State
 {
 	private readonly VafaKeleth _vafaKeleth;
@@ -15,26 +14,24 @@ public partial class Jump : State
 	private double _timer;
 	private float _verticalDistance;
 
+	/// <summary>
+	///		State that allows the Vafa'Keleth to jump up and down Navigation Links
+	/// </summary>
+	/// <param name="stateMachine">State Machine that owns this State</param>
 	public Jump(StateMachine stateMachine) : base(stateMachine)
 	{
 		_vafaKeleth = (VafaKeleth)stateMachine.Owner;
 	}
 
-	// args[0] - Vector2 - Destination of the jump
-	internal override void OnEnter(params object[] args)
+	internal override void OnStateMachineActivation()
 	{
-		_jumpDestination = (Vector2)args[0];
-		_verticalDistance = _jumpDestination.X - _vafaKeleth.GlobalPosition.X;
-		_timer = 0f;
-
-		_vafaKeleth.LinkNavigationAgent2D.TargetPosition = _jumpDestination;
-
-		_vafaKeleth.TurnTowards(_jumpDestination);
-
-		AnimPlayer.Play("jump/jump_start");
-
-		AnimPlayer.Connect(AnimationMixer.SignalName.AnimationFinished, Callable.From((StringName anim) =>
+		AnimPlayer.AnimationFinished += (StringName animationName) =>
 		{
+			if (!Active || animationName != "jump/jump_start")
+			{
+				return;
+			}
+
 			var height = _vafaKeleth.GlobalPosition.Y - _jumpDestination.Y;
 			var initialVelocity = Mathf.Sqrt(2 * StateMachine.Gravity * Mathf.Max(5f, height)) + 70f;
 
@@ -47,8 +44,23 @@ public partial class Jump : State
 			_vafaKeleth.Velocity = new Vector2(0f, -initialVelocity);
 
 			_isJumping = true;
+		};
+	}
 
-		}), (uint)ConnectFlags.OneShot);
+	// args[0] - Vector2 - Destination of the jump
+	internal override void OnEnter(params object[] args)
+	{
+		_vafaKeleth.CanAttemptSlide = false;
+
+		_jumpDestination = (Vector2)args[0];
+		_verticalDistance = _jumpDestination.X - _vafaKeleth.GlobalPosition.X;
+		_timer = 0f;
+
+		_vafaKeleth.LinkNavigationAgent2D.TargetPosition = _jumpDestination;
+
+		_vafaKeleth.TurnTowards(_jumpDestination);
+
+		AnimPlayer.Play("jump/jump_start");
 	}
 
 	internal override void PhysicsUpdate(double delta)

@@ -78,7 +78,6 @@ public partial class Jump : State
 
 		AudioPlayer.PlayGenericSfx("Jump");
 
-		_player.Velocity = new Vector2(0f, _player.Velocity.Y);
 		_player.CanChangeFacingDirection = false;
 
 		AnimPlayer.Play($"Jump/{_animation}_jump_up", customSpeed: 2);
@@ -86,6 +85,7 @@ public partial class Jump : State
 		var modifier = _player.FacingDirection == ActorFacingDirection.Left ? -1 : 1;
 
 		_player.Velocity = new Vector2(_horizontalVelocity * modifier, _currentJumpVerticalSpeed);
+
 		_achievements.JumpCount++;
 	}
 

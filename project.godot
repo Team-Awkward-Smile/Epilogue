@@ -54,7 +54,7 @@ movie_writer/fps=20
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/navigationtilemap/plugin.cfg")
+enabled=PackedStringArray()
 
 [epilogue]
 

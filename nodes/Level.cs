@@ -20,6 +20,8 @@ public partial class Level : Node2D
 	/// </summary>
 	public Player Player { get; set; }
 
+	private readonly List<Checkpoint> _checkpoints = new();
+
 	private PauseUI _pauseUI;
 	private AmmoUI _ammoUI;
 	private HPUI _hpUI;
@@ -27,7 +29,6 @@ public partial class Level : Node2D
 	private GloryKillPrompt _killPrompt;
 	private TileMap _tileMap;
 	private PlayerEvents _playerEvents;
-	private List<Checkpoint> _checkpoints = new();
 	private Camera _camera;
 	private CheckpointManager _checkpointManager;
 	private AchievementPopup _achievementUI;
@@ -152,12 +153,12 @@ public partial class Level : Node2D
 			// Setting the current Checkpoint from the CheckpointManager singleton
 			if (_checkpointManager.CurrentCheckpointID is not null)
 			{
-				_checkpoints.Where(c => c.ID == _checkpointManager.CurrentCheckpointID).First().Current = true;
+				_checkpoints.First(c => c.ID == _checkpointManager.CurrentCheckpointID).Current = true;
 			}
 			else if (_checkpoints.Count > 0)
 			{
 				// If the singleton has no current Checkpoint, set the current one to the First
-				_checkpoints.Where(c => c.FirstCheckpoint).First().Current = true;
+				_checkpoints.First(c => c.FirstCheckpoint).Current = true;
 
 				if (!_checkpoints.Any(c => c.Current))
 				{
@@ -217,35 +218,5 @@ public partial class Level : Node2D
 		var localPosition = _tileMap.LocalToMap(position);
 
 		return _tileMap.GetCellTileData(0, localPosition);
-	}
-
-	/// <summary>
-	///		Deals damage to a Tile at the selected position
-	/// </summary>
-	/// <param name="tilePosition">Position of the Tile, in GridMap units</param>
-	/// <param name="damage">Damage to be dealt</param>
-	public void DamageTile(Vector2 tilePosition, float damage)
-	{
-		var localPosition = _tileMap.LocalToMap(tilePosition);
-		var tileData = _tileMap.GetCellTileData(0, localPosition);
-
-		if (tileData is null)
-		{
-			return;
-		}
-
-		if (tileData.GetCustomData("destructible").AsBool())
-		{
-			var currentHp = tileData.GetCustomData("tile_hp").AsDouble() - damage;
-
-			if (currentHp <= 0)
-			{
-				_tileMap.EraseCell(0, localPosition);
-			}
-			else
-			{
-				tileData.SetCustomData("tile_hp", currentHp);
-			}
-		}
 	}
 }

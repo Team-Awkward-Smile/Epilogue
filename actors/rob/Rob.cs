@@ -84,4 +84,14 @@ public partial class Rob : Npc
 	{
 		_npcStateMachine.ChangeState(typeof(Wander));
 	}
+
+	private protected override void OnProjectileNotification()
+	{
+		return;
+	}
+
+	private protected override void OnDesperationTriggered()
+	{
+		throw new System.NotImplementedException();
+	}
 }

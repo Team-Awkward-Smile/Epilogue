@@ -1,11 +1,8 @@
 using Epilogue.Actors.Hestmor;
 using Epilogue.Actors.Hestmor.Enums;
 using Epilogue.Actors.Hestmor.States;
-using Epilogue.Const;
-using Epilogue.Extensions;
 using Epilogue.Global.Enums;
 using Epilogue.Global.Singletons;
-using Epilogue.Util;
 using Godot;
 using System.Linq;
 
@@ -62,17 +59,17 @@ public partial class Player : Actor
 		{
 			RunEnabled = @event.IsPressed();
 		}
-		else if(_allowQuickSlide && @event.IsActionPressed("slide"))
+		else if (_allowQuickSlide && @event.IsActionPressed("slide"))
 		{
 			_allowQuickSlide = false;
 
 			_playerStateMachine.ChangeState(typeof(Slide), StateType.KneeSlide);
 		}
-		else if(HoldingSword && (@event.IsActionPressed("interact") || _retroInteract))
+		else if (HoldingSword && (@event.IsActionPressed("interact") || _retroInteract))
 		{
 			_playerStateMachine.ChangeState(typeof(MeleeAttack));
 		}
-		else if (CanInteract && _gunSystem.HasGunEquipped && @event.IsActionPressed("shoot"))
+		else if (CanInteract && _gunSystem.HasGunEquipped && @event.IsAction("shoot"))
 		{
 			// Tries to press/release the trigger of the equipped gun. If the gun is empty when the trigger is pressed, throw it instead
 			if (!_gunSystem.InteractWithTrigger(@event.IsPressed()))
@@ -121,7 +118,7 @@ public partial class Player : Actor
 		}
 	}
 
-    /// <inheritdoc/>
+	/// <inheritdoc/>
 	public override void _Process(double delta)
 	{
 		if (_allowQuickSlide)
@@ -166,8 +163,9 @@ public partial class Player : Actor
 	///		Sweeps HeadRayCast and LedgeRayCast in search of a ledge, starting at their original positions near Hestmor's head and going down.
 	/// </summary>
 	/// <param name="ledgePosition">Position of the detected ledge, only valid if the method returned <c>true</c></param>
+	/// <param name="isPlatform">Indicates if the detected ledge (if any) belongs to a platform or not</param>
 	/// <param name="sweepUntil">Y position where the sweep will stop. By default, the sweep will go down until position 0, at the pivot of Hestmor (must be a negative value)</param>
-	/// <returns><c>true</c>, if a ledge is detected (in this case, <paramref name="ledgePosition"/> will contain the position of the ledge); <c>false</c>, otherwise</returns>
+	/// <returns><c>true</c>, if a ledge is detected (in this case, <paramref name="ledgePosition"/> will contain the position of the ledge, and <paramref name="isPlatform"/> will indicate if the ledge belongs to a platform); <c>false</c>, otherwise</returns>
 	public bool SweepRayCastsForLedge(out Vector2 ledgePosition, out bool isPlatform, int sweepUntil = 0)
 	{
 		var headRaycast = RayCasts["Head"];
@@ -195,7 +193,8 @@ public partial class Player : Actor
 				{
 					platformRaycast.Position -= new Vector2(0f, 1f);
 					platformRaycast.ForceRaycastUpdate();
-				} while (platformRaycast.IsColliding());
+				} 
+				while (platformRaycast.IsColliding());
 
 				ledgePosition = platformRaycast.GlobalPosition;
 				isPlatform = true;

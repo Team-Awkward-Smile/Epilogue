@@ -38,6 +38,9 @@ public partial class CameraAnchor : Node2D
 		Position = new Vector2(x, y);
 	}
 
+	/// <summary>
+	///		Resets the Camera's position to its default value
+	/// </summary>
 	public void ResetPosition()
 	{
 		Position = _targetOffset;

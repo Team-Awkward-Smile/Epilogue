@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Epilogue.Actors.Hestmor.Enums;
+using Epilogue.Actors.VafaKeleth;
 using Epilogue.Nodes;
 using Godot;
 
@@ -19,12 +20,36 @@ public partial class GrabLedge : State
 		_player = (Player)stateMachine.Owner;
 	}
 
+	internal override void OnStateMachineActivation()
+	{
+		AnimPlayer.AnimationFinished += (StringName animationName) =>
+		{
+			if (!Active || animationName != "ledge_climb")
+			{
+				return;
+			}
+
+			_player.GlobalPosition = _player.Sprite.GetNode<Node2D>("LedgeAnchor").GlobalPosition;
+
+			StateMachine.ChangeState(typeof(Idle));
+		};
+
+		AnimPlayer.AnimationFinished += (StringName animationName) =>
+		{
+			if (!Active || animationName != "grab_wall")
+			{
+				return;
+			}
+
+			AnimPlayer.Play("ledge_look");
+		};
+	}
+
 	internal override void OnInput(InputEvent @event)
 	{
 		if (@event.IsActionPressed("jump"))
 		{
 			AnimPlayer.Play("ledge_climb");
-			AnimPlayer.AnimationFinished += MoveToTop;
 		}
 		else if (@event.IsActionPressed("crouch"))
 		{
@@ -41,26 +66,11 @@ public partial class GrabLedge : State
 		if (_player.RayCasts["Feet"].IsColliding())
 		{
 			AnimPlayer.Play("grab_wall");
-			AnimPlayer.AnimationFinished += StayOnEdge;
 		}
 		else
 		{
 			AnimPlayer.Play("grab_ledge");
 		}
-	}
-
-	private void StayOnEdge(StringName animName)
-	{
-		AnimPlayer.AnimationFinished -= StayOnEdge;
-		AnimPlayer.Play("ledge_look");
-	}
-
-	private void MoveToTop(StringName animName)
-	{
-		AnimPlayer.AnimationFinished -= MoveToTop;
-		_player.GlobalPosition = _player.Sprite.GetNode<Node2D>("LedgeAnchor").GlobalPosition;
-
-		StateMachine.ChangeState(typeof(Idle));
 	}
 
 	internal override Task OnLeave()

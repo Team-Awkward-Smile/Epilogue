@@ -84,7 +84,21 @@ public partial class Idle : State
 	{
 		_sleepTimer += (float)delta;
 
-		_player.Velocity = new Vector2(0f, _player.Velocity.Y * StateMachine.Gravity * (float)delta);
+		var movement = Input.GetAxis("move_left", "move_right");
+
+		if (movement != 0f)
+		{
+			if (_player.IsOnWall() && movement == -_player.GetWallNormal().X)
+			{
+				return;
+			}
+
+			StateMachine.ChangeState(_player.RunEnabled ? typeof(Run) : typeof(Walk));
+
+			return;
+		}
+
+		_player.Velocity = new Vector2(0f, _player.Velocity.Y + (StateMachine.Gravity * (float)delta));
 
 		_player.MoveAndSlide();
 
@@ -97,20 +111,6 @@ public partial class Idle : State
 		if (!_player.IsOnFloor())
 		{
 			StateMachine.ChangeState(typeof(Fall), StateType.LongJump);
-			return;
-		}
-
-		var movement = Input.GetAxis("move_left", "move_right");
-
-		if (movement != 0f)
-		{
-			if (_player.IsOnWall() && movement == -_player.GetWallNormal().X)
-			{
-				return;
-			}
-
-			StateMachine.ChangeState(_player.RunEnabled ? typeof(Run) : typeof(Walk));
-
 			return;
 		}
 	}

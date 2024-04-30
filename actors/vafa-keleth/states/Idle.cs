@@ -2,6 +2,7 @@ using Epilogue.Nodes;
 using Godot;
 
 namespace Epilogue.Actors.VafaKeleth.States;
+/// <inheritdoc/>
 public partial class Idle : State
 {
 	private readonly VafaKeleth _vafaKeleth;
@@ -14,6 +15,13 @@ public partial class Idle : State
 	private float _idleTime;
 	private ShapeCast2D _attackShapeCast2D;
 
+	/// <summary>
+	///		State that allows the Vafa'Keleth to remain idle while not engaged in combat
+	/// </summary>
+	/// <param name="stateMachine">State Machine that owns this State</param>
+	/// <param name="idleMinTime">Minimum time (in seconds) the Vafa'Keleth will remain still while walking back and forth</param>
+	/// <param name="idleMaxTime">Maximum time (in seconds) the Vafa'Keleth will remain still while walking back and forth</param>
+	/// <param name="detectionRange">Distance (in units) the player needs to be from the Vafa'Keleth to be detected</param>
 	public Idle(StateMachine stateMachine, float idleMinTime, float idleMaxTime, float detectionRange) : base(stateMachine)
 	{
 		_vafaKeleth = (VafaKeleth)stateMachine.Owner;
@@ -25,6 +33,8 @@ public partial class Idle : State
 
 	internal override void OnEnter(params object[] args)
 	{
+		_vafaKeleth.CanAttemptSlide = false;
+
 		AnimPlayer.Play("idle");
 
 		_timer = 0f;

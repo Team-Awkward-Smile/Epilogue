@@ -1,3 +1,4 @@
+using Epilogue.Global.Enums;
 using Godot;
 
 namespace Epilogue.Nodes;
@@ -19,12 +20,37 @@ public partial class Projectile : HitBox
 
 	[Export] private double _lifetime;
 
+	[Export] private bool _notifyTarget = true;
+
 	private float _timer;
 
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
 		base._Ready();
+
+		if (_notifyTarget)
+		{
+			var rayCast = new RayCast2D()
+			{
+				Enabled = true,
+				TargetPosition = new Vector2(Speed.X * (float)_lifetime, 0f),
+				CollisionMask = (uint)(CollisionLayerName.World | CollisionLayerName.Enemies)
+			};
+
+			AddChild(rayCast);
+
+            rayCast.GlobalTransform = GlobalTransform;
+
+			rayCast.ForceRaycastUpdate();
+
+			if (rayCast.IsColliding() && rayCast.GetCollider() is Npc enemy)
+			{
+				enemy.TriggerProjectileNotification();
+			}
+
+			rayCast.QueueFree();
+		}
 
 		ActorHit += () =>
 		{
