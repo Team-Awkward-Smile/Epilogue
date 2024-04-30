@@ -46,14 +46,14 @@ public partial class Player : Actor
 			return;
 		}
 
-		if (@event.IsAction("retro_interact_1"))
-		{
-			_retroInteractHalf1 = @event.IsPressed();
-		}
-		else if (@event.IsAction("retro_interact_2"))
-		{
-			_retroInteractHalf2 = @event.IsPressed();
-		}
+		//if (@event.IsAction("retro_interact_1"))
+		//{
+		//	_retroInteractHalf1 = @event.IsPressed();
+		//}
+		//else if (@event.IsAction("retro_interact_2"))
+		//{
+		//	_retroInteractHalf2 = @event.IsPressed();
+		//}
 
 		_retroInteract = _retroInteractHalf1 && _retroInteractHalf2;
 
