@@ -24,11 +24,11 @@ buses/default_bus_layout="res://base_resources/audio_buses.tres"
 Settings="*res://global/singletons/Settings.cs"
 InputDeviceManager="*res://global/singletons/InputDeviceManager.cs"
 CheckpointManager="*res://global/singletons/CheckpointManager.cs"
-AchievementManager="*res://actors/bob/AchievementManager.cs"
 GunEvents="*res://global/singletons/GunEvents.cs"
 PlayerEvents="*res://global/singletons/PlayerEvents.cs"
 NpcEvents="*res://global/singletons/NpcEvents.cs"
 CustomSettings="*res://settings/CustomSettings.cs"
+AchievementManager="*res://global/singletons/AchievementManager.cs"
 
 [debug]
 
@@ -104,6 +104,12 @@ run_modifier_modern={
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":9,"pressure":0.0,"pressed":true,"script":null)
 ]
 }
+look_up_modern={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":87,"key_label":0,"unicode":119,"echo":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":1,"axis_value":-1.0,"script":null)
+]
+}
 slide_modern={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":70,"key_label":0,"unicode":102,"echo":false,"script":null)
@@ -167,6 +173,12 @@ crouch_retro={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194322,"key_label":0,"unicode":0,"echo":false,"script":null)
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":12,"pressure":0.0,"pressed":true,"script":null)
+]
+}
+look_up_retro={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194320,"key_label":0,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":11,"pressure":0.0,"pressed":true,"script":null)
 ]
 }
 melee_retro={
@@ -439,6 +451,10 @@ toggle_run={
 "deadzone": 0.5,
 "events": []
 }
+look_up={
+"deadzone": 0.5,
+"events": []
+}
 slide={
 "deadzone": 0.5,
 "events": []
@@ -527,16 +543,9 @@ run_modifier={
 "deadzone": 0.5,
 "events": []
 }
-retro_interact_1={
+toggle_walk_run={
 "deadzone": 0.5,
-"events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":9,"pressure":0.0,"pressed":true,"script":null)
-, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194311,"key_label":0,"unicode":0,"echo":false,"script":null)
-]
-}
-retro_interact_2={
-"deadzone": 0.5,
-"events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":10,"pressure":0.0,"pressed":true,"script":null)
-, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194312,"key_label":0,"unicode":0,"echo":false,"script":null)
+"events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":4,"pressure":0.0,"pressed":true,"script":null)
 ]
 }
 
@@ -557,6 +566,7 @@ retro_interact_2={
 2d_physics/layer_8="Checkpoints"
 2d_physics/layer_9="NpcHitBox"
 2d_physics/layer_10="NpcHurtBox"
+2d_physics/layer_11="Platforms"
 
 [navigation]
 

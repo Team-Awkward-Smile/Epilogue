@@ -1,10 +1,8 @@
 using Epilogue.Actors.Hestmor;
 using Epilogue.Actors.Hestmor.Enums;
 using Epilogue.Actors.Hestmor.States;
-using Epilogue.Extensions;
 using Epilogue.Global.Enums;
 using Epilogue.Global.Singletons;
-using Epilogue.Util;
 using Godot;
 using System.Linq;
 
@@ -20,9 +18,6 @@ public partial class Player : Actor
 	private GunSystem _gunSystem;
 	private PlayerStateMachine _playerStateMachine;
 	private double _quickSlideTimer;
-	private bool _retroInteractHalf1 = false;
-	private bool _retroInteractHalf2 = false;
-	private bool _retroInteract = false;
 
 	[Export] private bool _allowQuickSlide;
 
@@ -46,28 +41,17 @@ public partial class Player : Actor
 			return;
 		}
 
-		//if (@event.IsAction("retro_interact_1"))
-		//{
-		//	_retroInteractHalf1 = @event.IsPressed();
-		//}
-		//else if (@event.IsAction("retro_interact_2"))
-		//{
-		//	_retroInteractHalf2 = @event.IsPressed();
-		//}
-
-		_retroInteract = _retroInteractHalf1 && _retroInteractHalf2;
-
 		if (@event.IsAction("toggle_run"))
 		{
 			RunEnabled = @event.IsPressed();
 		}
-		else if(_allowQuickSlide && @event.IsActionPressed("slide"))
+		else if (_allowQuickSlide && @event.IsActionPressed("slide"))
 		{
 			_allowQuickSlide = false;
 
 			_playerStateMachine.ChangeState(typeof(Slide), StateType.KneeSlide);
 		}
-		else if(HoldingSword && (@event.IsActionPressed("interact") || _retroInteract))
+		else if (HoldingSword && @event.IsActionPressed("interact"))
 		{
 			_playerStateMachine.ChangeState(typeof(MeleeAttack));
 		}
@@ -79,21 +63,9 @@ public partial class Player : Actor
 				_gunSystem.ThrowGun();
 			}
 		}
-		else if (CanInteract && (_gunSystem.IsAnyGunNearby || _gunSystem.HasGunEquipped) && (@event.IsActionPressed("interact") || _retroInteract))
+		else if (CanInteract && (_gunSystem.IsAnyGunNearby || _gunSystem.HasGunEquipped) && @event.IsActionPressed("interact"))
 		{
 			_gunSystem.InteractWithGun();
-		}
-		else if (_retroInteract)
-		{
-			_retroInteract = _retroInteractHalf1 = _retroInteractHalf2 = false;
-
-			var input = new InputEventAction()
-			{
-				Action = "growl",
-				Pressed = true
-			};
-
-			Input.ParseInputEvent(input);
 		}
 		else
 		{
@@ -116,7 +88,7 @@ public partial class Player : Actor
 		_playerStateMachine.Activate();
 	}
 
-    /// <inheritdoc/>
+	/// <inheritdoc/>
 	public override void _Process(double delta)
 	{
 		if (_allowQuickSlide)
