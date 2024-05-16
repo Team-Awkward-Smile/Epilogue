@@ -76,7 +76,6 @@ public partial class Icarasia : Npc
 	private float _stingerSweepTimer;
 	private bool _isIsCombatMode;
 
-
 	/// <summary>
 	///     Checks detection of player
 	///     When player is detected, sweeps an area around itself every 0.1 second to see if a shot is aligned
@@ -214,11 +213,7 @@ public partial class Icarasia : Npc
 
 				// Returns the Melee weakness to normal after leaving the Stun State
 				_ = _npcStateMachine.Connect(StateMachine.SignalName.StateExited,
-						Callable.From(() =>
-						{
-							DamageModifiers[DamageType.Unarmed] = 1f;
-							CurrentGrowlInEffect = null;
-						}),
+						Callable.From(() => DamageModifiers[DamageType.Unarmed] = 1f),
 						(uint)ConnectFlags.OneShot);
 
 				break;
@@ -230,11 +225,7 @@ public partial class Icarasia : Npc
 
 				// Returns the Melee weakness to normal after leaving the Stun State
 				_ = _npcStateMachine.Connect(StateMachine.SignalName.StateExited,
-						Callable.From(() =>
-						{
-							DamageModifiers[DamageType.Unarmed] = 1f;
-							CurrentGrowlInEffect = null;
-						}),
+						Callable.From(() => DamageModifiers[DamageType.Unarmed] = 1f),
 						(uint)ConnectFlags.OneShot);
 
 				break;
@@ -246,11 +237,7 @@ public partial class Icarasia : Npc
 
 				// Returns the Melee weakness to normal after leaving the Stun State
 				_ = _npcStateMachine.Connect(StateMachine.SignalName.StateExited,
-						Callable.From(() =>
-						{
-							DamageModifiers[DamageType.Unarmed] = 1f;
-							CurrentGrowlInEffect = null;
-						}),
+						Callable.From(() => DamageModifiers[DamageType.Unarmed] = 1f),
 						(uint)ConnectFlags.OneShot);
 
 				break;
@@ -260,5 +247,15 @@ public partial class Icarasia : Npc
 	private protected override void OnPlayerDeath()
 	{
 		_npcStateMachine.ChangeState(typeof(Wander));
+	}
+
+	private protected override void OnProjectileNotification()
+	{
+		return;
+	}
+
+	private protected override void OnDesperationTriggered()
+	{
+		throw new System.NotImplementedException();
 	}
 }

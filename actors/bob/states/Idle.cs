@@ -80,18 +80,6 @@ public partial class Idle : State
 	{
 		_sleepTimer += (float)delta;
 
-		if (_sleepTimer >= _sleepDelay)
-		{
-			StateMachine.ChangeState(typeof(Sleep));
-			return;
-		}
-
-		if (!_player.IsOnFloor())
-		{
-			StateMachine.ChangeState(typeof(Fall), StateType.LongJump);
-			return;
-		}
-
 		var movement = Input.GetAxis("move_left", "move_right");
 
 		if (movement != 0f)
@@ -102,6 +90,23 @@ public partial class Idle : State
 			}
 
 			StateMachine.ChangeState(_player.RunEnabled ? typeof(Run) : typeof(Walk));
+
+			return;
+		}
+
+		_player.Velocity = new Vector2(0f, _player.Velocity.Y + (StateMachine.Gravity * (float)delta));
+
+		_player.MoveAndSlide();
+
+		if (_sleepTimer >= _sleepDelay)
+		{
+			StateMachine.ChangeState(typeof(Sleep));
+			return;
+		}
+
+		if (!_player.IsOnFloor())
+		{
+			StateMachine.ChangeState(typeof(Fall), StateType.LongJump);
 			return;
 		}
 	}

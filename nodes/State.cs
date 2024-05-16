@@ -23,6 +23,16 @@ public class State
 	/// </summary>
 	protected ActorAudioPlayer AudioPlayer { get; private set; }
 
+	/// <summary>
+	///		If <c>true</c>, this State is executing it's OnLeave logic and is about to be replaced by another State
+	/// </summary>
+	public bool Deactivating { get; set; } = false;
+
+	/// <summary>
+	///		If <c>true</c>, this State is the currently active State of the State Machine
+	/// </summary>
+	public bool Active { get; set; }
+
 	/// <inheritdoc/>
 	public State(StateMachine stateMachine)
 	{
@@ -69,4 +79,10 @@ public class State
 	/// </summary>
 	/// <param name="event">The input event received</param>
 	internal virtual void OnInput(InputEvent @event) { }
+
+	/// <summary>
+	///		Method that runs when the State Machine that owns this State becomes active and starts processing.
+	///		Essentialy a _Ready() method for States that only runs when the Actor finishes loading
+	/// </summary>
+	internal virtual void OnStateMachineActivation() { }
 }

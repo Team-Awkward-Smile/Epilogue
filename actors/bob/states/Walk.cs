@@ -50,10 +50,10 @@ public partial class Walk : State
 
 	internal override void OnEnter(params object[] args)
 	{
-		AnimPlayer.Play("walk");
-
 		_player.CanChangeFacingDirection = true;
 		_player.RotationDegrees = 0f;
+
+		AnimPlayer.Play("walk");
 	}
 
 	internal override void PhysicsUpdate(double delta)

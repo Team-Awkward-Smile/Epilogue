@@ -1,17 +1,17 @@
 [gd_scene load_steps=3 format=3 uid="uid://caw7ltueovv67"]
 
-[ext_resource type="Script" path="res://nodes/Projectile.cs" id="1_8xrcc"]
+[ext_resource type="Script" path="res://guns/flame_thrower/Flame.cs" id="1_61e8e"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ryau3"]
 
 [node name="Flame" type="Area2D"]
 collision_layer = 16
-collision_mask = 552
-script = ExtResource("1_8xrcc")
+collision_mask = 0
+script = ExtResource("1_61e8e")
 DestroyOnHit = false
-Speed = 200.0
+Speed = Vector2(100, 0)
+_lifetime = 1.0
 DamageType = 2
-LifeTime = 1.0
 Damage = 0.25
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

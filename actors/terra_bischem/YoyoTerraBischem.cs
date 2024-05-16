@@ -91,4 +91,14 @@ public partial class YoyoTerraBischem : Npc
 
 		_line2D.SetPointPosition(1, Sprite.Position - _pointOffset);
 	}
+
+	private protected override void OnProjectileNotification()
+	{
+		return;
+	}
+
+	private protected override void OnDesperationTriggered()
+	{
+		throw new System.NotImplementedException();
+	}
 }

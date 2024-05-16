@@ -78,7 +78,6 @@ public partial class Jump : State
 
 		AudioPlayer.PlayGenericSfx("Jump");
 
-		_player.Velocity = new Vector2(0f, _player.Velocity.Y);
 		_player.CanChangeFacingDirection = false;
 
 		AnimPlayer.Play($"Jump/{_animation}_jump_up", customSpeed: 2);
@@ -92,11 +91,11 @@ public partial class Jump : State
 
 	internal override void PhysicsUpdate(double delta)
 	{
-		if ((_frameDelay++ == 3 || _player.IsOnWall()) && _player.SweepForLedge(out Vector2 ledgePosition))
+		if ((_frameDelay++ == 0 || _player.IsOnWall()) && _player.SweepRayCastsForLedge(out var ledgePosition, out var isPlatform))
 		{
 			var offset = _player.RayCasts["Head"].GlobalPosition.Y - ledgePosition.Y;
 
-			if (offset < -30)
+			if (offset < -30 || isPlatform)
 			{
 				_player.Position = new Vector2(_player.Position.X, ledgePosition.Y + Const.Constants.MAP_TILE_SIZE);
 				StateMachine.ChangeState(typeof(Vault));

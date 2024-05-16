@@ -22,6 +22,11 @@ public partial class RotatingAxe : Npc
 
 	private protected override bool UseDefaultPathfinding => false;
 
+	private protected override void OnProjectileNotification()
+	{
+		return;
+	}
+
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
@@ -42,6 +47,11 @@ public partial class RotatingAxe : Npc
 	private protected override void OnDamageTaken(float damage, float currentHp, DamageType damageType)
 	{
 		return;
+	}
+
+	private protected override void OnDesperationTriggered()
+	{
+		throw new System.NotImplementedException();
 	}
 
 	private protected override void OnExecutionPerformed(ExecutionSpeed executionSpeed)

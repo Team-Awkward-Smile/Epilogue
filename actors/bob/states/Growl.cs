@@ -35,6 +35,19 @@ public partial class Growl : State
 		_strongGrowlRadius = strongGrowlRadius;
 	}
 
+	internal override void OnStateMachineActivation()
+	{
+		AnimPlayer.AnimationFinished += (StringName animationName) =>
+		{
+			if (!Active || !animationName.ToString().StartsWith("Growl"))
+			{
+				return;
+			}
+
+			StateMachine.ChangeState(typeof(Idle));
+		};
+	}
+
 	internal override void OnEnter(params object[] args)
 	{
 		_player.CanChangeFacingDirection = false;
@@ -64,6 +77,5 @@ public partial class Growl : State
 		_growlEffectArea.SetUpGrowl(growlDto);
 
 		AnimPlayer.Play($"Growl/{growlDto.Animation}");
-		AnimPlayer.AnimationFinished += (StringName animName) => StateMachine.ChangeState(typeof(Idle));
 	}
 }

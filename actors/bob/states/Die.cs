@@ -20,6 +20,19 @@ public partial class Die : State
 		_playerEvents = playerEvents;
 	}
 
+	internal override void OnStateMachineActivation()
+	{
+		AnimPlayer.AnimationFinished += (StringName animationName) =>
+		{
+			if (!Active || animationName != "Combat/die")
+			{
+				return;
+			}
+
+			_playerEvents.EmitSignal(PlayerEvents.SignalName.PlayerDied);
+		};
+	}
+
 	internal override void OnEnter(params object[] args)
 	{
 		_player.HurtBox.CanRecoverFromDamage = false;
@@ -28,6 +41,5 @@ public partial class Die : State
 		_playerEvents.EmitSignal(PlayerEvents.SignalName.PlayerIsDying);
 
 		AnimPlayer.Play("Combat/die");
-		AnimPlayer.AnimationFinished += (StringName animationName) => _playerEvents.EmitSignal(PlayerEvents.SignalName.PlayerDied);
 	}
 }

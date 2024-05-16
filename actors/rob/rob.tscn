@@ -17,7 +17,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gaotm"]
 shader = ExtResource("2_p2edt")
-shader_parameter/iframeActive = false
+shader_parameter/iFrameActive = false
 shader_parameter/blinkColor = Color(0.729412, 0.321569, 0.2, 1)
 
 [sub_resource type="Animation" id="Animation_o5njs"]
@@ -276,7 +276,6 @@ collision_layer = 2
 collision_mask = 24
 script = ExtResource("1_2ghn1")
 VulnerabilityThreshold = 2.0
-_vulnerabilityTimer = 5.0
 MaxHealth = 5.0
 CurrentHealth = 5.0
 

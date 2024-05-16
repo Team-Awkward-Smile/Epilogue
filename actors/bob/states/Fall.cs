@@ -1,5 +1,5 @@
 using Epilogue.Actors.Hestmor.Enums;
-using Epilogue.Const;
+using Epilogue.Global.Enums;
 using Epilogue.Nodes;
 using Godot;
 using System.Threading.Tasks;
@@ -35,6 +35,8 @@ public partial class Fall : State
 		}
 	}
 
+	// args[0] - StateType - Type of the jump the triggered the fall
+	// args[1] - float - Time (in seconds) to wait before enabling collision against platforms (optional)
 	internal override void OnEnter(params object[] args)
 	{
 		_jumpType = (StateType)args[0];
@@ -44,14 +46,22 @@ public partial class Fall : State
 			_ => "long"
 		};
 
-        _canGrabLedge = false;
-        _playLandingAnimation = true;
+		_canGrabLedge = false;
+		_playLandingAnimation = true;
 
-        AnimPlayer.Play($"Jump/{_animation}_jump_down");
-        _player.CanChangeFacingDirection = true;
+		AnimPlayer.Play($"Jump/{_animation}_jump_down");
+		_player.CanChangeFacingDirection = true;
 
-        StateMachine.GetTree().CreateTimer(0.1f).Timeout += () => _canGrabLedge = true;
-    }
+		StateMachine.GetTree().CreateTimer(args.Length > 1 ? (float)args[1] : 0.1f).Timeout += () => _canGrabLedge = true;
+
+		if (args.Length > 1)
+		{
+			StateMachine.GetTree().CreateTimer((float)args[1]).Timeout += () =>
+			{
+				_player.CollisionMask |= (uint)CollisionLayerName.Platforms;
+			};
+		}
+	}
 
 	internal override void Update(double delta)
 	{
@@ -66,13 +76,13 @@ public partial class Fall : State
 	{
 		_frameDelay++;
 
-		if (_canGrabLedge && (_frameDelay == 3 || _player.IsOnWall()) && _player.SweepForLedge(out var ledgePosition))
+		if (_canGrabLedge && (_frameDelay == 0 || _player.IsOnWall()) && _player.SweepRayCastsForLedge(out var ledgePosition, out var isPlatform))
 		{
 			var offset = _player.RayCasts["Head"].GlobalPosition.Y - ledgePosition.Y;
 
-            _playLandingAnimation = false;
+			_playLandingAnimation = false;
 
-			if (offset < -20)
+			if (offset < -20 || isPlatform)
 			{
 				_player.Position = new Vector2(_player.Position.X, ledgePosition.Y + Const.Constants.MAP_TILE_SIZE);
 				StateMachine.ChangeState(typeof(Vault));
@@ -83,12 +93,12 @@ public partial class Fall : State
 				StateMachine.ChangeState(typeof(GrabLedge));
 			}
 
-            return;
-        }
+			return;
+		}
 
 		_frameDelay %= 3;
 
-		_player.Velocity = new Vector2(_player.Velocity.X, _player.Velocity.Y + (StateMachine.Gravity * (float) delta));
+		_player.Velocity = new Vector2(_player.Velocity.X, _player.Velocity.Y + (StateMachine.Gravity * (float)delta));
 		_player.MoveAndSlide();
 
 		if (_player.IsOnFloor())
@@ -113,9 +123,9 @@ public partial class Fall : State
 			return;
 		}
 
-        AudioPlayer.PlayGenericSfx("Land");
-        AnimPlayer.Play($"Jump/{_animation}_jump_land");
+		AudioPlayer.PlayGenericSfx("Land");
+		AnimPlayer.Play($"Jump/{_animation}_jump_land");
 
-        await StateMachine.ToSignal(AnimPlayer, "animation_finished");
-    }
+		await StateMachine.ToSignal(AnimPlayer, "animation_finished");
+	}
 }

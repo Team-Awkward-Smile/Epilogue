@@ -85,7 +85,11 @@ public partial class Player : Actor
 		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
 		_gunSystem = GetNode<GunSystem>("GunSystem");
 		_playerStateMachine = GetChildren().OfType<PlayerStateMachine>().First();
-		_playerStateMachine.Activate();
+
+		if (_playerStateMachine.ActivateOnLoad)
+		{
+			_playerStateMachine.Activate();
+		}
 	}
 
 	/// <inheritdoc/>
@@ -133,29 +137,53 @@ public partial class Player : Actor
 	///		Sweeps HeadRayCast and LedgeRayCast in search of a ledge, starting at their original positions near Hestmor's head and going down.
 	/// </summary>
 	/// <param name="ledgePosition">Position of the detected ledge, only valid if the method returned <c>true</c></param>
+	/// <param name="isPlatform">Indicates if the detected ledge (if any) belongs to a platform or not</param>
 	/// <param name="sweepUntil">Y position where the sweep will stop. By default, the sweep will go down until position 0, at the pivot of Hestmor (must be a negative value)</param>
-	/// <returns><c>true</c>, if a ledge is detected (in this case, <paramref name="ledgePosition"/> will contain the position of the ledge); <c>false</c>, otherwise</returns>
-	public bool SweepForLedge(out Vector2 ledgePosition, int sweepUntil = 0)
+	/// <returns><c>true</c>, if a ledge is detected (in this case, <paramref name="ledgePosition"/> will contain the position of the ledge, and <paramref name="isPlatform"/> will indicate if the ledge belongs to a platform); <c>false</c>, otherwise</returns>
+	public bool SweepRayCastsForLedge(out Vector2 ledgePosition, out bool isPlatform, int sweepUntil = 0)
 	{
-		RayCast2D headRaycast = RayCasts["Head"];
-		RayCast2D ledgeRaycast = RayCasts["Ledge"];
+		var headRaycast = RayCasts["Head"];
+		var ledgeRaycast = RayCasts["Ledge"];
+		var platformRaycast = RayCasts["Platform"];
 		var originalPositions = new Vector2(headRaycast.Position.Y, ledgeRaycast.Position.Y);
 		var offset = originalPositions.Y - originalPositions.X;
 
 		ledgePosition = new Vector2(0f, 0f);
+		isPlatform = false;
 
 		for (var i = originalPositions.X; i <= sweepUntil; i++)
 		{
 			headRaycast.Position = new Vector2(0f, i);
+			platformRaycast.Position = new Vector2(0f, i);
 			ledgeRaycast.Position = new Vector2(0f, headRaycast.Position.Y + offset);
 
 			headRaycast.ForceRaycastUpdate();
+			platformRaycast.ForceRaycastUpdate();
 			ledgeRaycast.ForceRaycastUpdate();
 
-			if (headRaycast.IsColliding() && !ledgeRaycast.IsColliding())
+			if (platformRaycast.IsColliding())
 			{
-				RayCast2D feetRaycast = RayCasts["Feet"];
-				Vector2 originalTarget = feetRaycast.TargetPosition;
+				do
+				{
+					platformRaycast.Position -= new Vector2(0f, 1f);
+					platformRaycast.ForceRaycastUpdate();
+				} 
+				while (platformRaycast.IsColliding());
+
+				ledgePosition = platformRaycast.GlobalPosition;
+				isPlatform = true;
+
+				headRaycast.Position = new Vector2(0f, originalPositions.X);
+				platformRaycast.Position = new Vector2(0f, originalPositions.X);
+				ledgeRaycast.Position = new Vector2(0f, originalPositions.Y);
+
+				return true;
+
+			}
+			else if (headRaycast.IsColliding() && !ledgeRaycast.IsColliding())
+			{
+				var feetRaycast = RayCasts["Feet"];
+				var originalTarget = feetRaycast.TargetPosition;
 
 				feetRaycast.TargetPosition = new Vector2(0f, 30f);
 				feetRaycast.ForceRaycastUpdate();
