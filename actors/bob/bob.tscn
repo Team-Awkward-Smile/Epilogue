@@ -1768,7 +1768,7 @@ hframes = 6
 collision_layer = 16
 collision_mask = 520
 script = ExtResource("11_28e73")
-Damage = 1.0
+Damage = 10.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FlipRoot/MeleeHitBox"]
 position = Vector2(18, -29)
