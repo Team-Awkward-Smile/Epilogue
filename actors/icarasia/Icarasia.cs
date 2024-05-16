@@ -28,10 +28,9 @@ public partial class Icarasia : Npc
 	/// <inheritdoc/>
 	public override Dictionary<DamageType, float> DamageModifiers { get; set; } = new()
 	{
-		{ DamageType.Unarmed, 1f },
-		{ DamageType.GunThrow, 2f },
-		{ DamageType.Piercing, 1f },
-		{ DamageType.Fire, 1f }
+		{ DamageType.Unarmed, +5 },
+		{ DamageType.GunThrow, +10 },
+		{ DamageType.Dung, -4 }
 	};
 
 	/// <summary>

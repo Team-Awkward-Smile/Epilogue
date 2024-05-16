@@ -33,10 +33,7 @@ public partial class MossPlant : Npc
 	/// <inheritdoc/>
 	public override Dictionary<DamageType, float> DamageModifiers { get; set; } = new()
 	{
-		{ DamageType.Unarmed, 1f },
-		{ DamageType.GunThrow, 1f },
-		{ DamageType.Piercing, 1f },
-		{ DamageType.Fire, 1f }
+		{ DamageType.Unarmed, +10 }
 	};
 
 	private protected override bool UseDefaultPathfinding => false;

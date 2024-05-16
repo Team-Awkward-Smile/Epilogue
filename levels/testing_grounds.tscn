@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cjolarkdk5yoi"]
+[gd_scene load_steps=23 format=3 uid="uid://cjolarkdk5yoi"]
 
 [ext_resource type="Script" path="res://nodes/Level.cs" id="1_o245g"]
 [ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_pfrwm"]
@@ -7,7 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://d3w3kkhlni18i" path="res://temp/ground_1.png" id="5_n0fdd"]
 [ext_resource type="Script" path="res://props/camera/Camera.cs" id="6_1is1f"]
 [ext_resource type="Script" path="res://nodes/KonamiCode.cs" id="7_xoqku"]
-[ext_resource type="PackedScene" uid="uid://di5pn4kqpf3t7" path="res://temp/shotgun.tscn" id="9_p440d"]
 [ext_resource type="Texture2D" uid="uid://dv8i8cyrioyus" path="res://temp/spikes.png" id="12_1mhei"]
 [ext_resource type="Script" path="res://nodes/HitBox.cs" id="13_o5dos"]
 [ext_resource type="TileSet" uid="uid://c2hf2m205a0qe" path="res://temp/tileset.tres" id="15_1ohv8"]
@@ -19,6 +18,8 @@
 [ext_resource type="PackedScene" uid="uid://cjogekv61ycm5" path="res://props/sword/sword.tscn" id="19_t8n6g"]
 [ext_resource type="PackedScene" uid="uid://dct4o152unf8r" path="res://actors/terra_bischem/terra_bischem_swinging_axe.tscn" id="20_2a4cq"]
 [ext_resource type="PackedScene" uid="uid://6a8rb567c64u" path="res://props/breakable_tiles/test_breakable_tile.tscn" id="20_cneke"]
+[ext_resource type="PackedScene" uid="uid://dulc4vm30o030" path="res://temp/handgun.tscn" id="20_i1yjq"]
+[ext_resource type="PackedScene" uid="uid://cqctp6a75hq70" path="res://actors/icarasia/icarasia.tscn" id="21_l7m32"]
 [ext_resource type="PackedScene" uid="uid://dsr7kis4avo4p" path="res://actors/terra_bischem/terra_bischem_yoyo.tscn" id="21_xq228"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nkpyu"]
@@ -78,9 +79,6 @@ script = ExtResource("6_1is1f")
 script = ExtResource("7_xoqku")
 
 [node name="UILayer" type="CanvasLayer" parent="."]
-
-[node name="Shotgun" parent="." instance=ExtResource("9_p440d")]
-position = Vector2(236, -69)
 
 [node name="Spikes" type="Node2D" parent="."]
 position = Vector2(105, -64)
@@ -176,3 +174,11 @@ position = Vector2(90, -171)
 
 [node name="TerraBischemSwingingAxe" parent="." instance=ExtResource("20_2a4cq")]
 position = Vector2(149, -360)
+
+[node name="Icarasia" parent="." instance=ExtResource("21_l7m32")]
+position = Vector2(139.954, -162.905)
+NearTerraBischem = true
+_detectionDistance = 0.0
+
+[node name="Handgun" parent="." instance=ExtResource("20_i1yjq")]
+position = Vector2(243, -73)

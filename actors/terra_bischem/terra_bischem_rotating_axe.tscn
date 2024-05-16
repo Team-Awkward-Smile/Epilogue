@@ -128,8 +128,8 @@ _data = {
 
 [node name="TerraBischemRotatingAxe" type="CharacterBody2D"]
 script = ExtResource("1_2hlr7")
-MaxHealth = 2.0
-CurrentHealth = 2.0
+MaxHealth = 30.0
+CurrentHealth = 30.0
 
 [node name="BloodEmitter" type="GPUParticles2D" parent="."]
 position = Vector2(0, 66)

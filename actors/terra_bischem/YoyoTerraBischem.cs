@@ -27,8 +27,7 @@ public partial class YoyoTerraBischem : Npc
 	/// <inheritdoc/>
 	public override Dictionary<DamageType, float> DamageModifiers { get; set; } = new()
 	{
-		{ DamageType.Fire, 2f },
-		{ DamageType.Light, 0.5f }
+		{ DamageType.Fire, +30 }
 	};
 
 	private protected override bool UseDefaultPathfinding => false;

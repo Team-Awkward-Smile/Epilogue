@@ -123,24 +123,18 @@ public abstract partial class Npc : Actor
 	/// <param name="damageType">Type of the damage dealt</param>
 	public override void ReduceHealth(float damage, DamageType damageType)
 	{
-		BloodEmitter?.EmitBlood();
+		var modifiedDamage = damage + (DamageModifiers.TryGetValue(damageType, out float modifier) ? modifier : 0f);
 
-		// Prevent cases where multiple sources dealing damage at once may cause a race-condition
-		if (CurrentHealth == 0)
+		if (CurrentHealth == 0 || modifiedDamage <= 0)
 		{
 			return;
 		}
 
-		var modifier = 1f;
+		GD.Print($"Dealing {modifiedDamage} ({damage} + {modifier}) to {Name}");
 
-		if (DamageModifiers.ContainsKey(damageType))
-		{
-			modifier = DamageModifiers[damageType];
-		}
+		BloodEmitter?.EmitBlood();
 
-		damage *= modifier;
-
-		CurrentHealth -= damage;
+		CurrentHealth -= modifiedDamage;
 
 		if (CurrentHealth <= 0f)
 		{
@@ -163,7 +157,7 @@ public abstract partial class Npc : Actor
 			}
 			else
 			{
-				OnDamageTaken(damage, CurrentHealth, damageType);
+				OnDamageTaken(modifiedDamage, CurrentHealth, damageType);
 			}
 		}
 	}

@@ -60,8 +60,8 @@ _data = {
 [node name="TerraBischemYoyo" type="CharacterBody2D"]
 collision_layer = 10
 script = ExtResource("1_r40m7")
-MaxHealth = 2.0
-CurrentHealth = 2.0
+MaxHealth = 40.0
+CurrentHealth = 40.0
 
 [node name="FlipRoot" type="Node2D" parent="."]
 

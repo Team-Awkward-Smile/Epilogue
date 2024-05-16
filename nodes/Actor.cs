@@ -183,9 +183,11 @@ public abstract partial class Actor : CharacterBody2D
 	{
 		foreach (var signal in AnimationPlayer.GetSignalConnectionList(AnimationMixer.SignalName.AnimationFinished))
 		{
-            if (AnimationPlayer.IsConnected(AnimationMixer.SignalName.AnimationFinished, (Callable)signal["callable"])) 
+			var callable = (Callable)signal["callable"];
+
+            if (AnimationPlayer.IsConnected(AnimationMixer.SignalName.AnimationFinished, callable)) 
             {
-                AnimationPlayer.Disconnect(AnimationMixer.SignalName.AnimationFinished, (Callable)signal["callable"]);
+                AnimationPlayer.Disconnect(AnimationMixer.SignalName.AnimationFinished, callable);
             }
 		}
 

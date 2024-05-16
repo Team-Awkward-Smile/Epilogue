@@ -120,8 +120,8 @@ motion_mode = 1
 script = ExtResource("1_7ax2p")
 VulnerabilityThreshold = 1.0
 VulnerabilityDuration = 5.0
-MaxHealth = 2.0
-CurrentHealth = 2.0
+MaxHealth = 30.0
+CurrentHealth = 30.0
 
 [node name="FlipRoot" type="Node2D" parent="."]
 

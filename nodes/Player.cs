@@ -55,7 +55,7 @@ public partial class Player : Actor
 		{
 			_playerStateMachine.ChangeState(typeof(MeleeAttack));
 		}
-		else if (CanInteract && _gunSystem.HasGunEquipped && @event.IsActionPressed("shoot"))
+		else if (CanInteract && _gunSystem.HasGunEquipped && @event.IsAction("shoot"))
 		{
 			// Tries to press/release the trigger of the equipped gun. If the gun is empty when the trigger is pressed, throw it instead
 			if (!_gunSystem.InteractWithTrigger(@event.IsPressed()))

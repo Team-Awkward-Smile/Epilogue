@@ -17,8 +17,8 @@ priority = 100
 script = ExtResource("1_bdo8k")
 Speed = Vector2(700, 0)
 _lifetime = 1.0
-DamageType = 1
-Damage = 1.0
+DamageType = 6
+Damage = 10.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = SubResource("PlaceholderTexture2D_v8vg4")
