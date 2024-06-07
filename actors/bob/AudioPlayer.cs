@@ -1,3 +1,4 @@
+using Epilogue.Global.Enums;
 using Epilogue.Nodes;
 using Godot;
 using Godot.Collections;
@@ -32,6 +33,15 @@ public partial class AudioPlayer : ActorAudioPlayer
 		{ "StepRock_07", GD.Load<AudioStream>($"{PATH}//footsteps//rock//rsteps_07.wav") },
 		{ "StepRock_08", GD.Load<AudioStream>($"{PATH}//footsteps//rock//rsteps_08.wav") },
 		{ "StepRock_09", GD.Load<AudioStream>($"{PATH}//footsteps//rock//rsteps_09.wav") },
+
+		{ "StepFlesh_01", GD.Load<AudioStream>($"{PATH}//footsteps//flesh//StepFlesh_01.wav") },
+		{ "StepFlesh_02", GD.Load<AudioStream>($"{PATH}//footsteps//flesh//StepFlesh_02.wav") },
+		{ "StepFlesh_03", GD.Load<AudioStream>($"{PATH}//footsteps//flesh//StepFlesh_03.wav") },
+		{ "StepFlesh_04", GD.Load<AudioStream>($"{PATH}//footsteps//flesh//StepFlesh_04.wav") },
+		{ "StepFlesh_05", GD.Load<AudioStream>($"{PATH}//footsteps//flesh//StepFlesh_05.wav") },
+		{ "StepFlesh_06", GD.Load<AudioStream>($"{PATH}//footsteps//flesh//StepFlesh_06.wav") },
+		{ "StepFlesh_07", GD.Load<AudioStream>($"{PATH}//footsteps//flesh//StepFlesh_07.wav") },
+		{ "StepFlesh_08", GD.Load<AudioStream>($"{PATH}//footsteps//flesh//StepFlesh_08.wav") },
 	};
 
     /// <inheritdoc/>
@@ -60,5 +70,10 @@ public partial class AudioPlayer : ActorAudioPlayer
 	public override void _Ready()
     {
         base._Ready();
+
+		GetNode<FootstepManager>("FootstepManager").PlayerSteppedOnTile += (TileType tileType) =>
+		{
+			PlayRandomFootstepSfx($"Step{tileType}");
+		};
     }
 }
