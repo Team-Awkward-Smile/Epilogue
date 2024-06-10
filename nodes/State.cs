@@ -34,7 +34,7 @@ public class State
 			GD.PrintErr($"Animation Player not found for Actor [{StateMachine.Owner.Name}]");
 		}
 
-		AudioPlayer = StateMachine.Owner.GetChildren().OfType<ActorAudioPlayer>().FirstOrDefault();
+		AudioPlayer = StateMachine.Owner.GetNode<ActorAudioPlayer>("FlipRoot/ActorAudioPlayer");
 
 		if (AudioPlayer is null)
 		{

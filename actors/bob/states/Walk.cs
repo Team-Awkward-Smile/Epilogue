@@ -7,8 +7,12 @@ namespace Epilogue.Actors.Hestmor.States;
 /// <inheritdoc/>
 public partial class Walk : State
 {
+	private static Vector2 s_footstepManagerPositivePosition = new(8f, 1f);
+	private static Vector2 s_footstepManagerNegativePosition = new(-8f, 1f);
+
 	private readonly float _walkSpeed;
 	private readonly Player _player;
+	private readonly FootstepManager _footstepManager;
 
 	/// <summary>
 	/// 	State that allows Hestmor to walk
@@ -19,6 +23,7 @@ public partial class Walk : State
 	{
 		_walkSpeed = walkSpeed;
 		_player = (Player)stateMachine.Owner;
+		_footstepManager = _player.GetNode<FootstepManager>("FlipRoot/ActorAudioPlayer/FootstepManager");
 	}
 
 	internal override void OnInput(InputEvent @event)
@@ -54,6 +59,7 @@ public partial class Walk : State
 
 		_player.CanChangeFacingDirection = true;
 		_player.RotationDegrees = 0f;
+		_footstepManager.Position = s_footstepManagerPositivePosition;
 	}
 
 	internal override void PhysicsUpdate(double delta)
@@ -73,6 +79,8 @@ public partial class Walk : State
 				(movementDirection < 0 && _player.FacingDirection == ActorFacingDirection.Right))
 			{
 				velocity.X /= 2;
+
+				_footstepManager.Position = s_footstepManagerNegativePosition;
 			}
 
 			_player.Velocity = velocity;

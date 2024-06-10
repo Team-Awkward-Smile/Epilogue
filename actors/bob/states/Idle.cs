@@ -8,6 +8,7 @@ public partial class Idle : State
 {
 	private readonly float _sleepDelay;
 	private readonly Player _player;
+	private readonly FootstepManager _footstepManager;
 
 	private float _sleepTimer;
 
@@ -20,6 +21,7 @@ public partial class Idle : State
 	{
 		_sleepDelay = sleepDelay;
 		_player = (Player)stateMachine.Owner;
+		_footstepManager = _player.GetNode<FootstepManager>("FlipRoot/ActorAudioPlayer/FootstepManager");
 	}
 
 	internal override void OnInput(InputEvent @event)
@@ -72,6 +74,7 @@ public partial class Idle : State
 		_sleepTimer = 0f;
 
 		_player.CanChangeFacingDirection = true;
+		_footstepManager.Position = new(0f, 1f);
 
 		AnimPlayer.Play("idle");
 	}
