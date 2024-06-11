@@ -1,6 +1,7 @@
-[gd_scene load_steps=61 format=3 uid="uid://cmrbm1u6fwi67"]
+[gd_scene load_steps=62 format=3 uid="uid://cmrbm1u6fwi67"]
 
 [ext_resource type="Script" path="res://nodes/Player.cs" id="1_cnm5v"]
+[ext_resource type="Script" path="res://actors/bob/FootstepManager.cs" id="3_0hmoh"]
 [ext_resource type="Script" path="res://nodes/HitBox.cs" id="11_28e73"]
 [ext_resource type="Shape2D" uid="uid://3mco74p24h1u" path="res://actors/bob/hitboxes/melee_1.tres" id="12_mjjre"]
 [ext_resource type="Script" path="res://actors/bob/states/PlayerStateMachine.cs" id="15_417v3"]
@@ -287,7 +288,7 @@ tracks/1/keys = {
 tracks/2/type = "method"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../../AudioPlayer")
+tracks/2/path = NodePath("../ActorAudioPlayer")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -329,7 +330,7 @@ tracks/1/keys = {
 tracks/2/type = "method"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../../AudioPlayer")
+tracks/2/path = NodePath("../ActorAudioPlayer")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -412,7 +413,7 @@ tracks/2/keys = {
 tracks/3/type = "method"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("../../AudioPlayer")
+tracks/3/path = NodePath("../ActorAudioPlayer")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -494,7 +495,7 @@ tracks/2/keys = {
 tracks/3/type = "method"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("../../AudioPlayer")
+tracks/3/path = NodePath("../ActorAudioPlayer")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -510,6 +511,7 @@ tracks/3/keys = {
 resource_name = "Walking"
 length = 0.8
 loop_mode = 1
+step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -525,17 +527,17 @@ tracks/0/keys = {
 tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../../AudioPlayer")
+tracks/1/path = NodePath("../ActorAudioPlayer/FootstepManager")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.4),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
-"args": ["StepRock"],
+"args": [],
 "method": &"PlayRandomFootstepSfx"
 }, {
-"args": ["StepRock"],
+"args": [],
 "method": &"PlayRandomFootstepSfx"
 }]
 }
@@ -612,7 +614,7 @@ tracks/0/keys = {
 tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../../AudioPlayer")
+tracks/1/path = NodePath("../ActorAudioPlayer")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -642,7 +644,7 @@ tracks/0/keys = {
 tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../../AudioPlayer")
+tracks/1/path = NodePath("../ActorAudioPlayer")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -672,7 +674,7 @@ tracks/0/keys = {
 tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../../AudioPlayer")
+tracks/1/path = NodePath("../ActorAudioPlayer")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -926,7 +928,7 @@ tracks/0/keys = {
 tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../../AudioPlayer")
+tracks/1/path = NodePath("../ActorAudioPlayer")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -1012,7 +1014,7 @@ tracks/0/keys = {
 tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../../AudioPlayer")
+tracks/1/path = NodePath("../ActorAudioPlayer")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -1257,7 +1259,7 @@ tracks/0/keys = {
 tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../../AudioPlayer")
+tracks/1/path = NodePath("../ActorAudioPlayer")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -1399,7 +1401,7 @@ tracks/0/keys = {
 tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../../AudioPlayer")
+tracks/1/path = NodePath("../ActorAudioPlayer")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -1575,10 +1577,6 @@ libraries = {
 "Slide": SubResource("AnimationLibrary_re833")
 }
 
-[node name="AudioPlayer" type="AudioStreamPlayer2D" parent="."]
-bus = &"Footsteps"
-script = ExtResource("18_ucai5")
-
 [node name="Aim" type="Node" parent="." groups=["InputReadingUpdatesSubscribers"]]
 editor_description = "Base Node to control the aiming system, regardless of the input method"
 script = ExtResource("19_imqwf")
@@ -1657,6 +1655,15 @@ position = Vector2(18, -29)
 shape = ExtResource("12_mjjre")
 disabled = true
 debug_color = Color(1, 0, 0, 0)
+
+[node name="ActorAudioPlayer" type="AudioStreamPlayer2D" parent="FlipRoot"]
+max_polyphony = 6
+bus = &"Footsteps"
+script = ExtResource("18_ucai5")
+
+[node name="FootstepManager" type="Node2D" parent="FlipRoot/ActorAudioPlayer"]
+position = Vector2(-8, 1)
+script = ExtResource("3_0hmoh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["MainHitbox"]]
 position = Vector2(0, -21)
