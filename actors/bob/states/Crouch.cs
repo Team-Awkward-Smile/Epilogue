@@ -30,6 +30,7 @@ public partial class Crouch : State
 		_player.CanChangeFacingDirection = false;
 
 		AnimPlayer.Play("crouch");
+		AudioPlayer.PlayGenericSfx("Crouch2");
 	}
 
 	internal override async Task OnLeave()
