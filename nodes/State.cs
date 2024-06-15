@@ -8,6 +8,8 @@ namespace Epilogue.Nodes;
 /// </summary>
 public class State
 {
+	public int SpriteSheetId { get; protected set; }
+
 	/// <summary>
 	///		State Machine responsible for controlling this and other States
 	/// </summary>
