@@ -517,7 +517,6 @@ tracks/1/keys = {
 [sub_resource type="Animation" id="Animation_d6sxh"]
 resource_name = "vault"
 length = 0.5
-step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -552,7 +551,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [Vector2(0, -49), Vector2(-7, -54), Vector2(29, -59), Vector2(16, -62), Vector2(10, -62), Vector2(10, -62)]
+"values": [Vector2(0, -49), Vector2(-7, -54), Vector2(29, -59), Vector2(34, -59), Vector2(28, -62), Vector2(43, -74)]
 }
 tracks/3/type = "method"
 tracks/3/imported = false
@@ -566,20 +565,6 @@ tracks/3/keys = {
 "values": [{
 "args": ["ClimbRock"],
 "method": &"PlayRandomCollisionSfx"
-}]
-}
-tracks/4/type = "method"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath(".")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [1],
-"method": &"UpdateSpriteSheet"
 }]
 }
 

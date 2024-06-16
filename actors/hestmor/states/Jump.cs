@@ -60,8 +60,7 @@ public partial class Jump : State
 		switch (_jumpType)
 		{
 			case StateType.StandingJump:
-				_player.RayCasts["Head"].TargetPosition = new(12f, 0f);
-				_player.RayCasts["Ledge"].TargetPosition = new(12f, 0f);
+				_player.RayCasts["Head"].TargetPosition = _player.RayCasts["Ledge"].TargetPosition = _raycastOriginalTargetPosition;
 				_horizontalVelocity = 0f;
 				_animation = "vertical";
 				_currentJumpVerticalSpeed = _standingJumpVerticalSpeed;
