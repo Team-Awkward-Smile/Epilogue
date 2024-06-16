@@ -18,6 +18,7 @@ public partial class Player : Actor
 	private GunSystem _gunSystem;
 	private PlayerStateMachine _playerStateMachine;
 	private double _quickSlideTimer;
+	private MainSprite _mainSprite;
 
 	[Export] private bool _allowQuickSlide;
 
@@ -84,8 +85,12 @@ public partial class Player : Actor
 		_retroModeEnabled = Settings.ControlScheme == ControlScheme.Retro;
 		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
 		_gunSystem = GetNode<GunSystem>("GunSystem");
+		_mainSprite = (MainSprite)Sprite;
 		_playerStateMachine = GetChildren().OfType<PlayerStateMachine>().First();
 		_playerStateMachine.Activate();
+
+		_playerStateMachine.StateExited += ResetAnimation;
+		_playerStateMachine.StateEntering += (int newStateSpriteSheetId) => _mainSprite.UpdateSpriteSheet((SpriteSheetId)newStateSpriteSheetId);
 	}
 
 	/// <inheritdoc/>
