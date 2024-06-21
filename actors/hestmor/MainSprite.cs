@@ -13,9 +13,9 @@ public partial class MainSprite : Sprite2D
 		new SpriteSheetDataDto()
 		{
 			ID = (int)SpriteSheetId.IdleWalk,
-			Texture = GD.Load<CompressedTexture2D>("res://actors/hestmor/sprite_sheet/hestmor_sheet1.png"),
+			Texture = GD.Load<CompressedTexture2D>("res://actors/hestmor/sprite_sheet/hestmor_1-Sheet.png"),
 			HFrames = 8,
-			VFrames = 3,
+			VFrames = 4,
 			Scale = new Vector2(1f, 1f)
 		},
 		new SpriteSheetDataDto()

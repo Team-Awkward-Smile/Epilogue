@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dqhfo76ui4efo"
-path="res://.godot/imported/hestmor_sheet1.png-615901baefaf088a6180c864491a5a61.ctex"
+uid="uid://6wht785hslmw"
+path="res://.godot/imported/hestmor_1-Sheet.png-d580b24ffa6b10b15ce82321fb610b2d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://actors/hestmor/sprite_sheet/hestmor_sheet1.png"
-dest_files=["res://.godot/imported/hestmor_sheet1.png-615901baefaf088a6180c864491a5a61.ctex"]
+source_file="res://actors/hestmor/sprite_sheet/hestmor_1-Sheet.png"
+dest_files=["res://.godot/imported/hestmor_1-Sheet.png-d580b24ffa6b10b15ce82321fb610b2d.ctex"]
 
 [params]
 
