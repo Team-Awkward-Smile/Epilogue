@@ -137,7 +137,7 @@ public partial class Slide : State
 			AnimPlayer.AnimationFinished += EndSlide;
 		}
 
-		// AudioPlayer.PlayGenericSfx("Slide");
+		AudioPlayer.PlayGenericSfx("Slide");
 		_footstepManager.PlayRandomCollisionSfx("Roll");
 	}
 
