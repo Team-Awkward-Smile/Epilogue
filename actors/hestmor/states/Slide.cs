@@ -138,7 +138,6 @@ public partial class Slide : State
 		}
 
 		AudioPlayer.PlayGenericSfx("Slide");
-		_footstepManager.PlayRandomCollisionSfx("Roll");
 	}
 
 	internal override void PhysicsUpdate(double delta)
