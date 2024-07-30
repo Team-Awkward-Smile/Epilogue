@@ -18,6 +18,7 @@ public partial class Slide : State
 	private readonly float _longSlideCoyoteDuration;
 	private readonly float _kneeSlideCoyoteDuration;
 	private readonly Player _player;
+	private readonly FootstepManager _footstepManager;
 
 	private double _timer;
 	private double _coyoteTimer;
@@ -55,6 +56,7 @@ public partial class Slide : State
 		float kneeSlideCoyoteDuration) : base(stateMachine)
 	{
 		_player = (Player)stateMachine.Owner;
+		_footstepManager = _player.GetNode<FootstepManager>("FlipRoot/ActorAudioPlayer/FootstepManager");
 		_frontRollDuration = frontRollDuration;
 		_longSlideDuration = longSlideDuration;
 		_kneeSlideDuration = kneeSlideDuration;
@@ -135,7 +137,8 @@ public partial class Slide : State
 			AnimPlayer.AnimationFinished += EndSlide;
 		}
 
-		AudioPlayer.PlayGenericSfx("Slide");
+		// AudioPlayer.PlayGenericSfx("Slide");
+		_footstepManager.PlayRandomCollisionSfx("Roll");
 	}
 
 	internal override void PhysicsUpdate(double delta)
