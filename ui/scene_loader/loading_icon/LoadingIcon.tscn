@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bejtm7mpnasjc"]
 
-[ext_resource type="Texture2D" uid="uid://3mwdwwwf3u4" path="res://ui/scene_loader/loading_icon/loading_icon_sheet.png" id="1_lxelg"]
+[ext_resource type="Texture2D" uid="uid://bqqcsviq6ici5" path="res://ui/scene_loader/loading_icon/loading_icon_sheet_no_bg.png" id="1_icupe"]
 [ext_resource type="Script" path="res://ui/scene_loader/loading_icon/LoadingIcon.cs" id="2_378yw"]
 
 [sub_resource type="Animation" id="Animation_jklms"]
@@ -43,7 +43,7 @@ _data = {
 
 [node name="LoadingIcon" type="Sprite2D"]
 position = Vector2(1015, 559)
-texture = ExtResource("1_lxelg")
+texture = ExtResource("1_icupe")
 hframes = 16
 script = ExtResource("2_378yw")
 
