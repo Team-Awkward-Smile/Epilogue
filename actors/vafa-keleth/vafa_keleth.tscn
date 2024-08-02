@@ -358,7 +358,7 @@ tracks/1/keys = {
 tracks/2/type = "method"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("AudioStreamPlayer2D")
+tracks/2/path = NodePath("FlipRoot/ActorAudioPlayer")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -436,7 +436,7 @@ tracks/4/keys = {
 tracks/5/type = "method"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("AudioStreamPlayer2D")
+tracks/5/path = NodePath("FlipRoot/ActorAudioPlayer")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -544,7 +544,7 @@ tracks/0/keys = {
 tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("AudioStreamPlayer2D")
+tracks/1/path = NodePath("FlipRoot/ActorAudioPlayer")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -603,7 +603,7 @@ tracks/0/keys = {
 tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("AudioStreamPlayer2D")
+tracks/1/path = NodePath("FlipRoot/ActorAudioPlayer")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -633,7 +633,7 @@ tracks/0/keys = {
 tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("AudioStreamPlayer2D")
+tracks/1/path = NodePath("FlipRoot/ActorAudioPlayer")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -653,6 +653,7 @@ _data = {
 }
 
 [node name="VafaKeleth" type="CharacterBody2D"]
+scale = Vector2(1.7, 1.7)
 collision_layer = 2
 collision_mask = 1032
 floor_constant_speed = true
@@ -731,6 +732,9 @@ shape = SubResource("CircleShape2D_l6h5h")
 disabled = true
 debug_color = Color(1, 0, 0, 0)
 
+[node name="ActorAudioPlayer" type="AudioStreamPlayer2D" parent="FlipRoot"]
+script = ExtResource("10_5b7vb")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -21)
 shape = SubResource("CapsuleShape2D_8iwr4")
@@ -777,9 +781,6 @@ amount = 50
 process_material = ExtResource("7_6xr4c")
 one_shot = true
 script = ExtResource("8_hn60a")
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-script = ExtResource("10_5b7vb")
 
 [node name="RangeResetTimer" type="Timer" parent="."]
 wait_time = 5.0

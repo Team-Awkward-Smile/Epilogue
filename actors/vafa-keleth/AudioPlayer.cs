@@ -8,7 +8,7 @@ namespace Epilogue.Actors.VafaKeleth;
 /// </summary>
 public partial class AudioPlayer : ActorAudioPlayer
 {
-	private static readonly string PATH = @"res://actors/bob/sfx";
+	private static readonly string PATH = @"res://actors/hestmor/sfx";
 
 	/// <inheritdoc/>
 	protected override Dictionary<string, AudioStream> GenericSfxList { get; set; } = new()

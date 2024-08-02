@@ -96,6 +96,7 @@ public abstract partial class Npc : Actor
 
 	private protected NpcStateMachine _npcStateMachine;
 	private protected PlayerEvents _playerEvents;
+	private protected NpcEvents _npcEvents;
 
 	private GrowlType? _currentGrowlInEffect;
 	private double? _currentGrowlResetTimer;
@@ -128,6 +129,7 @@ public abstract partial class Npc : Actor
 		BloodEmitter ??= GetChildren().OfType<BloodEmitter>().FirstOrDefault();
 
 		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
+		_npcEvents = GetNode<NpcEvents>("/root/NpcEvents");
 
 		_playerEvents.Connect(PlayerEvents.SignalName.PlayerIsDying, Callable.From(OnPlayerDeath));
 

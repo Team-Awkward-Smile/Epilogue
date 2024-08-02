@@ -8,6 +8,8 @@ namespace Epilogue.Nodes;
 /// </summary>
 public class State
 {
+	public int SpriteSheetId { get; protected set; }
+
 	/// <summary>
 	///		State Machine responsible for controlling this and other States
 	/// </summary>
@@ -44,7 +46,7 @@ public class State
 			GD.PrintErr($"Animation Player not found for Actor [{StateMachine.Owner.Name}]");
 		}
 
-		AudioPlayer = StateMachine.Owner.GetChildren().OfType<ActorAudioPlayer>().FirstOrDefault();
+		AudioPlayer = StateMachine.Owner.GetNode<ActorAudioPlayer>("FlipRoot/ActorAudioPlayer");
 
 		if (AudioPlayer is null)
 		{

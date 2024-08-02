@@ -1,0 +1,118 @@
+using Epilogue.Actors.Hestmor.Enums;
+using Epilogue.Nodes;
+using Godot;
+
+namespace Epilogue.Actors.Hestmor.States;
+/// <inheritdoc/>
+public partial class Idle : State
+{
+	private readonly float _sleepDelay;
+	private readonly Player _player;
+	private readonly FootstepManager _footstepManager;
+
+	private float _sleepTimer;
+
+	/// <summary>
+	/// 	State that allows Hestmor to stay still
+	/// </summary>
+	/// <param name="stateMachine">The State Machine who owns this State</param>
+	/// <param name="sleepDelay">The time (in seconds) it takes for Hestmor to start sleeping</param>
+	public Idle(StateMachine stateMachine, float sleepDelay) : base(stateMachine)
+	{
+		_sleepDelay = sleepDelay;
+		_player = (Player)stateMachine.Owner;
+		_footstepManager = _player.GetNode<FootstepManager>("FlipRoot/ActorAudioPlayer/FootstepManager");
+
+		SpriteSheetId = (int)Enums.SpriteSheetId.IdleWalk;
+	}
+
+	internal override void OnInput(InputEvent @event)
+	{
+		_sleepTimer = 0f;
+
+		if (@event.IsActionPressed("jump"))
+		{
+			if (!_player.RayCasts["Head"].IsColliding() && _player.RayCasts["Feet"].IsColliding())
+			{
+				var raycast = _player.RayCasts["Ledge"];
+				var originalPosition = raycast.Position;
+
+				raycast.Position = new Vector2(0f, -Const.Constants.MAP_TILE_SIZE - 1);
+
+				raycast.ForceRaycastUpdate();
+
+				if (!raycast.IsColliding())
+				{
+					StateMachine.ChangeState(typeof(Vault));
+				}
+
+				raycast.Position = originalPosition;
+			}
+			else
+			{
+				StateMachine.ChangeState(typeof(Jump), StateType.StandingJump);
+			}
+		}
+		else if (@event.IsActionPressed("crouch"))
+		{
+			StateMachine.ChangeState(typeof(Crouch));
+		}
+		else if (@event.IsActionPressed("melee"))
+		{
+			StateMachine.ChangeState(typeof(MeleeAttack), StateType.SwipeAttack);
+		}
+		else if (@event.IsActionPressed("slide"))
+		{
+			StateMachine.ChangeState(typeof(Slide), StateType.FrontRoll);
+		}
+		else if (@event.IsActionPressed("growl"))
+		{
+			StateMachine.ChangeState(typeof(Growl));
+		}
+	}
+
+	internal override void OnEnter(params object[] args)
+	{
+		_sleepTimer = 0f;
+
+		_player.CanChangeFacingDirection = true;
+		_footstepManager.Position = new(0f, 1f);
+
+		AnimPlayer.Play("idle");
+	}
+
+	internal override void PhysicsUpdate(double delta)
+	{
+		_sleepTimer += (float)delta;
+
+		var movement = Input.GetAxis("move_left", "move_right");
+
+		if (movement != 0f)
+		{
+			if (_player.IsOnWall() && movement == -_player.GetWallNormal().X)
+			{
+				return;
+			}
+
+			StateMachine.ChangeState(_player.RunEnabled ? typeof(Run) : typeof(Walk));
+
+			return;
+		}
+
+		_player.Velocity = new Vector2(0f, _player.Velocity.Y + (StateMachine.Gravity * (float)delta));
+
+		_player.MoveAndSlide();
+
+		if (_sleepTimer >= _sleepDelay)
+		{
+			StateMachine.ChangeState(typeof(Sleep));
+			return;
+		}
+
+		if (!_player.IsOnFloor())
+		{
+			StateMachine.ChangeState(typeof(Fall), StateType.LongJump);
+			return;
+		}
+	}
+}

@@ -81,7 +81,7 @@ public partial class Level : Node2D
 			return;
 		}
 
-		Player = GD.Load<PackedScene>("res://actors/bob/bob.tscn").Instantiate() as Player;
+		Player = GD.Load<PackedScene>("res://actors/hestmor/hestmor.tscn").Instantiate() as Player;
 
 		AddChild(Player);
 	}

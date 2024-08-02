@@ -10,12 +10,18 @@ namespace Epilogue.Nodes;
 public partial class StateMachine : Node
 {
 	/// <summary>
-	/// 	Signal emitted when a new State replaces another State (right after it becomes active)
+	///		Signal emitted when a new State is about to run it's <c>OnEnter()</c> logic
+	/// </summary>
+	/// <param name="newStateSpriteSheetId">The ID of the Sprite Sheet used by the State</param>
+	[Signal] public delegate void StateEnteringEventHandler(int newStateSpriteSheetId);
+
+	/// <summary>
+	/// 	Signal emitted when a new State replaces another State (right after it runs its <c>OnEnter()</c> logic)
 	/// </summary>
 	[Signal] public delegate void StateEnteredEventHandler();
 
 	/// <summary>
-	/// 	Signal emitted when a State is replaced by another one (right after it is deactivated)
+	/// 	Signal emitted when a State is replaced by another one (right after it runs its <c>OnLeave()</c>)
 	/// </summary>
 	[Signal] public delegate void StateExitedEventHandler();
 
@@ -112,6 +118,9 @@ public partial class StateMachine : Node
 		newState.Active = true;
 
 		_currentState = newState;
+
+		EmitSignal(SignalName.StateEntering, _currentState.SpriteSheetId);
+
 		_currentState.OnEnter(args);
 
 		EmitSignal(SignalName.StateEntered);

@@ -18,9 +18,7 @@ public partial class Player : Actor
 	private GunSystem _gunSystem;
 	private PlayerStateMachine _playerStateMachine;
 	private double _quickSlideTimer;
-	private bool _retroInteractHalf1 = false;
-	private bool _retroInteractHalf2 = false;
-	private bool _retroInteract = false;
+	private MainSprite _mainSprite;
 
 	[Export] private bool _allowQuickSlide;
 
@@ -44,17 +42,6 @@ public partial class Player : Actor
 			return;
 		}
 
-		if (@event.IsAction("retro_interact_1"))
-		{
-			_retroInteractHalf1 = @event.IsPressed();
-		}
-		else if (@event.IsAction("retro_interact_2"))
-		{
-			_retroInteractHalf2 = @event.IsPressed();
-		}
-
-		_retroInteract = _retroInteractHalf1 && _retroInteractHalf2;
-
 		if (@event.IsAction("toggle_run"))
 		{
 			RunEnabled = @event.IsPressed();
@@ -65,7 +52,7 @@ public partial class Player : Actor
 
 			_playerStateMachine.ChangeState(typeof(Slide), StateType.KneeSlide);
 		}
-		else if (HoldingSword && (@event.IsActionPressed("interact") || _retroInteract))
+		else if (HoldingSword && @event.IsActionPressed("interact"))
 		{
 			_playerStateMachine.ChangeState(typeof(MeleeAttack));
 		}
@@ -77,21 +64,9 @@ public partial class Player : Actor
 				_gunSystem.ThrowGun();
 			}
 		}
-		else if (CanInteract && (_gunSystem.IsAnyGunNearby || _gunSystem.HasGunEquipped) && (@event.IsActionPressed("interact") || _retroInteract))
+		else if (CanInteract && (_gunSystem.IsAnyGunNearby || _gunSystem.HasGunEquipped) && @event.IsActionPressed("interact"))
 		{
 			_gunSystem.InteractWithGun();
-		}
-		else if (_retroInteract)
-		{
-			_retroInteract = _retroInteractHalf1 = _retroInteractHalf2 = false;
-
-			var input = new InputEventAction()
-			{
-				Action = "growl",
-				Pressed = true
-			};
-
-			Input.ParseInputEvent(input);
 		}
 		else
 		{
@@ -110,7 +85,10 @@ public partial class Player : Actor
 		_retroModeEnabled = Settings.ControlScheme == ControlScheme.Retro;
 		_playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
 		_gunSystem = GetNode<GunSystem>("GunSystem");
+		_mainSprite = (MainSprite)Sprite;
 		_playerStateMachine = GetChildren().OfType<PlayerStateMachine>().First();
+
+		_playerStateMachine.StateEntering += (int newStateSpriteSheetId) => _mainSprite.UpdateSpriteSheet((SpriteSheetId)newStateSpriteSheetId);
 
 		if (_playerStateMachine.ActivateOnLoad)
 		{
