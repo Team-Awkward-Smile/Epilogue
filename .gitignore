@@ -1,4 +1,7 @@
-# Godot 4+ specific ignores
-.godot/
-.vs/
-packages/
+/nbproject/
+/.idea/*
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+*.sublime-workspace
+*.sublime-project
