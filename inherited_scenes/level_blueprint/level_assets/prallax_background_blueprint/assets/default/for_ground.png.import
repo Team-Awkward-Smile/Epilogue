@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d3w3kkhlni18i"
-path="res://.godot/imported/ground_1.png-73f16e0c81df74ab9f76062b1f12a1dc.ctex"
+uid="uid://fkr4bqwpcnwx"
+path="res://.godot/imported/for_ground.png-acd402205a0ad40422894c963163a57d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://temp/ground_1.png"
-dest_files=["res://.godot/imported/ground_1.png-73f16e0c81df74ab9f76062b1f12a1dc.ctex"]
+source_file="res://inherited_scenes/level_blueprint/level_assets/prallax_background_blueprint/assets/default/for_ground.png"
+dest_files=["res://.godot/imported/for_ground.png-acd402205a0ad40422894c963163a57d.ctex"]
 
 [params]
 

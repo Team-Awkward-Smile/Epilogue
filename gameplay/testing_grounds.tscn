@@ -1,20 +1,20 @@
 [gd_scene load_steps=10 format=3 uid="uid://cjolarkdk5yoi"]
 
-[ext_resource type="Script" path="res://nodes/Level.cs" id="1_o245g"]
-[ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_pfrwm"]
-[ext_resource type="Texture2D" uid="uid://dtit4hbwjn673" path="res://temp/ground_3.png" id="3_742bv"]
-[ext_resource type="Texture2D" uid="uid://bfiq0j0jyexqd" path="res://temp/ground_2.png" id="4_ph378"]
-[ext_resource type="Texture2D" uid="uid://d3w3kkhlni18i" path="res://temp/ground_1.png" id="5_n0fdd"]
-[ext_resource type="Script" path="res://props/camera/Camera.cs" id="6_1is1f"]
-[ext_resource type="Script" path="res://nodes/KonamiCode.cs" id="7_xoqku"]
-[ext_resource type="TileSet" uid="uid://c2hf2m205a0qe" path="res://temp/tileset.tres" id="15_1ohv8"]
-[ext_resource type="PackedScene" uid="uid://cegk1cph0llpn" path="res://props/checkpoint/checkpoint.tscn" id="18_utu6l"]
+[ext_resource type="Script" path="res://inherited_scenes/level_blueprint/Level.cs" id="1_fqx1p"]
+[ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_uywsj"]
+[ext_resource type="Texture2D" uid="uid://b664dn720u0x0" path="res://inherited_scenes/level_blueprint/level_assets/prallax_background_blueprint/assets/default/back_ground.png" id="3_3tdmc"]
+[ext_resource type="Texture2D" uid="uid://6vqq2chms1ey" path="res://inherited_scenes/level_blueprint/level_assets/prallax_background_blueprint/assets/default/middle_ground.png" id="4_w2s74"]
+[ext_resource type="Texture2D" uid="uid://fkr4bqwpcnwx" path="res://inherited_scenes/level_blueprint/level_assets/prallax_background_blueprint/assets/default/for_ground.png" id="5_uhb0b"]
+[ext_resource type="Script" path="res://props/camera/Camera.cs" id="6_0yhtn"]
+[ext_resource type="Script" path="res://nodes/KonamiCode.cs" id="7_7axoc"]
+[ext_resource type="TileSet" uid="uid://c2hf2m205a0qe" path="res://temp/tileset.tres" id="8_ohue0"]
+[ext_resource type="PackedScene" uid="uid://cegk1cph0llpn" path="res://inherited_scenes/level_blueprint/level_assets/checkpoint_blueprint/checkpoint.tscn" id="9_koefn"]
 
 [node name="Root" type="Node2D"]
-script = ExtResource("1_o245g")
+script = ExtResource("1_fqx1p")
 
 [node name="DebugInfo" type="CanvasLayer" parent="."]
-script = ExtResource("2_pfrwm")
+script = ExtResource("2_uywsj")
 _branchName = false
 _aimWheel = true
 
@@ -39,34 +39,30 @@ motion_scale = Vector2(1.2, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3"]
 position = Vector2(437, -97)
-texture = ExtResource("3_742bv")
+texture = ExtResource("3_3tdmc")
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2(1.15, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
 position = Vector2(437, -78)
-texture = ExtResource("4_ph378")
+texture = ExtResource("4_w2s74")
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2(1.1, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
 position = Vector2(418, -108)
-texture = ExtResource("5_n0fdd")
-
-[node name="Camera2D" type="Camera2D" parent="ParallaxBackground"]
-zoom = Vector2(2, 2)
-script = ExtResource("6_1is1f")
+texture = ExtResource("5_uhb0b")
 
 [node name="KonamiCode" type="Node" parent="."]
-script = ExtResource("7_xoqku")
+script = ExtResource("7_7axoc")
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 
 [node name="TileMap" type="TileMap" parent="."]
 texture_filter = 1
-tile_set = ExtResource("15_1ohv8")
+tile_set = ExtResource("8_ohue0")
 collision_visibility_mode = 2
 navigation_visibility_mode = 2
 format = 2
@@ -79,9 +75,10 @@ layer_2/tile_data = PackedInt32Array()
 
 [node name="Checkpoints" type="Node2D" parent="."]
 
-[node name="Checkpoint" parent="Checkpoints" instance=ExtResource("18_utu6l")]
+[node name="Checkpoint" parent="Checkpoints" instance=ExtResource("9_koefn")]
 position = Vector2(280, -47)
 FirstCheckpoint = true
 
-[node name="Node2D" type="Node2D" parent="."]
-position = Vector2(184, -92)
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+script = ExtResource("6_0yhtn")
