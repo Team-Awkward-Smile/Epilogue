@@ -42,7 +42,7 @@ _data = {
 }
 
 [node name="LoadingIcon" type="Sprite2D"]
-position = Vector2(1015, 559)
+position = Vector2(1088, 597)
 texture = ExtResource("1_icupe")
 hframes = 16
 script = ExtResource("2_378yw")
