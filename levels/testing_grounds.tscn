@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cjolarkdk5yoi"]
+[gd_scene load_steps=11 format=3 uid="uid://cjolarkdk5yoi"]
 
 [ext_resource type="Script" path="res://nodes/Level.cs" id="1_o245g"]
 [ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_pfrwm"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://d3w3kkhlni18i" path="res://temp/ground_1.png" id="5_n0fdd"]
 [ext_resource type="Script" path="res://props/camera/Camera.cs" id="6_1is1f"]
 [ext_resource type="Script" path="res://nodes/KonamiCode.cs" id="7_xoqku"]
+[ext_resource type="Script" path="res://levels/UILayer.cs" id="8_4kwib"]
 [ext_resource type="TileSet" uid="uid://c2hf2m205a0qe" path="res://temp/tileset.tres" id="15_1ohv8"]
 [ext_resource type="PackedScene" uid="uid://cegk1cph0llpn" path="res://props/checkpoint/checkpoint.tscn" id="18_utu6l"]
 
@@ -63,6 +64,7 @@ script = ExtResource("6_1is1f")
 script = ExtResource("7_xoqku")
 
 [node name="UILayer" type="CanvasLayer" parent="."]
+script = ExtResource("8_4kwib")
 
 [node name="TileMap" type="TileMap" parent="."]
 texture_filter = 1
