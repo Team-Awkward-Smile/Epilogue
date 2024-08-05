@@ -8,6 +8,9 @@ namespace Epilogue.Nodes;
 /// </summary>
 public class State
 {
+	/// <summary>
+	/// 
+	/// </summary>
 	public int SpriteSheetId { get; protected set; }
 
 	/// <summary>

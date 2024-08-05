@@ -9,6 +9,7 @@ namespace Epilogue.Actors.Hestmor.States;
 public partial class Fall : State
 {
 	private readonly Player _player;
+	private readonly FootstepManager _footstepManager;
 	private bool _playLandingAnimation = true;
 	private bool _canGrabLedge;
 	private StateType _jumpType;
@@ -24,6 +25,7 @@ public partial class Fall : State
 	public Fall(StateMachine stateMachine) : base(stateMachine)
 	{
 		_player = (Player)stateMachine.Owner;
+		_footstepManager = _player.GetNode<FootstepManager>("FlipRoot/ActorAudioPlayer/FootstepManager");
 
 		SpriteSheetId = (int)Enums.SpriteSheetId.Bob;
 	}
@@ -48,6 +50,7 @@ public partial class Fall : State
 
         _canGrabLedge = false;
         _playLandingAnimation = true;
+
 
         AnimPlayer.Play($"Jump/{_animation}_jump_down");
         _player.CanChangeFacingDirection = true;
@@ -116,6 +119,9 @@ public partial class Fall : State
 		}
 
         AudioPlayer.PlayGenericSfx("Land");
+		_footstepManager.PlayRandomCollisionSfx("Land");
+
+
         AnimPlayer.Play($"Jump/{_animation}_jump_land");
 
         await StateMachine.ToSignal(AnimPlayer, "animation_finished");
