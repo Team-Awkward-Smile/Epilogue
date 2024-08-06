@@ -53,9 +53,9 @@ public partial class Idle : State
 				StateMachine.ChangeState(typeof(Jump), StateType.StandingJump);
 			}
 		}
-		else if (@event.IsActionPressed("crouch"))
+		else if (@event.IsActionPressed("crouch_squat"))
 		{
-			StateMachine.ChangeState(typeof(Crouch));
+			StateMachine.ChangeState(_player.HoldingGun ? typeof(Squat) : typeof(Crouch));
 		}
 		else if (@event.IsActionPressed("melee"))
 		{

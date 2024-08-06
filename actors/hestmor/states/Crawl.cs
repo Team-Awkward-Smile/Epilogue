@@ -1,6 +1,7 @@
 using Epilogue.Actors.Hestmor.Enums;
 using Epilogue.Nodes;
 using Godot;
+using System.Threading.Tasks;
 
 namespace Epilogue.Actors.Hestmor.States;
 /// <inheritdoc/>
@@ -8,6 +9,8 @@ public partial class Crawl : State
 {
 	private readonly float _crawlSpeed;
 	private readonly Player _player;
+
+	private ShapeCast2D _slideShapeCast2D;
 
 	/// <summary>
 	/// 	State that allows Hestmor to crawl on all four
@@ -22,9 +25,32 @@ public partial class Crawl : State
 		SpriteSheetId = (int)Enums.SpriteSheetId.Bob;
 	}
 
+	internal override void OnStateMachineActivation()
+	{
+		_slideShapeCast2D = _player.ShapeCasts["Slide"];
+	}
+
+	internal override void OnInput(InputEvent @event)
+	{
+		if (@event.IsActionReleased("crouch_squat") && !_slideShapeCast2D.IsColliding())
+		{
+			StateMachine.ChangeState(typeof(Stand));
+		}
+		else if (@event.IsActionPressed("slide"))
+		{
+			StateMachine.ChangeState(typeof(Slide), StateType.FrontRoll);
+		}
+	}
+
 	internal override void OnEnter(params object[] args)
 	{
 		AnimPlayer.Play("crawl");
+		AnimPlayer.Advance(0);
+
+		_slideShapeCast2D.Enabled = true;
+		_player.CanInteract = false;
+
+		_player.TryDropGun();
 	}
 
 	internal override void PhysicsUpdate(double delta)
@@ -47,18 +73,19 @@ public partial class Crawl : State
 
 		_player.Velocity = velocity;
 
-		_player.MoveAndSlideWithRotation();
+		_player.MoveAndSlide();
 
-		var slopeNormal = _player.GetFloorNormal();
-		var goingDownSlope = (movementDirection < 0 && slopeNormal.X < 0) || (movementDirection > 0 && slopeNormal.X > 0);
+		if (!_slideShapeCast2D.IsColliding() && !Input.IsActionPressed("crouch_squat"))
+		{
+			StateMachine.ChangeState(typeof(Stand));
+		}
+	}
 
-		if (!_player.IsOnFloor())
-		{
-			StateMachine.ChangeState(typeof(Fall));
-		}
-		else if (goingDownSlope || _player.RotationDegrees < 40f)
-		{
-			StateMachine.ChangeState(typeof(Idle));
-		}
+	internal override Task OnLeave()
+	{
+		_player.CanInteract = true;
+		_slideShapeCast2D.Enabled = false;
+
+		return Task.CompletedTask;
 	}
 }

@@ -20,6 +20,19 @@ public partial class Sleep : State
 		SpriteSheetId = (int)Enums.SpriteSheetId.Bob;
 	}
 
+	internal override void OnStateMachineActivation()
+	{
+		AnimPlayer.AnimationFinished += (StringName animationName) =>
+		{
+			if (!Active || animationName != "Sleep/sleep_start")
+			{
+				return;
+			}
+
+			AnimPlayer.Play("Sleep/sleep_loop");
+		};
+	}
+
 	internal override void OnInput(InputEvent @event)
 	{
 		var actions = new string[] { "move_left", "move_right", "jump", "slide", "melee", "interact", "shoot" };
@@ -38,7 +51,6 @@ public partial class Sleep : State
 		_player.CanInteract = false;
 
 		AnimPlayer.Play("Sleep/sleep_start");
-		AnimPlayer.AnimationFinished += (StringName animName) => AnimPlayer.Play("Sleep/sleep_loop");
 	}
 
 	internal override async Task OnLeave()

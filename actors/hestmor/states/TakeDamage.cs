@@ -19,11 +19,23 @@ public partial class TakeDamage : State
 		SpriteSheetId = (int)Enums.SpriteSheetId.Bob;
 	}
 
+	internal override void OnStateMachineActivation()
+	{
+		AnimPlayer.AnimationFinished += (StringName animationName) =>
+		{
+			if (!Active || animationName != "Combat/take_damage")
+			{
+				return;
+			}
+
+			StateMachine.ChangeState(typeof(Idle));
+		};
+	}
+
 	internal override void OnEnter(params object[] args)
 	{
 		_player.CanChangeFacingDirection = false;
 
 		AnimPlayer.Play("Combat/take_damage");
-		AnimPlayer.AnimationFinished += (StringName animname) => StateMachine.ChangeState(typeof(Idle));
 	}
 }

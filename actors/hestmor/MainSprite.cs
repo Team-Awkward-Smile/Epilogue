@@ -25,6 +25,14 @@ public partial class MainSprite : Sprite2D
 			HFrames = 11,
 			VFrames = 36,
 			Scale = new Vector2(1.7f, 1.7f)
+		},
+		new SpriteSheetDataDto()
+		{
+			ID = (int)SpriteSheetId.Squat,
+			Texture = GD.Load<CompressedTexture2D>("res://actors/hestmor/sprite_sheet/squat.png"),
+			HFrames = 1,
+			VFrames = 1,
+			Scale = new Vector2(0.3f, 0.3f)
 		}
 	};
 

@@ -172,6 +172,7 @@ public partial class GunSystem : Node2D
 
 		_currentGun.GlobalPosition = _gunAnchor.GlobalPosition;
 		_currentGun.Freeze = false;
+
 		_currentGun = null;
 
 		_gunEvents.EmitSignal(GunEvents.SignalName.GunWasDropped);

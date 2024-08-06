@@ -45,9 +45,9 @@ public partial class Walk : State
 		{
 			StateMachine.ChangeState(typeof(MeleeAttack), StateType.UppercutPunch);
 		}
-		else if (@event.IsActionPressed("crouch"))
+		else if (@event.IsActionPressed("crouch_squat"))
 		{
-			StateMachine.ChangeState(typeof(Crouch));
+			StateMachine.ChangeState(_player.HoldingGun ? typeof(Squat) : typeof(Crouch));
 		}
 		else if (@event.IsActionPressed("slide"))
 		{
@@ -90,9 +90,6 @@ public partial class Walk : State
 		}
 
 		_player.MoveAndSlide();
-
-		//var floorNormal = _player.GetFloorNormal();
-		//var goingDownSlope = (movementDirection < 0 && floorNormal.X < 0) || (movementDirection > 0 && floorNormal.X > 0);
 
 		if (movementDirection == 0f || _player.IsOnWall())
 		{
