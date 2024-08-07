@@ -17,6 +17,7 @@ public partial class Crouch : State
 	/// 	State that allows Hestmor to crouch
 	/// </summary>
 	/// <param name="stateMachine">The State Machine who owns this State</param>
+	/// <param name="gunEvents">Singleton responsible for emitting events related to the currently equipped Gun</param>
 	public Crouch(StateMachine stateMachine, GunEvents gunEvents) : base(stateMachine)
 	{
 		_player = (Player)stateMachine.Owner;

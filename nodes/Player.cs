@@ -32,6 +32,9 @@ public partial class Player : Actor
 	/// </summary>
 	public bool HoldingSword { get; set; } = false;
 
+	/// <summary>
+	///		Tells if Hestmor is currently holding a Gun (any regular Gun or the secret sword)
+	/// </summary>
 	public bool HoldingGun => _gunSystem.HasGunEquipped;
 
 	/// <summary>
@@ -202,6 +205,10 @@ public partial class Player : Actor
 		_gunSystem.Rotation = -Rotation;
 	}
 
+	/// <summary>
+	///		Tries to drop the currently equipped Gun, if any.
+	///		If no Guns are equipped, this method does nothing
+	/// </summary>
 	public void TryDropGun()
 	{
 		if (_gunSystem.HasGunEquipped)

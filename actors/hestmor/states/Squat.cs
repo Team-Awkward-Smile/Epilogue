@@ -10,15 +10,16 @@ namespace Epilogue.Actors.Hestmor.States;
 public partial class Squat : State
 {
 	private readonly Player _player;
+	private readonly GunEvents _gunEvents;
 
 	private CameraAnchor _cameraAnchor;
 	private Tween _tween;
-	private GunEvents _gunEvents;
 
 	/// <summary>
 	///		State that allows Hestmor to Squat while holding a gun, stopping her from moving but increasing the distance she can spot enemies
 	/// </summary>
 	/// <param name="stateMachine">The State Machine who owns this State</param>
+	/// <param name="gunEvents">Singleton responsible for emitting events related to the currently equipped Gun</param>
 	public Squat(StateMachine stateMachine, GunEvents gunEvents) : base(stateMachine)
 	{
 		_player = (Player)stateMachine.Owner;

@@ -1,11 +1,13 @@
 using Epilogue.Actors.Hestmor.Enums;
 using Epilogue.Global.DTO;
 using Godot;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Epilogue.Actors.Hestmor;
+/// <summary>
+///		Node responsible for controlling Hestmor's main sprite
+/// </summary>
 public partial class MainSprite : Sprite2D
 {
 	private readonly List<SpriteSheetDataDto> _spriteSheetData = new()
@@ -36,6 +38,10 @@ public partial class MainSprite : Sprite2D
 		}
 	};
 
+	/// <summary>
+	///		Updates the current Sprite Sheet of the Actor to the one matching the informed id
+	/// </summary>
+	/// <param name="id">The id of the new Sprite Sheet</param>
 	public void UpdateSpriteSheet(SpriteSheetId id)
 	{
 		var sheet = _spriteSheetData.First(s => s.ID == (int)id);
