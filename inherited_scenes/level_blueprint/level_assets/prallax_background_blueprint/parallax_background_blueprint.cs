@@ -13,9 +13,9 @@ public partial class parallax_background_blueprint : ParallaxBackground
 	/// </summary>
 	string bg;
 	[Export(PropertyHint.Enum, "None,default")]
-	string type_of_bg {
+	string typeOfBg {
 		get {return bg;}
-		set {bg = value; _change_background();}
+		set {bg = value; ChangeBackground();}
 	}
 
 	// Made a univeral path for all backgrounds, we could add more or make big changes
@@ -36,7 +36,7 @@ public partial class parallax_background_blueprint : ParallaxBackground
 	/// <summary>
 	/// This function is called whenever the slide down in the editor is changed
 	/// </summary>
-	private void _change_background() 
+	private void ChangeBackground() 
 	{	
 		
 		int index = 0;
