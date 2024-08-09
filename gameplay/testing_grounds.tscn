@@ -7,15 +7,14 @@
 [ext_resource type="Texture2D" uid="uid://d3w3kkhlni18i" path="res://temp/ground_1.png" id="5_n0fdd"]
 [ext_resource type="Script" path="res://props/camera/Camera.cs" id="6_1is1f"]
 [ext_resource type="Script" path="res://nodes/KonamiCode.cs" id="7_xoqku"]
-[ext_resource type="Script" path="res://levels/UILayer.cs" id="8_4kwib"]
 [ext_resource type="TileSet" uid="uid://c2hf2m205a0qe" path="res://temp/tileset.tres" id="15_1ohv8"]
 [ext_resource type="PackedScene" uid="uid://cegk1cph0llpn" path="res://props/checkpoint/checkpoint.tscn" id="18_utu6l"]
 
 [node name="Root" type="Node2D"]
-script = ExtResource("1_o245g")
+script = ExtResource("1_fqx1p")
 
 [node name="DebugInfo" type="CanvasLayer" parent="."]
-script = ExtResource("2_pfrwm")
+script = ExtResource("2_uywsj")
 _branchName = false
 _aimWheel = true
 
@@ -40,35 +39,31 @@ motion_scale = Vector2(1.2, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3"]
 position = Vector2(437, -97)
-texture = ExtResource("3_742bv")
+texture = ExtResource("3_3tdmc")
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2(1.15, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
 position = Vector2(437, -78)
-texture = ExtResource("4_ph378")
+texture = ExtResource("4_w2s74")
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2(1.1, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
 position = Vector2(418, -108)
-texture = ExtResource("5_n0fdd")
-
-[node name="Camera2D" type="Camera2D" parent="ParallaxBackground"]
-zoom = Vector2(2, 2)
-script = ExtResource("6_1is1f")
+texture = ExtResource("5_uhb0b")
 
 [node name="KonamiCode" type="Node" parent="."]
-script = ExtResource("7_xoqku")
+script = ExtResource("7_7axoc")
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 script = ExtResource("8_4kwib")
 
 [node name="TileMap" type="TileMap" parent="."]
 texture_filter = 1
-tile_set = ExtResource("15_1ohv8")
+tile_set = ExtResource("8_ohue0")
 collision_visibility_mode = 2
 navigation_visibility_mode = 2
 format = 2
@@ -81,9 +76,10 @@ layer_2/tile_data = PackedInt32Array()
 
 [node name="Checkpoints" type="Node2D" parent="."]
 
-[node name="Checkpoint" parent="Checkpoints" instance=ExtResource("18_utu6l")]
+[node name="Checkpoint" parent="Checkpoints" instance=ExtResource("9_koefn")]
 position = Vector2(280, -47)
 FirstCheckpoint = true
 
-[node name="Node2D" type="Node2D" parent="."]
-position = Vector2(184, -92)
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+script = ExtResource("6_0yhtn")

@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://gfi6s3o0bflx"]
+
+[ext_resource type="Script" path="res://inherited_scenes/level_blueprint/level_assets/prallax_background_blueprint/parallax_background_blueprint.cs" id="1_mub2v"]
+
+[node name="ParallaxBackground" type="ParallaxBackground"]
+script = ExtResource("1_mub2v")
+type_of_bg = "None"
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(1.2, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer3"]
+position = Vector2(437, -97)
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(1.15, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer2"]
+position = Vector2(437, -78)
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(1.1, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer"]
+position = Vector2(418, -108)

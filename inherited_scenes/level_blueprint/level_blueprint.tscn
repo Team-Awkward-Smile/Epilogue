@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://dyvphcrj22tvr"]
+
+[ext_resource type="Script" path="res://inherited_scenes/level_blueprint/Level.cs" id="1_gp8ik"]
+[ext_resource type="PackedScene" uid="uid://cegk1cph0llpn" path="res://inherited_scenes/level_blueprint/level_assets/checkpoint_blueprint/checkpoint.tscn" id="2_8opyh"]
+[ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_y5wp4"]
+[ext_resource type="TileSet" uid="uid://c2hf2m205a0qe" path="res://temp/tileset.tres" id="3_s2lh1"]
+[ext_resource type="PackedScene" uid="uid://gfi6s3o0bflx" path="res://inherited_scenes/level_blueprint/level_assets/prallax_background_blueprint/parallax_background_blueprint.tscn" id="5_gyxs4"]
+[ext_resource type="Script" path="res://props/camera/Camera.cs" id="7_xmj8w"]
+
+[node name="LevelBlueprint" type="Node2D"]
+script = ExtResource("1_gp8ik")
+
+[node name="DebugInfo" type="CanvasLayer" parent="."]
+script = ExtResource("2_y5wp4")
+_branchName = false
+_aimWheel = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="DebugInfo"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 50
+
+[node name="Line2D" type="Line2D" parent="DebugInfo"]
+points = PackedVector2Array(42, 108)
+width = 1.0
+
+[node name="Checkpoints" type="Node2D" parent="."]
+
+[node name="Checkpoint" parent="Checkpoints" instance=ExtResource("2_8opyh")]
+FirstCheckpoint = true
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource("3_s2lh1")
+format = 2
+
+[node name="ParallaxBackground" parent="." instance=ExtResource("5_gyxs4")]
+type_of_bg = "None"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+script = ExtResource("7_xmj8w")

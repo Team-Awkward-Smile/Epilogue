@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cegk1cph0llpn"]
 
 [ext_resource type="Script" path="res://nodes/Checkpoint.cs" id="1_6fdq8"]
-[ext_resource type="Texture2D" uid="uid://vymvexbkw681" path="res://props/checkpoint/debug_icon.png" id="2_377ii"]
+[ext_resource type="Texture2D" uid="uid://vymvexbkw681" path="res://inherited _scenes/level_blueprint/level_assets/checkpoint_blueprint/debug_icon.png" id="2_377ii"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iencf"]
 
