@@ -1611,7 +1611,7 @@ _data = {
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yy212"]
 shader = ExtResource("7_ig4q1")
 shader_parameter/iFrameActive = false
-shader_parameter/blinkColor = Color(1, 1, 1, 1)
+shader_parameter/blinkColor = Color(1, 0, 0, 1)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b5eh5"]
 radius = 11.0

@@ -10,6 +10,9 @@ frequency = 0.0224
 noise = SubResource("FastNoiseLite_m5jvn")
 
 [resource]
+resource_local_to_scene = true
 shader = ExtResource("1_ypmih")
+shader_parameter/highlightState = false
+shader_parameter/highlightColor = Color(1, 0, 0, 1)
 shader_parameter/dissolveState = 0.0
 shader_parameter/dissolveNoise = SubResource("NoiseTexture2D_xjjjl")

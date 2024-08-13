@@ -52,6 +52,16 @@ public partial class Gun : RigidBody2D
 		}
 	}
 
+	public bool Highlighted
+	{
+		get => _hightlighted;
+		set
+		{
+			_hightlighted = value;
+			SetHighlighted(_hightlighted);
+		}
+	}
+
 	/// <summary>
 	///		The time it takes to fire a single projectile. Is equal to 1 / (<see cref="ShotsPerMinute"/> / 60)
 	/// </summary>
@@ -83,7 +93,7 @@ public partial class Gun : RigidBody2D
 	protected Sprite2D Sprite { get; set; }
 
 	private bool _triggerIsPressed;
-
+	private bool _hightlighted;
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
@@ -110,7 +120,10 @@ public partial class Gun : RigidBody2D
 		GunEvents = GetNode<GunEvents>("/root/GunEvents");
 		Sprite = GetChildren().OfType<Sprite2D>().FirstOrDefault();
 
-		AfterReady();
+		
+		
+
+		AfterReady();	
 	}
 
 	/// <inheritdoc/>
@@ -186,5 +199,10 @@ public partial class Gun : RigidBody2D
 		};
 
 		pickupArea.BodyEntered += (Node2D body) => SelfDestruct();
+	}
+
+	private protected void SetHighlighted(bool state) 
+	{ 
+		Sprite.SetShaderMaterialParameter("highlightState", state);
 	}
 }

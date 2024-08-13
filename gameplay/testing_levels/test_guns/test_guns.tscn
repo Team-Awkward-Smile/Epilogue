@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://b261vfseu4qcy"]
+
+[ext_resource type="PackedScene" uid="uid://dyvphcrj22tvr" path="res://inherited_scenes/level_blueprint/level_blueprint.tscn" id="1_epav0"]
+[ext_resource type="PackedScene" uid="uid://dulc4vm30o030" path="res://temp/handgun.tscn" id="2_ljk5a"]
+
+[node name="LevelBlueprint" instance=ExtResource("1_epav0")]
+
+[node name="Checkpoint" parent="Checkpoints" index="0"]
+position = Vector2(333, -30)
+
+[node name="TileMap" parent="." index="3"]
+layer_0/tile_data = PackedInt32Array(0, 4, 0, 1, 4, 0, 2, 4, 0, 3, 4, 0, 4, 4, 0, 5, 4, 0, 6, 4, 0, 7, 4, 0, 8, 4, 0, 9, 4, 0, 10, 4, 0, 11, 4, 0, 12, 4, 0, 13, 4, 0, 14, 4, 0, 15, 4, 0, 16, 4, 0, 17, 4, 0, 18, 4, 0, 19, 4, 0, 20, 4, 0, 21, 4, 0, 22, 4, 0, 23, 4, 0, 24, 4, 0, 25, 4, 0, 26, 4, 0, -851968, 4, 0, -851967, 4, 0, -786432, 4, 0, -720896, 4, 0, -655360, 4, 0, -589824, 4, 0, -524288, 4, 0, -458752, 4, 0, -393216, 4, 0, -327680, 4, 0, -262144, 4, 0, -196608, 4, 0, -131072, 4, 0, -65536, 4, 0, -851966, 4, 0, -851965, 4, 0, -851964, 4, 0, -851963, 4, 0, -851962, 4, 0, -851961, 4, 0, -851960, 4, 0, -851959, 4, 0, -851958, 4, 0, -851957, 4, 0, -851956, 4, 0, -851955, 4, 0, -851954, 4, 0, -851953, 4, 0, -851952, 4, 0, -851951, 4, 0, -851950, 4, 0, -851949, 4, 0, -851948, 4, 0, -851947, 4, 0, -851946, 4, 0, -851945, 4, 0, -851944, 4, 0, -851943, 4, 0, -851942, 4, 0, -851941, 4, 0, 27, 4, 0, -851940, 4, 0, 28, 4, 0, -851939, 4, 0, 29, 4, 0, -851938, 4, 0, 30, 4, 0, -851937, 4, 0, 31, 4, 0, -851936, 4, 0, 32, 4, 0, -851935, 4, 0, 33, 4, 0, -851934, 4, 0, 34, 4, 0, -851933, 4, 0, -786397, 4, 0, -720861, 4, 0, -655325, 4, 0, -589789, 4, 0, -524253, 4, 0, -458717, 4, 0, -393181, 4, 0, -327645, 4, 0, -262109, 4, 0, -196573, 4, 0, -131037, 4, 0, -65501, 4, 0, 35, 4, 0)
+
+[node name="ParallaxBackground" parent="." index="4"]
+typeOfBg = "default"
+
+[node name="Handgun" parent="." index="6" instance=ExtResource("2_ljk5a")]
+position = Vector2(352, -382)
+
+[node name="Handgun2" parent="." index="7" instance=ExtResource("2_ljk5a")]
+position = Vector2(393, -384)
+
+[node name="Handgun3" parent="." index="8" instance=ExtResource("2_ljk5a")]
+position = Vector2(431, -384)
