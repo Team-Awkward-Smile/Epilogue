@@ -3,3 +3,4 @@
 .vs/
 .vscode/
 packages/
+.vscode/settings.json
