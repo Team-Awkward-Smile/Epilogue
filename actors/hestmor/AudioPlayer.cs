@@ -21,6 +21,8 @@ public partial class AudioPlayer : ActorAudioPlayer
 		{ "GloryKill", GD.Load<AudioStream>($"{PATH}//glory_kill.wav") },
 		{ "Crouch1", GD.Load<AudioStream>($"{PATH}//generic//crouch_1.wav") },
 		{ "Crouch2", GD.Load<AudioStream>($"{PATH}//generic//crouch_2.wav") },
+		{ "Idle", GD.Load<AudioStream>($"{PATH}//HestmorIdleBreathingLoop.mp3") },
+		
 	};
 
     /// <inheritdoc/>

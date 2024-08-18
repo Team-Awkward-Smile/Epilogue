@@ -1,6 +1,7 @@
 using Epilogue.Actors.Hestmor.Enums;
 using Epilogue.Nodes;
 using Godot;
+using System.Runtime.InteropServices;
 
 namespace Epilogue.Actors.Hestmor.States;
 /// <inheritdoc/>
@@ -79,20 +80,28 @@ public partial class Idle : State
 		_footstepManager.Position = new(0f, 1f);
 
 		AnimPlayer.Play("idle");
+		AudioPlayer.PlayGenericSfx("Idle");
+		
 	}
 
+	// I've wrote 'AudioPlayer.Stop("generic");' multiple times because
+	// I couldn't find the actuel way to implemented properly
+	// It was requested that the idle sound should ONLY play when in idle state
+	// so the sound stops whenever it exits the idle state
 	internal override void PhysicsUpdate(double delta)
 	{
 		_sleepTimer += (float)delta;
 
 		if (_sleepTimer >= _sleepDelay)
 		{
+			AudioPlayer.Stop("generic");
 			StateMachine.ChangeState(typeof(Sleep));
 			return;
 		}
 
 		if (!_player.IsOnFloor())
 		{
+			AudioPlayer.Stop("generic");
 			StateMachine.ChangeState(typeof(Fall), StateType.LongJump);
 			return;
 		}
@@ -106,8 +115,11 @@ public partial class Idle : State
 				return;
 			}
 
+			AudioPlayer.Stop("generic");
 			StateMachine.ChangeState(_player.RunEnabled ? typeof(Run) : typeof(Walk));
 			return;
 		}
 	}
+
+	
 }

@@ -1,6 +1,7 @@
 using Godot;
 using Godot.Collections;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Epilogue.Nodes;
 /// <summary>
@@ -28,6 +29,43 @@ public partial class ActorAudioPlayer : Node
 	private AudioStreamPlayer2D _footstepSfxPlayer;
 	private AudioStreamPlayer2D _collisionSfxPlayer;
 
+	/// <summary>
+	/// return a bool if the specified audioplayer is playing a sound
+	/// </summary>
+	/// <param name="audioPlayer"></param>
+	/// <returns></returns>
+	public bool HasStreamPlayback(string audioPlayer)
+	{
+		switch (audioPlayer)
+		{
+			case "generic":
+				return _genericSfxPlayer.HasStreamPlayback();
+			case "footsteps":
+				return _footstepSfxPlayer.HasStreamPlayback();
+			case "collision":
+				return _collisionSfxPlayer.HasStreamPlayback();
+			default:
+				return false;	
+		}
+	}
+
+	public void Stop(string audioPlayer)
+	{	
+		switch (audioPlayer)
+		{
+			case "generic":
+				_genericSfxPlayer.Stop();
+				break;
+			case "footsteps":
+				_footstepSfxPlayer.Stop();
+				break;
+			case "collision":
+				_collisionSfxPlayer.Stop();
+				break;
+			default:
+				break;
+		}
+	}
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
