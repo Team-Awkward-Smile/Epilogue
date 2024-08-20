@@ -27,6 +27,11 @@ public partial class Idle : State
 		SpriteSheetId = (int)Enums.SpriteSheetId.IdleWalk;
 	}
 
+
+	// I've wrote 'AudioPlayer.Stop("generic");' multiple times because
+	// I couldn't find the actuel way to implemented properly
+	// It was requested that the idle sound should ONLY play when in idle state
+	// so the sound stops whenever it exits the idle state
 	internal override void OnInput(InputEvent @event)
 	{
 		_sleepTimer = 0f;
@@ -44,6 +49,7 @@ public partial class Idle : State
 
 				if (!raycast.IsColliding())
 				{
+					AudioPlayer.Stop("generic");
 					StateMachine.ChangeState(typeof(Vault));
 				}
 
@@ -51,23 +57,28 @@ public partial class Idle : State
 			}
 			else
 			{
+				AudioPlayer.Stop("generic");
 				StateMachine.ChangeState(typeof(Jump), StateType.StandingJump);
 			}
 		}
 		else if (@event.IsActionPressed("crouch"))
 		{
+			AudioPlayer.Stop("generic");
 			StateMachine.ChangeState(typeof(Crouch));
 		}
 		else if (@event.IsActionPressed("melee"))
 		{
+			AudioPlayer.Stop("generic");
 			StateMachine.ChangeState(typeof(MeleeAttack), StateType.SwipeAttack);
 		}
 		else if (@event.IsActionPressed("slide"))
 		{
+			AudioPlayer.Stop("generic");
 			StateMachine.ChangeState(typeof(Slide), StateType.FrontRoll);
 		}
 		else if (@event.IsActionPressed("growl"))
 		{
+			AudioPlayer.Stop("generic");
 			StateMachine.ChangeState(typeof(Growl));
 		}
 	}
@@ -84,10 +95,7 @@ public partial class Idle : State
 		
 	}
 
-	// I've wrote 'AudioPlayer.Stop("generic");' multiple times because
-	// I couldn't find the actuel way to implemented properly
-	// It was requested that the idle sound should ONLY play when in idle state
-	// so the sound stops whenever it exits the idle state
+
 	internal override void PhysicsUpdate(double delta)
 	{
 		_sleepTimer += (float)delta;
