@@ -37,8 +37,6 @@ public partial class TestingMenu : CanvasLayer
 				fileName = dir.GetNext();
 			}
 		}
-		// GetNode("%SubViewport").AddChild(_lstLevels[0].Instantiate(PackedScene.GenEditState.Disabled));
-		Connect(PauseUI.SignalName.showingLevelList, Callable.From(Show));
 	}
 
 	private void AddToList(string fileName)
