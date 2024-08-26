@@ -30,7 +30,8 @@ public partial class ActorAudioPlayer : Node
 	private AudioStreamPlayer2D _collisionSfxPlayer;
 
 	/// <summary>
-	/// return a bool if the specified audioplayer is playing a sound
+	/// return a bool if the specified audioplayer is playing a sound.
+	///  Options: ("generic", "footsteps", "collision")
 	/// </summary>
 	/// <param name="audioPlayer"></param>
 	/// <returns></returns>

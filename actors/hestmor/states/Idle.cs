@@ -10,6 +10,7 @@ public partial class Idle : State
 	private readonly float _sleepDelay;
 	private readonly Player _player;
 	private readonly FootstepManager _footstepManager;
+	private bool _hasIdleBeenPlayed = false;
 
 	private float _sleepTimer;
 
@@ -89,15 +90,23 @@ public partial class Idle : State
 
 		_player.CanChangeFacingDirection = true;
 		_footstepManager.Position = new(0f, 1f);
-
+		
 		AnimPlayer.Play("idle");
-		AudioPlayer.PlayGenericSfx("Idle");
+		_hasIdleBeenPlayed = false;
 		
 	}
 
+	
 
 	internal override void PhysicsUpdate(double delta)
 	{
+		GD.Print(_hasIdleBeenPlayed);
+		if (!AudioPlayer.HasStreamPlayback("generic") && !_hasIdleBeenPlayed)
+		{
+			AudioPlayer.PlayGenericSfx("Idle");
+			_hasIdleBeenPlayed = true;
+		}
+
 		_sleepTimer += (float)delta;
 
 		if (_sleepTimer >= _sleepDelay)
