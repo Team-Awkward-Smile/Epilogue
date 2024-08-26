@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Epilogue"
-run/main_scene="res://gameplay/testing_grounds.tscn"
+run/main_scene="res://ui/for_levels_testing/TestingMenu.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 config/icon="res://temp/icon.png"
 
