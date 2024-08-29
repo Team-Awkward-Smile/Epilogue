@@ -59,6 +59,7 @@ public partial class Gun : RigidBody2D
 		{
 			_hightlighted = value;
 			SetHighlighted(_hightlighted);
+			SetSpriteSize(_hightlighted);
 		}
 	}
 
@@ -94,6 +95,7 @@ public partial class Gun : RigidBody2D
 
 	private bool _triggerIsPressed;
 	private bool _hightlighted;
+	private Vector2 _ogScale;
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
@@ -122,7 +124,7 @@ public partial class Gun : RigidBody2D
 
 		
 		
-
+		_ogScale = Sprite.Scale;
 		AfterReady();	
 	}
 
@@ -204,5 +206,21 @@ public partial class Gun : RigidBody2D
 	private protected void SetHighlighted(bool state) 
 	{ 
 		Sprite.SetShaderMaterialParameter("highlightState", state);
+	}
+
+	
+	private protected void SetSpriteSize(bool state)
+	{
+		int scaleValue = 8;
+		if (state)
+		{	
+			Vector2 currentScale = Sprite.Scale;
+			Vector2 newScale = new Vector2(currentScale.X + (currentScale.X/scaleValue), currentScale.Y + (currentScale.Y/scaleValue));
+			Sprite.Scale = newScale;
+		}
+		else
+		{
+			Sprite.Scale = _ogScale;
+		}
 	}
 }
