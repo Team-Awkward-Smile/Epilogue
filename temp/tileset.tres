@@ -1,6 +1,10 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://c2hf2m205a0qe"]
+[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://c2hf2m205a0qe"]
 
 [ext_resource type="Texture2D" uid="uid://bd0p8vapstjup" path="res://temp/tileset.png" id="1_a0w3j"]
+[ext_resource type="PackedScene" uid="uid://6hphqv0fnjix" path="res://temp/crawl_space_area.tscn" id="1_n4dfc"]
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_yibvt"]
+scenes/2/scene = ExtResource("1_n4dfc")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_k62qx"]
 texture = ExtResource("1_a0w3j")
@@ -14,6 +18,10 @@ texture_region_size = Vector2i(36, 36)
 1:0/0/physics_layer_0/angular_velocity = 0.0
 1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-18, -18, -18, 18, 18, 18, 18, -18)
 1:0/0/custom_data_0 = 1
+2:0/next_alternative_id = 3
+2:0/0 = 0
+2:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:0/0/physics_layer_0/angular_velocity = 0.0
 
 [resource]
 tile_size = Vector2i(36, 36)
@@ -23,3 +31,4 @@ navigation_layer_0/layers = 1
 custom_data_layer_0/name = "ground_type"
 custom_data_layer_0/type = 2
 sources/4 = SubResource("TileSetAtlasSource_k62qx")
+sources/0 = SubResource("TileSetScenesCollectionSource_yibvt")
