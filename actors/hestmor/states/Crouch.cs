@@ -63,7 +63,7 @@ public partial class Crouch : State
 
 	internal override void OnEnter(params object[] args)
 	{
-		_player.CanChangeFacingDirection = false;
+		_player.CanChangeFacingDirection = true;
 
 		AnimPlayer.Play("Crouch/crouch_begin", customSpeed: 2f);
 		AudioPlayer.PlayGenericSfx("Crouch2");

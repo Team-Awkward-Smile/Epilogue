@@ -94,11 +94,4 @@ position = Vector2(921, -82)
 [node name="Handgun2" parent="." instance=ExtResource("11_r4dwp")]
 position = Vector2(438, -105)
 
-[connection signal="body_entered" from="TileMap/@Area2D@68212" to="TileMap/@Area2D@68212" method="_on_body_entered"]
-[connection signal="body_entered" from="TileMap/@Area2D@68213" to="TileMap/@Area2D@68213" method="_on_body_entered"]
-[connection signal="body_entered" from="TileMap/@Area2D@68214" to="TileMap/@Area2D@68214" method="_on_body_entered"]
-[connection signal="body_entered" from="TileMap/@Area2D@68215" to="TileMap/@Area2D@68215" method="_on_body_entered"]
-[connection signal="body_entered" from="TileMap/@Area2D@68216" to="TileMap/@Area2D@68216" method="_on_body_entered"]
-[connection signal="body_entered" from="TileMap/@Area2D@68217" to="TileMap/@Area2D@68217" method="_on_body_entered"]
-
 [editable path="Handgun"]
