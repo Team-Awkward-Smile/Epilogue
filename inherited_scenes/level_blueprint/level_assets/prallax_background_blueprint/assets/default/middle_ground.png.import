@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://vymvexbkw681"
-path="res://.godot/imported/debug_icon.png-476604155606f040ce0aa3dcfe576547.ctex"
+uid="uid://6vqq2chms1ey"
+path="res://.godot/imported/middle_ground.png-5d31eea7754ff86838a363da3d5572a3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://props/checkpoint/debug_icon.png"
-dest_files=["res://.godot/imported/debug_icon.png-476604155606f040ce0aa3dcfe576547.ctex"]
+source_file="res://inherited_scenes/level_blueprint/level_assets/prallax_background_blueprint/assets/default/middle_ground.png"
+dest_files=["res://.godot/imported/middle_ground.png-5d31eea7754ff86838a363da3d5572a3.ctex"]
 
 [params]
 

@@ -1,0 +1,85 @@
+[gd_scene load_steps=11 format=3 uid="uid://cjolarkdk5yoi"]
+
+[ext_resource type="Script" path="res://nodes/Level.cs" id="1_o245g"]
+[ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_pfrwm"]
+[ext_resource type="Texture2D" uid="uid://dtit4hbwjn673" path="res://temp/ground_3.png" id="3_742bv"]
+[ext_resource type="Texture2D" uid="uid://bfiq0j0jyexqd" path="res://temp/ground_2.png" id="4_ph378"]
+[ext_resource type="Texture2D" uid="uid://d3w3kkhlni18i" path="res://temp/ground_1.png" id="5_n0fdd"]
+[ext_resource type="Script" path="res://props/camera/Camera.cs" id="6_1is1f"]
+[ext_resource type="Script" path="res://nodes/KonamiCode.cs" id="7_xoqku"]
+[ext_resource type="TileSet" uid="uid://c2hf2m205a0qe" path="res://temp/tileset.tres" id="15_1ohv8"]
+[ext_resource type="PackedScene" uid="uid://cegk1cph0llpn" path="res://props/checkpoint/checkpoint.tscn" id="18_utu6l"]
+
+[node name="Root" type="Node2D"]
+script = ExtResource("1_fqx1p")
+
+[node name="DebugInfo" type="CanvasLayer" parent="."]
+script = ExtResource("2_uywsj")
+_branchName = false
+_aimWheel = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="DebugInfo"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 50
+
+[node name="Line2D" type="Line2D" parent="DebugInfo"]
+points = PackedVector2Array(42, 108)
+width = 1.0
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(1.2, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3"]
+position = Vector2(437, -97)
+texture = ExtResource("3_3tdmc")
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(1.15, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
+position = Vector2(437, -78)
+texture = ExtResource("4_w2s74")
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(1.1, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2(418, -108)
+texture = ExtResource("5_uhb0b")
+
+[node name="KonamiCode" type="Node" parent="."]
+script = ExtResource("7_7axoc")
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+script = ExtResource("8_4kwib")
+
+[node name="TileMap" type="TileMap" parent="."]
+texture_filter = 1
+tile_set = ExtResource("8_ohue0")
+collision_visibility_mode = 2
+navigation_visibility_mode = 2
+format = 2
+layer_0/name = "World"
+layer_0/tile_data = PackedInt32Array(-65535, 65540, 0, -65534, 4, 0, -65533, 4, 0, -65532, 4, 0, -65531, 4, 0, -65530, 4, 0, -65529, 4, 0, -65528, 4, 0, -65527, 4, 0, -65526, 4, 0, -65525, 4, 0, -65524, 4, 0, -65523, 4, 0, -65522, 4, 0, -65521, 4, 0, -65520, 4, 0, -65519, 4, 0, -65518, 4, 0, -65517, 4, 0, -65516, 4, 0, -65515, 4, 0, -65514, 4, 0, -65513, 4, 0, -65512, 65540, 0, -65511, 65540, 0, -65510, 65540, 0, -65509, 4, 0, -131045, 4, 0, -196581, 4, 0, -262117, 4, 0, -327653, 4, 0, -393189, 4, 0, -458725, 4, 0, -524261, 4, 0, -589797, 4, 0, -655333, 4, 0, -327654, 4, 0, -327655, 4, 0, -327656, 4, 0, -327657, 4, 0, -327658, 4, 0, -327659, 4, 0, -720869, 4, 0, -786405, 4, 0, -851941, 4, 0, -917477, 4, 0, -983013, 4, 0, -1048549, 4, 0, -655334, 4, 0, -655335, 4, 0, -655336, 4, 0, -655337, 4, 0, -65536, 65540, 0, -1, 65540, 0, -2, 65540, 0, -3, 65540, 0, -4, 65540, 0, -5, 65540, 0, -6, 65540, 0, -7, 65540, 0, -8, 65540, 0, -9, 4, 0, -65545, 4, 0, -131081, 4, 0, -196617, 4, 0, -262153, 4, 0, -327689, 4, 0, -393225, 4, 0, -458761, 4, 0, -524297, 4, 0, -589833, 4, 0, -655369, 4, 0, -720905, 4, 0, -786441, 4, 0, -851977, 4, 0, -917513, 4, 0, -983049, 4, 0, -1048585, 4, 0, -1114121, 4, 0, -1179657, 4, 0, -1245193, 4, 0, -1310729, 4, 0, -1310728, 4, 0, -1310727, 4, 0, -1310726, 4, 0, -1310725, 4, 0, -1310724, 4, 0, -1310723, 4, 0, -1310722, 4, 0, -1310721, 4, 0, -1376256, 4, 0, -1376255, 4, 0, -1376254, 4, 0, -1376253, 4, 0, -1376252, 4, 0, -1376251, 4, 0, -1376250, 4, 0, -1376249, 4, 0, -1376248, 4, 0, -1376247, 4, 0, -1376246, 4, 0, -1376245, 4, 0, -1376244, 4, 0, -1376243, 4, 0, -1376242, 4, 0, -1376241, 4, 0, -1376240, 4, 0, -1376239, 4, 0, -1376238, 4, 0, -1376237, 4, 0, -1376236, 4, 0, -1376235, 4, 0, -1376234, 4, 0, -1376233, 4, 0, -1376232, 4, 0, -1376231, 4, 0, -1376230, 4, 0, -1376229, 4, 0, -1310693, 4, 0, -1245157, 4, 0, -1179621, 4, 0, -1114085, 4, 0, 65529, 65540, 0, 65530, 65540, 0, 65531, 65540, 0, 65532, 65540, 0, 65533, 65540, 0, 65534, 65540, 0, 65535, 65540, 0, 0, 65540, 0, 1, 65540, 0, 2, 65540, 0, 3, 65540, 0, 4, 65540, 0, 19, 65540, 0, 20, 65540, 0, 21, 65540, 0, 22, 65540, 0, 23, 65540, 0, 24, 65540, 0, 131063, 4, 0, 131064, 4, 0, 131065, 4, 0, 131066, 4, 0, 131067, 4, 0, 131068, 4, 0, 131069, 4, 0, 131070, 4, 0, 131071, 4, 0, 65536, 4, 0, 65537, 4, 0, 65538, 4, 0, 65539, 4, 0, 65540, 4, 0, 65541, 4, 0, 65542, 4, 0, 65543, 4, 0, 65544, 4, 0, 65545, 4, 0, 65546, 4, 0, 65547, 4, 0, 65548, 4, 0, 65549, 4, 0, 65550, 4, 0, 65551, 4, 0, 65552, 4, 0, 65553, 4, 0, 65554, 4, 0, 65555, 4, 0, 65556, 4, 0, 65557, 4, 0, 65558, 4, 0, 65559, 4, 0, 65560, 4, 0, 65561, 4, 0, 65562, 4, 0, 65563, 4, 0, 27, 4, 0, 26, 4, 0, 25, 4, 0, 18, 4, 0, 17, 4, 0, 16, 4, 0, 15, 4, 0, 14, 4, 0, 13, 4, 0, 12, 4, 0, 11, 4, 0, 10, 4, 0, 9, 4, 0, 8, 4, 0, 7, 4, 0, 6, 4, 0, 5, 4, 0, 65527, 4, 0, 65528, 4, 0, -262126, 4, 0, -262125, 4, 0, -262124, 4, 0, -327660, 4, 0, -589801, 4, 0, -524265, 4, 0, -524266, 4, 0, -262127, 4, 0, -458730, 4, 0, -393194, 4, 0)
+layer_1/name = "Breakable"
+layer_1/tile_data = PackedInt32Array()
+layer_2/name = "New Game+"
+layer_2/tile_data = PackedInt32Array()
+
+[node name="Checkpoints" type="Node2D" parent="."]
+
+[node name="Checkpoint" parent="Checkpoints" instance=ExtResource("9_koefn")]
+position = Vector2(280, -47)
+FirstCheckpoint = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+script = ExtResource("6_0yhtn")

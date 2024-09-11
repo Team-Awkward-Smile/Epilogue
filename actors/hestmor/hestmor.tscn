@@ -1577,63 +1577,49 @@ tracks/0/keys = {
 "update": 1,
 "values": [Vector2i(0, 26), Vector2i(1, 26), Vector2i(2, 26), Vector2i(3, 26)]
 }
-tracks/1/type = "method"
+tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../ActorAudioPlayer")
+tracks/1/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:shape:height")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.1),
+"times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"values": [{
-"args": ["SlideRock_01"],
-"method": &"PlayCollisionSfx"
-}]
+"update": 1,
+"values": [34.0]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:shape:height")
+tracks/2/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [34.0]
+"values": [Vector2(0, -17)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:position")
+tracks/3/path = NodePath("%MainSprite/../../CollisionShape2D:shape:height")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [Vector2(0, -17)]
+"values": [32.0]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("%MainSprite/../../CollisionShape2D:shape:height")
+tracks/4/path = NodePath("%MainSprite/../../CollisionShape2D:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [34.0]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("%MainSprite/../../CollisionShape2D:position")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -1683,63 +1669,49 @@ tracks/0/keys = {
 "update": 1,
 "values": [Vector2i(0, 6), Vector2i(1, 6)]
 }
-tracks/1/type = "method"
+tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../ActorAudioPlayer")
+tracks/1/path = NodePath("%MainSprite/../../CollisionShape2D:shape:height")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"values": [{
-"args": ["SlideRock_01"],
-"method": &"PlayCollisionSfx"
-}]
+"update": 0,
+"values": [22.0]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("%MainSprite/../../CollisionShape2D:shape:height")
+tracks/2/path = NodePath("%MainSprite/../../CollisionShape2D:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [34.0]
+"values": [Vector2(0, -11)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("%MainSprite/../../CollisionShape2D:position")
+tracks/3/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:shape:height")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0, -17)]
+"values": [26.0]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:shape:height")
+tracks/4/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [34.0]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:position")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -1777,7 +1749,7 @@ shader_parameter/blinkColor = Color(1, 1, 1, 1)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b5eh5"]
 radius = 11.0
-height = 68.0
+height = 70.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0k2f7"]
 radius = 4.0
@@ -1785,7 +1757,7 @@ height = 90.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_swilf"]
 radius = 13.0
-height = 68.0
+height = 74.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_o5mpv"]
 radius = 0.01
