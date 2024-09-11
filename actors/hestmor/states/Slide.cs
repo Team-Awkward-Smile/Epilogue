@@ -229,6 +229,7 @@ public partial class Slide : State
 		_player.FloorBlockOnWall = true;
 
 		_canJump = true;
+		_player.CanChangeFacingDirection = true;
 		_slideEndRayCast2D.Enabled = _slideShapeCast2D.Enabled = false;
 
 		return Task.CompletedTask;
