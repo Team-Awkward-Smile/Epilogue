@@ -1,9 +1,13 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://c2hf2m205a0qe"]
+[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://c2hf2m205a0qe"]
 
-[ext_resource type="Texture2D" uid="uid://bd0p8vapstjup" path="res://temp/tileset.png" id="1_a0w3j"]
+[ext_resource type="Texture2D" uid="uid://bd0p8vapstjup" path="res://tile_map/tileset.png" id="1_ljm24"]
+[ext_resource type="PackedScene" uid="uid://bbtl3nspnvwid" path="res://tile_map/scenes/spikes/v1/spike.tscn" id="1_qpcr8"]
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_js43g"]
+scenes/2/scene = ExtResource("1_qpcr8")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_k62qx"]
-texture = ExtResource("1_a0w3j")
+texture = ExtResource("1_ljm24")
 texture_region_size = Vector2i(36, 36)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -23,3 +27,4 @@ navigation_layer_0/layers = 1
 custom_data_layer_0/name = "ground_type"
 custom_data_layer_0/type = 2
 sources/4 = SubResource("TileSetAtlasSource_k62qx")
+sources/0 = SubResource("TileSetScenesCollectionSource_js43g")

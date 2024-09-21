@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://bbtl3nspnvwid"]
+
+[ext_resource type="Script" path="res://tile_map/scenes/spikes/v1/Spike.cs" id="1_i7lk4"]
+[ext_resource type="Texture2D" uid="uid://bdoye43khxsgo" path="res://tile_map/Spikes2.png" id="1_vvajv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kdpdv"]
+size = Vector2(26, 18)
+
+[node name="Spikes" type="RigidBody2D"]
+collision_layer = 0
+collision_mask = 8
+gravity_scale = 0.0
+script = ExtResource("1_i7lk4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -2)
+texture = ExtResource("1_vvajv")
+flip_v = true
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 18)
+collide_with_areas = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -9)
+shape = SubResource("RectangleShape2D_kdpdv")

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dv8i8cyrioyus"
-path="res://.godot/imported/spikes.png-08d638abc10645d70b2801104a439d47.ctex"
+uid="uid://durpx2unjrl5f"
+path="res://.godot/imported/epilogue_bob-Sheet0.png-99cfce819c4fabef24252d541e9ad1c0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://temp/spikes.png"
-dest_files=["res://.godot/imported/spikes.png-08d638abc10645d70b2801104a439d47.ctex"]
+source_file="res://actors/hestmor/sprite_sheet/epilogue_bob-Sheet0.png"
+dest_files=["res://.godot/imported/epilogue_bob-Sheet0.png-99cfce819c4fabef24252d541e9ad1c0.ctex"]
 
 [params]
 

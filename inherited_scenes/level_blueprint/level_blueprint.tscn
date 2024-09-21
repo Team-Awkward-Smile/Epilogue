@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://dyvphcrj22tvr"]
+[gd_scene load_steps=8 format=3 uid="uid://dyvphcrj22tvr"]
 
 [ext_resource type="Script" path="res://inherited_scenes/level_blueprint/Level.cs" id="1_gp8ik"]
 [ext_resource type="PackedScene" uid="uid://cegk1cph0llpn" path="res://inherited_scenes/level_blueprint/level_assets/checkpoint_blueprint/checkpoint.tscn" id="2_8opyh"]
 [ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_y5wp4"]
-[ext_resource type="TileSet" uid="uid://c2hf2m205a0qe" path="res://temp/tileset.tres" id="3_s2lh1"]
+[ext_resource type="TileSet" uid="uid://c2hf2m205a0qe" path="res://tile_map/tileset.tres" id="3_s2lh1"]
 [ext_resource type="PackedScene" uid="uid://gfi6s3o0bflx" path="res://inherited_scenes/level_blueprint/level_assets/prallax_background_blueprint/parallax_background_blueprint.tscn" id="5_gyxs4"]
+[ext_resource type="Script" path="res://inherited_scenes/level_blueprint/TileMap.cs" id="5_oqy77"]
 [ext_resource type="Script" path="res://props/camera/Camera.cs" id="7_xmj8w"]
 
 [node name="LevelBlueprint" type="Node2D"]
@@ -39,9 +40,12 @@ FirstCheckpoint = true
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource("3_s2lh1")
 format = 2
+layer_0/name = "Terrain"
+layer_1/name = "Spikes"
+layer_1/tile_data = PackedInt32Array()
+script = ExtResource("5_oqy77")
 
 [node name="ParallaxBackground" parent="." instance=ExtResource("5_gyxs4")]
-type_of_bg = "None"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
