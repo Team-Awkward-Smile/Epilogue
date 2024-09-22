@@ -1,10 +1,52 @@
-[gd_scene load_steps=4 format=3 uid="uid://bbtl3nspnvwid"]
+[gd_scene load_steps=9 format=3 uid="uid://bbtl3nspnvwid"]
 
 [ext_resource type="Script" path="res://tile_map/scenes/spikes/v1/Spike.cs" id="1_i7lk4"]
-[ext_resource type="Texture2D" uid="uid://bdoye43khxsgo" path="res://tile_map/Spikes2.png" id="1_vvajv"]
+[ext_resource type="Texture2D" uid="uid://bdoye43khxsgo" path="res://tile_map/scenes/spikes/v1/Spikes2.png" id="2_3rwc8"]
+[ext_resource type="Script" path="res://tile_map/scenes/spikes/v1/spike_hurtbox.cs" id="3_whv3f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kdpdv"]
 size = Vector2(26, 18)
+
+[sub_resource type="Animation" id="Animation_h5lh0"]
+resource_name = "RESET"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -2)]
+}
+
+[sub_resource type="Animation" id="Animation_ui30x"]
+resource_name = "twitch"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 2,
+"values": [Vector2(-2, -2), Vector2(2, -2), Vector2(-2, -2), Vector2(2, -2), Vector2(-2, -2), Vector2(0, -2)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5ti0d"]
+_data = {
+"RESET": SubResource("Animation_h5lh0"),
+"twitch": SubResource("Animation_ui30x")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_unbuh"]
+size = Vector2(16.4736, 14.8571)
 
 [node name="Spikes" type="RigidBody2D"]
 collision_layer = 0
@@ -14,13 +56,39 @@ script = ExtResource("1_i7lk4")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -2)
-texture = ExtResource("1_vvajv")
+texture = ExtResource("2_3rwc8")
 flip_v = true
-
-[node name="RayCast2D" type="RayCast2D" parent="."]
-target_position = Vector2(0, 18)
-collide_with_areas = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -9)
 shape = SubResource("RectangleShape2D_kdpdv")
+
+[node name="Trigger" type="RayCast2D" parent="."]
+collide_with_areas = true
+
+[node name="LeftWarning" type="RayCast2D" parent="."]
+position = Vector2(-36, 0)
+
+[node name="RightWarning" type="RayCast2D" parent="."]
+position = Vector2(36, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_5ti0d")
+}
+
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 32
+monitorable = false
+script = ExtResource("3_whv3f")
+DamageType = 4
+Damage = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(2.38419e-07, 6.5)
+scale = Vector2(1.09266, 0.875)
+shape = SubResource("RectangleShape2D_unbuh")
+debug_color = Color(0.635294, 0, 0.196078, 0.509804)
+
+[connection signal="area_entered" from="HurtBox" to="HurtBox" method="_on_area_entered"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cdw7f0lftxlpv"]
 
 [ext_resource type="PackedScene" uid="uid://dyvphcrj22tvr" path="res://inherited_scenes/level_blueprint/level_blueprint.tscn" id="1_wv0kf"]
-[ext_resource type="Texture2D" uid="uid://bdoye43khxsgo" path="res://tile_map/Spikes2.png" id="2_mk1fq"]
+[ext_resource type="Texture2D" uid="uid://bdoye43khxsgo" path="res://tile_map/scenes/spikes/v1/Spikes2.png" id="2_mk1fq"]
 
 [node name="LevelBlueprint" instance=ExtResource("1_wv0kf")]
 
