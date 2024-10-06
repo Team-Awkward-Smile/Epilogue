@@ -21,7 +21,6 @@ public partial class spike_hurtbox : HitBox
 		{
 			hurtBox.OnHit(this);
 		}
-		GD.Print(area2D);
-		Monitoring = false;	
+		// Monitoring = false;	
 	}
 }
