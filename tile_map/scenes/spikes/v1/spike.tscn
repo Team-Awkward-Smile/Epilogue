@@ -101,7 +101,6 @@ libraries = {
 [node name="HurtBox" type="Area2D" parent="."]
 collision_layer = 32
 collision_mask = 32
-monitoring = false
 monitorable = false
 script = ExtResource("3_whv3f")
 DamageType = 4
