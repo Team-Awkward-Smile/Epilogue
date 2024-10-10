@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://cdw7f0lftxlpv"]
 
-[ext_resource type="PackedScene" uid="uid://dyvphcrj22tvr" path="res://inherited_scenes/level_blueprint/level_blueprint.tscn" id="1_wv0kf"]
+[ext_resource type="PackedScene" uid="uid://dyvphcrj22tvr" path="res://inherited_scenes/level_blueprint/level_blueprint.tscn" id="1_xdnbs"]
 
-[node name="LevelBlueprint" instance=ExtResource("1_wv0kf")]
+[node name="LevelBlueprint" instance=ExtResource("1_xdnbs")]
 
 [node name="Checkpoint" parent="Checkpoints" index="0"]
 position = Vector2(526, -73)
