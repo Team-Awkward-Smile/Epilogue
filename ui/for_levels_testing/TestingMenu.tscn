@@ -87,7 +87,7 @@ stretch = true
 [node name="SubViewport" type="SubViewport" parent="PanelContainer/HBoxContainer/Preview/PanelContainer/MarginContainer/SubViewportContainer"]
 unique_name_in_owner = true
 handle_input_locally = false
-size = Vector2i(749, 245)
+size = Vector2i(2, 2)
 size_2d_override = Vector2i(2000, 700)
 size_2d_override_stretch = true
 render_target_update_mode = 4
