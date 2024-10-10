@@ -83,6 +83,10 @@ public partial class StateMachine : Node
         }
     }
 
+    public State GetState()
+    {
+        return _currentState;
+    }
 	/// <summary>
 	///		Changes the current State of the Actor. 
 	///		If the informed State is valid, the methods <c>OnLeave</c> and <c>OnLeaveAsync</c> of the current State will be called.

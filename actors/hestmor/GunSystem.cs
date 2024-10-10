@@ -58,6 +58,7 @@ public partial class GunSystem : Node2D
 
 		_npcEvents.Connect(NpcEvents.SignalName.GunAcquiredFromNpc, Callable.From((Gun gun) => EquipGun(gun)));
 		_playerEvents.Connect(PlayerEvents.SignalName.PlayerIsDying, Callable.From(DropGun), (uint)ConnectFlags.OneShot);
+		
 	}
 
 	/// <summary>
