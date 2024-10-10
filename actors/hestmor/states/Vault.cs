@@ -21,6 +21,19 @@ public partial class Vault : State
 		SpriteSheetId = (int)Enums.SpriteSheetId.Bob;
 	}
 
+	internal override void OnStateMachineActivation()
+	{
+		AnimPlayer.AnimationFinished += (StringName animationName) =>
+		{
+			if (!Active || animationName != "vault")
+			{
+				return;
+			}
+
+			MoveToTop();
+		};
+	}
+
 	internal override void OnEnter(params object[] args)
 	{
 		_spriteOriginalPosition = _player.Sprite.Position;
@@ -29,17 +42,14 @@ public partial class Vault : State
 		_player.Velocity = Vector2.Zero;
 
 		AnimPlayer.Play("vault");
-		AnimPlayer.AnimationFinished += MoveToTop;
 	}
 
-	private void MoveToTop(StringName animName)
+	private void MoveToTop()
 	{
-		AnimPlayer.AnimationFinished -= MoveToTop;
-
 		_player.GlobalPosition = _player.Sprite.GetNode<Node2D>("LedgeAnchor").GlobalPosition;
 		_player.Sprite.Position = _spriteOriginalPosition;
 
-		StateMachine.ChangeState(typeof(Fall), StateType.StandingJump);
+		StateMachine.ChangeState(typeof(Idle));
 	}
 }
 

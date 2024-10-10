@@ -18,7 +18,6 @@ public partial class Slide : State
 	private readonly float _longSlideCoyoteDuration;
 	private readonly float _kneeSlideCoyoteDuration;
 	private readonly Player _player;
-	private readonly FootstepManager _footstepManager;
 
 	private double _timer;
 	private double _coyoteTimer;
@@ -29,21 +28,23 @@ public partial class Slide : State
 	private bool _canJump;
 	private float _currentSlideDuration;
 	private float _currentCoyoteDuration;
+	private ShapeCast2D _slideShapeCast2D;
+	private RayCast2D _slideEndRayCast2D;
 
-    /// <summary>
-    /// 	State that allows Hestmor to perform slides
-    /// </summary>
-    /// <param name="stateMachine">The State Machine who owns this State</param>
-    /// <param name="frontRollDuration">The duration (in seconds) of the Front Roll</param>
-    /// <param name="longSlideDuration">The duration (in seconds) of the Long Slide</param>
-    /// <param name="kneeSlideDuration">The duration (in seconds) of the Knee Slide</param>
-    /// <param name="frontRollSpeed">The horizontal speed of the Front Slide</param>
-    /// <param name="longSlideSpeed">The horizontal speed of the Long Slide</param>
-    /// <param name="kneeSlideSpeed">The horizontal speed of the Knee Slide</param>
-    /// <param name="frontRollcoyoteDuration">Duration of the Coyote Time of the Front Slide</param>
-    /// <param name="longSlideCoyoteDuration">Duration of the Coyote Time of the Long Slide</param>
-    /// <param name="kneeSlideCoyoteDuration">Duration of the Coyote Time of the Knee Slide</param>
-    public Slide(
+	/// <summary>
+	/// 	State that allows Hestmor to perform slides
+	/// </summary>
+	/// <param name="stateMachine">The State Machine who owns this State</param>
+	/// <param name="frontRollDuration">The duration (in seconds) of the Front Roll</param>
+	/// <param name="longSlideDuration">The duration (in seconds) of the Long Slide</param>
+	/// <param name="kneeSlideDuration">The duration (in seconds) of the Knee Slide</param>
+	/// <param name="frontRollSpeed">The horizontal speed of the Front Slide</param>
+	/// <param name="longSlideSpeed">The horizontal speed of the Long Slide</param>
+	/// <param name="kneeSlideSpeed">The horizontal speed of the Knee Slide</param>
+	/// <param name="frontRollcoyoteDuration">Duration of the Coyote Time of the Front Slide</param>
+	/// <param name="longSlideCoyoteDuration">Duration of the Coyote Time of the Long Slide</param>
+	/// <param name="kneeSlideCoyoteDuration">Duration of the Coyote Time of the Knee Slide</param>
+	public Slide(
 		StateMachine stateMachine,
 		float frontRollDuration,
 		float longSlideDuration,
@@ -56,7 +57,6 @@ public partial class Slide : State
 		float kneeSlideCoyoteDuration) : base(stateMachine)
 	{
 		_player = (Player)stateMachine.Owner;
-		_footstepManager = _player.GetNode<FootstepManager>("FlipRoot/ActorAudioPlayer/FootstepManager");
 		_frontRollDuration = frontRollDuration;
 		_longSlideDuration = longSlideDuration;
 		_kneeSlideDuration = kneeSlideDuration;
@@ -70,6 +70,39 @@ public partial class Slide : State
 		SpriteSheetId = (int)Enums.SpriteSheetId.Bob;
 	}
 
+	internal override void OnStateMachineActivation()
+	{
+		_slideShapeCast2D = _player.ShapeCasts["Slide"];
+		_slideEndRayCast2D = _player.RayCasts["SlideEnd"];
+
+		AnimPlayer.AnimationFinished += (StringName animationName) =>
+		{
+			if (!Active || !animationName.ToString().EndsWith("slide_end"))
+			{
+				return;
+			}
+
+			_canJump = false;
+
+			StateMachine.ChangeState(typeof(Idle));
+		};
+
+		AnimPlayer.AnimationFinished += (StringName animationName) =>
+		{
+			if (!Active || animationName != "Slide/front_roll")
+			{
+				return;
+			}
+
+			_canJump = false;
+
+			_slideShapeCast2D.ForceShapecastUpdate();
+
+			StateMachine.ChangeState(_slideShapeCast2D.IsColliding() || Input.IsActionPressed("crouch_squat") ? typeof(Crawl) : typeof(Idle));
+		};
+
+	}
+
 	internal override void OnInput(InputEvent @event)
 	{
 		if (_canJump && @event.IsActionPressed("jump"))
@@ -78,13 +111,24 @@ public partial class Slide : State
 		}
 		else if (@event.IsActionPressed("cancel_slide"))
 		{
-			AnimPlayer.Play("Slide/slide_end");
-			AnimPlayer.AnimationFinished += EndSlide;
+			_slideShapeCast2D.ForceShapecastUpdate();
+
+			if (!_slideShapeCast2D.IsColliding())
+			{
+				AnimPlayer.Play("Slide/slide_end");
+			}
+			else
+			{
+				StateMachine.ChangeState(typeof(Crawl));
+			}
 		}
 	}
 
+	// args[0] - StateType - Type of Slide to be performed
 	internal override void OnEnter(params object[] args)
 	{
+		_slideEndRayCast2D.Enabled = _slideShapeCast2D.Enabled = true;
+
 		var speed = 0f;
 
 		_rollType = (StateType)args[0];
@@ -93,7 +137,7 @@ public partial class Slide : State
 		{
 			case StateType.FrontRoll:
 				speed = _frontRollSpeed;
-				_animation = "roll";
+				_animation = "front_roll";
 				_currentSlideDuration = _frontRollDuration;
 				_currentCoyoteDuration = _frontRollCoyoteDuration;
 				_footstepManager.PlayRandomCollisionSfx("Roll");
@@ -101,7 +145,7 @@ public partial class Slide : State
 
 			case StateType.KneeSlide:
 				speed = _kneeSlideSpeed;
-				_animation = "knee";
+				_animation = "knee_slide";
 				_currentSlideDuration = _kneeSlideDuration;
 				_currentCoyoteDuration = _kneeSlideCoyoteDuration;
 				_footstepManager.PlayRandomCollisionSfx("Slide");
@@ -109,7 +153,7 @@ public partial class Slide : State
 
 			case StateType.LongSlide:
 				speed = _longSlideSpeed;
-				_animation = "long";
+				_animation = "long_slide";
 				_currentSlideDuration = _longSlideDuration;
 				_currentCoyoteDuration = _longSlideCoyoteDuration;
 				_footstepManager.PlayRandomCollisionSfx("Slide");
@@ -120,7 +164,7 @@ public partial class Slide : State
 		_timer = 0f;
 		_coyoteTimer = 0f;
 		_startingRotation = _player.Rotation;
-		_canJump = true;
+		_canJump = _rollType != StateType.FrontRoll;
 
 		var direction = _player.FacingDirection == ActorFacingDirection.Left ? -1 : 1;
 
@@ -131,15 +175,7 @@ public partial class Slide : State
 		_player.Velocity = new Vector2(speed * direction, 0f);
 		_player.CanChangeFacingDirection = false;
 
-		AnimPlayer.Play($"Slide/{_animation}_slide_start");
-
-		if (_rollType == StateType.FrontRoll)
-		{
-			_canJump = false;
-
-			AnimPlayer.AnimationFinished += EndSlide;
-		}
-
+		AnimPlayer.Play($"Slide/{(_rollType != StateType.FrontRoll ? _animation + "_start" : _animation)}");
 		AudioPlayer.PlayGenericSfx("Slide");
 		
 	}
@@ -150,10 +186,10 @@ public partial class Slide : State
 
 		var velocityY = _coyoteTimer >= _currentCoyoteDuration ? _player.Velocity.Y + StateMachine.Gravity * (float)delta : 0f;
 
-        _player.Velocity = new Vector2(_player.Velocity.X, velocityY);
+		_player.Velocity = new Vector2(_player.Velocity.X, velocityY);
 
 		_player.MoveAndSlide();
-		
+
 		if (!_player.IsOnFloor() && (_coyoteTimer += delta) > _currentCoyoteDuration)
 		{
 			_canJump = false;
@@ -161,12 +197,31 @@ public partial class Slide : State
 
 		if (_rollType != StateType.FrontRoll && _timer > _currentSlideDuration && !_slideFinished)
 		{
-			_canJump = false;
-			_slideFinished = true;
+			_slideEndRayCast2D.ForceRaycastUpdate();
+			_slideShapeCast2D.ForceShapecastUpdate();
 
-			_player.Velocity = new Vector2(_player.Velocity.X / 2, _player.Velocity.Y);
-			AnimPlayer.Play($"Slide/{_animation}_slide_end");
-			AnimPlayer.AnimationFinished += EndSlide;
+			var slideCanEnd = !_slideShapeCast2D.IsColliding();
+
+			if (!slideCanEnd && !_slideEndRayCast2D.IsColliding()) 
+			{
+				_timer -= 0.3f;
+
+				return;
+			}
+
+			if (slideCanEnd)
+			{
+				_canJump = false;
+				_slideFinished = true;
+
+				_player.Velocity = new Vector2(_player.Velocity.X / 2, _player.Velocity.Y);
+
+				AnimPlayer.Play($"Slide/{_animation}_end");
+			}
+			else
+			{
+				StateMachine.ChangeState(typeof(Crawl));
+			}
 		}
 	}
 
@@ -176,16 +231,12 @@ public partial class Slide : State
 		_player.FloorMaxAngle = Mathf.DegToRad(45f);
 		_player.Rotation = _startingRotation;
 		_player.FloorBlockOnWall = true;
+
 		_canJump = true;
+		_player.CanChangeFacingDirection = true;
+		_slideEndRayCast2D.Enabled = _slideShapeCast2D.Enabled = false;
 
 		return Task.CompletedTask;
 	}
-
-	private void EndSlide(StringName animName)
-	{
-		_canJump = false;
-
-		AnimPlayer.AnimationFinished -= EndSlide;
-		StateMachine.ChangeState(typeof(Idle));
-	}
 }
+

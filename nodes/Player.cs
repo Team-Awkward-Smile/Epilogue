@@ -33,6 +33,11 @@ public partial class Player : Actor
 	public bool HoldingSword { get; set; } = false;
 
 	/// <summary>
+	///		Tells if Hestmor is currently holding a Gun (any regular Gun or the secret sword)
+	/// </summary>
+	public bool HoldingGun => _gunSystem.HasGunEquipped;
+
+	/// <summary>
 	///		Handles every input related to the player and directs it to the correct place. If the input matches nothing, it is send to the currently active State for further handling
 	/// </summary>
 	public override void _UnhandledInput(InputEvent @event)
@@ -56,7 +61,7 @@ public partial class Player : Actor
 		{
 			_playerStateMachine.ChangeState(typeof(MeleeAttack));
 		}
-		else if (CanInteract && _gunSystem.HasGunEquipped && @event.IsActionPressed("shoot"))
+		else if (CanInteract && _gunSystem.HasGunEquipped && @event.IsAction("shoot"))
 		{
 			// Tries to press/release the trigger of the equipped gun. If the gun is empty when the trigger is pressed, throw it instead
 			if (!_gunSystem.InteractWithTrigger(@event.IsPressed()))
@@ -87,10 +92,14 @@ public partial class Player : Actor
 		_gunSystem = GetNode<GunSystem>("GunSystem");
 		_mainSprite = (MainSprite)Sprite;
 		_playerStateMachine = GetChildren().OfType<PlayerStateMachine>().First();
-		_playerStateMachine.Activate();
 
 		_playerStateMachine.StateExited += ResetAnimation;
 		_playerStateMachine.StateEntering += (int newStateSpriteSheetId) => _mainSprite.UpdateSpriteSheet((SpriteSheetId)newStateSpriteSheetId);
+
+		if (_playerStateMachine.ActivateOnLoad)
+		{
+			_playerStateMachine.Activate();
+		}
 	}
 
 	/// <inheritdoc/>
@@ -194,5 +203,17 @@ public partial class Player : Actor
 		base.MoveAndSlideWithRotation();
 
 		_gunSystem.Rotation = -Rotation;
+	}
+
+	/// <summary>
+	///		Tries to drop the currently equipped Gun, if any.
+	///		If no Guns are equipped, this method does nothing
+	/// </summary>
+	public void TryDropGun()
+	{
+		if (_gunSystem.HasGunEquipped)
+		{
+			_gunSystem.InteractWithGun();
+		}
 	}
 }

@@ -29,6 +29,31 @@ public partial class MeleeAttack : State
 		SpriteSheetId = (int)Enums.SpriteSheetId.Bob;
 	}
 
+	internal override void OnStateMachineActivation()
+	{
+		_eventsSingleton = StateMachine.GetNode<PlayerEvents>("/root/PlayerEvents");
+
+		_eventsSingleton.ExecutionSpeedSelected += (ExecutionSpeed speed) =>
+		{
+			if (!Active)
+			{
+				return;
+			}
+
+			PerformExecution(speed);
+		};
+
+		AnimPlayer.AnimationFinished += (StringName animationName) =>
+		{
+			if (!Active || !animationName.ToString().StartsWith("Combat"))
+			{
+				return;
+			}
+
+			StateMachine.ChangeState(typeof(Idle));
+		};
+	}
+
 	internal override void OnEnter(params object[] args)
 	{
 		// The attack audio is controlled by the animation
@@ -51,7 +76,6 @@ public partial class MeleeAttack : State
 				_eventsSingleton = StateMachine.GetNode<PlayerEvents>("/root/PlayerEvents");
 
 				_eventsSingleton.EmitSignal(PlayerEvents.SignalName.QueryExecutionSpeed);
-				_eventsSingleton.ExecutionSpeedSelected += PerformExecution;
 
 				_player.GetViewport().SetInputAsHandled();
 
@@ -78,14 +102,10 @@ public partial class MeleeAttack : State
 				_player.Velocity = new Vector2(_slideAttackSpeed * (_player.FacingDirection == ActorFacingDirection.Left ? -1 : 1), 0f);
 			}
 		}
-
-		AnimPlayer.AnimationFinished += (StringName animName) => StateMachine.ChangeState(typeof(Idle));
 	}
 
 	private async void PerformExecution(ExecutionSpeed speed)
 	{
-		_eventsSingleton.ExecutionSpeedSelected -= PerformExecution;
-
 		var animation = "Combat/execution_" + speed switch
 		{
 			ExecutionSpeed.Slow => "slow",
@@ -120,7 +140,7 @@ public partial class MeleeAttack : State
 
 	private bool SweepRayCastForEnemy()
 	{
-		RayCast2D raycast = _player.RayCasts["Enemy"];
+		var raycast = _player.RayCasts["Enemy"];
 
 		for (var i = -40; i < -6; i += 2)
 		{

@@ -62,7 +62,7 @@ public partial class Idle : State
 				StateMachine.ChangeState(typeof(Jump), StateType.StandingJump);
 			}
 		}
-		else if (@event.IsActionPressed("crouch"))
+		else if (@event.IsActionPressed("crouch_squat"))
 		{
 			AudioPlayer.Stop("generic");
 			StateMachine.ChangeState(typeof(Crouch));

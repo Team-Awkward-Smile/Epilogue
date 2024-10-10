@@ -25,10 +25,15 @@ public partial class StateMachine : Node
 	/// </summary>
 	[Signal] public delegate void StateExitedEventHandler();
 
-    /// <summary>
-    /// 	Value of the gravity affecting every State from this StateMachine
-    /// </summary>
-    public float Gravity { get; set; }
+	/// <summary>
+	///		Controls whether this State Machine will become active as soon as it finishes loading
+	/// </summary>
+	[Export] public bool ActivateOnLoad { get; set; } = true;
+
+	/// <summary>
+	/// 	Value of the gravity affecting every State from this StateMachine
+	/// </summary>
+	public float Gravity { get; set; }
 
 	private protected HashSet<State> _states = new();
 	private protected State _currentState;
@@ -43,7 +48,12 @@ public partial class StateMachine : Node
         SetProcess(true);
         SetPhysicsProcess(true);
 
-        _currentState.OnEnter();
+		foreach (State state in _states)
+		{
+			state.OnStateMachineActivation();
+		}
+
+		_currentState.OnEnter();
     }
 
     /// <inheritdoc/>
@@ -100,9 +110,16 @@ public partial class StateMachine : Node
             return;
         }
 
-        await oldState.OnLeave();
+		oldState.Deactivating = true;
+
+		await oldState.OnLeave();
+
+		oldState.Deactivating = false;
+		oldState.Active = false;
 
 		EmitSignal(SignalName.StateExited);
+
+		newState.Active = true;
 
 		_currentState = newState;
 

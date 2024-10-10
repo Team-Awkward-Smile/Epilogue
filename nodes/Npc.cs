@@ -113,7 +113,11 @@ public abstract partial class Npc : Actor
 		_playerEvents.Connect(PlayerEvents.SignalName.PlayerIsDying, Callable.From(OnPlayerDeath));
 
 		_npcStateMachine = GetChildren().OfType<NpcStateMachine>().FirstOrDefault();
-		_npcStateMachine?.Activate();
+
+		if (_npcStateMachine?.ActivateOnLoad == true)
+		{
+			_npcStateMachine.Activate();
+		}
 	}
 
 	/// <summary>

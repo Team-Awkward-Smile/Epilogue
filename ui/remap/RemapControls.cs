@@ -13,24 +13,24 @@ namespace Epilogue.UI.Remap;
 /// </summary>
 public partial class RemapControls : Screen
 {
-	private static readonly List<GroupAction> _moveActions = new()
+	private static readonly List<GroupAction> MoveActions = new()
 	{
 		new() { Label = "Move Left", Actions = new() { "move_left" } },
 		new() { Label = "Move Right", Actions = new() { "move_right" } },
 		new() { Label = "Run", Actions = new() { "toggle_run" } },
 		new() { Label = "Slide", Actions = new() { "slide" } },
 		new() { Label = "Cancel Slide/Look Up", Actions = new() { "cancel_slide", "look_up" } },
-		new() { Label = "Crouch/Look Down", Actions = new() { "crouch" } },
+		new() { Label = "Crouch/Squat", Actions = new() { "crouch_squat" } },
 		new() { Label = "Jump/Vault/Climb Ledge", Actions = new() { "jump" } }
 	};
 
-	private static readonly List<GroupAction> _combatActions = new()
+	private static readonly List<GroupAction> CombatActions = new()
 	{
 		new() { Label = "Attack/Shoot/Slow Execution", Actions = new() { "melee", "shoot", "execute_slow" } },
 		new() { Label = "Growl/Interact/Fast Execution", Actions = new() { "growl", "interact", "execute_fast" } }
 	};
 
-	private static readonly List<GroupAction> _uiActions = new()
+	private static readonly List<GroupAction> UiActions = new()
 	{
 		new() { Label = "Pause/Unpause", Actions = new() { "pause" } }
 	};
@@ -46,11 +46,11 @@ public partial class RemapControls : Screen
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
-		AddActionRow(GetNode<GridContainer>("%Grid/MovementActions"), _moveActions);
-		AddActionRow(GetNode<GridContainer>("%Grid/CombatActions"), _combatActions);
-		AddActionRow(GetNode<GridContainer>("%Grid/UIActions"), _uiActions);
+		AddActionRow(GetNode<GridContainer>("%Grid/MovementActions"), MoveActions);
+		AddActionRow(GetNode<GridContainer>("%Grid/CombatActions"), CombatActions);
+		AddActionRow(GetNode<GridContainer>("%Grid/UIActions"), UiActions);
 
-		var actions = _moveActions.Union(_combatActions).Union(_uiActions).ToList();
+		var actions = MoveActions.Union(CombatActions).Union(UiActions).ToList();
 
 		foreach (var actionGroup in actions)
 		{
@@ -77,10 +77,7 @@ public partial class RemapControls : Screen
 
 		AddChild(_instructionsPopup);
 
-		Draw += () =>
-		{
-			GetTree().CallGroup("remap_buttons", "UpdateIconAndText");
-		};
+		Draw += () => GetTree().CallGroup("remap_buttons", "UpdateIconAndText");
 	}
 
 	/// <summary>
@@ -146,10 +143,7 @@ public partial class RemapControls : Screen
 			};
 
 			// Player decided to NOT overwrite the other actions
-			confirmDialog.Canceled += () =>
-			{
-				_selectedButton.StopWaitingForInput();
-			};
+			confirmDialog.Canceled += () => _selectedButton.StopWaitingForInput();
 
 			AddChild(confirmDialog);
 
@@ -200,7 +194,7 @@ public partial class RemapControls : Screen
 		{
 			InputMap.LoadFromProjectSettings();
 
-			var actions = _moveActions.Union(_combatActions).Union(_uiActions).ToList();
+			var actions = MoveActions.Union(CombatActions).Union(UiActions).ToList();
 
 			foreach (var actionGroup in actions)
 			{
@@ -235,7 +229,7 @@ public partial class RemapControls : Screen
 		Settings.ControlScheme = (ControlScheme)index;
 
 		var controlScheme = Settings.ControlScheme.ToString().ToLower();
-		var defaultActions = _moveActions.Union(_combatActions).Union(_uiActions).ToList();
+		var defaultActions = MoveActions.Union(CombatActions).Union(UiActions).ToList();
 
 		InputMap.LoadFromProjectSettings();
 
@@ -342,7 +336,7 @@ public partial class RemapControls : Screen
 	/// <returns><c>true</c>, if at least 1 action is already mapped to the event (in this case, <paramref name="existingActions"/> will contain those actions); <c>false</c>, otherwise</returns>
 	private static bool IsEventAlreadyMapped(InputEvent @event, out List<string> existingActions)
 	{
-		var actions = _combatActions.Union(_moveActions).Union(_uiActions).ToList();
+		var actions = CombatActions.Union(MoveActions).Union(UiActions).ToList();
 		var actionsWithMapping = new List<string>();
 
 		foreach (var actionGroup in actions)
@@ -386,7 +380,7 @@ public partial class RemapControls : Screen
 	/// <returns><c>true</c>, if every action has at least 1 event mapped to it; <c>false</c>, otherwise</returns>
 	private bool ValidateEmptyActions()
 	{
-		var actions = _moveActions.Union(_uiActions).Union(_combatActions).ToList();
+		var actions = MoveActions.Union(UiActions).Union(CombatActions).ToList();
 		var emptyActions = new List<string>();
 
 		foreach (var actionGroup in actions)
