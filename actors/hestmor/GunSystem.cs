@@ -59,10 +59,7 @@ public partial class GunSystem : Node2D
 
 		_npcEvents.Connect(NpcEvents.SignalName.GunAcquiredFromNpc, Callable.From((Gun gun) => EquipGun(gun)));
 		_playerEvents.Connect(PlayerEvents.SignalName.PlayerIsDying, Callable.From(DropGun), (uint)ConnectFlags.OneShot);
-
-		// Connecting Area2D signals whenever the player enter it the _pickupArea
-		_pickupArea.Connect(Area2D.SignalName.AreaEntered, Callable.From((Node2D area) => _on_pickup_range_area_entered(area)));
-		_pickupArea.Connect(Area2D.SignalName.AreaExited, Callable.From((Node2D area) => _on_pickup_range_area_exited(area)));
+		
 	}
 
 	/// <summary>
