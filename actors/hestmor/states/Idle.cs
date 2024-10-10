@@ -1,6 +1,7 @@
 using Epilogue.Actors.Hestmor.Enums;
 using Epilogue.Nodes;
 using Godot;
+using System.Runtime.InteropServices;
 
 namespace Epilogue.Actors.Hestmor.States;
 /// <inheritdoc/>
@@ -9,6 +10,7 @@ public partial class Idle : State
 	private readonly float _sleepDelay;
 	private readonly Player _player;
 	private readonly FootstepManager _footstepManager;
+	private bool _hasIdleBeenPlayed = false;
 
 	private float _sleepTimer;
 
@@ -26,6 +28,11 @@ public partial class Idle : State
 		SpriteSheetId = (int)Enums.SpriteSheetId.IdleWalk;
 	}
 
+
+	// I've wrote 'AudioPlayer.Stop("generic");' multiple times because
+	// I couldn't find the actuel way to implemented properly
+	// It was requested that the idle sound should ONLY play when in idle state
+	// so the sound stops whenever it exits the idle state
 	internal override void OnInput(InputEvent @event)
 	{
 		_sleepTimer = 0f;
@@ -43,6 +50,7 @@ public partial class Idle : State
 
 				if (!raycast.IsColliding())
 				{
+					AudioPlayer.Stop("generic");
 					StateMachine.ChangeState(typeof(Vault));
 				}
 
@@ -50,23 +58,28 @@ public partial class Idle : State
 			}
 			else
 			{
+				AudioPlayer.Stop("generic");
 				StateMachine.ChangeState(typeof(Jump), StateType.StandingJump);
 			}
 		}
 		else if (@event.IsActionPressed("crouch"))
 		{
+			AudioPlayer.Stop("generic");
 			StateMachine.ChangeState(typeof(Crouch));
 		}
 		else if (@event.IsActionPressed("melee"))
 		{
+			AudioPlayer.Stop("generic");
 			StateMachine.ChangeState(typeof(MeleeAttack), StateType.SwipeAttack);
 		}
 		else if (@event.IsActionPressed("slide"))
 		{
+			AudioPlayer.Stop("generic");
 			StateMachine.ChangeState(typeof(Slide), StateType.FrontRoll);
 		}
 		else if (@event.IsActionPressed("growl"))
 		{
+			AudioPlayer.Stop("generic");
 			StateMachine.ChangeState(typeof(Growl));
 		}
 	}
@@ -77,22 +90,35 @@ public partial class Idle : State
 
 		_player.CanChangeFacingDirection = true;
 		_footstepManager.Position = new(0f, 1f);
-
+		
 		AnimPlayer.Play("idle");
+		_hasIdleBeenPlayed = false;
+		
 	}
+
+	
 
 	internal override void PhysicsUpdate(double delta)
 	{
+		GD.Print(_hasIdleBeenPlayed);
+		if (!AudioPlayer.HasStreamPlayback("generic") && !_hasIdleBeenPlayed)
+		{
+			AudioPlayer.PlayGenericSfx("Idle");
+			_hasIdleBeenPlayed = true;
+		}
+
 		_sleepTimer += (float)delta;
 
 		if (_sleepTimer >= _sleepDelay)
 		{
+			AudioPlayer.Stop("generic");
 			StateMachine.ChangeState(typeof(Sleep));
 			return;
 		}
 
 		if (!_player.IsOnFloor())
 		{
+			AudioPlayer.Stop("generic");
 			StateMachine.ChangeState(typeof(Fall), StateType.LongJump);
 			return;
 		}
@@ -106,8 +132,11 @@ public partial class Idle : State
 				return;
 			}
 
+			AudioPlayer.Stop("generic");
 			StateMachine.ChangeState(_player.RunEnabled ? typeof(Run) : typeof(Walk));
 			return;
 		}
 	}
+
+	
 }
