@@ -100,7 +100,6 @@ public partial class Idle : State
 
 	internal override void PhysicsUpdate(double delta)
 	{
-		GD.Print(_hasIdleBeenPlayed);
 		if (!AudioPlayer.HasStreamPlayback("generic") && !_hasIdleBeenPlayed)
 		{
 			AudioPlayer.PlayGenericSfx("Idle");

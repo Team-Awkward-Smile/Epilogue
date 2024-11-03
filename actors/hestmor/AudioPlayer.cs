@@ -22,6 +22,8 @@ public partial class AudioPlayer : ActorAudioPlayer
 		{ "Crouch1", GD.Load<AudioStream>($"{PATH}//generic//crouch_1.wav") },
 		{ "Crouch2", GD.Load<AudioStream>($"{PATH}//generic//crouch_2.wav") },
 		{ "Idle", GD.Load<AudioStream>($"{PATH}//HestmorIdleBreathingLoop.mp3") },
+		{ "Sleeping", GD.Load<AudioStream>($"{PATH}//generic//sleep//SleepBreathing.mp3") },
+		{ "SleepStart", GD.Load<AudioStream>($"{PATH}//generic//sleep//SleepingCrouch.mp3") },
 		
 	};
 
