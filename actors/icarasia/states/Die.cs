@@ -33,6 +33,8 @@ public partial class Die : State
 			gun.CurrentAmmoCount = gun.MaxAmmoCount / (executionSpeed == ExecutionSpeed.Fast ? 2 : 1);
 
 			_ = _icarasia.GetNode<NpcEvents>("/root/NpcEvents").EmitSignal(NpcEvents.SignalName.GunAcquiredFromNpc, gun);
+
+			_icarasia.QueueFree();
 		}
 	}
 

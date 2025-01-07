@@ -168,7 +168,7 @@ public partial class Icarasia : Npc
 		if (damageType == DamageType.Unarmed)
 		{
 			// The Icarasia will die after 3 seconds if no Execution is performed
-			_npcStateMachine.ChangeState(typeof(Vulnerable), 3f);
+			_npcStateMachine.ChangeState(typeof(Vulnerable), 3.0);
 		}
 		else
 		{
