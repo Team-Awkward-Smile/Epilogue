@@ -1,10 +1,5 @@
-using Epilogue.UI.Pause;
 using Godot;
-using Godot.NativeInterop;
-using Microsoft.VisualBasic;
 using System;
-using System.IO;
-using System.Linq;
 
 public partial class TestingMenu : CanvasLayer
 {
@@ -45,37 +40,34 @@ public partial class TestingMenu : CanvasLayer
 		{
 			Text = fileName
 		};
-		Action myAction = () => { UpdatePreview(newBtn); };
+
+		Action myAction = () => UpdatePreview(newBtn);
 		newBtn.Connect(Button.SignalName.ButtonDown, Callable.From(myAction));
+
 		GetNode("%ScenesList").AddChild(newBtn);
 	}
 
 	public void UpdatePreview(Button Btn)
 	{
-		_subViewport.RenderTargetClearMode = Godot.SubViewport.ClearMode.Always;
+		if (_currentScene is not null)
+		{
+			_subViewport.RemoveChild(_currentScene);
+		}
 
-		_currentScene = (Node2D)GD.Load<PackedScene>(PATH+Btn.Text+"/"+Btn.Text+".tscn").Instantiate();
+		_subViewport.RenderTargetClearMode = SubViewport.ClearMode.Always;
+
+		_currentScene = (Node2D)GD.Load<PackedScene>($"{PATH}{Btn.Text}/{Btn.Text}.tscn").Instantiate();
+
 		_Title.Text = Btn.Text;
 		_subViewport.AddChild(_currentScene);
-		
-		GetNode<Timer>("Timer").Start();
-	}
 
-	public void _on_timer_timeout()
-	{
-		_currentScene.QueueFree();
-		_subViewport.RenderTargetClearMode = Godot.SubViewport.ClearMode.Never;
+		_currentScene.ProcessMode = ProcessModeEnum.Disabled;
 	}
 
 	public void _on_start_scene_btn_button_down()
 	{
-		_currentScene = (Node2D)GD.Load<PackedScene>(PATH+_Title.Text+"/"+_Title.Text+".tscn").Instantiate();
-		GetParent().AddChild(_currentScene);
-		Hide();
-	}
+		var scene = GD.Load<PackedScene>(PATH + _Title.Text + "/" + _Title.Text + ".tscn");
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
+		GetTree().ChangeSceneToPacked(scene);
 	}
 }

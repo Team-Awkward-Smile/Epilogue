@@ -5,6 +5,7 @@ using Epilogue.Global.Singletons;
 using Godot;
 using Godot.Collections;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Threading.Tasks;
 
 namespace Epilogue.Nodes;
@@ -81,6 +82,19 @@ public abstract partial class Npc : Actor
 	private protected NpcStateMachine _npcStateMachine;
 	private protected PlayerEvents _playerEvents;
 	private protected NpcEvents _npcEvents;
+
+	public override void _EnterTree()
+	{
+		if (GetTree().GetLevel() is null)
+		{
+			ProcessMode = ProcessModeEnum.Disabled;
+
+			QueueFree();
+
+			return;
+		}
+
+	}
 
 	/// <inheritdoc/>
 	public override async void _Ready()

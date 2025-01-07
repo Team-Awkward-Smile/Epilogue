@@ -77,6 +77,8 @@ public partial class AudioPlayer : ActorAudioPlayer
 		{ "ScratchRock_05", GD.Load<AudioStream>($"{PATH}//collision//melee//rock//scratch_short_01.wav") },
 		{ "ScratchRock_06", GD.Load<AudioStream>($"{PATH}//collision//melee//rock//scratch_short_02.wav") },
 
+		{ "LandRock_01", GD.Load<AudioStream>($"{PATH}//collision//land//flesh//FleshLand1.wav") },
+
 		{ "LandFlesh_01", GD.Load<AudioStream>($"{PATH}//collision//land//flesh//FleshLand1.wav") },
 		{ "LandFlesh_02", GD.Load<AudioStream>($"{PATH}//collision//land//flesh//FleshLand2.wav") },
 		{ "LandFlesh_03", GD.Load<AudioStream>($"{PATH}//collision//land//flesh//FleshLand3.wav") },
@@ -86,10 +88,8 @@ public partial class AudioPlayer : ActorAudioPlayer
 		{ "RollFlesh_02", GD.Load<AudioStream>($"{PATH}//collision//roll//flesh//FleshRoll2.wav") },
 		{ "RollFlesh_03", GD.Load<AudioStream>($"{PATH}//collision//roll//flesh//FleshRoll3.wav") },
 		{ "RollFlesh_04", GD.Load<AudioStream>($"{PATH}//collision//roll//flesh//FleshRoll4.wav") },
-		
-		
-		
 
+		{ "SlideFlesh_01", GD.Load<AudioStream>($"{PATH}//collision//roll//flesh//FleshRoll1.wav") },
 	};
 
 	/// <inheritdoc/>
