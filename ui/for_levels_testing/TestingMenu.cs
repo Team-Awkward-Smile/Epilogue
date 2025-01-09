@@ -1,34 +1,41 @@
 using Godot;
-using System;
 
 public partial class TestingMenu : CanvasLayer
 {
 	const string PATH = "res://gameplay/testing_levels/";
+
 	private Node2D _currentScene;
-	private Godot.SubViewport _subViewport;
-	private Godot.Label _Title;
-	// Called when the node enters the scene tree for the first time.
+	private SubViewport _subViewport;
+	private Label _title;
+
 	public override void _Ready()
 	{
-		_subViewport = GetNode<Godot.SubViewport>("%SubViewport");
-		_Title = GetNode<Godot.Label>("%Title");
+		GetTree().Paused = false;
+
+		_subViewport = GetNode<SubViewport>("%SubViewport");
+		_title = GetNode<Label>("%Title");
 
 		var dir = DirAccess.Open(PATH);
-		if (dir != null)
+
+		if (dir is not null)
 		{
 			dir.ListDirBegin();
-			string fileName = dir.GetNext();
+
+			var fileName = dir.GetNext();
+
 			while (fileName != "")
 			{
 				if (dir.CurrentIsDir())
 				{
 					GD.Print($"Found directory: {fileName}");
+
 					AddToList(fileName);
 				}
 				else
 				{
 					GD.Print($"Found file: {fileName}");
 				}
+
 				fileName = dir.GetNext();
 			}
 		}
@@ -41,13 +48,12 @@ public partial class TestingMenu : CanvasLayer
 			Text = fileName
 		};
 
-		Action myAction = () => UpdatePreview(newBtn);
-		newBtn.Connect(Button.SignalName.ButtonDown, Callable.From(myAction));
+		newBtn.Connect(BaseButton.SignalName.Pressed, Callable.From(() => UpdatePreview(newBtn)));
 
 		GetNode("%ScenesList").AddChild(newBtn);
 	}
 
-	public void UpdatePreview(Button Btn)
+	public void UpdatePreview(Button btn)
 	{
 		if (_currentScene is not null)
 		{
@@ -56,9 +62,9 @@ public partial class TestingMenu : CanvasLayer
 
 		_subViewport.RenderTargetClearMode = SubViewport.ClearMode.Always;
 
-		_currentScene = (Node2D)GD.Load<PackedScene>($"{PATH}{Btn.Text}/{Btn.Text}.tscn").Instantiate();
+		_currentScene = (Node2D)GD.Load<PackedScene>($"{PATH}{btn.Text}/{btn.Text}.tscn").Instantiate();
 
-		_Title.Text = Btn.Text;
+		_title.Text = btn.Text;
 		_subViewport.AddChild(_currentScene);
 
 		_currentScene.ProcessMode = ProcessModeEnum.Disabled;
@@ -66,7 +72,7 @@ public partial class TestingMenu : CanvasLayer
 
 	public void _on_start_scene_btn_button_down()
 	{
-		var scene = GD.Load<PackedScene>(PATH + _Title.Text + "/" + _Title.Text + ".tscn");
+		var scene = GD.Load<PackedScene>(PATH + _title.Text + "/" + _title.Text + ".tscn");
 
 		GetTree().ChangeSceneToPacked(scene);
 	}
