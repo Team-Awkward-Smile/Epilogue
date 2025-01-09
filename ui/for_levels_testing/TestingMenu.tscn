@@ -11,10 +11,6 @@ script = ExtResource("1_7100i")
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
-[node name="Timer" type="Timer" parent="."]
-wait_time = 0.2
-one_shot = true
-
 [node name="PanelContainer" type="PanelContainer" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
@@ -127,5 +123,4 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Press To Start Scene"
 
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="button_down" from="PanelContainer/HBoxContainer/Preview/ButtonMargin/MarginContainer/StartSceneBtn" to="." method="_on_start_scene_btn_button_down"]

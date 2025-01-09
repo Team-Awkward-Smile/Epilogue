@@ -41,7 +41,7 @@ public partial class PauseUI : Screen
 		GetNode<Button>("PauseLayer/VBoxContainer/SettingsButton").Pressed += ShowSettingsScreen;
 		GetNode<Button>("PauseLayer/VBoxContainer/GalleryButton").Pressed += ShowGallery;
 		// TODO: 226 - Make the button work properly after we have a Main Menu
-		GetNode<Button>("PauseLayer/VBoxContainer/QuitMenuButton").Pressed += () => GD.Print("There is no Main Menu yet :C");
+		GetNode<Button>("PauseLayer/VBoxContainer/QuitMenuButton").Pressed += () => GetTree().ChangeSceneToFile("res://ui/for_levels_testing/TestingMenu.tscn");
 		GetNode<Button>("PauseLayer/VBoxContainer/QuitDesktopButton").Pressed += () => GetTree().Quit();
 
 		_pauseLayer = GetNode<CanvasLayer>("PauseLayer");
