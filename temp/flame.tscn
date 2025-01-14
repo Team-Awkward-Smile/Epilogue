@@ -6,7 +6,7 @@
 
 [node name="Flame" type="Area2D"]
 collision_layer = 16
-collision_mask = 0
+collision_mask = 512
 script = ExtResource("1_61e8e")
 DestroyOnHit = false
 Speed = Vector2(100, 0)
