@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=3 uid="uid://de3k3vfjvfqe4"]
+[gd_scene load_steps=69 format=3 uid="uid://de3k3vfjvfqe4"]
 
 [ext_resource type="Script" path="res://nodes/Player.cs" id="1_6t4q3"]
 [ext_resource type="Script" path="res://actors/hestmor/aim/Aim.cs" id="2_b0i7f"]
@@ -289,6 +289,34 @@ tracks/5/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, -20)]
+}
+
+[sub_resource type="Animation" id="Animation_jg64l"]
+resource_name = "falling_ledge_grab"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(1, 24), Vector2i(2, 24), Vector2i(3, 24), Vector2i(4, 24)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2(-1, -84), Vector2(-7, -48), Vector2(-24, -31), Vector2(-9, -31)]
 }
 
 [sub_resource type="Animation" id="Animation_wktmx"]
@@ -658,6 +686,7 @@ tracks/1/keys = {
 _data = {
 "RESET": SubResource("Animation_1kqj8"),
 "crawl": SubResource("Animation_woke4"),
+"falling_ledge_grab": SubResource("Animation_jg64l"),
 "grab_ledge": SubResource("Animation_wktmx"),
 "grab_wall": SubResource("Animation_jdrsw"),
 "idle": SubResource("Animation_gq830"),
@@ -1788,12 +1817,14 @@ script = ExtResource("6_u4eh3")
 
 [node name="HeadRayCast2D" type="RayCast2D" parent="FlipRoot"]
 editor_description = "RayCast used to test collisions against walls. Alongside the regular CharacterBody2D, can be used to determine is the character is near a ledge"
+z_index = 1
 position = Vector2(0, -70)
 target_position = Vector2(15, 0)
 collision_mask = 8
 
 [node name="LedgeRayCast2D" type="RayCast2D" parent="FlipRoot"]
 editor_description = "RayCast used to test collisions against walls. Alongside the regular CharacterBody2D, can be used to determine is the character is near a ledge"
+z_index = 1
 position = Vector2(0, -75)
 target_position = Vector2(15, 0)
 collision_mask = 8

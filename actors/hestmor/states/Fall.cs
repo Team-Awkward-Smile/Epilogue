@@ -79,13 +79,15 @@ public partial class Fall : State
 
 			if (offset < -20)
 			{
-				_player.Position = new Vector2(_player.Position.X, ledgePosition.Y + Const.Constants.MAP_TILE_SIZE);
+				_player.Position = new Vector2(_player.Position.X, ledgePosition.Y + Constants.MAP_TILE_SIZE);
+
 				StateMachine.ChangeState(typeof(Vault));
 			}
 			else
 			{
 				_player.Position -= new Vector2(0f, offset);
-				StateMachine.ChangeState(typeof(GrabLedge));
+
+				StateMachine.ChangeState(typeof(GrabLedge), "falling");
 			}
 
             return;
