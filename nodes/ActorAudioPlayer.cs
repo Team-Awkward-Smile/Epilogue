@@ -1,5 +1,6 @@
 using Godot;
 using Godot.Collections;
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -10,6 +11,25 @@ namespace Epilogue.Nodes;
 [GlobalClass, Tool]
 public partial class ActorAudioPlayer : Node
 {
+
+
+	/// <summary>
+	/// Emited when _genericSfxPlayer has finished playing audio
+	/// </summary>
+	[Signal]
+	public delegate void GenericSfxPlayerFinishedEventHandler();
+	[Signal]
+	/// <summary>
+	/// Emited when _footstepSfxPlayer has finished playing audio
+	/// </summary>
+	public delegate void FootStepsSfxPlayerFinishedEventHandler();
+	[Signal]
+	/// <summary>
+	/// Emited when _collisionSfxPlayer has finished playing audio
+	/// </summary>
+	public delegate void CollisionsSfxPlayerFinishedEventHandler();
+
+
 	/// <summary>
 	///		List of available generic SFX (grunts, hisses, screams, etc.), to be implemented by each Actor individually
 	/// </summary>
@@ -28,6 +48,19 @@ public partial class ActorAudioPlayer : Node
 	private AudioStreamPlayer2D _genericSfxPlayer;
 	private AudioStreamPlayer2D _footstepSfxPlayer;
 	private AudioStreamPlayer2D _collisionSfxPlayer;
+	
+	public void EmitGenericSfxPlayerFinished()
+	{
+		EmitSignal(nameof(GenericSfxPlayerFinished));
+	}
+	public void EmitFootStepsfxPlayerFinished()
+	{
+		EmitSignal(nameof(FootStepsSfxPlayerFinished));
+	}
+	public void EmitCollisionSfxPlayerFinished()
+	{
+		EmitSignal(nameof(CollisionsSfxPlayerFinished));
+	}
 
 	/// <summary>
 	/// return a bool if the specified audioplayer is playing a sound.
@@ -67,6 +100,8 @@ public partial class ActorAudioPlayer : Node
 				break;
 		}
 	}
+
+
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
@@ -111,7 +146,14 @@ public partial class ActorAudioPlayer : Node
 
 			AddChild(_collisionSfxPlayer);
 		}
+
+
+		// Signal Connections
+		_genericSfxPlayer.Finished += EmitGenericSfxPlayerFinished;
+		_footstepSfxPlayer.Finished += EmitFootStepsfxPlayerFinished;
+		_collisionSfxPlayer.Finished += EmitCollisionSfxPlayerFinished;
 	}
+
 
 	/// <summary>
 	///		Plays a predefined generic SFX from the <see cref="GenericSfxList"/> list belonging to the Actor who owns this Node

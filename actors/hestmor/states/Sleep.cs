@@ -22,7 +22,7 @@ public partial class Sleep : State
 
 	internal override void OnStateMachineActivation()
 	{
-		AnimPlayer.AnimationFinished += (StringName animationName) =>
+		AnimPlayer.AnimationFinished += async (StringName animationName) =>
 		{
 			if (!Active || animationName != "Sleep/sleep_start")
 			{
@@ -30,6 +30,7 @@ public partial class Sleep : State
 			}
 
 			AnimPlayer.Play("Sleep/sleep_loop");
+			await StateMachine.ToSignal(AudioPlayer, ActorAudioPlayer.SignalName.GenericSfxPlayerFinished);
 			AudioPlayer.PlayGenericSfx("Sleeping");
 		};
 	}
@@ -53,6 +54,7 @@ public partial class Sleep : State
 
 		AnimPlayer.Play("Sleep/sleep_start");
 		AudioPlayer.PlayGenericSfx("SleepStart");
+
 
 	}
 
