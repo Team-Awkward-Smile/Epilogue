@@ -1,6 +1,7 @@
 using Epilogue.Actors.Icarasia.Enums;
 using Epilogue.Nodes;
 using Godot;
+using System.Threading.Tasks;
 
 namespace Epilogue.Actors.Icarasia.States;
 /// <inheritdoc/>
@@ -21,6 +22,8 @@ public class Sting : State
 
 	internal override void OnEnter(params object[] args)
 	{
+		_icarasia.Modulate = Colors.Red;
+		
 		var direction = (StingDirection)args[0];
 
 		_stingerPivot.RotationDegrees = direction switch
@@ -38,5 +41,12 @@ public class Sting : State
 		var rng = new RandomNumberGenerator();
 
 		StateMachine.GetTree().CreateTimer(rng.RandfRange(1.5f, 3.5f)).Timeout += () => StateMachine.ChangeState(typeof(Move));
+	}
+
+	internal override Task OnLeave()
+	{
+		_icarasia.Modulate = Colors.White;
+		
+		return Task.CompletedTask;
 	}
 }

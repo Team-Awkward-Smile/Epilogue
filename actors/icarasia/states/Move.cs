@@ -2,6 +2,7 @@ using Epilogue.Actors.Icarasia.Enums;
 using Epilogue.Const;
 using Epilogue.Nodes;
 using Godot;
+using static Epilogue.Const.Constants;
 
 namespace Epilogue.Actors.Icarasia.States;
 /// <inheritdoc/>
@@ -35,7 +36,7 @@ public partial class Move : State
 	internal override void PhysicsUpdate(double delta)
 	{
 		var desiredDistance = _icarasia.PreferredAttack == PreferredAttack.Projectile ? _shotDesiredDistance : 35f;
-		var targetPosition = _player.GlobalPosition - new Vector2(0f, Const.Constants.PLAYER_HEIGHT / 2);
+		var targetPosition = _player.GlobalPosition - new Vector2(0f, PLAYER_HEIGHT / 2f);
 
 		_icarasia.Velocity = _icarasia.DistanceToPlayer > desiredDistance
 			? (targetPosition - _icarasia.GlobalPosition).Normalized() * _moveSpeed
