@@ -112,7 +112,7 @@ public abstract partial class Npc : Actor
 		{
 			await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 
-			var navigationAgents = GetChildren().OfType<NavigationAgent2D>();
+			var navigationAgents = GetChildren().OfType<NavigationAgent2D>().ToList();
 
 			PlayerNavigationAgent2D = navigationAgents.First(na => na.Name.ToString().Contains("Player"));
 			WanderNavigationAgent2D = navigationAgents.First(na => na.Name.ToString().Contains("Wander"));
@@ -192,7 +192,7 @@ public abstract partial class Npc : Actor
 	/// <summary>
 	///     Heals this NPC. If it was Vulnerable and it's HP goes above 0, it will return to normal
 	/// </summary>
-	/// <param name="health">Ammount of HP to heal</param>
+	/// <param name="health">Amount of HP to heal</param>
 	public override void RecoverHealth(float health)
 	{
 		CurrentHealth += health;
@@ -272,7 +272,7 @@ public abstract partial class Npc : Actor
 	}
 
 	/// <summary>
-	///     Method used by each NPC that needs to run logic every frame, regardless of it's current State
+	///     Method used by each NPC that needs to run logic every frame, regardless of its current State
 	/// </summary>
 	/// <param name="delta"></param>
 	private protected abstract void ProcessFrame(double delta);

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Epilogue.Actors.Hestmor.States;
 /// <inheritdoc/>
-public partial class Jump : State
+public class Jump : State
 {
 	private readonly float _standingJumpVerticalSpeed;
 	private readonly float _lowJumpVerticalSpeed;
@@ -20,7 +20,7 @@ public partial class Jump : State
 	private float _horizontalVelocity;
 	private StateType _jumpType;
 	private string _animation;
-	private int _frameDelay = 0;
+	private int _frameDelay;
 	private Vector2 _raycastOriginalTargetPosition;
 	private float _currentJumpVerticalSpeed;
 

@@ -2,6 +2,7 @@ using Epilogue.Extensions;
 using Epilogue.Global.Singletons;
 using Epilogue.Nodes;
 using Godot;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Epilogue.Actors.VafaKeleth.States;
@@ -28,7 +29,7 @@ public partial class VafaKelethStateMachine : NpcStateMachine
 
 		var player = GetTree().GetLevel().Player;
 
-		_states = new()
+		_states = new HashSet<State>
 		{
 			new Combat(this, _spiteFireCooldown),
 			new Die(this),

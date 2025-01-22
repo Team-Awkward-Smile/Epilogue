@@ -65,8 +65,6 @@ public partial class Combat : State
 				{
 					StateMachine.ChangeState(typeof(Punch));
 				}
-
-				return;
 			}
 		}
 	}

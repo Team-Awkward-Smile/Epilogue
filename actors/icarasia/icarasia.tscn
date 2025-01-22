@@ -118,7 +118,6 @@ collision_layer = 2
 collision_mask = 0
 motion_mode = 1
 script = ExtResource("1_7ax2p")
-VulnerabilityThreshold = 1.0
 VulnerabilityDuration = 5.0
 MaxHealth = 2.0
 CurrentHealth = 2.0
@@ -166,6 +165,9 @@ Damage = 1.0
 position = Vector2(20, 0)
 debug_color = Color(1, 0, 0, 0)
 
+[node name="ActorAudioPlayer" type="Node" parent="FlipRoot"]
+script = ExtResource("10_iimqh")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -2)
 shape = SubResource("CircleShape2D_51ab6")
@@ -196,6 +198,3 @@ script = ExtResource("6_0pg05")
 libraries = {
 "": SubResource("AnimationLibrary_8lni4")
 }
-
-[node name="ActorAudioPlayer" type="Node" parent="."]
-script = ExtResource("10_iimqh")

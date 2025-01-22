@@ -1,6 +1,7 @@
 using Epilogue.Extensions;
 using Epilogue.Nodes;
 using Godot;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Epilogue.Actors.Icarasia.States;
@@ -54,7 +55,7 @@ public partial class IcarasiaStateMachine : NpcStateMachine
 		var player = GetTree().GetLevel().Player;
 		var icarasia = (Icarasia)Owner;
 
-		_states = new()
+		_states = new HashSet<State>
 		{
 			new Charge(this, player, _chargeSpeed, _chargeDuration),
 			new Die(this),
