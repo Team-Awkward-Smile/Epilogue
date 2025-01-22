@@ -54,31 +54,6 @@ public partial class MeleeAttack : State
 		};
 	}
 
-	internal override void OnStateMachineActivation()
-	{
-		_eventsSingleton = StateMachine.GetNode<PlayerEvents>("/root/PlayerEvents");
-
-		_eventsSingleton.ExecutionSpeedSelected += (ExecutionSpeed speed) =>
-		{
-			if (!Active)
-			{
-				return;
-			}
-
-			PerformExecution(speed);
-		};
-
-		AnimPlayer.AnimationFinished += (StringName animationName) =>
-		{
-			if (!Active || !animationName.ToString().StartsWith("Combat"))
-			{
-				return;
-			}
-
-			StateMachine.ChangeState(typeof(Idle));
-		};
-	}
-
 	internal override void OnEnter(params object[] args)
 	{
 		// The attack audio is controlled by the animation

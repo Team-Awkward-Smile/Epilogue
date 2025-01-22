@@ -47,31 +47,6 @@ public partial class GrabLedge : State
 		};
 	}
 
-	internal override void OnStateMachineActivation()
-	{
-		AnimPlayer.AnimationFinished += (StringName animationName) =>
-		{
-			if (!Active || animationName != "ledge_climb")
-			{
-				return;
-			}
-
-			_player.GlobalPosition = _player.Sprite.GetNode<Node2D>("LedgeAnchor").GlobalPosition;
-
-			StateMachine.ChangeState(typeof(Idle));
-		};
-
-		AnimPlayer.AnimationFinished += (StringName animationName) =>
-		{
-			if (!Active || animationName != "grab_wall")
-			{
-				return;
-			}
-
-			AnimPlayer.Play("ledge_look");
-		};
-	}
-
 	internal override void OnInput(InputEvent @event)
 	{
 		if (@event.IsActionPressed("jump"))

@@ -33,19 +33,6 @@ public partial class Sleep : State
 		};
 	}
 
-	internal override void OnStateMachineActivation()
-	{
-		AnimPlayer.AnimationFinished += (StringName animationName) =>
-		{
-			if (!Active || animationName != "Sleep/sleep_start")
-			{
-				return;
-			}
-
-			AnimPlayer.Play("Sleep/sleep_loop");
-		};
-	}
-
 	internal override void OnInput(InputEvent @event)
 	{
 		var actions = new string[] { "move_left", "move_right", "jump", "slide", "melee", "interact", "shoot" };

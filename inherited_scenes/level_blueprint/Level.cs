@@ -167,11 +167,11 @@ public partial class Level : Node2D
 			}
 		}
 
-		Player.Position = _checkpoints.FirstOrDefault(c => c.Current).Position;
+		Player.Position = _checkpoints.First(c => c.Current).Position;
 
 		_camera = GetViewport().GetCamera2D() as Camera;
 		_camera.Position = Player.Position;
-		_camera.SetCameraTarget(Player.GetNode<Node2D>("FlipRoot/CameraAnchor"));
+		_camera.SetCameraTarget(Player.GetNode<Node2D>("CameraAnchor"));
 	}
 
 	/// <summary>

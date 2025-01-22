@@ -33,19 +33,6 @@ public partial class Vault : State
 		};
 	}
 
-	internal override void OnStateMachineActivation()
-	{
-		AnimPlayer.AnimationFinished += (StringName animationName) =>
-		{
-			if (!Active || animationName != "vault")
-			{
-				return;
-			}
-
-			MoveToTop();
-		};
-	}
-
 	internal override void OnEnter(params object[] args)
 	{
 		_spriteOriginalPosition = _player.Sprite.Position;
