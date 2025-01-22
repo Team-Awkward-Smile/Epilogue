@@ -1,5 +1,7 @@
 using Epilogue.Actors.Hestmor.Enums;
 using Epilogue.Global.Enums;
+using Epilogue.Actors.Hestmor.Enums;
+using Epilogue.Global.Singletons;
 using Epilogue.Nodes;
 using Godot;
 using System.Threading.Tasks;
@@ -9,6 +11,9 @@ namespace Epilogue.Actors.Hestmor.States;
 public partial class Crouch : State
 {
 	private readonly Player _player;
+	private readonly GunEvents _gunEvents;
+
+	private bool _crouchingAnimationFinished;
 
 	private bool _playLeaveAnimation;
 
@@ -16,22 +21,51 @@ public partial class Crouch : State
 	/// 	State that allows Hestmor to crouch
 	/// </summary>
 	/// <param name="stateMachine">The State Machine who owns this State</param>
-	public Crouch(StateMachine stateMachine) : base(stateMachine)
+	/// <param name="gunEvents">Singleton responsible for emitting events related to the currently equipped Gun</param>
+	public Crouch(StateMachine stateMachine, GunEvents gunEvents) : base(stateMachine)
 	{
 		_player = (Player)stateMachine.Owner;
+		_gunEvents = gunEvents;
 
-		SpriteSheetId = (int)Enums.SpriteSheetId.Bob;
+		SpriteSheetId = (int)Enums.SpriteSheetId.IdleWalk;
+	}
+
+	internal override void OnStateMachineActivation()
+	{
+		AnimPlayer.AnimationFinished += (StringName animationName) =>
+		{
+			if (!Active || animationName != "Crouch/crouch_begin")
+			{
+				return;
+			}
+
+			_crouchingAnimationFinished = true;
+		};
+
+		_gunEvents.PlayerPickedUpGun += (_, _) =>
+		{
+			if (!Active)
+			{
+				return;
+			}
+
+			StateMachine.ChangeState(typeof(Squat));
+		};
 	}
 
 	internal override void OnInput(InputEvent @event)
 	{
-		if (@event.IsActionReleased("crouch", true))
+		if (@event.IsActionReleased("crouch_squat"))
 		{
 			StateMachine.ChangeState(typeof(Idle));
 		}
 		else if (!Deactivating && @event.IsActionPressed("jump"))
 		{
 			_player.CollisionMask &= ~(uint)CollisionLayerName.Platforms;
+		}
+		else if (@event.IsActionPressed("slide"))
+		{
+			StateMachine.ChangeState(typeof(Slide), StateType.FrontRoll);
 		}
 	}
 
@@ -41,8 +75,10 @@ public partial class Crouch : State
 
 		_player.CanChangeFacingDirection = false;
 
-		AnimPlayer.Play("crouch");
+		AnimPlayer.Play("Crouch/crouch_begin", customSpeed: 2f);
 		AudioPlayer.PlayGenericSfx("Crouch2");
+
+		_crouchingAnimationFinished = false;
 	}
 
 	internal override void PhysicsUpdate(double delta)
@@ -56,6 +92,11 @@ public partial class Crouch : State
 			_playLeaveAnimation = false;
 
 			StateMachine.ChangeState(typeof(Fall), StateType.StandingJump, 0.5f);
+		}
+		
+		if (_crouchingAnimationFinished && Input.GetAxis("move_left", "move_right") != 0f)
+		{
+			StateMachine.ChangeState(typeof(Crawl));
 		}
 	}
 

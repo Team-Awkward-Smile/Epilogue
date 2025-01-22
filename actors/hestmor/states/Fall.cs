@@ -9,6 +9,7 @@ namespace Epilogue.Actors.Hestmor.States;
 public partial class Fall : State
 {
 	private readonly Player _player;
+	private readonly FootstepManager _footstepManager;
 	private bool _playLandingAnimation = true;
 	private bool _canGrabLedge;
 	private StateType _jumpType;
@@ -24,6 +25,7 @@ public partial class Fall : State
 	public Fall(StateMachine stateMachine) : base(stateMachine)
 	{
 		_player = (Player)stateMachine.Owner;
+		_footstepManager = _player.GetNode<FootstepManager>("FlipRoot/ActorAudioPlayer/FootstepManager");
 
 		SpriteSheetId = (int)Enums.SpriteSheetId.Bob;
 	}
@@ -87,11 +89,13 @@ public partial class Fall : State
 			if (offset < -20 || isPlatform)
 			{
 				_player.Position = new Vector2(_player.Position.X, ledgePosition.Y + Const.Constants.MAP_TILE_SIZE);
+				
 				StateMachine.ChangeState(typeof(Vault));
 			}
 			else
 			{
 				_player.Position -= new Vector2(0f, offset);
+				
 				StateMachine.ChangeState(typeof(GrabLedge));
 			}
 
@@ -103,18 +107,20 @@ public partial class Fall : State
 		_player.Velocity = new Vector2(_player.Velocity.X, _player.Velocity.Y + (StateMachine.Gravity * (float)delta));
 		_player.MoveAndSlide();
 
-		if (_player.IsOnFloor())
+		if (!_player.IsOnFloor())
 		{
-			if (_slideQueued)
-			{
-				_playLandingAnimation = false;
+			return;
+		}
 
-				StateMachine.ChangeState(typeof(Slide), StateType.KneeSlide);
-			}
-			else
-			{
-				StateMachine.ChangeState(typeof(Idle));
-			}
+		if (_slideQueued)
+		{
+			_playLandingAnimation = false;
+
+			StateMachine.ChangeState(typeof(Slide), StateType.KneeSlide);
+		}
+		else
+		{
+			StateMachine.ChangeState(typeof(Idle));
 		}
 	}
 
@@ -125,8 +131,10 @@ public partial class Fall : State
 			return;
 		}
 
-		AudioPlayer.PlayGenericSfx("Land");
-		AnimPlayer.Play($"Jump/{_animation}_jump_land");
+        AudioPlayer.PlayGenericSfx("Land");
+        AnimPlayer.Play($"Jump/{_animation}_jump_land");
+        
+		_footstepManager.PlayRandomCollisionSfx("Land");
 
 		await StateMachine.ToSignal(AnimPlayer, "animation_finished");
 	}

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dtit4hbwjn673"
-path="res://.godot/imported/ground_3.png-caeb61b9dcbc00514bc8eb35935eed99.ctex"
+uid="uid://vymvexbkw681"
+path="res://.godot/imported/debug_icon.png-9a4f3e80f435da9417725d33b5dd9a23.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://temp/ground_3.png"
-dest_files=["res://.godot/imported/ground_3.png-caeb61b9dcbc00514bc8eb35935eed99.ctex"]
+source_file="res://inherited_scenes/level_blueprint/level_assets/checkpoint_blueprint/debug_icon.png"
+dest_files=["res://.godot/imported/debug_icon.png-9a4f3e80f435da9417725d33b5dd9a23.ctex"]
 
 [params]
 

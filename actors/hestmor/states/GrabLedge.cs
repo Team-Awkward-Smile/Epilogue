@@ -53,7 +53,7 @@ public partial class GrabLedge : State
 		{
 			AnimPlayer.Play("ledge_climb");
 		}
-		else if (@event.IsActionPressed("crouch"))
+		else if (@event.IsActionPressed("crouch_squat"))
 		{
 			StateMachine.ChangeState(typeof(Fall), StateType.StandingJump);
 		}

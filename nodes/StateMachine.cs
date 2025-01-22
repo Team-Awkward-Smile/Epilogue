@@ -82,7 +82,7 @@ public partial class StateMachine : Node
             _currentState?.PhysicsUpdate(delta);
         }
     }
-
+    
 	/// <summary>
 	///		Changes the current State of the Actor. 
 	///		If the informed State is valid, the methods <c>OnLeave</c> and <c>OnLeaveAsync</c> of the current State will be called.
