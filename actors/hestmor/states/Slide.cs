@@ -31,9 +31,7 @@ public partial class Slide : State
 	private ShapeCast2D _slideShapeCast2D;
 	private RayCast2D _slideEndRayCast2D;
 	private FootstepManager _footstepManager;
-
-	private FootstepManager _footstepManager;
-
+	
 	/// <summary>
 	/// 	State that allows Hestmor to perform slides
 	/// </summary>

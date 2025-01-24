@@ -1910,7 +1910,6 @@ _lowJumpVerticalSpeed = -350.0
 _lowJumpHorizontalSpeed = 150.0
 _longJumpVerticalSpeed = -200.0
 _longJumpHorizontalSpeed = 350.0
-_sleepDelay = 3.0
 
 [node name="GrowlEffectArea" type="Area2D" parent="."]
 position = Vector2(0, -24)
