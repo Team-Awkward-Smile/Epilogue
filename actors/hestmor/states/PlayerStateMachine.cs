@@ -38,7 +38,7 @@ public partial class PlayerStateMachine : StateMachine
 		[Export] private float _runSpeed = 200f;
 
 	[ExportGroup("Sleep")]
-		[Export] private float _sleepDelay = 5f;
+		[Export] private float _sleepDelay = 60f;
 
 	[ExportGroup("Slide")]
 	[ExportSubgroup("Front Roll")]
