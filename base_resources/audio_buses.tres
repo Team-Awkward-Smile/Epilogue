@@ -1,4 +1,9 @@
-[gd_resource type="AudioBusLayout" format=3 uid="uid://femxssdvcflw"]
+[gd_resource type="AudioBusLayout" load_steps=2 format=3 uid="uid://femxssdvcflw"]
+
+[sub_resource type="AudioEffectReverb" id="AudioEffectReverb_d53ji"]
+resource_name = "Reverb"
+room_size = 0.18
+spread = 0.27
 
 [resource]
 bus/1/name = &"SFX"
@@ -13,3 +18,11 @@ bus/2/mute = false
 bus/2/bypass_fx = false
 bus/2/volume_db = -15.795
 bus/2/send = &"Master"
+bus/3/name = &"Temp-echo"
+bus/3/solo = false
+bus/3/mute = false
+bus/3/bypass_fx = false
+bus/3/volume_db = -15.7883
+bus/3/send = &"Master"
+bus/3/effect/0/effect = SubResource("AudioEffectReverb_d53ji")
+bus/3/effect/0/enabled = true

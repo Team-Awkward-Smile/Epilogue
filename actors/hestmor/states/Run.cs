@@ -1,7 +1,6 @@
 using Epilogue.Actors.Hestmor.Enums;
 using Epilogue.Global.Enums;
 using Epilogue.Nodes;
-
 using Godot;
 
 namespace Epilogue.Actors.Hestmor.States;
@@ -58,10 +57,10 @@ public partial class Run : State
 
 	internal override void OnEnter(params object[] args)
 	{
-		AnimPlayer.Play("walk", -1, 2f);
-
 		_player.CanChangeFacingDirection = true;
 		_player.RotationDegrees = 0f;
+
+		AnimPlayer.Play("walk", -1, 2f);
 	}
 
 	internal override void PhysicsUpdate(double delta)
@@ -72,10 +71,7 @@ public partial class Run : State
 		{
 			movementDirection = movementDirection > 0 ? 1 : -1;
 
-			var velocity = _player.Velocity;
-
-			velocity.Y += StateMachine.Gravity * (float)delta;
-			velocity.X = movementDirection * _runSpeed;
+			var velocity = new Vector2(movementDirection * _runSpeed, _player.Velocity.Y + (StateMachine.Gravity * (float)delta));
 
 			if ((movementDirection > 0 && _player.FacingDirection == ActorFacingDirection.Left) ||
 				(movementDirection < 0 && _player.FacingDirection == ActorFacingDirection.Right))

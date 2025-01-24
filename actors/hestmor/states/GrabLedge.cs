@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Epilogue.Actors.Hestmor.Enums;
+using Epilogue.Actors.VafaKeleth;
 using Epilogue.Nodes;
 using Godot;
 

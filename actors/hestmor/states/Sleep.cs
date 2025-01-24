@@ -37,11 +37,9 @@ public partial class Sleep : State
 	{
 		var actions = new string[] { "move_left", "move_right", "jump", "slide", "melee", "interact", "shoot" };
 
-		foreach (var a in actions.Where(action => @event.IsActionPressed(action)))
+		if (actions.Where(action => @event.IsActionPressed(action)).Any())
 		{
 			StateMachine.ChangeState(typeof(Idle));
-
-			return;
 		}
 	}
 

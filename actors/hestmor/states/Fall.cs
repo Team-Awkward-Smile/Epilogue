@@ -71,13 +71,13 @@ public partial class Fall : State
 	{
 		_frameDelay++;
 
-		if (_canGrabLedge && (_frameDelay == 3 || _player.IsOnWall()) && _player.SweepForLedge(out var ledgePosition))
+		if (_canGrabLedge && (_frameDelay == 3 || _player.IsOnWall()) && _player.SweepRayCastsForLedge(out var ledgePosition, out var isPlatform))
 		{
 			var offset = _player.RayCasts["Head"].GlobalPosition.Y - ledgePosition.Y;
 
             _playLandingAnimation = false;
 
-			if (offset < -20)
+			if (offset < -20 || isPlatform)
 			{
 				_player.Position = new Vector2(_player.Position.X, ledgePosition.Y + Const.Constants.MAP_TILE_SIZE);
 				StateMachine.ChangeState(typeof(Vault));

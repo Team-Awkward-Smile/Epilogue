@@ -103,8 +103,8 @@ radius = 14.0
 
 [node name="TerraBischemSwingingAxe" type="CharacterBody2D"]
 script = ExtResource("1_j2twm")
-MaxHealth = 3.0
-CurrentHealth = 3.0
+MaxHealth = 30.0
+CurrentHealth = 30.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
