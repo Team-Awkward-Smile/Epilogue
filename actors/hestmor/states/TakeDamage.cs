@@ -34,8 +34,13 @@ public partial class TakeDamage : State
 
 	internal override void OnEnter(params object[] args)
 	{
+		AudioPlayer.Stop("generic");
+		
 		_player.CanChangeFacingDirection = false;
 
 		AnimPlayer.Play("Combat/take_damage");
+
+		int rdm = GD.RandRange(0,6);
+		AudioPlayer.PlayGenericSfx($"DeathBreath{rdm}");
 	}
 }

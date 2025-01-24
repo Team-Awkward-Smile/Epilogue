@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://actors/hestmor/aim/StickAim.cs" id="5_3agu6"]
 [ext_resource type="Script" path="res://actors/hestmor/CameraAnchor.cs" id="6_u4eh3"]
 [ext_resource type="Shader" path="res://actors/hestmor/iframes.gdshader" id="7_ig4q1"]
-[ext_resource type="Texture2D" uid="uid://be0or44ubsq5m" path="res://actors/hestmor/sprite_sheet/epilogue_bob-Sheet.png" id="8_chwn4"]
+[ext_resource type="Texture2D" uid="uid://6wht785hslmw" path="res://actors/hestmor/sprite_sheet/hestmor_1-Sheet.png" id="8_wc1x7"]
 [ext_resource type="Texture2D" uid="uid://dcj6nrh0f0uxd" path="res://temp/sword_melee.png" id="9_cd267"]
 [ext_resource type="Script" path="res://nodes/HitBox.cs" id="10_dg7e0"]
 [ext_resource type="Script" path="res://actors/hestmor/MainSprite.cs" id="10_xgd07"]
@@ -1829,7 +1829,7 @@ collision_mask = 8
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_yy212")
 position = Vector2(0, -49)
-texture = ExtResource("8_chwn4")
+texture = ExtResource("8_wc1x7")
 hframes = 8
 vframes = 4
 script = ExtResource("10_xgd07")
