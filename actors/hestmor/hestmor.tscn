@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://actors/hestmor/aim/StickAim.cs" id="5_3agu6"]
 [ext_resource type="Script" path="res://actors/hestmor/CameraAnchor.cs" id="6_u4eh3"]
 [ext_resource type="Shader" path="res://actors/hestmor/iframes.gdshader" id="7_ig4q1"]
-[ext_resource type="Texture2D" uid="uid://6wht785hslmw" path="res://actors/hestmor/sprite_sheet/hestmor_1-Sheet.png" id="8_wc1x7"]
+[ext_resource type="Texture2D" uid="uid://be0or44ubsq5m" path="res://actors/hestmor/sprite_sheet/epilogue_bob-Sheet.png" id="8_nwema"]
 [ext_resource type="Texture2D" uid="uid://dcj6nrh0f0uxd" path="res://temp/sword_melee.png" id="9_cd267"]
 [ext_resource type="Script" path="res://nodes/HitBox.cs" id="10_dg7e0"]
 [ext_resource type="Script" path="res://actors/hestmor/MainSprite.cs" id="10_xgd07"]
@@ -687,34 +687,22 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath(".:position")
+tracks/1/path = NodePath("%MainSprite/../MeleeHitBox/CollisionShape2D:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.4),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, -28)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("%MainSprite/../MeleeHitBox/CollisionShape2D:disabled")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
 }
-tracks/3/type = "method"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath(".")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "values": [{
@@ -1829,7 +1817,7 @@ collision_mask = 8
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_yy212")
 position = Vector2(0, -49)
-texture = ExtResource("8_wc1x7")
+texture = ExtResource("8_nwema")
 hframes = 8
 vframes = 4
 script = ExtResource("10_xgd07")
