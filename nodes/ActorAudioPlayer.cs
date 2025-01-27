@@ -197,6 +197,14 @@ public partial class ActorAudioPlayer : Node
 	{
 		var rng = new RandomNumberGenerator();
 		var possibleSfx = CollisionSfxList.Where(sfx => sfx.Key.StartsWith(prefix));
+
+		if (!possibleSfx.Any() )
+		{
+			GD.PushWarning($"No Collision SFX found for prefix [{prefix}] and Actor [{Owner.Name}]");
+
+			return;
+		}
+
 		var sfx = possibleSfx.ElementAt(rng.RandiRange(0, possibleSfx.Count() - 1)).Value;
 
 		_collisionSfxPlayer.Stream = sfx;
@@ -211,6 +219,14 @@ public partial class ActorAudioPlayer : Node
 	{
 		var rng = new RandomNumberGenerator();
 		var possibleSfx = FootstepSfxList.Where(sfx => sfx.Key.StartsWith(prefix));
+
+		if (!possibleSfx.Any())
+		{
+			GD.PushWarning($"No Footstep SFX found for prefix [{prefix}] and Actor [{Owner.Name}]");
+
+			return;
+		}
+
 		var sfx = possibleSfx.ElementAt(rng.RandiRange(0, possibleSfx.Count() - 1)).Value;
 
 		_footstepSfxPlayer.Stream = sfx;

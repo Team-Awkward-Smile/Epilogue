@@ -42,7 +42,7 @@ public partial class Slide : State
 	/// <param name="frontRollSpeed">The horizontal speed of the Front Slide</param>
 	/// <param name="longSlideSpeed">The horizontal speed of the Long Slide</param>
 	/// <param name="kneeSlideSpeed">The horizontal speed of the Knee Slide</param>
-	/// <param name="frontRollcoyoteDuration">Duration of the Coyote Time of the Front Slide</param>
+	/// <param name="frontRollCoyoteDuration">Duration of the Coyote Time of the Front Slide</param>
 	/// <param name="longSlideCoyoteDuration">Duration of the Coyote Time of the Long Slide</param>
 	/// <param name="kneeSlideCoyoteDuration">Duration of the Coyote Time of the Knee Slide</param>
 	public Slide(
@@ -53,18 +53,19 @@ public partial class Slide : State
 		float frontRollSpeed,
 		float longSlideSpeed,
 		float kneeSlideSpeed,
-		float frontRollcoyoteDuration,
+		float frontRollCoyoteDuration,
 		float longSlideCoyoteDuration,
 		float kneeSlideCoyoteDuration) : base(stateMachine)
 	{
 		_player = (Player)stateMachine.Owner;
+		_footstepManager = _player.GetNode<FootstepManager>("FlipRoot/ActorAudioPlayer/FootstepManager");
 		_frontRollDuration = frontRollDuration;
 		_longSlideDuration = longSlideDuration;
 		_kneeSlideDuration = kneeSlideDuration;
 		_frontRollSpeed = frontRollSpeed;
 		_longSlideSpeed = longSlideSpeed;
 		_kneeSlideSpeed = kneeSlideSpeed;
-		_frontRollCoyoteDuration = frontRollcoyoteDuration;
+		_frontRollCoyoteDuration = frontRollCoyoteDuration;
 		_longSlideCoyoteDuration = longSlideCoyoteDuration;
 		_kneeSlideCoyoteDuration = kneeSlideCoyoteDuration;
 
@@ -101,7 +102,6 @@ public partial class Slide : State
 
 			StateMachine.ChangeState(_slideShapeCast2D.IsColliding() || Input.IsActionPressed("crouch_squat") ? typeof(Crawl) : typeof(Idle));
 		};
-
 	}
 
 	internal override void OnInput(InputEvent @event)

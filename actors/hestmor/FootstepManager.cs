@@ -36,7 +36,14 @@ public partial class FootstepManager : Node2D
 	/// </summary>
 	public void PlayRandomFootstepSfx()
 	{
-		var tileType = _level.GetTileDataAtPosition(GlobalPosition).GetCustomData("ground_type").AsInt32();
+		var tile = _level.GetTileDataAtPosition(GlobalPosition);
+
+		if (tile is null)
+		{
+			return;
+		}
+
+		var tileType = tile.GetCustomData("ground_type").AsInt32();
 
 		EmitSignal(SignalName.PlayerSteppedOnTile, tileType);
 	}
@@ -47,7 +54,14 @@ public partial class FootstepManager : Node2D
 	/// <param name="prefix">Is to specify the action. exemple : prefix = Roll</param>
 	public void PlayRandomCollisionSfx(string prefix)
 	{
-		var tileType = _level.GetTileDataAtPosition(GlobalPosition).GetCustomData("ground_type").AsInt32();
+		var tile = _level.GetTileDataAtPosition(GlobalPosition);
+
+		if (tile is null)
+		{
+			return;
+		}
+
+		var tileType = tile.GetCustomData("ground_type").AsInt32();
 
 		EmitSignal(SignalName.PlayerCollisionOnTile, prefix, tileType);
 	}

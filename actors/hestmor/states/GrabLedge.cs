@@ -71,7 +71,9 @@ public partial class GrabLedge : State
 		}
 		else
 		{
-			AnimPlayer.Play("grab_ledge");
+			var grabType = args.Length > 0 ? (string)args[0] : "regular";
+
+			AnimPlayer.Play(grabType == "falling" ? "falling_ledge_grab" : "grab_ledge");
 		}
 	}
 

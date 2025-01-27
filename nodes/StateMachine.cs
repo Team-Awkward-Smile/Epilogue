@@ -25,6 +25,8 @@ public partial class StateMachine : Node
 	/// </summary>
 	[Signal] public delegate void StateExitedEventHandler();
 
+	[Export] private string _currentStateName;
+
 	/// <summary>
 	///		Controls whether this State Machine will become active as soon as it finishes loading
 	/// </summary>
@@ -87,6 +89,7 @@ public partial class StateMachine : Node
     {
         return _currentState;
     }
+
 	/// <summary>
 	///		Changes the current State of the Actor. 
 	///		If the informed State is valid, the methods <c>OnLeave</c> and <c>OnLeaveAsync</c> of the current State will be called.
@@ -118,6 +121,8 @@ public partial class StateMachine : Node
 		oldState.Active = false;
 
 		EmitSignal(SignalName.StateExited);
+
+		_currentStateName = _currentState.ToString().Split('.')[^1];
 
 		newState.Active = true;
 
