@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cdw7f0lftxlpv"]
 
-[ext_resource type="PackedScene" uid="uid://dyvphcrj22tvr" path="res://inherited_scenes/level_blueprint/level_blueprint.tscn" id="1_xdnbs"]
+[ext_resource type="PackedScene" path="res://inherited_scenes/level_blueprint/level_blueprint.tscn" id="1_xdnbs"]
 
 [node name="LevelBlueprint" instance=ExtResource("1_xdnbs")]
 

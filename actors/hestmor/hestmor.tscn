@@ -1848,6 +1848,12 @@ enabled = false
 target_position = Vector2(0, -3)
 collision_mask = 8
 
+[node name="PlatformRayCast2D" type="RayCast2D" parent="FlipRoot"]
+position = Vector2(0, -45)
+target_position = Vector2(15, 0)
+collision_mask = 8
+hit_from_inside = true
+
 [node name="SlideShapeCast2D" type="ShapeCast2D" parent="FlipRoot"]
 position = Vector2(0, -25)
 enabled = false
@@ -1941,7 +1947,6 @@ _lowJumpVerticalSpeed = -350.0
 _lowJumpHorizontalSpeed = 150.0
 _longJumpVerticalSpeed = -200.0
 _longJumpHorizontalSpeed = 350.0
-_sleepDelay = 60.0
 
 [node name="GrowlEffectArea" type="Area2D" parent="."]
 position = Vector2(0, -24)

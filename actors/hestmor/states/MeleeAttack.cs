@@ -70,10 +70,7 @@ public partial class MeleeAttack : State
 			if (_enemy.IsVulnerable)
 			{
 				_enemy.CanRecoverFromVulnerability = false;
-
 				_player.CanChangeFacingDirection = false;
-
-				_eventsSingleton = StateMachine.GetNode<PlayerEvents>("/root/PlayerEvents");
 
 				_eventsSingleton.EmitSignal(PlayerEvents.SignalName.QueryExecutionSpeed);
 
@@ -114,11 +111,9 @@ public partial class MeleeAttack : State
 
 		AnimPlayer.Play(animation);
 
-		await StateMachine.ToSignal(AnimPlayer, "animation_finished");
+		await StateMachine.ToSignal(AnimPlayer, AnimationMixer.SignalName.AnimationFinished);
 
 		_enemy.Execute(speed);
-
-		StateMachine.ChangeState(typeof(Idle));
 	}
 
 	internal override void PhysicsUpdate(double delta)
