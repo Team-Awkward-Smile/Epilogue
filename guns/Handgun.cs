@@ -24,9 +24,9 @@ public partial class Handgun : Gun
 
 			var bullet = _bulletScene.Instantiate() as Projectile;
 
-			GetTree().Root.AddChild(bullet);
-
 			bullet.GlobalTransform = Muzzle.GlobalTransform;
+
+			GetTree().Root.AddChild(bullet);
 
 			AudioPlayer.Play();
 			GunEvents.EmitSignal(GunEvents.SignalName.GunFired, CurrentAmmoCount);

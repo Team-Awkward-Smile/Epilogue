@@ -1,11 +1,9 @@
-using Epilogue.Const;
 using Epilogue.Extensions;
 using Epilogue.Global.Enums;
 using Epilogue.Global.Singletons;
 using Godot;
 using Godot.Collections;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Threading.Tasks;
 
 namespace Epilogue.Nodes;
@@ -16,13 +14,7 @@ namespace Epilogue.Nodes;
 public abstract partial class Npc : Actor
 {
 	/// <summary>
-	///     When the NPC's Current HP is equal to or below this value, it will become Vulnerable
-	/// </summary>
-	[Export] public float VulnerabilityThreshold { get; set; }
-
-	/// <summary>
 	///		Time (in seconds) this NPC will remain Vulnerable before recovering.
-	///		Has no effect if <see cref="VulnerabilityThreshold"/> = 0
 	/// </summary>
 	[Export] public float VulnerabilityDuration { get; set; }
 
@@ -36,7 +28,15 @@ public abstract partial class Npc : Actor
 	/// <summary>
 	///		Current Growl type affecting this NPC. If no Growl is active, it will be null
 	/// </summary>
-	public GrowlType? CurrentGrowlInEffect { get; private protected set; }
+	public GrowlType? CurrentGrowlInEffect 
+	{
+		get => _currentGrowlInEffect;
+		private protected set
+		{
+			_currentGrowlInEffect = value;
+			_currentGrowlResetTimer = value is not null ? 5f : null;
+		}
+	}
 
 	/// <summary>
 	///     Defines if this NPC is Vulnerable and able to be Executed
@@ -52,6 +52,11 @@ public abstract partial class Npc : Actor
 	///     NavigationAgent2D used to control this NPC's pathfinding when roaming around the map randomly
 	/// </summary>
 	public NavigationAgent2D WanderNavigationAgent2D { get; set; }
+
+	/// <summary>
+	///		NavigationAgent2D used to control this NPC's pathfinding towards the end of a NavigationLink2D
+	/// </summary>
+	public NavigationAgent2D LinkNavigationAgent2D { get; set; }
 
 	/// <summary>
 	///     Reference to the Player character
@@ -79,22 +84,22 @@ public abstract partial class Npc : Actor
 	/// </summary>
 	public bool CanRecoverFromVulnerability { get; set; } = true;
 
+	/// <summary>
+	///		Distance (in units) this NPC is from the player
+	/// </summary>
+	public float DistanceFromPlayer { get; set; }
+
+	/// <summary>
+	///		Determines if this NPC is currently interacting with a NavigationLink
+	/// </summary>
+	public bool InteractingWithNavigationLink { get; set; } = false;
+
 	private protected NpcStateMachine _npcStateMachine;
 	private protected PlayerEvents _playerEvents;
 	private protected NpcEvents _npcEvents;
 
-	public override void _EnterTree()
-	{
-		if (GetTree().GetLevel() is null)
-		{
-			ProcessMode = ProcessModeEnum.Disabled;
-
-			QueueFree();
-
-			return;
-		}
-
-	}
+	private GrowlType? _currentGrowlInEffect;
+	private double? _currentGrowlResetTimer;
 
 	/// <inheritdoc/>
 	public override async void _Ready()
@@ -111,12 +116,14 @@ public abstract partial class Npc : Actor
 
 			PlayerNavigationAgent2D = navigationAgents.First(na => na.Name.ToString().Contains("Player"));
 			WanderNavigationAgent2D = navigationAgents.First(na => na.Name.ToString().Contains("Wander"));
+			LinkNavigationAgent2D = navigationAgents.First(na => na.Name.ToString().Contains("Link"));
 
 			PlayerNavigationAgent2D.TargetPosition = Player.GlobalPosition;
 
 			await ToSignal(GetTree(), "physics_frame");
 
 			IsPlayerReachable = PlayerNavigationAgent2D.IsTargetReachable();
+			DistanceFromPlayer = PlayerNavigationAgent2D.DistanceToTarget();
 		}
 
 		BloodEmitter ??= GetChildren().OfType<BloodEmitter>().FirstOrDefault();
@@ -135,54 +142,40 @@ public abstract partial class Npc : Actor
 	}
 
 	/// <summary>
-	///     Deals damage to this NPC. If its HP then becomes lower than its <see cref="VulnerabilityThreshold"/>, it becomes Vulnerable
+	///     Deals damage to this NPC. If it's HP then becomes 0, it becomes Vulnerable
 	/// </summary>
 	/// <param name="damage">Ammount of damage to cause</param>
 	/// <param name="damageType">Type of the damage dealt</param>
 	public override void ReduceHealth(float damage, DamageType damageType)
 	{
-		BloodEmitter?.EmitBlood();
+		var modifiedDamage = damage + (DamageModifiers.TryGetValue(damageType, out float modifier) ? modifier : 0f);
 
-		// Prevent cases where multiple sources dealing damage at once may cause a race-condition
-		if (CurrentHealth == 0)
+		if ((CurrentHealth == 0 && !IsVulnerable) || modifiedDamage <= 0)
 		{
 			return;
 		}
 
-		var modifier = 1f;
+		GD.Print($"Dealing {modifiedDamage} ({damage} + {modifier}) to {Name}");
 
-		if (DamageModifiers.ContainsKey(damageType))
+		BloodEmitter?.EmitBlood();
+
+		if ((CurrentHealth -= modifiedDamage) <= 0f)
 		{
-			modifier = DamageModifiers[damageType];
-		}
-
-		damage *= modifier;
-
-		CurrentHealth -= damage;
-
-		if (CurrentHealth <= 0f)
-		{
-			if (damageType == DamageType.Unarmed)
+			switch (IsVulnerable)
 			{
-				IsVulnerable = true;
+				case false:
+					IsVulnerable = true;
+					OnVulnerabilityTriggered();
+					break;
+
+				case true:
+					OnHealthDepleted(damageType);
+					break;
 			}
-
-			OnHealthDepleted(damageType);
-
-			_npcEvents.EmitSignal(NpcEvents.SignalName.EnemyKilled, this);
 		}
 		else
 		{
-			if (!IsVulnerable && CurrentHealth <= VulnerabilityThreshold && VulnerabilityThreshold != 0f)
-			{
-				IsVulnerable = true;
-
-				OnVulnerabilityTriggered();
-			}
-			else
-			{
-				OnDamageTaken(damage, CurrentHealth, damageType);
-			}
+			OnDamageTaken(modifiedDamage, CurrentHealth, damageType);
 		}
 	}
 
@@ -198,14 +191,14 @@ public abstract partial class Npc : Actor
 	}
 
 	/// <summary>
-	///     Heals this NPC. If it was Vulnerable and it's HP goes above it's <see cref="VulnerabilityThreshold"/>, it will return to normal
+	///     Heals this NPC. If it was Vulnerable and it's HP goes above 0, it will return to normal
 	/// </summary>
 	/// <param name="health">Ammount of HP to heal</param>
 	public override void RecoverHealth(float health)
 	{
 		CurrentHealth += health;
 
-		if (IsVulnerable && (CurrentHealth > VulnerabilityThreshold))
+		if (IsVulnerable && CurrentHealth > 0)
 		{
 			IsVulnerable = false;
 		}
@@ -227,9 +220,30 @@ public abstract partial class Npc : Actor
 		OnGrowl(growlType);
 	}
 
+	/// <summary>
+	///		Notifies this NPC of a projectile about to collide with it
+	/// </summary>
+	public void TriggerProjectileNotification()
+	{
+		OnProjectileNotification();
+	}
+
+	/// <summary>
+	///		Trigger this NPC's Desperation behavior (if any)
+	/// </summary>
+	public void TriggerDesperation()
+	{
+		OnDesperationTriggered();
+	}
+
 	/// <inheritdoc/>
 	public override async void _PhysicsProcess(double delta)
 	{
+		if (_currentGrowlResetTimer is not null && (_currentGrowlResetTimer -= delta) <= 0)
+		{
+			CurrentGrowlInEffect = null;
+		}
+
 		// Queries a new path to the Player if the Player moved too far away from the last position
 		if (UseDefaultPathfinding && !WaitingForNavigationQuery && Player.GlobalPosition.DistanceTo(PlayerNavigationAgent2D.TargetPosition) > Const.Constants.PATH_REQUERY_THRESHOLD_DISTANCE)
 		{
@@ -248,6 +262,7 @@ public abstract partial class Npc : Actor
 			await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 
 			IsPlayerReachable = PlayerNavigationAgent2D.IsTargetReachable();
+			DistanceFromPlayer = PlayerNavigationAgent2D.DistanceToTarget();
 
 			WaitingForNavigationQuery = false;
 
@@ -298,6 +313,10 @@ public abstract partial class Npc : Actor
 	/// </summary>
 	private protected abstract void OnPlayerDeath();
 
+	private protected abstract void OnDesperationTriggered();
+
+	private protected abstract void OnProjectileNotification();
+
 	/// <summary>
 	///     Updates the Wander NavigationAgent2D with the informed point. 
 	///     This update takes a random amount of time (between 0 and 10 frames) to make sure that the Navigation Server is not accessed by more than 1 Node at the same time
@@ -305,6 +324,8 @@ public abstract partial class Npc : Actor
 	/// <param name="position">The position that will be assigned to the WanderNavigationAgent2D after 0 ~ 10 frames</param>
 	public async Task UpdatePathToWander(Vector2 position)
 	{
+		WaitingForNavigationQuery = true;
+
 		var rng = new RandomNumberGenerator();
 
 		// Awaits between 1 and 10 physics frames before requesting a new path, to avoid having too many NPCs making requests at once
@@ -314,5 +335,6 @@ public abstract partial class Npc : Actor
 		}
 
 		WanderNavigationAgent2D.TargetPosition = position;
+		WaitingForNavigationQuery = false;
 	}
 }

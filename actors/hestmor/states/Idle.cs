@@ -89,20 +89,21 @@ public partial class Idle : State
 		_sleepTimer = 0f;
 
 		_player.CanChangeFacingDirection = true;
+		_player.Velocity = new Vector2(0f, _player.Velocity.Y);
 		_footstepManager.Position = new(0f, 1f);
 		
 		AnimPlayer.Play("idle");
-		_hasIdleBeenPlayed = false;
-		
-	}
 
-	
+		_hasIdleBeenPlayed = false;
+	}
 
 	internal override void PhysicsUpdate(double delta)
 	{
+		
 		if (!AudioPlayer.HasStreamPlayback("generic") && !_hasIdleBeenPlayed)
 		{
 			AudioPlayer.PlayGenericSfx("Idle");
+
 			_hasIdleBeenPlayed = true;
 		}
 
@@ -112,6 +113,7 @@ public partial class Idle : State
 		{
 			AudioPlayer.Stop("generic");
 			StateMachine.ChangeState(typeof(Sleep));
+
 			return;
 		}
 
@@ -119,10 +121,15 @@ public partial class Idle : State
 		{
 			AudioPlayer.Stop("generic");
 			StateMachine.ChangeState(typeof(Fall), StateType.LongJump);
+
 			return;
 		}
 
 		var movement = Input.GetAxis("move_left", "move_right");
+
+		_player.Velocity = new Vector2(movement * 10, _player.Velocity.Y + (StateMachine.Gravity * (float)delta));
+
+		_player.MoveAndSlide();
 
 		if (movement != 0f)
 		{
@@ -133,9 +140,8 @@ public partial class Idle : State
 
 			AudioPlayer.Stop("generic");
 			StateMachine.ChangeState(_player.RunEnabled ? typeof(Run) : typeof(Walk));
+
 			return;
 		}
 	}
-
-	
 }

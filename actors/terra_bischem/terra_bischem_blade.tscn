@@ -79,8 +79,8 @@ height = 24.0
 
 [node name="BladeTerraBischem" type="CharacterBody2D"]
 script = ExtResource("1_tfik2")
-MaxHealth = 2.0
-CurrentHealth = 2.0
+MaxHealth = 20.0
+CurrentHealth = 20.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.4, 0.4)

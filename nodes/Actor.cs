@@ -66,7 +66,17 @@ public abstract partial class Actor : CharacterBody2D
 	/// </summary>
     public ActorAudioPlayer ActorAudioPlayer { get; set; }
 
-    private protected AnimationPlayer AnimationPlayer { get; set; }
+	/// <summary>
+	///		Velocity relative to the Actor's facing direction. 
+	///		A positive X value means the Actor is moving forwards, while a negative value means the Actor is moving backwards
+	/// </summary>
+	public Vector2 RelativeVelocity 
+	{
+		get => new(Velocity.X * (FacingDirection == ActorFacingDirection.Left ? -1f : 1f), Velocity.Y);
+		set => Velocity = new Vector2(value.X * (FacingDirection == ActorFacingDirection.Left ? -1f : 1f), value.Y);
+	}
+
+	private protected AnimationPlayer AnimationPlayer { get; set; }
 
 	/// <inheritdoc/>
 	public override void _Ready()
@@ -91,6 +101,13 @@ public abstract partial class Actor : CharacterBody2D
 
 		HurtBox.HurtBoxDisabled += () => SetIFrameBlink(true);
 		HurtBox.HurtBoxEnabled += () => SetIFrameBlink(false);
+
+		var stateMachine = GetChildren().OfType<StateMachine>().FirstOrDefault();
+
+		if (stateMachine is not null)
+		{
+			stateMachine.StateExited += () => ResetAnimation();
+		}
 	}
 
 	/// <summary>
@@ -122,7 +139,7 @@ public abstract partial class Actor : CharacterBody2D
 	/// </summary>
 	public virtual void MoveAndSlideWithRotation()
 	{
-		_ = MoveAndSlide();
+		MoveAndSlide();
 
 		if (IsOnFloor())
 		{
@@ -131,16 +148,16 @@ public abstract partial class Actor : CharacterBody2D
 
 			if (floorRadianAngle is > 0 and < 1)
 			{
-				_ = CreateTween().TweenProperty(this, "rotation", floorRadianAngle * (floorNormal.X > 0 ? 1 : -1), 0.05f);
+				CreateTween().TweenProperty(this, "rotation", floorRadianAngle * (floorNormal.X > 0 ? 1 : -1), 0.05f);
 			}
 			else if (floorRadianAngle == 0)
 			{
-				_ = CreateTween().TweenProperty(this, "rotation", 0f, 0.05f);
+				CreateTween().TweenProperty(this, "rotation", 0f, 0.05f);
 			}
 		}
 		else
 		{
-			_ = CreateTween().TweenProperty(this, "rotation", 0f, 0.05f);
+			CreateTween().TweenProperty(this, "rotation", 0f, 0.05f);
 		}
 	}
 
