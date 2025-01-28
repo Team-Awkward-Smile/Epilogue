@@ -180,8 +180,7 @@ public partial class Player : Actor
 				{
 					platformRaycast.Position -= new Vector2(0f, 1f);
 					platformRaycast.ForceRaycastUpdate();
-				} 
-				while (platformRaycast.IsColliding());
+				} while (platformRaycast.IsColliding());
 
 				ledgePosition = platformRaycast.GlobalPosition;
 				isPlatform = true;
@@ -193,29 +192,32 @@ public partial class Player : Actor
 				return true;
 
 			}
-			else if (headRaycast.IsColliding() && !ledgeRaycast.IsColliding())
+
+			if (!headRaycast.IsColliding() || ledgeRaycast.IsColliding())
 			{
-				var feetRaycast = RayCasts["Feet"];
-				var originalTarget = feetRaycast.TargetPosition;
+				continue;
+			}
 
-				feetRaycast.TargetPosition = new Vector2(0f, 30f);
-				feetRaycast.ForceRaycastUpdate();
+			var feetRaycast = RayCasts["Feet"];
+			var originalTarget = feetRaycast.TargetPosition;
 
-				if (feetRaycast.IsColliding())
-				{
-					feetRaycast.TargetPosition = originalTarget;
+			feetRaycast.TargetPosition = new Vector2(0f, 30f);
+			feetRaycast.ForceRaycastUpdate();
 
-					continue;
-				}
-
-				ledgePosition = headRaycast.GlobalPosition;
-
-				headRaycast.Position = new Vector2(0f, originalPositions.X);
-				ledgeRaycast.Position = new Vector2(0f, originalPositions.Y);
+			if (feetRaycast.IsColliding())
+			{
 				feetRaycast.TargetPosition = originalTarget;
 
-				return true;
+				continue;
 			}
+
+			ledgePosition = headRaycast.GlobalPosition;
+
+			headRaycast.Position = new Vector2(0f, originalPositions.X);
+			ledgeRaycast.Position = new Vector2(0f, originalPositions.Y);
+			feetRaycast.TargetPosition = originalTarget;
+
+			return true;
 		}
 
 		headRaycast.Position = new Vector2(0f, originalPositions.X);

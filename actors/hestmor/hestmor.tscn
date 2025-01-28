@@ -1893,17 +1893,17 @@ script = ExtResource("6_u4eh3")
 
 [node name="FlipRoot" type="Node2D" parent="."]
 
-[node name="HeadRayCast2D" type="RayCast2D" parent="FlipRoot"]
-editor_description = "RayCast used to test collisions against walls. Alongside the regular CharacterBody2D, can be used to determine is the character is near a ledge"
-z_index = 1
-position = Vector2(0, -70)
-target_position = Vector2(15, 0)
-collision_mask = 8
-
 [node name="LedgeRayCast2D" type="RayCast2D" parent="FlipRoot"]
 editor_description = "RayCast used to test collisions against walls. Alongside the regular CharacterBody2D, can be used to determine is the character is near a ledge"
 z_index = 1
 position = Vector2(0, -75)
+target_position = Vector2(15, 0)
+collision_mask = 8
+
+[node name="HeadRayCast2D" type="RayCast2D" parent="FlipRoot"]
+editor_description = "RayCast used to test collisions against walls. Alongside the regular CharacterBody2D, can be used to determine is the character is near a ledge"
+z_index = 1
+position = Vector2(0, -70)
 target_position = Vector2(15, 0)
 collision_mask = 8
 
@@ -1929,7 +1929,7 @@ collision_mask = 8
 [node name="PlatformRayCast2D" type="RayCast2D" parent="FlipRoot"]
 position = Vector2(0, -45)
 target_position = Vector2(15, 0)
-collision_mask = 8
+collision_mask = 1024
 hit_from_inside = true
 
 [node name="SlideShapeCast2D" type="ShapeCast2D" parent="FlipRoot"]
