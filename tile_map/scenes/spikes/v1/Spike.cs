@@ -11,6 +11,7 @@ public partial class Spike : RigidBody2D
 	private RayCast2D _rightWarning;
 	private AnimationPlayer _animationPlayer;
 	private GpuParticles2D _gpuParticles2D;
+	private Node2D _crumbs;
 	
 	private float _initPosY;
 
@@ -22,6 +23,7 @@ public partial class Spike : RigidBody2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		// Getting the initial nodes
 		_initPosY = Position.Y;
 		_trigger = GetNode<RayCast2D>("Trigger");
 		_leftWarning = GetNode<RayCast2D>("LeftWarning");
@@ -29,7 +31,9 @@ public partial class Spike : RigidBody2D
 
 		_animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		_gpuParticles2D = GetNode<GpuParticles2D>("GPUParticles2D");
+		_crumbs = GetNode<Node2D>("Crumbs");
 		
+		// Adding the spike to the list of spikes in the levelTileMap
 		TileMap levelTileMap = (TileMap)GetParent();
 		levelTileMap.AddToLstSpike(this);
 		
@@ -37,22 +41,29 @@ public partial class Spike : RigidBody2D
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override async void _Process(double delta)
-	{
+	{	
+		// If the player is in the trigger area, drop the spike
 		if (_trigger.GetCollider() is Player && !_dropped)
 		{
 			_dropped = true;
 			GravityScale = 1;
 		}
-
+		
+		// If the spike has dropped and hit the floor, start emitting particles
 		if (Math.Abs(_initPosY - Position.Y) > _triggerHeight && !_hitFloor)
 		{
 			_hitFloor = true;
 			_gpuParticles2D.Emitting = true;
 			GetNode<Sprite2D>("Sprite2D").QueueFree();
-			await ToSignal(GetTree().CreateTimer(3), "timeout");
-			QueueFree();
+
+			_crumbs.Show();
+			foreach (Node2D crumb in _crumbs.GetChildren())
+			{
+				((RigidBody2D)crumb).Freeze = false;
+			}
 		}
 
+		// If the player is in the warning area, play the warning animation
 		if ((_leftWarning.GetCollider() is Player || _rightWarning.GetCollider() is Player) && !_warned)
 		{
 			_animationPlayer.Play("twitch");
@@ -61,6 +72,7 @@ public partial class Spike : RigidBody2D
 		
 	}	
 
+	// Set the distance of the raycast, its used to calculate the distance between the spike and the floor
 	public void setRaycatDistance(int distance)
 	{
 		Vector2 newDistance = new Vector2(0, distance * 36);
@@ -69,4 +81,11 @@ public partial class Spike : RigidBody2D
 		_leftWarning.TargetPosition = newDistance;
 		_rightWarning.TargetPosition = newDistance;
 	}
+
+	// Called when the spike has finished emitting particles
+	public void _on_gpu_particles_2d_finished()
+	{
+		QueueFree();
+	}
+
 }

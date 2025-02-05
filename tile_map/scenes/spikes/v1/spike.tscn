@@ -1,9 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://bbtl3nspnvwid"]
+[gd_scene load_steps=16 format=3 uid="uid://bbtl3nspnvwid"]
 
 [ext_resource type="Script" path="res://tile_map/scenes/spikes/v1/Spike.cs" id="1_i7lk4"]
 [ext_resource type="Texture2D" uid="uid://bdoye43khxsgo" path="res://tile_map/scenes/spikes/v1/Spikes2.png" id="2_3rwc8"]
 [ext_resource type="Script" path="res://tile_map/scenes/spikes/v1/spike_hurtbox.cs" id="3_whv3f"]
 [ext_resource type="Texture2D" uid="uid://b5hcks56momjb" path="res://tile_map/scenes/spikes/v1/SpikesDustEffect.png" id="4_utuq1"]
+[ext_resource type="PackedScene" uid="uid://dwrjb4026bmvf" path="res://tile_map/scenes/spikes/v1/Crumbs/Crumbs.tscn" id="5_bly4c"]
 
 [sub_resource type="Animation" id="Animation_h5lh0"]
 resource_name = "RESET"
@@ -62,9 +63,12 @@ gradient = SubResource("Gradient_vocfd")
 particle_flag_disable_z = true
 angle_max = 360.0
 direction = Vector3(0, -1, 0)
-initial_velocity_min = 95.5
-initial_velocity_max = 140.45
-gravity = Vector3(0, 196, 0)
+flatness = 0.5
+initial_velocity_min = 300.0
+initial_velocity_max = 300.0
+gravity = Vector3(0, 200, 0)
+linear_accel_min = -200.0
+linear_accel_max = -200.0
 color_initial_ramp = SubResource("GradientTexture1D_we62o")
 alpha_curve = SubResource("CurveTexture_f422q")
 
@@ -117,7 +121,7 @@ emitting = false
 amount = 10
 process_material = SubResource("ParticleProcessMaterial_dkcar")
 texture = ExtResource("4_utuq1")
-lifetime = 3.0
+lifetime = 5.0
 one_shot = true
 explosiveness = 1.0
 
@@ -125,4 +129,51 @@ explosiveness = 1.0
 position = Vector2(0, -14.5)
 shape = SubResource("RectangleShape2D_4qic7")
 
+[node name="Crumbs" type="Node2D" parent="."]
+visible = false
+position = Vector2(0, -24.705)
+
+[node name="Crumbs2" parent="Crumbs" instance=ExtResource("5_bly4c")]
+position = Vector2(-9, -3.295)
+
+[node name="Crumbs4" parent="Crumbs" instance=ExtResource("5_bly4c")]
+position = Vector2(5, -1.295)
+
+[node name="Crumbs12" parent="Crumbs" instance=ExtResource("5_bly4c")]
+position = Vector2(8, -2.295)
+
+[node name="Crumbs6" parent="Crumbs" instance=ExtResource("5_bly4c")]
+position = Vector2(-9, 0.705)
+
+[node name="Crumbs8" parent="Crumbs" instance=ExtResource("5_bly4c")]
+position = Vector2(4, 2.705)
+
+[node name="Crumbs10" parent="Crumbs" instance=ExtResource("5_bly4c")]
+position = Vector2(-3, -3.295)
+
+[node name="Crumbs9" parent="Crumbs" instance=ExtResource("5_bly4c")]
+position = Vector2(3, -5.295)
+
+[node name="Crumbs15" parent="Crumbs" instance=ExtResource("5_bly4c")]
+position = Vector2(1, -0.295)
+
+[node name="Crumbs17" parent="Crumbs" instance=ExtResource("5_bly4c")]
+position = Vector2(6, 7.705)
+
+[node name="Crumbs18" parent="Crumbs" instance=ExtResource("5_bly4c")]
+position = Vector2(8, 2.705)
+
+[node name="Crumbs16" parent="Crumbs" instance=ExtResource("5_bly4c")]
+position = Vector2(0, 5)
+
+[node name="Crumbs19" parent="Crumbs" instance=ExtResource("5_bly4c")]
+position = Vector2(0, 10.605)
+
+[node name="Crumbs7" parent="Crumbs" instance=ExtResource("5_bly4c")]
+position = Vector2(-5, 1.705)
+
+[node name="Crumbs11" parent="Crumbs" instance=ExtResource("5_bly4c")]
+position = Vector2(-6, 5.605)
+
 [connection signal="area_entered" from="HurtBox" to="HurtBox" method="_on_area_entered"]
+[connection signal="finished" from="GPUParticles2D" to="." method="_on_gpu_particles_2d_finished"]
