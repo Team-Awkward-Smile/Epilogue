@@ -20,24 +20,28 @@ namespace Epilogue.Actors.TadakiEiTsko
 			{ DamageType.Dung, 3f }
 		};
 
+		// Configurable properties
 		[Export] private float _detectionRange = 150f;
 		[Export] private PackedScene _projectileScene;
 		[Export] private Node2D _projectileSpawnPoint;
 
+		// Private fields
 		private readonly RandomNumberGenerator _rng = new();
 		private Timer _attackCooldownTimer;
 		private bool _isInWater;
 		private bool _isOnLand;
 		private bool _isOnString;
 
+		/// <inheritdoc />
 		public override void _Ready()
 		{
 			base._Ready();
 
+			// Initialize attack cooldown timer
 			_attackCooldownTimer = GetNode<Timer>("AttackCooldownTimer");
 			_attackCooldownTimer.Timeout += ResetToIdle;
 
-			// Starts in passive state
+			// Set initial state to idle
 			_npcStateMachine.ChangeState(typeof(Idle));
 		}
 
@@ -77,7 +81,7 @@ namespace Epilogue.Actors.TadakiEiTsko
 		}
 
 		/// <summary>
-		/// Drops TET from an organic string.
+		/// Drops TET from an organic string to the ground.
 		/// </summary>
 		private void DropFromString()
 		{
@@ -99,7 +103,10 @@ namespace Epilogue.Actors.TadakiEiTsko
 		/// </summary>
 		public void ThrowProjectile()
 		{
-			if (_projectileScene == null || _projectileSpawnPoint == null) return;
+			if (_projectileScene == null || _projectileSpawnPoint == null)
+			{
+				return; // Early return if necessary components are not set
+			}
 
 			var projectile = (TetProjectile)_projectileScene.Instantiate();
 			GetParent().AddChild(projectile);
