@@ -20,6 +20,8 @@ public partial class Level : Node2D
 	/// </summary>
 	public Player Player { get; set; }
 
+	public TileMap TileMap { get; set; }
+
 	private readonly List<Checkpoint> _checkpoints = new();
 
 	private PauseUI _pauseUI;
@@ -44,11 +46,11 @@ public partial class Level : Node2D
 		{
 			warnings.Add("This Level has no Checkpoints set.\nTo set a Checkpoint, add a Node2D called 'Checkpoints' as a child of this Level, and add the Checkpoints as children of it");
 		}
-		else if (!checkpoints.GetChildren().OfType<Checkpoint>().Where(c => c.FirstCheckpoint).Any())
+		else if (!checkpoints.GetChildren().OfType<Checkpoint>().Any(c => c.FirstCheckpoint))
 		{
 			warnings.Add("This Level has no default Checkpoint set.\nThe first Checkpoint found will be used");
 		}
-		else if (checkpoints.GetChildren().OfType<Checkpoint>().Where(c => c.FirstCheckpoint).Count() > 1)
+		else if (checkpoints.GetChildren().OfType<Checkpoint>().Count(c => c.FirstCheckpoint) > 1)
 		{
 			var firstCheckpoints = checkpoints.GetChildren().OfType<Checkpoint>().Where(c => c.FirstCheckpoint);
 
@@ -169,9 +171,14 @@ public partial class Level : Node2D
 
 		Player.Position = _checkpoints.First(c => c.Current).Position;
 
+		TileMap = GetChildren().OfType<TileMap>().FirstOrDefault();
+
 		_camera = GetViewport().GetCamera2D() as Camera;
+
 		_camera.Position = Player.Position;
+
 		_camera.SetCameraTarget(Player.GetNode<Node2D>("CameraAnchor"));
+		_camera.LimitCameraToCurrentTileMap();
 	}
 
 	/// <summary>

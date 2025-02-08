@@ -1,3 +1,5 @@
+using Epilogue.Const;
+using Epilogue.Extensions;
 using Godot;
 
 namespace Epilogue.Props.camera;
@@ -20,11 +22,22 @@ public partial class Camera : Camera2D
 	/// <inheritdoc/>
 	public override void _PhysicsProcess(double delta)
 	{
-		if(_cameraTarget is null)
+		if (_cameraTarget is null)
 		{
 			return;
 		}
 
 		Position = _cameraTarget.GlobalPosition;
+	}
+
+	public void LimitCameraToCurrentTileMap()
+	{
+		var tileMap = GetTree().GetLevel().TileMap;
+		var bounds = tileMap.GetUsedRect();
+
+		LimitLeft = bounds.Position.X * Constants.MAP_TILE_SIZE;
+		LimitTop = bounds.Position.Y * Constants.MAP_TILE_SIZE;
+		LimitRight = bounds.End.X * Constants.MAP_TILE_SIZE;
+		LimitBottom = bounds.End.Y * Constants.MAP_TILE_SIZE;
 	}
 }

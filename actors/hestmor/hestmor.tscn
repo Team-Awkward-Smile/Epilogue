@@ -1,4 +1,4 @@
-[gd_scene load_steps=69 format=3 uid="uid://de3k3vfjvfqe4"]
+[gd_scene load_steps=70 format=3 uid="uid://de3k3vfjvfqe4"]
 
 [ext_resource type="Script" path="res://nodes/Player.cs" id="1_6t4q3"]
 [ext_resource type="Script" path="res://actors/hestmor/aim/Aim.cs" id="2_b0i7f"]
@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://actors/hestmor/aim/StickAim.cs" id="5_3agu6"]
 [ext_resource type="Script" path="res://actors/hestmor/CameraAnchor.cs" id="6_u4eh3"]
 [ext_resource type="Shader" path="res://actors/hestmor/iframes.gdshader" id="7_ig4q1"]
-[ext_resource type="Texture2D" uid="uid://be0or44ubsq5m" path="res://actors/hestmor/sprite_sheet/epilogue_bob-Sheet.png" id="8_nwema"]
+[ext_resource type="Texture2D" uid="uid://6wht785hslmw" path="res://actors/hestmor/sprite_sheet/hestmor_1-Sheet.png" id="8_a3x4u"]
 [ext_resource type="Texture2D" uid="uid://dcj6nrh0f0uxd" path="res://temp/sword_melee.png" id="9_cd267"]
 [ext_resource type="Script" path="res://nodes/HitBox.cs" id="10_dg7e0"]
 [ext_resource type="Script" path="res://actors/hestmor/MainSprite.cs" id="10_xgd07"]
@@ -96,7 +96,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("%MainSprite/../MeleeHitBox/CollisionShape2D:disabled")
+tracks/6/path = NodePath("../MeleeHitBox/CollisionShape2D:disabled")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -108,7 +108,7 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:position")
+tracks/7/path = NodePath("../../HurtBox/CollisionShape2D2:position")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -120,7 +120,7 @@ tracks/7/keys = {
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:shape:height")
+tracks/8/path = NodePath("../../HurtBox/CollisionShape2D2:shape:height")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
@@ -132,7 +132,7 @@ tracks/8/keys = {
 tracks/9/type = "value"
 tracks/9/imported = false
 tracks/9/enabled = true
-tracks/9/path = NodePath("%MainSprite/../../CollisionShape2D:shape:height")
+tracks/9/path = NodePath("../../CollisionShape2D:shape:height")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
@@ -144,7 +144,7 @@ tracks/9/keys = {
 tracks/10/type = "value"
 tracks/10/imported = false
 tracks/10/enabled = true
-tracks/10/path = NodePath("%MainSprite/../../CollisionShape2D:position")
+tracks/10/path = NodePath("../../CollisionShape2D:position")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
@@ -204,7 +204,7 @@ tracks/14/keys = {
 tracks/15/type = "value"
 tracks/15/imported = false
 tracks/15/enabled = true
-tracks/15/path = NodePath("%MainSprite/../../GunSystem/AimingArm:position")
+tracks/15/path = NodePath("../../GunSystem/AimingArm:position")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/keys = {
@@ -233,7 +233,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:shape:height")
+tracks/1/path = NodePath("../../HurtBox/CollisionShape2D2:shape:height")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -245,7 +245,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:position")
+tracks/2/path = NodePath("../../HurtBox/CollisionShape2D2:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -257,7 +257,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("%MainSprite/../../CollisionShape2D:shape:height")
+tracks/3/path = NodePath("../../CollisionShape2D:shape:height")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -269,7 +269,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("%MainSprite/../../CollisionShape2D:position")
+tracks/4/path = NodePath("../../CollisionShape2D:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -281,7 +281,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("%MainSprite/../../GunSystem/AimingArm:position")
+tracks/5/path = NodePath("../../GunSystem/AimingArm:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -535,7 +535,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%MainSprite/../../GunSystem/AimingArm:position")
+tracks/1/path = NodePath("../../GunSystem/AimingArm:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -547,7 +547,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:position")
+tracks/2/path = NodePath("../../HurtBox/CollisionShape2D2:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -559,7 +559,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("%MainSprite/../../CollisionShape2D:shape:height")
+tracks/3/path = NodePath("../../CollisionShape2D:shape:height")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -571,7 +571,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("%MainSprite/../../CollisionShape2D:position")
+tracks/4/path = NodePath("../../CollisionShape2D:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -583,7 +583,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:shape:height")
+tracks/5/path = NodePath("../../HurtBox/CollisionShape2D2:shape:height")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -716,7 +716,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%MainSprite/../MeleeHitBox/CollisionShape2D:disabled")
+tracks/1/path = NodePath("../MeleeHitBox/CollisionShape2D:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -860,7 +860,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("%MainSprite/../MeleeHitBox/CollisionShape2D:disabled")
+tracks/2/path = NodePath("../MeleeHitBox/CollisionShape2D:disabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -882,6 +882,70 @@ tracks/3/keys = {
 "args": [1],
 "method": &"UpdateSpriteSheet"
 }]
+}
+
+[sub_resource type="Animation" id="Animation_0yten"]
+resource_name = "slide_attack"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2i(0, 6), Vector2i(1, 6)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../CollisionShape2D:shape:height")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [22.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../../CollisionShape2D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -11)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../../HurtBox/CollisionShape2D2:shape:height")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [26.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../../HurtBox/CollisionShape2D2:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -17)]
 }
 
 [sub_resource type="Animation" id="Animation_8ebfb"]
@@ -942,7 +1006,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%MainSprite/../MeleeHitBox/CollisionShape2D:disabled")
+tracks/1/path = NodePath("../MeleeHitBox/CollisionShape2D:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -972,6 +1036,7 @@ _data = {
 "execution_fast": SubResource("Animation_6bxxv"),
 "execution_slow": SubResource("Animation_earni"),
 "melee_attack": SubResource("Animation_2kxuw"),
+"slide_attack": SubResource("Animation_0yten"),
 "sword_slash": SubResource("Animation_8ebfb"),
 "take_damage": SubResource("Animation_isw63")
 }
@@ -994,7 +1059,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:shape:height")
+tracks/1/path = NodePath("../../HurtBox/CollisionShape2D2:shape:height")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -1006,7 +1071,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:position")
+tracks/2/path = NodePath("../../HurtBox/CollisionShape2D2:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -1018,7 +1083,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("%MainSprite/../../CollisionShape2D:shape:height")
+tracks/3/path = NodePath("../../CollisionShape2D:shape:height")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -1030,7 +1095,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("%MainSprite/../../CollisionShape2D:position")
+tracks/4/path = NodePath("../../CollisionShape2D:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -1042,7 +1107,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("%MainSprite/../../GunSystem/AimingArm:position")
+tracks/5/path = NodePath("../../GunSystem/AimingArm:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -1070,7 +1135,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%MainSprite/../../CollisionShape2D:shape:height")
+tracks/1/path = NodePath("../../CollisionShape2D:shape:height")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -1082,7 +1147,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("%MainSprite/../../CollisionShape2D:position")
+tracks/2/path = NodePath("../../CollisionShape2D:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -1094,7 +1159,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:shape:height")
+tracks/3/path = NodePath("../../HurtBox/CollisionShape2D2:shape:height")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -1106,7 +1171,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:position")
+tracks/4/path = NodePath("../../HurtBox/CollisionShape2D2:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -1140,7 +1205,7 @@ tracks/0/keys = {
 tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%MainSprite/../../GrowlEffectArea")
+tracks/1/path = NodePath("../../GrowlEffectArea")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -1173,7 +1238,7 @@ tracks/0/keys = {
 tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%MainSprite/../../GrowlEffectArea")
+tracks/1/path = NodePath("../../GrowlEffectArea")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -1206,7 +1271,7 @@ tracks/0/keys = {
 tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%MainSprite/../../GrowlEffectArea")
+tracks/1/path = NodePath("../../GrowlEffectArea")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -1276,7 +1341,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("%MainSprite/../..:_allowQuickSlide")
+tracks/2/path = NodePath("../..:_allowQuickSlide")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -1350,7 +1415,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("%MainSprite/../..:_allowQuickSlide")
+tracks/2/path = NodePath("../..:_allowQuickSlide")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -1403,7 +1468,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:shape:height")
+tracks/1/path = NodePath("../../HurtBox/CollisionShape2D2:shape:height")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -1415,7 +1480,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:position")
+tracks/2/path = NodePath("../../HurtBox/CollisionShape2D2:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -1443,7 +1508,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:position")
+tracks/1/path = NodePath("../../HurtBox/CollisionShape2D2:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -1455,7 +1520,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:shape:height")
+tracks/2/path = NodePath("../../HurtBox/CollisionShape2D2:shape:height")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -1505,7 +1570,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:shape:height")
+tracks/1/path = NodePath("../../HurtBox/CollisionShape2D2:shape:height")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -1517,7 +1582,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:position")
+tracks/2/path = NodePath("../../HurtBox/CollisionShape2D2:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -1529,7 +1594,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("%MainSprite/../../CollisionShape2D:shape:height")
+tracks/3/path = NodePath("../../CollisionShape2D:shape:height")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -1541,7 +1606,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("%MainSprite/../../CollisionShape2D:position")
+tracks/4/path = NodePath("../../CollisionShape2D:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -1553,7 +1618,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("%MainSprite/../../GunSystem/AimingArm:position")
+tracks/5/path = NodePath("../../GunSystem/AimingArm:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -1597,7 +1662,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:shape:height")
+tracks/1/path = NodePath("../../HurtBox/CollisionShape2D2:shape:height")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -1609,7 +1674,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:position")
+tracks/2/path = NodePath("../../HurtBox/CollisionShape2D2:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -1621,7 +1686,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("%MainSprite/../../CollisionShape2D:shape:height")
+tracks/3/path = NodePath("../../CollisionShape2D:shape:height")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -1633,7 +1698,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("%MainSprite/../../CollisionShape2D:position")
+tracks/4/path = NodePath("../../CollisionShape2D:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -1677,7 +1742,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%MainSprite/../../CollisionShape2D:shape:height")
+tracks/1/path = NodePath("../../CollisionShape2D:shape:height")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -1689,7 +1754,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("%MainSprite/../../CollisionShape2D:position")
+tracks/2/path = NodePath("../../CollisionShape2D:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -1701,7 +1766,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:shape:height")
+tracks/3/path = NodePath("../../HurtBox/CollisionShape2D2:shape:height")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -1713,7 +1778,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("%MainSprite/../../HurtBox/CollisionShape2D2:position")
+tracks/4/path = NodePath("../../HurtBox/CollisionShape2D2:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -1755,7 +1820,7 @@ height = 68.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_o5mpv"]
 radius = 0.01
 
-[node name="Bob" type="CharacterBody2D" groups=["Player"]]
+[node name="Hestmor" type="CharacterBody2D" groups=["Player"]]
 collision_mask = 8
 floor_constant_speed = true
 floor_max_angle = 0.802851
@@ -1854,7 +1919,7 @@ collision_mask = 8
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_yy212")
 position = Vector2(0, -49)
-texture = ExtResource("8_nwema")
+texture = ExtResource("8_a3x4u")
 hframes = 8
 vframes = 4
 script = ExtResource("10_xgd07")
@@ -1915,6 +1980,9 @@ position = Vector2(0, -50)
 [node name="GunAnchor" type="Node2D" parent="GunSystem/AimingArm"]
 position = Vector2(27, -1)
 
+[node name="AimPivot" type="Node2D" parent="GunSystem"]
+position = Vector2(0, -57)
+
 [node name="HurtBox" type="Area2D" parent="."]
 collision_layer = 32
 collision_mask = 256
@@ -1928,6 +1996,7 @@ debug_color = Color(0, 1, 0, 0)
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("16_dydlw")
+_slideAttackSpeed = 250.0
 _weakGrowlRadius = 150.0
 _mediumGrowlRadius = 300.0
 _strongGrowlRadius = 500.0

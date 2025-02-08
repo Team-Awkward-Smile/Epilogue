@@ -60,25 +60,9 @@ public partial class MeleeAttack : State
 
 		_player.CanChangeFacingDirection = false;
 		_player.CanInteract = false;
+		_player.Velocity = Vector2.Zero;
 
 		_attackType = (StateType)args[0];
-
-		if (SweepRayCastForEnemy())
-		{
-			_enemy = (Npc)_player.RayCasts["Enemy"].GetCollider();
-
-			if (_enemy.IsVulnerable)
-			{
-				_enemy.CanRecoverFromVulnerability = false;
-				_player.CanChangeFacingDirection = false;
-
-				_eventsSingleton.EmitSignal(PlayerEvents.SignalName.QueryExecutionSpeed);
-
-				_player.GetViewport().SetInputAsHandled();
-
-				return;
-			}
-		}
 
 		if (_player.HoldingSword)
 		{
@@ -131,28 +115,5 @@ public partial class MeleeAttack : State
 		_player.CanInteract = true;
 
 		return Task.CompletedTask;
-	}
-
-	private bool SweepRayCastForEnemy()
-	{
-		var raycast = _player.RayCasts["Enemy"];
-
-		for (var i = -40; i < -6; i += 2)
-		{
-			raycast.Position = new Vector2(0f, i);
-
-			raycast.ForceRaycastUpdate();
-
-			if (raycast.IsColliding())
-			{
-				raycast.Position = new Vector2(0f, -20f);
-
-				return true;
-			}
-		}
-
-		raycast.Position = new Vector2(0f, -20f);
-
-		return false;
 	}
 }
