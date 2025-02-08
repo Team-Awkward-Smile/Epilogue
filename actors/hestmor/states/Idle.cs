@@ -1,7 +1,7 @@
 using Epilogue.Actors.Hestmor.Enums;
+using Epilogue.Const;
 using Epilogue.Nodes;
 using Godot;
-using System.Runtime.InteropServices;
 
 namespace Epilogue.Actors.Hestmor.States;
 /// <inheritdoc/>
@@ -44,7 +44,7 @@ public partial class Idle : State
 				var raycast = _player.RayCasts["Ledge"];
 				var originalPosition = raycast.Position;
 
-				raycast.Position = new Vector2(0f, -Const.Constants.MAP_TILE_SIZE - 1);
+				raycast.Position = new Vector2(0f, -Constants.MAP_TILE_SIZE - 1);
 
 				raycast.ForceRaycastUpdate();
 
@@ -70,7 +70,15 @@ public partial class Idle : State
 		else if (@event.IsActionPressed("melee"))
 		{
 			AudioPlayer.Stop("generic");
-			StateMachine.ChangeState(typeof(MeleeAttack), StateType.SwipeAttack);
+
+			if (_player.SweepRayCastForEnemy(out var enemy) && enemy.IsVulnerable)
+			{
+				StateMachine.ChangeState(typeof(Execute), enemy);
+			}
+			else
+			{
+				StateMachine.ChangeState(typeof(MeleeAttack), StateType.SwipeAttack);
+			}
 		}
 		else if (@event.IsActionPressed("slide"))
 		{
@@ -91,7 +99,7 @@ public partial class Idle : State
 		_player.CanChangeFacingDirection = true;
 		_player.Velocity = new Vector2(0f, _player.Velocity.Y);
 		_footstepManager.Position = new(0f, 1f);
-		
+
 		AnimPlayer.Play("idle");
 
 		_hasIdleBeenPlayed = false;
@@ -99,7 +107,7 @@ public partial class Idle : State
 
 	internal override void PhysicsUpdate(double delta)
 	{
-		
+
 		if (!AudioPlayer.HasStreamPlayback("generic") && !_hasIdleBeenPlayed)
 		{
 			AudioPlayer.PlayGenericSfx("Idle");
@@ -140,8 +148,6 @@ public partial class Idle : State
 
 			AudioPlayer.Stop("generic");
 			StateMachine.ChangeState(_player.RunEnabled ? typeof(Run) : typeof(Walk));
-
-			return;
 		}
 	}
 }

@@ -1,5 +1,4 @@
 using Epilogue.Global.Enums;
-using Epilogue.Nodes;
 using Godot;
 
 namespace Epilogue.Actors.Hestmor.aim;
@@ -8,28 +7,30 @@ namespace Epilogue.Actors.Hestmor.aim;
 /// </summary>
 public partial class MouseAim : Node
 {
-	private Actor _actor;
 	private Aim _aim;
+	private Viewport _viewport;
+	private Node2D _aimPivot;
 
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
-		_actor = (Actor) Owner;
-		_aim = (Aim) GetParent();
+		_aim = (Aim)GetParent();
+		_viewport = GetViewport();
+		_aimPivot = Owner.GetNode<Node2D>("GunSystem/AimPivot");
 	}
 
 	/// <inheritdoc/>
 	public override void _Process(double delta)
 	{
-		var screenSize = DisplayServer.WindowGetSize();
-		var mousePosition = (GetViewport().GetMousePosition() - (screenSize / 2)) * new Vector2(1f, -1f);
+		var pivotScreenPosition = _aimPivot.GetGlobalTransformWithCanvas().Origin;
+		var mousePosition = (_viewport.GetMousePosition() - pivotScreenPosition) * new Vector2(1f, -1f);
 		var angle = Mathf.RadToDeg(Mathf.Atan2(mousePosition.Y, mousePosition.X)) + 22.5f;
 		var wheelArea = Mathf.Floor(angle / 45f);
 
 		var flagX = AimDirection.None;
 		var flagY = angle >= 0 ? AimDirection.Up : AimDirection.Down;
 
-		switch(Mathf.Abs(wheelArea))
+		switch (Mathf.Abs(wheelArea))
 		{
 			case 0:
 				flagY = AimDirection.None;

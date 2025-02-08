@@ -1,7 +1,7 @@
-using System.Linq;
 using Epilogue.Global.Singletons;
 using Epilogue.Nodes;
 using Godot;
+using System.Linq;
 
 namespace Epilogue.Actors.Hestmor.States;
 /// <summary>
@@ -11,28 +11,29 @@ public partial class PlayerStateMachine : StateMachine
 {
 	[ExportGroup("Attack")]
 		[Export] private float _RunAttackSpeed = 150f;
+	[Export] private float _slideAttackSpeed = 150f;
 
 	[ExportGroup("Crawl")]
-		[Export] private float _crawlSpeed = 50f;
+	[Export] private float _crawlSpeed = 50f;
 
 	[ExportGroup("Growl")]
-		[Export] private float _weakGrowlRadius;
-		[Export] private float _mediumGrowlRadius;
-		[Export] private float _strongGrowlRadius;
+	[Export] private float _weakGrowlRadius;
+	[Export] private float _mediumGrowlRadius;
+	[Export] private float _strongGrowlRadius;
 
 	[ExportGroup("Jump")]
 	[ExportSubgroup("Standing Jump")]
-		[Export] private float _standingJumpVerticalSpeed = -400f;
+	[Export] private float _standingJumpVerticalSpeed = -400f;
 	[ExportSubgroup("Low Jump")]
-		[Export] private float _lowJumpVerticalSpeed = -400f;
-		[Export] private float _lowJumpHorizontalSpeed = 80f;
+	[Export] private float _lowJumpVerticalSpeed = -400f;
+	[Export] private float _lowJumpHorizontalSpeed = 80f;
 	[ExportSubgroup("Long Jump")]
-		[Export] private float _longJumpVerticalSpeed = -400f;
-		[Export] private float _longJumpHorizontalSpeed = 160f;
+	[Export] private float _longJumpVerticalSpeed = -400f;
+	[Export] private float _longJumpHorizontalSpeed = 160f;
 
 	[ExportGroup("Look Up")]
-		[Export] private float _cameraMovementDelay = 0.5f;
-		[Export] private int _cameraMovementDistance = 100;
+	[Export] private float _cameraMovementDelay = 0.5f;
+	[Export] private int _cameraMovementDistance = 100;
 
 	[ExportGroup("Run")]
 		[Export] private float _runSpeed {set; get;} = 200f;
@@ -42,17 +43,17 @@ public partial class PlayerStateMachine : StateMachine
 
 	[ExportGroup("Slide")]
 	[ExportSubgroup("Front Roll")]
-		[Export] private float _frontRollDuration = 0.5f;
-		[Export] private float _frontRollSpeed = 100f;
-		[Export] private float _frontRollCoyoteDuration = 0f;
+	[Export] private float _frontRollDuration = 0.5f;
+	[Export] private float _frontRollSpeed = 100f;
+	[Export] private float _frontRollCoyoteDuration = 0f;
 	[ExportSubgroup("Long Slide")]
-		[Export] private float _longSlideDuration = 0.5f;
-		[Export] private float _longSlideSpeed = 220f;
-		[Export] private float _longSlideCoyoteDuration = 0.1f;
+	[Export] private float _longSlideDuration = 0.5f;
+	[Export] private float _longSlideSpeed = 220f;
+	[Export] private float _longSlideCoyoteDuration = 0.1f;
 	[ExportSubgroup("Knee Slide")]
-		[Export] private float _kneeSlideDuration = 0.5f;
-		[Export] private float _kneeSlideSpeed = 160f;
-		[Export] private float _kneeSlideCoyoteDuration = 0.1f;
+	[Export] private float _kneeSlideDuration = 0.5f;
+	[Export] private float _kneeSlideSpeed = 160f;
+	[Export] private float _kneeSlideCoyoteDuration = 0.1f;
 
 	[ExportGroup("Walk")]
 		[Export] private float _walkSpeed {set; get;} = 100f;
@@ -71,6 +72,7 @@ public partial class PlayerStateMachine : StateMachine
 			new Crawl(this, _crawlSpeed),
 			new Crouch(this, gunEvents),
 			new Die(this, playerEvents),
+			new Execute(this, playerEvents),
 			new Fall(this),
 			new GrabLedge(this),
 			new Growl(this, growlArea, _weakGrowlRadius, _mediumGrowlRadius, _strongGrowlRadius),

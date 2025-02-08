@@ -245,4 +245,39 @@ public partial class Player : Actor
 			_gunSystem.InteractWithGun();
 		}
 	}
+
+	/// <summary>
+	///     Sweeps the "Enemy" RayCast downwards while checking for collisions against enemies (NPCs)
+	/// </summary>
+	/// <param name="enemy">The first enemy hit by the RayCast, if any</param>
+	/// <returns>
+	///     <c>true</c>, if an enemy was hit by the RayCast (in this case, the parameter <c>enemy</c> will contain a
+	///     reference to said enemy; <c>false</c> otherwise (and <c>enemy</c> will be null)
+	/// </returns>
+	public bool SweepRayCastForEnemy(out Npc enemy)
+	{
+		var raycast = RayCasts["Enemy"];
+
+		for (var i = -40; i < -6; i += 2)
+		{
+			raycast.Position = new Vector2(0f, i);
+
+			raycast.ForceRaycastUpdate();
+
+			if (raycast.IsColliding())
+			{
+				raycast.Position = new Vector2(0f, -20f);
+
+				enemy = (Npc)raycast.GetCollider();
+
+				return true;
+			}
+		}
+
+		raycast.Position = new Vector2(0f, -20f);
+
+		enemy = null;
+
+		return false;
+	}
 }

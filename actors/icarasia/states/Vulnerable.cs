@@ -34,7 +34,7 @@ public partial class Vulnerable : State
 	{
 		_vulnerableTimer += delta;
 
-		if (_deathTimer is not null && _vulnerableTimer >= _deathTimer)
+		if (_vulnerableTimer >= _deathTimer)
 		{
 			StateMachine.ChangeState(typeof(Die));
 
