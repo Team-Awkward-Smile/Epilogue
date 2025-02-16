@@ -195,4 +195,13 @@ public partial class Player : Actor
 
 		_gunSystem.Rotation = -Rotation;
 	}
+
+	/// <summary>
+	/// Slows down the player's walk speed by the given amount
+	/// </summary>
+	/// <param name="amount"></param>
+	public void RubbleSlow(float amount)
+	{
+		_playerStateMachine.WalkSpeed -= amount;
+	}
 }

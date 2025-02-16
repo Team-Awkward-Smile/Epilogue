@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bdoye43khxsgo" path="res://tile_map/scenes/spikes/v1/Spikes2.png" id="2_3rwc8"]
 [ext_resource type="Script" path="res://tile_map/scenes/spikes/v1/spike_hurtbox.cs" id="3_whv3f"]
 [ext_resource type="Texture2D" uid="uid://b5hcks56momjb" path="res://tile_map/scenes/spikes/v1/SpikesDustEffect.png" id="4_utuq1"]
-[ext_resource type="PackedScene" uid="uid://dwrjb4026bmvf" path="res://tile_map/scenes/spikes/v1/Crumbs/Crumbs.tscn" id="5_bly4c"]
+[ext_resource type="PackedScene" uid="uid://dwrjb4026bmvf" path="res://tile_map/scenes/spikes/v1/Rubble/Rubble.tscn" id="5_6vjaf"]
 
 [sub_resource type="Animation" id="Animation_h5lh0"]
 resource_name = "RESET"
@@ -81,6 +81,7 @@ collision_mask = 8
 gravity_scale = 0.0
 contact_monitor = true
 script = ExtResource("1_i7lk4")
+RubbleScene = ExtResource("5_6vjaf")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -2)
@@ -88,13 +89,16 @@ texture = ExtResource("2_3rwc8")
 flip_v = true
 
 [node name="Trigger" type="RayCast2D" parent="."]
+visible = false
 position = Vector2(0, -18)
 collide_with_areas = true
 
 [node name="LeftWarning" type="RayCast2D" parent="."]
+visible = false
 position = Vector2(-36, -18)
 
 [node name="RightWarning" type="RayCast2D" parent="."]
+visible = false
 position = Vector2(36, -18)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -129,51 +133,8 @@ explosiveness = 1.0
 position = Vector2(0, -14.5)
 shape = SubResource("RectangleShape2D_4qic7")
 
-[node name="Crumbs" type="Node2D" parent="."]
-visible = false
+[node name="Rubbles" type="Node2D" parent="."]
 position = Vector2(0, -24.705)
-
-[node name="Crumbs2" parent="Crumbs" instance=ExtResource("5_bly4c")]
-position = Vector2(-9, -3.295)
-
-[node name="Crumbs4" parent="Crumbs" instance=ExtResource("5_bly4c")]
-position = Vector2(5, -1.295)
-
-[node name="Crumbs12" parent="Crumbs" instance=ExtResource("5_bly4c")]
-position = Vector2(8, -2.295)
-
-[node name="Crumbs6" parent="Crumbs" instance=ExtResource("5_bly4c")]
-position = Vector2(-9, 0.705)
-
-[node name="Crumbs8" parent="Crumbs" instance=ExtResource("5_bly4c")]
-position = Vector2(4, 2.705)
-
-[node name="Crumbs10" parent="Crumbs" instance=ExtResource("5_bly4c")]
-position = Vector2(-3, -3.295)
-
-[node name="Crumbs9" parent="Crumbs" instance=ExtResource("5_bly4c")]
-position = Vector2(3, -5.295)
-
-[node name="Crumbs15" parent="Crumbs" instance=ExtResource("5_bly4c")]
-position = Vector2(1, -0.295)
-
-[node name="Crumbs17" parent="Crumbs" instance=ExtResource("5_bly4c")]
-position = Vector2(6, 7.705)
-
-[node name="Crumbs18" parent="Crumbs" instance=ExtResource("5_bly4c")]
-position = Vector2(8, 2.705)
-
-[node name="Crumbs16" parent="Crumbs" instance=ExtResource("5_bly4c")]
-position = Vector2(0, 5)
-
-[node name="Crumbs19" parent="Crumbs" instance=ExtResource("5_bly4c")]
-position = Vector2(0, 10.605)
-
-[node name="Crumbs7" parent="Crumbs" instance=ExtResource("5_bly4c")]
-position = Vector2(-5, 1.705)
-
-[node name="Crumbs11" parent="Crumbs" instance=ExtResource("5_bly4c")]
-position = Vector2(-6, 5.605)
 
 [connection signal="area_entered" from="HurtBox" to="HurtBox" method="_on_area_entered"]
 [connection signal="finished" from="GPUParticles2D" to="." method="_on_gpu_particles_2d_finished"]

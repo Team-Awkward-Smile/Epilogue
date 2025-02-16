@@ -10,18 +10,17 @@ public partial class Walk : State
 	private static Vector2 s_footstepManagerPositivePosition = new(8f, 1f);
 	private static Vector2 s_footstepManagerNegativePosition = new(-8f, 1f);
 
-	private readonly float _walkSpeed;
 	private readonly Player _player;
+	private readonly PlayerStateMachine _stateMachine;
 	private readonly FootstepManager _footstepManager;
 
 	/// <summary>
 	/// 	State that allows Hestmor to walk
 	/// </summary>
 	/// <param name="stateMachine">The State Machine who owns this State</param>
-	/// <param name="walkSpeed">The horizontal speed of Hestmor when Walking</param>
-	public Walk(StateMachine stateMachine, float walkSpeed) : base(stateMachine)
-	{
-		_walkSpeed = walkSpeed;
+	public Walk(StateMachine stateMachine) : base(stateMachine)
+	{	
+		_stateMachine = (PlayerStateMachine)stateMachine;
 		_player = (Player)stateMachine.Owner;
 		_footstepManager = _player.GetNode<FootstepManager>("FlipRoot/ActorAudioPlayer/FootstepManager");
 
@@ -76,7 +75,7 @@ public partial class Walk : State
 			var velocity = _player.Velocity;
 
 			velocity.Y += StateMachine.Gravity * (float)delta;
-			velocity.X = movementDirection * _walkSpeed * (float)delta * 60f;
+			velocity.X = movementDirection * _stateMachine.WalkSpeed * (float)delta * 60f;
 
 			if ((movementDirection > 0 && _player.FacingDirection == ActorFacingDirection.Left) ||
 				(movementDirection < 0 && _player.FacingDirection == ActorFacingDirection.Right))
