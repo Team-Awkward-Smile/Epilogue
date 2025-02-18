@@ -10,6 +10,7 @@ public partial class Spike : RigidBody2D
 	// export variable for crumbs amount
 	[Export] public int RubbleAmount = 10;
 	[Export] public PackedScene RubbleScene;
+	[Export] public float LifeTime = 10f;
 
 	private RayCast2D _trigger;
 	private RayCast2D _leftWarning;
@@ -36,6 +37,8 @@ public partial class Spike : RigidBody2D
 
 		_animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		_gpuParticles2D = GetNode<GpuParticles2D>("GPUParticles2D");
+		_gpuParticles2D.Lifetime = LifeTime;
+		
 		_rubbles = GetNode<Node2D>("Rubbles");
 		
 		// Adding the spike to the list of spikes in the levelTileMap
@@ -62,9 +65,9 @@ public partial class Spike : RigidBody2D
 			GetNode<Sprite2D>("Sprite2D").QueueFree();
 
 			_rubbles.Show();
-			foreach (Node2D crumb in _rubbles.GetChildren())
+			foreach (Node2D rubble in _rubbles.GetChildren())
 			{
-				((RigidBody2D)crumb).Freeze = false;
+				((RigidBody2D)rubble).Freeze = false;
 			}
 		}
 

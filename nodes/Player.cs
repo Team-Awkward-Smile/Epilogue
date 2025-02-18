@@ -4,6 +4,8 @@ using Epilogue.Actors.Hestmor.States;
 using Epilogue.Global.Enums;
 using Epilogue.Global.Singletons;
 using Godot;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Epilogue.Nodes;
@@ -22,6 +24,13 @@ public partial class Player : Actor
 
 	[Export] private bool _allowQuickSlide;
 
+	// Rubble slow multiplier for the player
+	[Export] private float _slowRubbleMultiplier = 5f;
+	/// <summary>
+	/// 	Store all the Rubble nodes that are neighbors to the player
+	/// </summary>
+	public List<Rubble> RubblesNeighborsList = new List<Rubble>();
+ 
 	/// <summary>
 	///		Defines if the player toggled the Run mode while playing in Retro Mode
 	/// </summary>
@@ -106,7 +115,9 @@ public partial class Player : Actor
 				_quickSlideTimer = 0;
 			}
 		}
+		RubbleSlow();
 	}
+
 
 	/// <inheritdoc/>
 	public override void ReduceHealth(float damage, DamageType damageType)
@@ -197,11 +208,16 @@ public partial class Player : Actor
 	}
 
 	/// <summary>
-	/// Slows down the player's walk speed by the given amount
+	/// 	Slows down the player's walk/run speed by how much Rubble nodes are near him
 	/// </summary>
-	/// <param name="amount"></param>
-	public void RubbleSlow(float amount)
+	public void RubbleSlow()
 	{
-		_playerStateMachine.WalkSpeed -= amount;
+		_playerStateMachine.WalkSpeed = Math.Clamp(_playerStateMachine.OGWalkSpeed - RubblesNeighborsList.Count * _slowRubbleMultiplier,
+			_playerStateMachine.OGWalkSpeed * 0.1f,
+			_playerStateMachine.OGWalkSpeed);
+		_playerStateMachine.RunSpeed = Math.Clamp(
+			_playerStateMachine.OGRunSpeed - RubblesNeighborsList.Count * _slowRubbleMultiplier,
+			_playerStateMachine.OGRunSpeed * 0.1f,
+			_playerStateMachine.OGRunSpeed);
 	}
 }

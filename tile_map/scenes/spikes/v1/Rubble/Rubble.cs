@@ -5,16 +5,11 @@ using System.Collections.Generic;
 
 public partial class Rubble : RigidBody2D
 {
-    [Export] public float SlowMultipler = 5f;
 	// TODO a set get that updates 
-	public int RubblesNeighborsCount => RubblesNeighborsList.Count;
-    public List<Rubble> RubblesNeighborsList = new List<Rubble>();
+	private int RubblesNeighborsCount => RubblesNeighborsList.Count;
+    private List<Rubble> RubblesNeighborsList = new List<Rubble>();
 
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
-    {
-        // Initialization code here
-    }
+	private Player _player;
 
     public void _on_area_2d_body_entered(Node2D node)
     {
@@ -23,12 +18,15 @@ public partial class Rubble : RigidBody2D
             if (!RubblesNeighborsList.Contains(rubble))
             {
                 RubblesNeighborsList.Add(rubble);
+	
             }
         }
 
         if (node is Player player)
         {
-            // Add logic for player interaction if needed
+            player.RubblesNeighborsList.Add(this);
+			_player = player;
+
         }
     }
 
@@ -39,12 +37,14 @@ public partial class Rubble : RigidBody2D
             if (RubblesNeighborsList.Contains(rubble))
             {
                 RubblesNeighborsList.Remove(rubble);
+	
             }
         }
 
         if (node is Player player)
         {
-            // Add logic for player interaction if needed
+            player.RubblesNeighborsList.Remove(this);
+			_player = null;
         }
     }
 
@@ -61,7 +61,16 @@ public partial class Rubble : RigidBody2D
     private void OnQueueFree()
     {
         // Add your custom logic here
-        GD.Print("Rubble node is about to be freed.");
+		if (RubblesNeighborsList.Count > 0)
+		{
+			foreach (var rubble in RubblesNeighborsList)
+			{
+				rubble.RubblesNeighborsList.Remove(this);
+			}
+		}
+		if (_player != null){
+			_player.RubblesNeighborsList.Remove(this);
+		}
     }
 }
 
