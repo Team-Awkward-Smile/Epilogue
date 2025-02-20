@@ -23,16 +23,20 @@ show_behind_parent = true
 position = Vector2(-151, -117)
 script = ExtResource("2_gneip")
 _rubbleScene = ExtResource("3_l3awb")
-_maxRubbles = 300
 
-[node name="Timer" type="Timer" parent="RubbleTesterManager" index="0"]
+[node name="KillSwitchBuffer" type="Timer" parent="RubbleTesterManager" index="0"]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[node name="Timer" type="Timer" parent="RubbleTesterManager" index="1"]
 wait_time = 0.05
 autostart = true
 
-[node name="Rubbles" type="Node2D" parent="RubbleTesterManager" index="1"]
+[node name="Rubbles" type="Node2D" parent="RubbleTesterManager" index="2"]
 position = Vector2(-343, -29)
 
-[node name="Spawn" type="Area2D" parent="RubbleTesterManager" index="2"]
+[node name="Spawn" type="Area2D" parent="RubbleTesterManager" index="3"]
 position = Vector2(-71, 39)
 collision_layer = 0
 monitorable = false
@@ -44,7 +48,7 @@ texture = ExtResource("2_m85c7")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RubbleTesterManager/Spawn" index="1"]
 shape = SubResource("RectangleShape2D_qsrrg")
 
-[node name="Despawn" type="Area2D" parent="RubbleTesterManager" index="3"]
+[node name="Despawn" type="Area2D" parent="RubbleTesterManager" index="4"]
 modulate = Color(0.976471, 0, 0, 1)
 position = Vector2(116, 39)
 collision_layer = 0
@@ -57,21 +61,21 @@ texture = ExtResource("2_m85c7")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RubbleTesterManager/Despawn" index="1"]
 shape = SubResource("RectangleShape2D_qsrrg")
 
-[node name="Label" type="Label" parent="RubbleTesterManager" index="4"]
+[node name="Label" type="Label" parent="RubbleTesterManager" index="5"]
 offset_left = 46.0
 offset_top = -35.0
 offset_right = 176.0
 offset_bottom = -12.0
 text = "Dispawns rubbles"
 
-[node name="Label2" type="Label" parent="RubbleTesterManager" index="5"]
+[node name="Label2" type="Label" parent="RubbleTesterManager" index="6"]
 offset_left = -133.0
 offset_top = -35.0
 offset_right = -11.0
 offset_bottom = -12.0
 text = "Spawns rubbles"
 
-[node name="Label3" type="Label" parent="RubbleTesterManager" index="6"]
+[node name="Label3" type="Label" parent="RubbleTesterManager" index="7"]
 offset_left = 265.0
 offset_top = -36.0
 offset_right = 491.0
@@ -79,6 +83,7 @@ offset_bottom = 13.0
 text = "<= Walk into the logos to 
 <= spawn or dispawn rubbles"
 
+[connection signal="timeout" from="RubbleTesterManager/KillSwitchBuffer" to="RubbleTesterManager" method="_on_kill_switch_buffer_timeout"]
 [connection signal="timeout" from="RubbleTesterManager/Timer" to="RubbleTesterManager" method="_on_timer_timeout"]
 [connection signal="body_entered" from="RubbleTesterManager/Spawn" to="RubbleTesterManager" method="_on_spawn_body_entered"]
 [connection signal="body_entered" from="RubbleTesterManager/Despawn" to="RubbleTesterManager" method="_on_despawn_body_entered"]
