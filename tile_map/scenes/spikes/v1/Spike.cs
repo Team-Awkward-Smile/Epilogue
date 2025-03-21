@@ -7,6 +7,11 @@ using System.Linq.Expressions;
 public partial class Spike : RigidBody2D
 {
 
+	// TODO : 
+	// - Random chance of falling 	
+	// - If it doesnt fall, shake for warning
+	// - Try collision
+
 	// export variable for crumbs amount
 	[Export] public float _lifeTime = 10f;
 
