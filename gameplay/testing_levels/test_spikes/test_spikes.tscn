@@ -1,14 +1,109 @@
-[gd_scene load_steps=6 format=3 uid="uid://dehy1kjw2lx3t"]
+[gd_scene load_steps=9 format=3 uid="uid://dehy1kjw2lx3t"]
 
 [ext_resource type="PackedScene" uid="uid://dyvphcrj22tvr" path="res://inherited_scenes/level_blueprint/level_blueprint.tscn" id="1_c0wxb"]
 [ext_resource type="Script" path="res://gameplay/testing_levels/test_spikes/RubbleTesterManager.cs" id="2_gneip"]
 [ext_resource type="Texture2D" uid="uid://dmf8jslgdwrcc" path="res://icon.svg" id="2_m85c7"]
-[ext_resource type="PackedScene" uid="uid://dwrjb4026bmvf" path="res://tile_map/scenes/spikes/v1/Rubble/Rubble.tscn" id="3_l3awb"]
+[ext_resource type="Texture2D" uid="uid://b5hcks56momjb" path="res://tile_map/scenes/spikes/v1/SpikesDustEffect.png" id="3_h5avl"]
+
+[sub_resource type="CSharpScript" id="CSharpScript_7y0fd"]
+script/source = "using Epilogue.Nodes;
+using Godot;
+using System;
+using System.Collections.Generic;
+
+public partial class Rubble : RigidBody2D
+{
+	// TODO a set get that updates 
+	private int RubblesNeighborsCount => RubblesNeighborsList.Count;
+    private List<Rubble> RubblesNeighborsList = new List<Rubble>();
+
+	private Player _player;
+
+    public void _on_area_2d_body_entered(Node2D node)
+    {
+        if (node is Rubble rubble)
+        {
+            if (!RubblesNeighborsList.Contains(rubble))
+            {
+                RubblesNeighborsList.Add(rubble);
+	
+            }
+        }
+
+        if (node is Player player)
+        {
+            player.RubblesNeighborsList.Add(this);
+			_player = player;
+
+        }
+    }
+
+    public void _on_area_2d_body_exited(Node2D node)
+    {
+        if (node is Rubble rubble)
+        {
+            if (RubblesNeighborsList.Contains(rubble))
+            {
+                RubblesNeighborsList.Remove(rubble);
+	
+            }
+        }
+
+        if (node is Player player)
+        {
+            player.RubblesNeighborsList.Remove(this);
+			_player = null;
+        }
+    }
+
+    // Override the _Notification method to detect when the node is about to be freed
+    public override void _Notification(int what)
+    {
+        if (what == NotificationPredelete)
+        {
+            OnQueueFree();
+        }
+    }
+
+    // Custom function to be called when the node is about to be freed
+    private void OnQueueFree()
+    {
+        // Add your custom logic here
+		if (RubblesNeighborsList.Count > 0)
+		{
+			foreach (var rubble in RubblesNeighborsList)
+			{
+				rubble.RubblesNeighborsList.Remove(this);
+			}
+		}
+		if (_player != null){
+			_player.RubblesNeighborsList.Remove(this);
+		}
+    }
+}
+
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cpwf5"]
+radius = 4.0
+
+[sub_resource type="PackedScene" id="PackedScene_iyy17"]
+_bundled = {
+"conn_count": 2,
+"conns": PackedInt32Array(3, 0, 17, 16, 2, 0, 0, 3, 0, 19, 18, 2, 0, 0),
+"editable_instances": [],
+"names": PackedStringArray("Rubble", "collision_layer", "collision_mask", "freeze", "linear_velocity", "script", "RigidBody2D", "Sprite2D", "scale", "texture", "CollisionPolygon2D", "polygon", "Area2D", "monitorable", "CollisionShape2D", "shape", "_on_area_2d_body_entered", "body_entered", "_on_area_2d_body_exited", "body_exited"),
+"node_count": 5,
+"node_paths": [],
+"nodes": PackedInt32Array(-1, -1, 6, 0, -1, 5, 1, 0, 2, 1, 3, 2, 4, 3, 5, 4, 0, 0, 0, 7, 7, -1, 2, 8, 5, 9, 6, 0, 0, 0, 10, 10, -1, 1, 11, 7, 0, 0, 0, 12, 12, -1, 3, 1, 8, 2, 9, 13, 10, 0, 3, 0, 14, 14, -1, 1, 15, 11, 0),
+"variants": [2048, 2057, true, Vector2(0, -10), SubResource("CSharpScript_7y0fd"), Vector2(0.27, 0.27), ExtResource("3_h5avl"), PackedVector2Array(-1, -2, 2, -2, 3, 1, 0, 3, -3, 0), 0, 2049, false, SubResource("CircleShape2D_cpwf5")],
+"version": 3
+}
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qsrrg"]
 size = Vector2(80, 76)
 
-[node name="LevelBlueprint" instance=ExtResource("1_c0wxb")]
+[node name="LevelBlueprint2" instance=ExtResource("1_c0wxb")]
 
 [node name="Checkpoint" parent="Checkpoints" index="0"]
 position = Vector2(211, -97)
@@ -22,21 +117,16 @@ layer_1/tile_data = PackedInt32Array(-327668, 0, 131072, -327669, 0, 131072, -39
 show_behind_parent = true
 position = Vector2(-151, -117)
 script = ExtResource("2_gneip")
-_rubbleScene = ExtResource("3_l3awb")
+_rubbleScene = SubResource("PackedScene_iyy17")
 
-[node name="KillSwitchBuffer" type="Timer" parent="RubbleTesterManager" index="0"]
-wait_time = 2.0
-one_shot = true
-autostart = true
-
-[node name="Timer" type="Timer" parent="RubbleTesterManager" index="1"]
+[node name="Timer" type="Timer" parent="RubbleTesterManager" index="0"]
 wait_time = 0.05
 autostart = true
 
-[node name="Rubbles" type="Node2D" parent="RubbleTesterManager" index="2"]
+[node name="Rubbles" type="Node2D" parent="RubbleTesterManager" index="1"]
 position = Vector2(-343, -29)
 
-[node name="Spawn" type="Area2D" parent="RubbleTesterManager" index="3"]
+[node name="Spawn" type="Area2D" parent="RubbleTesterManager" index="2"]
 position = Vector2(-71, 39)
 collision_layer = 0
 monitorable = false
@@ -48,7 +138,7 @@ texture = ExtResource("2_m85c7")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RubbleTesterManager/Spawn" index="1"]
 shape = SubResource("RectangleShape2D_qsrrg")
 
-[node name="Despawn" type="Area2D" parent="RubbleTesterManager" index="4"]
+[node name="Despawn" type="Area2D" parent="RubbleTesterManager" index="3"]
 modulate = Color(0.976471, 0, 0, 1)
 position = Vector2(116, 39)
 collision_layer = 0
@@ -61,21 +151,21 @@ texture = ExtResource("2_m85c7")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RubbleTesterManager/Despawn" index="1"]
 shape = SubResource("RectangleShape2D_qsrrg")
 
-[node name="Label" type="Label" parent="RubbleTesterManager" index="5"]
+[node name="Label" type="Label" parent="RubbleTesterManager" index="4"]
 offset_left = 46.0
 offset_top = -35.0
 offset_right = 176.0
 offset_bottom = -12.0
 text = "Dispawns rubbles"
 
-[node name="Label2" type="Label" parent="RubbleTesterManager" index="6"]
+[node name="Label2" type="Label" parent="RubbleTesterManager" index="5"]
 offset_left = -133.0
 offset_top = -35.0
 offset_right = -11.0
 offset_bottom = -12.0
 text = "Spawns rubbles"
 
-[node name="Label3" type="Label" parent="RubbleTesterManager" index="7"]
+[node name="Label3" type="Label" parent="RubbleTesterManager" index="6"]
 offset_left = 265.0
 offset_top = -36.0
 offset_right = 491.0
@@ -83,7 +173,6 @@ offset_bottom = 13.0
 text = "<= Walk into the logos to 
 <= spawn or dispawn rubbles"
 
-[connection signal="timeout" from="RubbleTesterManager/KillSwitchBuffer" to="RubbleTesterManager" method="_on_kill_switch_buffer_timeout"]
 [connection signal="timeout" from="RubbleTesterManager/Timer" to="RubbleTesterManager" method="_on_timer_timeout"]
 [connection signal="body_entered" from="RubbleTesterManager/Spawn" to="RubbleTesterManager" method="_on_spawn_body_entered"]
 [connection signal="body_entered" from="RubbleTesterManager/Despawn" to="RubbleTesterManager" method="_on_despawn_body_entered"]

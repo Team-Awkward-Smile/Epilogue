@@ -21,35 +21,6 @@ public partial class RubbleTesterManager : Node2D
 		_rubbles = GetNode<Node2D>("Rubbles");
 	}
 
-	public override void _Process(double delta)
-	{
-		base._Process(delta);
-
-		if (Engine.GetFramesPerSecond() < 10 && _killSwitchActive)  {
-			GetTree().Quit();
-		}	
-	}
-
-
-	public void _on_kill_switch_buffer_timeout()
-	{
-		_killSwitchActive = true;
-		GD.Print("KILL SWITCH HAS BEEN ACTIVATED");
-	}
-
-
-	/// <inheritdoc/>
-
-	private void SpawnRubble()
-	{
-		if (active && _rubbles.GetChildCount() < _maxRubbles)
-		{
-			Rubble rubble = _rubbleScene.Instantiate<Rubble>();
-			rubble.Freeze = false;
-			_rubbles.AddChild(rubble);		
-		}
-	}
-
 	public void _on_spawn_body_entered(Node body)
 	{
 		
@@ -62,20 +33,8 @@ public partial class RubbleTesterManager : Node2D
 	{
 
 		GD.Print("Despawning Rubbles");
-		active = false;
-		if (_rubbles.GetChildCount() > 0)
-		{
-			foreach (var rubble in _rubbles.GetChildren())
-			{
-				rubble.QueueFree();
-			}
-		}
 	}
 
-	public void _on_timer_timeout()
-	{
-		SpawnRubble();
-	}
 
 }
 

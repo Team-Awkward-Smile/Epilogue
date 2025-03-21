@@ -8,16 +8,14 @@ public partial class Spike : RigidBody2D
 {
 
 	// export variable for crumbs amount
-	[Export] public int RubbleAmount = 10;
-	[Export] public PackedScene RubbleScene;
-	[Export] public float LifeTime = 10f;
+	[Export] public float _lifeTime = 10f;
 
 	private RayCast2D _trigger;
 	private RayCast2D _leftWarning;
 	private RayCast2D _rightWarning;
 	private AnimationPlayer _animationPlayer;
 	private GpuParticles2D _gpuParticles2D;
-	private Node2D _rubbles;
+	private Timer _timer;
 	
 	private float _initPosY;
 
@@ -36,15 +34,14 @@ public partial class Spike : RigidBody2D
 		_rightWarning = GetNode<RayCast2D>("RightWarning");
 
 		_animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
-		_gpuParticles2D = GetNode<GpuParticles2D>("GPUParticles2D");
-		_gpuParticles2D.Lifetime = LifeTime;
+		_gpuParticles2D = GetNode<GpuParticles2D>("Dust");
+		_timer = GetNode<Timer>("Timer");
 		
-		_rubbles = GetNode<Node2D>("Rubbles");
+		_timer.WaitTime = _lifeTime;
 		
 		// Adding the spike to the list of spikes in the levelTileMap
 		TileMap levelTileMap = (TileMap)GetParent();
 		levelTileMap.AddToLstSpike(this);
-		AddRebbles();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -55,6 +52,7 @@ public partial class Spike : RigidBody2D
 		{
 			_dropped = true;
 			GravityScale = 1;
+
 		}
 		
 		// If the spike has dropped and hit the floor, start emitting particles
@@ -64,11 +62,6 @@ public partial class Spike : RigidBody2D
 			_gpuParticles2D.Emitting = true;
 			GetNode<Sprite2D>("Sprite2D").QueueFree();
 
-			_rubbles.Show();
-			foreach (Node2D rubble in _rubbles.GetChildren())
-			{
-				((RigidBody2D)rubble).Freeze = false;
-			}
 		}
 
 		// If the player is in the warning area, play the warning animation
@@ -88,17 +81,6 @@ public partial class Spike : RigidBody2D
 		_trigger.TargetPosition = newDistance;
 		_leftWarning.TargetPosition = newDistance;
 		_rightWarning.TargetPosition = newDistance;
-	}
-
-	// Add the crumbs to the spike
-	private void AddRebbles()
-	{
-		for (int i = 0; i < RubbleAmount; i++)
-		{
-			Node2D new_rubble = (Node2D)RubbleScene.Instantiate();
-			_rubbles.AddChild(new_rubble);
-		}
-		
 	}
 
 	// Called when the spike has finished emitting particles

@@ -56,16 +56,11 @@ public partial class PlayerStateMachine : StateMachine
 		[Export] private float _kneeSlideCoyoteDuration = 0.1f;
 
 	[ExportGroup("Walk")]
-		[Export] public float WalkSpeed {set; get;} = 100f;
-		public float OGWalkSpeed;
+		[Export] private float _walkSpeed {set; get;} = 100f;
 
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
-		
-		OGWalkSpeed = WalkSpeed;
-		OGRunSpeed = RunSpeed;
-
 		base._Ready();
 
 		_states = new()
@@ -85,7 +80,7 @@ public partial class PlayerStateMachine : StateMachine
 			new Slide(this, _frontRollDuration, _longSlideDuration, _kneeSlideDuration, _frontRollSpeed, _longSlideSpeed, _kneeSlideSpeed, _frontRollCoyoteDuration, _longSlideCoyoteDuration, _kneeSlideCoyoteDuration),
 			new TakeDamage(this),
 			new Vault(this),
-			new Walk(this)
+			new Walk(this, _walkSpeed)
 		};
 
 		_currentState = _states.First(s => s.GetType() == typeof(Idle));

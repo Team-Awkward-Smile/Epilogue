@@ -23,14 +23,7 @@ public partial class Player : Actor
 	private MainSprite _mainSprite;
 
 	[Export] private bool _allowQuickSlide;
-
-	// Rubble slow multiplier for the player
-	[Export] private float _slowRubbleMultiplier = 5f;
-	/// <summary>
-	/// 	Store all the Rubble nodes that are neighbors to the player
-	/// </summary>
-	public List<Rubble> RubblesNeighborsList = new List<Rubble>();
- 
+	
 	/// <summary>
 	///		Defines if the player toggled the Run mode while playing in Retro Mode
 	/// </summary>
@@ -115,7 +108,6 @@ public partial class Player : Actor
 				_quickSlideTimer = 0;
 			}
 		}
-		RubbleSlow();
 	}
 
 
@@ -205,19 +197,5 @@ public partial class Player : Actor
 		base.MoveAndSlideWithRotation();
 
 		_gunSystem.Rotation = -Rotation;
-	}
-
-	/// <summary>
-	/// 	Slows down the player's walk/run speed by how much Rubble nodes are near him
-	/// </summary>
-	public void RubbleSlow()
-	{
-		_playerStateMachine.WalkSpeed = Math.Clamp(_playerStateMachine.OGWalkSpeed - RubblesNeighborsList.Count * _slowRubbleMultiplier,
-			_playerStateMachine.OGWalkSpeed * 0.1f,
-			_playerStateMachine.OGWalkSpeed);
-		_playerStateMachine.RunSpeed = Math.Clamp(
-			_playerStateMachine.OGRunSpeed - RubblesNeighborsList.Count * _slowRubbleMultiplier,
-			_playerStateMachine.OGRunSpeed * 0.1f,
-			_playerStateMachine.OGRunSpeed);
 	}
 }

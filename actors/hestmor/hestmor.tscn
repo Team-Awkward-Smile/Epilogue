@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3 uid="uid://de3k3vfjvfqe4"]
+[gd_scene load_steps=65 format=3 uid="uid://de3k3vfjvfqe4"]
 
 [ext_resource type="Script" path="res://nodes/Player.cs" id="1_6t4q3"]
 [ext_resource type="Script" path="res://actors/hestmor/aim/Aim.cs" id="2_b0i7f"]
@@ -1628,6 +1628,9 @@ height = 74.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_o5mpv"]
 radius = 0.01
 
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_arh4n"]
+polygon = PackedVector2Array(-10, -72, 10, -72, 10, 0, -10, 0)
+
 [node name="Bob" type="CharacterBody2D" groups=["Player"]]
 collision_mask = 8
 floor_constant_speed = true
@@ -1797,3 +1800,6 @@ script = ExtResource("17_4ww3b")
 shape = SubResource("CircleShape2D_o5mpv")
 disabled = true
 debug_color = Color(1, 0, 1, 0.0784314)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_arh4n")
