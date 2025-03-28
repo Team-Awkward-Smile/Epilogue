@@ -14,17 +14,18 @@ public partial class Spike : RigidBody2D
 
 	// export variable for crumbs amount
 	[Export] public float _lifeTime = 10f;
-
+	[Export] public int RubbleAmount = 1;
 	private RayCast2D _trigger;
 	private RayCast2D _leftWarning;
 	private RayCast2D _rightWarning;
 	private AnimationPlayer _animationPlayer;
 	private GpuParticles2D _gpuParticles2D;
 	private Timer _timer;
-	
+	private RubbleManager _rubbleManager;
 	private float _initPosY;
 
 	private bool _dropped = false;
+	private bool _playerInside = false;
 	private bool _hitFloor = false;
 	private float _triggerHeight;
 	private bool _warned = false;
@@ -42,6 +43,9 @@ public partial class Spike : RigidBody2D
 		_gpuParticles2D = GetNode<GpuParticles2D>("Dust");
 		_timer = GetNode<Timer>("Timer");
 		
+		_rubbleManager = GetNode<RubbleManager>("RubbleManager");
+		_rubbleManager.Amount = RubbleAmount;
+
 		_timer.WaitTime = _lifeTime;
 		
 		// Adding the spike to the list of spikes in the levelTileMap
@@ -53,11 +57,27 @@ public partial class Spike : RigidBody2D
 	public override async void _Process(double delta)
 	{	
 		// If the player is in the trigger area, drop the spike
-		if (_trigger.GetCollider() is Player && !_dropped)
+		if (_trigger.GetCollider() is Player == false)
 		{
-			_dropped = true;
-			GravityScale = 1;
+			_playerInside = false;
+		}
 
+		if (_trigger.GetCollider() is Player && !_dropped && !_playerInside)
+		{
+			_playerInside = true;
+
+			double odds = GD.RandRange(0,1);
+			GD.Print(odds);
+			if (odds == 1)
+			{
+				_dropped = true;
+				GravityScale = 1;
+				_rubbleManager.Activate();
+			}
+			else
+			{
+				_animationPlayer.Play("twitch");
+			}
 		}
 		
 		// If the spike has dropped and hit the floor, start emitting particles

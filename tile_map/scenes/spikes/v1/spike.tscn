@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bdoye43khxsgo" path="res://tile_map/scenes/spikes/v1/Spikes2.png" id="2_3rwc8"]
 [ext_resource type="Script" path="res://tile_map/scenes/spikes/v1/spike_hurtbox.cs" id="3_whv3f"]
 [ext_resource type="Texture2D" uid="uid://b5hcks56momjb" path="res://tile_map/scenes/spikes/v1/SpikesDustEffect.png" id="4_utuq1"]
+[ext_resource type="PackedScene" uid="uid://c0fy5dnw3iwve" path="res://props/rubble_manager/rubble_manager.tscn" id="5_gwwex"]
 
 [sub_resource type="Animation" id="Animation_h5lh0"]
 resource_name = "RESET"
@@ -71,14 +72,6 @@ linear_accel_max = -200.0
 color_initial_ramp = SubResource("GradientTexture1D_we62o")
 alpha_curve = SubResource("CurveTexture_f422q")
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ad0j0"]
-particle_flag_disable_z = true
-gravity = Vector3(0, 98, 0)
-collision_mode = 1
-collision_friction = 0.0
-collision_bounce = 0.0
-collision_use_scale = true
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4qic7"]
 size = Vector2(8, 7)
 
@@ -137,15 +130,12 @@ lifetime = 5.0
 one_shot = true
 explosiveness = 1.0
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
-amount_ratio = 0.1
-process_material = SubResource("ParticleProcessMaterial_ad0j0")
-texture = ExtResource("4_utuq1")
-lifetime = 5.0
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -14.5)
 shape = SubResource("RectangleShape2D_4qic7")
+
+[node name="RubbleManager" parent="." instance=ExtResource("5_gwwex")]
+position = Vector2(0, -20)
 
 [connection signal="area_entered" from="HurtBox" to="HurtBox" method="_on_area_entered"]
 [connection signal="finished" from="Dust" to="." method="_on_gpu_particles_2d_finished"]

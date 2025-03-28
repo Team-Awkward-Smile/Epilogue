@@ -583,7 +583,7 @@ crouch={
 2d_physics/layer_9="NpcHitBox"
 2d_physics/layer_10="NpcHurtBox"
 2d_physics/layer_11="Platforms"
-2d_physics/layer_12="Crumbs"
+2d_physics/layer_12="Rubble"
 2d_physics/vsync/vsync_mode=2
 
 [navigation]
