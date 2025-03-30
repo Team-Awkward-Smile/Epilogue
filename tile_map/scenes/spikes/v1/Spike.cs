@@ -44,7 +44,7 @@ public partial class Spike : RigidBody2D
 		_timer = GetNode<Timer>("Timer");
 		
 		_rubbleManager = GetNode<RubbleManager>("RubbleManager");
-		_rubbleManager.Amount = RubbleAmount;
+		_rubbleManager.SetRubbleAmount(RubbleAmount);
 
 		_timer.WaitTime = _lifeTime;
 		
@@ -67,12 +67,10 @@ public partial class Spike : RigidBody2D
 			_playerInside = true;
 
 			double odds = GD.RandRange(0,1);
-			GD.Print(odds);
 			if (odds == 1)
 			{
 				_dropped = true;
 				GravityScale = 1;
-				_rubbleManager.Activate();
 			}
 			else
 			{
@@ -86,7 +84,7 @@ public partial class Spike : RigidBody2D
 			_hitFloor = true;
 			_gpuParticles2D.Emitting = true;
 			GetNode<Sprite2D>("Sprite2D").QueueFree();
-
+			_rubbleManager.Activate();
 		}
 
 		// If the player is in the warning area, play the warning animation

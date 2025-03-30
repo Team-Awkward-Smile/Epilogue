@@ -81,6 +81,7 @@ collision_mask = 8
 gravity_scale = 0.0
 contact_monitor = true
 script = ExtResource("1_i7lk4")
+RubbleAmount = 3
 
 [node name="Timer" type="Timer" parent="."]
 
@@ -135,6 +136,7 @@ position = Vector2(0, -14.5)
 shape = SubResource("RectangleShape2D_4qic7")
 
 [node name="RubbleManager" parent="." instance=ExtResource("5_gwwex")]
+visible = false
 position = Vector2(0, -20)
 
 [connection signal="area_entered" from="HurtBox" to="HurtBox" method="_on_area_entered"]

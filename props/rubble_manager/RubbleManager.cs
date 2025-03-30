@@ -10,10 +10,14 @@ public partial class RubbleManager : Node2D
 	/// <summary>
 	/// Update the number of rubble contained in the RubbleManager
 	/// </summary>
-	public int Amount {
-		set{Amount = value; _updateRubble();}
-		get{return Amount;}
+	private int _amount;
+
+	public void SetRubbleAmount(int nbr)
+	{
+		_amount = nbr;
+		_updateRubble();
 	}
+		
 	private void _updateRubble()
 	{
 		if (GetChildCount() > 0)
@@ -24,7 +28,7 @@ public partial class RubbleManager : Node2D
 			}
 		}
 
-		for (int i = 0; i < Amount; i++)
+		for (int i = 0; i < _amount; i++)
 		{
 			AddChild(_rubbleScene.Instantiate());
 		}
@@ -38,6 +42,11 @@ public partial class RubbleManager : Node2D
 		foreach (RigidBody2D Child in GetChildren())
 		{
 			Child.Sleeping = false;
+			Child.Freeze = false;
+			Child.LinearVelocity = new Vector2(
+				GD.RandRange(-100, 100),
+				GD.RandRange(-100, -200)
+			);
 		}
 	}
 }
