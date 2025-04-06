@@ -52,6 +52,17 @@ public partial class Gun : RigidBody2D
 		}
 	}
 
+	public bool Highlighted
+	{
+		get => _hightlighted;
+		set
+		{
+			_hightlighted = value;
+			SetHighlighted(_hightlighted);
+			SetSpriteSize(_hightlighted);
+		}
+	}
+
 	/// <summary>
 	///		The time it takes to fire a single projectile. Is equal to 1 / (<see cref="ShotsPerMinute"/> / 60)
 	/// </summary>
@@ -83,7 +94,8 @@ public partial class Gun : RigidBody2D
 	protected Sprite2D Sprite { get; set; }
 
 	private bool _triggerIsPressed;
-
+	private bool _hightlighted;
+	private Vector2 _ogScale;
 	/// <inheritdoc/>
 	public override void _Ready()
 	{
@@ -110,7 +122,10 @@ public partial class Gun : RigidBody2D
 		GunEvents = GetNode<GunEvents>("/root/GunEvents");
 		Sprite = GetChildren().OfType<Sprite2D>().FirstOrDefault();
 
-		AfterReady();
+		
+		
+		_ogScale = Sprite.Scale;
+		AfterReady();	
 	}
 
 	/// <inheritdoc/>
@@ -186,5 +201,26 @@ public partial class Gun : RigidBody2D
 		};
 
 		pickupArea.BodyEntered += (Node2D body) => SelfDestruct();
+	}
+
+	private protected void SetHighlighted(bool state) 
+	{ 
+		Sprite.SetShaderMaterialParameter("highlightState", state);
+	}
+
+	
+	private protected void SetSpriteSize(bool state)
+	{
+		int scaleValue = 8;
+		if (state)
+		{	
+			Vector2 currentScale = Sprite.Scale;
+			Vector2 newScale = new Vector2(currentScale.X + (currentScale.X/scaleValue), currentScale.Y + (currentScale.Y/scaleValue));
+			Sprite.Scale = newScale;
+		}
+		else
+		{
+			Sprite.Scale = _ogScale;
+		}
 	}
 }

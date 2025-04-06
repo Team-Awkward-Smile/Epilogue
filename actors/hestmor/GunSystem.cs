@@ -4,6 +4,7 @@ using Epilogue.Global.Singletons;
 using Epilogue.Nodes;
 using Epilogue.Props;
 using Godot;
+using System.Data;
 using System.Linq;
 
 namespace Epilogue.Actors.Hestmor;
@@ -58,6 +59,7 @@ public partial class GunSystem : Node2D
 
 		_npcEvents.Connect(NpcEvents.SignalName.GunAcquiredFromNpc, Callable.From((Gun gun) => EquipGun(gun)));
 		_playerEvents.Connect(PlayerEvents.SignalName.PlayerIsDying, Callable.From(DropGun), (uint)ConnectFlags.OneShot);
+		
 	}
 
 	/// <summary>
@@ -172,6 +174,7 @@ public partial class GunSystem : Node2D
 
 		_currentGun.GlobalPosition = _gunAnchor.GlobalPosition;
 		_currentGun.Freeze = false;
+
 		_currentGun = null;
 
 		_gunEvents.EmitSignal(GunEvents.SignalName.GunWasDropped);
@@ -182,5 +185,41 @@ public partial class GunSystem : Node2D
 	private void UpdateGunRotation(int angleDegrees)
 	{
 		_aimingArm.RotationDegrees = angleDegrees;
+	}
+
+
+	/// The try is for if its not from gun class, so it doesn't crash
+	private void _on_pickup_range_area_entered(Node2D area) {
+		try
+		{
+
+			var item = (Gun)area.GetParent();
+			if (item is Gun && item != _currentGun)
+			{
+				item.Highlighted = true;	
+			}
+		}
+		catch (System.Exception)
+		{
+			
+			throw;
+		}
+		
+	}
+
+	private void _on_pickup_range_area_exited(Node2D area){
+		try
+		{
+			var item = (Gun)area.GetParent();
+			if (item is Gun)
+			{
+				item.Highlighted = false;	
+			}
+		}
+		catch (System.Exception)
+		{
+			
+			throw;
+		}
 	}
 }

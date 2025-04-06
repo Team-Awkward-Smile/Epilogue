@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Epilogue"
-run/main_scene="res://gameplay/testing_levels/test_spikes/test_spikes.tscn"
+run/main_scene="res://ui/for_levels_testing/TestingMenu.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 config/icon="res://temp/icon.png"
 
@@ -54,7 +54,7 @@ movie_writer/fps=20
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/navigationtilemap/plugin.cfg")
+enabled=PackedStringArray()
 
 [epilogue]
 

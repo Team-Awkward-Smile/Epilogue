@@ -20,15 +20,28 @@ public partial class Sleep : State
 		SpriteSheetId = (int)Enums.SpriteSheetId.Bob;
 	}
 
+	internal override void OnStateMachineActivation()
+	{
+		AnimPlayer.AnimationFinished += async (StringName animationName) =>
+		{
+			if (!Active || animationName != "Sleep/sleep_start")
+			{
+				return;
+			}
+
+			AnimPlayer.Play("Sleep/sleep_loop");
+			await StateMachine.ToSignal(AudioPlayer, ActorAudioPlayer.SignalName.GenericSfxPlayerFinished);
+			AudioPlayer.PlayGenericSfx("Sleeping");
+		};
+	}
+
 	internal override void OnInput(InputEvent @event)
 	{
 		var actions = new string[] { "move_left", "move_right", "jump", "slide", "melee", "interact", "shoot" };
 
-		foreach (var a in actions.Where(action => @event.IsActionPressed(action)))
+		if (actions.Where(action => @event.IsActionPressed(action)).Any())
 		{
 			StateMachine.ChangeState(typeof(Idle));
-
-			return;
 		}
 	}
 
@@ -38,12 +51,15 @@ public partial class Sleep : State
 		_player.CanInteract = false;
 
 		AnimPlayer.Play("Sleep/sleep_start");
-		AnimPlayer.AnimationFinished += (StringName animName) => AnimPlayer.Play("Sleep/sleep_loop");
+		AudioPlayer.PlayGenericSfx("SleepStart");
+
+
 	}
 
 	internal override async Task OnLeave()
 	{
 		AnimPlayer.Play("Sleep/sleep_end");
+		AudioPlayer.Stop("generic");
 
 		await StateMachine.ToSignal(AnimPlayer, AnimationMixer.SignalName.AnimationFinished);
 

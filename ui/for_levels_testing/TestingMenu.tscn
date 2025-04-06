@@ -1,0 +1,121 @@
+[gd_scene load_steps=2 format=3 uid="uid://dqdjonwjq6c7p"]
+
+[ext_resource type="Script" path="res://ui/for_levels_testing/TestingMenu.cs" id="1_7100i"]
+
+[node name="TestingMenu" type="CanvasLayer"]
+script = ExtResource("1_7100i")
+metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -540.0
+offset_top = -298.0
+offset_right = 540.0
+offset_bottom = 298.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="List" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.4
+
+[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/List"]
+layout_mode = 2
+size_flags_vertical = 6
+size_flags_stretch_ratio = 0.1
+text = "Test Scene List"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/HBoxContainer/List"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ScenesList" type="VBoxContainer" parent="PanelContainer/HBoxContainer/List/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Preview" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="PanelContainer/HBoxContainer/Preview"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 6
+size_flags_stretch_ratio = 0.2
+text = "Title"
+horizontal_alignment = 1
+
+[node name="Description" type="TextEdit" parent="PanelContainer/HBoxContainer/Preview"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.8
+placeholder_text = "Description....."
+editable = false
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/HBoxContainer/Preview"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/HBoxContainer/Preview/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="PanelContainer/HBoxContainer/Preview/PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="PanelContainer/HBoxContainer/Preview/PanelContainer/MarginContainer/SubViewportContainer"]
+unique_name_in_owner = true
+handle_input_locally = false
+size = Vector2i(2, 2)
+size_2d_override = Vector2i(2000, 700)
+size_2d_override_stretch = true
+render_target_update_mode = 4
+
+[node name="View" type="Camera2D" parent="PanelContainer/HBoxContainer/Preview/PanelContainer/MarginContainer/SubViewportContainer/SubViewport"]
+position = Vector2(2000, -700)
+zoom = Vector2(0.5, 0.5)
+
+[node name="ButtonMargin" type="MarginContainer" parent="PanelContainer/HBoxContainer/Preview"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 200
+theme_override_constants/margin_bottom = 10
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/HBoxContainer/Preview/ButtonMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_right = 30
+
+[node name="StartSceneBtn" type="Button" parent="PanelContainer/HBoxContainer/Preview/ButtonMargin/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Press To Start Scene"
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="button_down" from="PanelContainer/HBoxContainer/Preview/ButtonMargin/MarginContainer/StartSceneBtn" to="." method="_on_start_scene_btn_button_down"]

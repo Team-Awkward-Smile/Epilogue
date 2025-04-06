@@ -32,5 +32,10 @@ public enum DamageType
 	/// <summary>
 	///		Damage caused by an attack that blinds the target
 	/// </summary>
-	Light
+	Light,
+
+	/// <summary>
+	///		Damage caused by an attack that hits the target with poop
+	/// </summary>
+	Dung
 }

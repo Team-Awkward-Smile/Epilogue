@@ -1,6 +1,7 @@
 using Epilogue.Global.Singletons;
 using Epilogue.Nodes;
 using Godot;
+using System;
 
 namespace Epilogue.Actors.Hestmor.States;
 /// <inheritdoc/>
@@ -22,14 +23,31 @@ public partial class Die : State
 		SpriteSheetId = (int)Enums.SpriteSheetId.Bob;
 	}
 
+	internal override void OnStateMachineActivation()
+	{
+		AnimPlayer.AnimationFinished += (StringName animationName) =>
+		{
+			if (!Active || animationName != "Combat/die")
+			{
+				return;
+			}
+
+			_playerEvents.EmitSignal(PlayerEvents.SignalName.PlayerDied);
+		};
+	}
+
 	internal override void OnEnter(params object[] args)
 	{
+		AudioPlayer.Stop("generic");
+
 		_player.HurtBox.CanRecoverFromDamage = false;
 		_player.CanChangeFacingDirection = false;
 
 		_playerEvents.EmitSignal(PlayerEvents.SignalName.PlayerIsDying);
 
 		AnimPlayer.Play("Combat/die");
-		AnimPlayer.AnimationFinished += (StringName animationName) => _playerEvents.EmitSignal(PlayerEvents.SignalName.PlayerDied);
+		
+		int rdm = GD.RandRange(0,6);
+		AudioPlayer.PlayGenericSfx($"DeathBreath{rdm}");
 	}
 }

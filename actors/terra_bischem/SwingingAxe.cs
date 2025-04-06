@@ -11,11 +11,16 @@ public partial class SwingingAxe : Npc
 	/// <inheritdoc/>
 	public override Dictionary<DamageType, float> DamageModifiers { get; set; } = new()
 	{
-		{ DamageType.Fire, 2f },
-		{ DamageType.Light, 0.5f }
+		{ DamageType.Unarmed, -int.MaxValue },
+		{ DamageType.Fire, +20 }
 	};
 
 	private protected override bool UseDefaultPathfinding => false;
+
+	private protected override void OnProjectileNotification()
+	{
+		return;
+	}
 
 	/// <inheritdoc/>
 	public override void _Ready()
@@ -28,6 +33,11 @@ public partial class SwingingAxe : Npc
 	private protected override void OnDamageTaken(float damage, float currentHp, DamageType damageType)
 	{
 		return;
+	}
+
+	private protected override void OnDesperationTriggered()
+	{
+		throw new System.NotImplementedException();
 	}
 
 	private protected override void OnExecutionPerformed(ExecutionSpeed executionSpeed)

@@ -25,10 +25,17 @@ public partial class StateMachine : Node
 	/// </summary>
 	[Signal] public delegate void StateExitedEventHandler();
 
-    /// <summary>
-    /// 	Value of the gravity affecting every State from this StateMachine
-    /// </summary>
-    public float Gravity { get; set; }
+	[Export] private string _currentStateName;
+
+	/// <summary>
+	///		Controls whether this State Machine will become active as soon as it finishes loading
+	/// </summary>
+	[Export] public bool ActivateOnLoad { get; set; } = true;
+
+	/// <summary>
+	/// 	Value of the gravity affecting every State from this StateMachine
+	/// </summary>
+	public float Gravity { get; set; }
 
 	private protected HashSet<State> _states = new();
 	private protected State _currentState;
@@ -43,7 +50,12 @@ public partial class StateMachine : Node
         SetProcess(true);
         SetPhysicsProcess(true);
 
-        _currentState.OnEnter();
+		foreach (State state in _states)
+		{
+			state.OnStateMachineActivation();
+		}
+
+		_currentState.OnEnter();
     }
 
     /// <inheritdoc/>
@@ -73,6 +85,11 @@ public partial class StateMachine : Node
         }
     }
 
+    public State GetState()
+    {
+        return _currentState;
+    }
+
 	/// <summary>
 	///		Changes the current State of the Actor. 
 	///		If the informed State is valid, the methods <c>OnLeave</c> and <c>OnLeaveAsync</c> of the current State will be called.
@@ -96,9 +113,18 @@ public partial class StateMachine : Node
             return;
         }
 
-        await oldState.OnLeave();
+		oldState.Deactivating = true;
+
+		await oldState.OnLeave();
+
+		oldState.Deactivating = false;
+		oldState.Active = false;
 
 		EmitSignal(SignalName.StateExited);
+
+		_currentStateName = _currentState.ToString().Split('.')[^1];
+
+		newState.Active = true;
 
 		_currentState = newState;
 

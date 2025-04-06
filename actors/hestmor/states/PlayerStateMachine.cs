@@ -39,7 +39,7 @@ public partial class PlayerStateMachine : StateMachine
 		public float OGRunSpeed;
 
 	[ExportGroup("Sleep")]
-		[Export] private float _sleepDelay = 5f;
+		[Export] private float _sleepDelay = 60f;
 
 	[ExportGroup("Slide")]
 	[ExportSubgroup("Front Roll")]
@@ -63,14 +63,18 @@ public partial class PlayerStateMachine : StateMachine
 	{
 		base._Ready();
 
+		var playerEvents = GetNode<PlayerEvents>("/root/PlayerEvents");
+		var gunEvents = GetNode<GunEvents>("/root/GunEvents");
+		var growlArea = GetNode<GrowlEffectArea>("../GrowlEffectArea");
+
 		_states = new()
 		{
 			new Crawl(this, _crawlSpeed),
-			new Crouch(this),
-			new Die(this, GetNode<PlayerEvents>("/root/PlayerEvents")),
+			new Crouch(this, gunEvents),
+			new Die(this, playerEvents),
 			new Fall(this),
 			new GrabLedge(this),
-			new Growl(this, GetNode<GrowlEffectArea>("../GrowlEffectArea"), _weakGrowlRadius, _mediumGrowlRadius, _strongGrowlRadius),
+			new Growl(this, growlArea, _weakGrowlRadius, _mediumGrowlRadius, _strongGrowlRadius),
 			new Idle(this, _sleepDelay),
 			new Jump(this, _standingJumpVerticalSpeed, _lowJumpVerticalSpeed, _lowJumpHorizontalSpeed, _longJumpVerticalSpeed, _longJumpHorizontalSpeed),
 			new LookUp(this, _cameraMovementDelay, _cameraMovementDistance),
@@ -78,6 +82,8 @@ public partial class PlayerStateMachine : StateMachine
 			new Run(this),
 			new Sleep(this),
 			new Slide(this, _frontRollDuration, _longSlideDuration, _kneeSlideDuration, _frontRollSpeed, _longSlideSpeed, _kneeSlideSpeed, _frontRollCoyoteDuration, _longSlideCoyoteDuration, _kneeSlideCoyoteDuration),
+			new Stand(this),
+			new Squat(this, gunEvents),
 			new TakeDamage(this),
 			new Vault(this),
 			new Walk(this, _walkSpeed)

@@ -21,6 +21,18 @@ public partial class AudioPlayer : ActorAudioPlayer
 		{ "GloryKill", GD.Load<AudioStream>($"{PATH}//glory_kill.wav") },
 		{ "Crouch1", GD.Load<AudioStream>($"{PATH}//generic//crouch_1.wav") },
 		{ "Crouch2", GD.Load<AudioStream>($"{PATH}//generic//crouch_2.wav") },
+		{ "Idle", GD.Load<AudioStream>($"{PATH}//HestmorIdleBreathingLoop.mp3") },
+		{ "Sleeping", GD.Load<AudioStream>($"{PATH}//generic//sleep//SleepBreathing.mp3") },
+		{ "SleepStart", GD.Load<AudioStream>($"{PATH}//generic//sleep//SleepingCrouch.mp3") },
+
+		{ "DeathBreath1", GD.Load<AudioStream>($"{PATH}//generic//death_breath//DeathBreath1.mp3") },
+		{ "DeathBreath2", GD.Load<AudioStream>($"{PATH}//generic//death_breath//DeathBreath2.mp3") },
+		{ "DeathBreath3", GD.Load<AudioStream>($"{PATH}//generic//death_breath//DeathBreath3.mp3") },
+		{ "DeathBreath4", GD.Load<AudioStream>($"{PATH}//generic//death_breath//DeathBreath4.mp3") },
+		{ "DeathBreath5", GD.Load<AudioStream>($"{PATH}//generic//death_breath//DeathBreath5.mp3") },
+		{ "DeathBreath6", GD.Load<AudioStream>($"{PATH}//generic//death_breath//DeathBreath6.mp3") },
+
+		
 	};
 
     /// <inheritdoc/>
@@ -75,8 +87,10 @@ public partial class AudioPlayer : ActorAudioPlayer
 		{ "RollFlesh_01", GD.Load<AudioStream>($"{PATH}//collision//roll//flesh//FleshRoll1.wav") },
 		{ "RollFlesh_02", GD.Load<AudioStream>($"{PATH}//collision//roll//flesh//FleshRoll2.wav") },
 		{ "RollFlesh_03", GD.Load<AudioStream>($"{PATH}//collision//roll//flesh//FleshRoll3.wav") },
-		{ "RollFlesh_04", GD.Load<AudioStream>($"{PATH}//collision//roll//flesh//FleshRoll4.wav") }
-
+		{ "RollFlesh_04", GD.Load<AudioStream>($"{PATH}//collision//roll//flesh//FleshRoll4.wav") },
+		
+		
+		
 
 	};
 

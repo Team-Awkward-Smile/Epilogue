@@ -1,6 +1,8 @@
 using Godot;
 using Godot.Collections;
+using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Epilogue.Nodes;
 /// <summary>
@@ -9,6 +11,25 @@ namespace Epilogue.Nodes;
 [GlobalClass, Tool]
 public partial class ActorAudioPlayer : Node
 {
+
+
+	/// <summary>
+	/// Emited when _genericSfxPlayer has finished playing audio
+	/// </summary>
+	[Signal]
+	public delegate void GenericSfxPlayerFinishedEventHandler();
+	[Signal]
+	/// <summary>
+	/// Emited when _footstepSfxPlayer has finished playing audio
+	/// </summary>
+	public delegate void FootStepsSfxPlayerFinishedEventHandler();
+	[Signal]
+	/// <summary>
+	/// Emited when _collisionSfxPlayer has finished playing audio
+	/// </summary>
+	public delegate void CollisionsSfxPlayerFinishedEventHandler();
+
+
 	/// <summary>
 	///		List of available generic SFX (grunts, hisses, screams, etc.), to be implemented by each Actor individually
 	/// </summary>
@@ -27,6 +48,59 @@ public partial class ActorAudioPlayer : Node
 	private AudioStreamPlayer2D _genericSfxPlayer;
 	private AudioStreamPlayer2D _footstepSfxPlayer;
 	private AudioStreamPlayer2D _collisionSfxPlayer;
+	
+	public void EmitGenericSfxPlayerFinished()
+	{
+		EmitSignal(nameof(GenericSfxPlayerFinished));
+	}
+	public void EmitFootStepsfxPlayerFinished()
+	{
+		EmitSignal(nameof(FootStepsSfxPlayerFinished));
+	}
+	public void EmitCollisionSfxPlayerFinished()
+	{
+		EmitSignal(nameof(CollisionsSfxPlayerFinished));
+	}
+
+	/// <summary>
+	/// return a bool if the specified audioplayer is playing a sound.
+	///  Options: ("generic", "footsteps", "collision")
+	/// </summary>
+	/// <param name="audioPlayer"></param>
+	/// <returns></returns>
+	public bool HasStreamPlayback(string audioPlayer)
+	{
+		switch (audioPlayer)
+		{
+			case "generic":
+				return _genericSfxPlayer.HasStreamPlayback();
+			case "footsteps":
+				return _footstepSfxPlayer.HasStreamPlayback();
+			case "collision":
+				return _collisionSfxPlayer.HasStreamPlayback();
+			default:
+				return false;	
+		}
+	}
+
+	public void Stop(string audioPlayer)
+	{	
+		switch (audioPlayer)
+		{
+			case "generic":
+				_genericSfxPlayer.Stop();
+				break;
+			case "footsteps":
+				_footstepSfxPlayer.Stop();
+				break;
+			case "collision":
+				_collisionSfxPlayer.Stop();
+				break;
+			default:
+				break;
+		}
+	}
+
 
 	/// <inheritdoc/>
 	public override void _Ready()
@@ -72,7 +146,14 @@ public partial class ActorAudioPlayer : Node
 
 			AddChild(_collisionSfxPlayer);
 		}
+
+
+		// Signal Connections
+		_genericSfxPlayer.Finished += EmitGenericSfxPlayerFinished;
+		_footstepSfxPlayer.Finished += EmitFootStepsfxPlayerFinished;
+		_collisionSfxPlayer.Finished += EmitCollisionSfxPlayerFinished;
 	}
+
 
 	/// <summary>
 	///		Plays a predefined generic SFX from the <see cref="GenericSfxList"/> list belonging to the Actor who owns this Node
@@ -116,6 +197,14 @@ public partial class ActorAudioPlayer : Node
 	{
 		var rng = new RandomNumberGenerator();
 		var possibleSfx = CollisionSfxList.Where(sfx => sfx.Key.StartsWith(prefix));
+
+		if (!possibleSfx.Any() )
+		{
+			GD.PushWarning($"No Collision SFX found for prefix [{prefix}] and Actor [{Owner.Name}]");
+
+			return;
+		}
+
 		var sfx = possibleSfx.ElementAt(rng.RandiRange(0, possibleSfx.Count() - 1)).Value;
 
 		_collisionSfxPlayer.Stream = sfx;
@@ -130,6 +219,14 @@ public partial class ActorAudioPlayer : Node
 	{
 		var rng = new RandomNumberGenerator();
 		var possibleSfx = FootstepSfxList.Where(sfx => sfx.Key.StartsWith(prefix));
+
+		if (!possibleSfx.Any())
+		{
+			GD.PushWarning($"No Footstep SFX found for prefix [{prefix}] and Actor [{Owner.Name}]");
+
+			return;
+		}
+
 		var sfx = possibleSfx.ElementAt(rng.RandiRange(0, possibleSfx.Count() - 1)).Value;
 
 		_footstepSfxPlayer.Stream = sfx;
