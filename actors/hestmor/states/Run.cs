@@ -9,15 +9,18 @@ public partial class Run : State
 {
 	private readonly Player _player;
 	private readonly PlayerStateMachine _stateMachine;
+	private readonly float _runSpeed;
 
 	/// <summary>
 	/// 	State that allows Hestmor to run
 	/// </summary>
 	/// <param name="stateMachine">The State Machine who owns this State</param>
-	public Run(StateMachine stateMachine) : base(stateMachine)
+	/// <param name="runSpeed">Player's run speed
+	public Run(StateMachine stateMachine, float runSpeed) : base(stateMachine)
 	{
 		_stateMachine = (PlayerStateMachine)stateMachine;
 		_player = (Player)stateMachine.Owner;
+		_runSpeed = runSpeed;
 
 		SpriteSheetId = (int)Enums.SpriteSheetId.IdleWalk;
 	}

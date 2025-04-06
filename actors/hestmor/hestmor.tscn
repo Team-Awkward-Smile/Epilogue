@@ -1,4 +1,4 @@
-[gd_scene load_steps=69 format=3 uid="uid://de3k3vfjvfqe4"]
+[gd_scene load_steps=70 format=3 uid="uid://de3k3vfjvfqe4"]
 
 [ext_resource type="Script" path="res://nodes/Player.cs" id="1_6t4q3"]
 [ext_resource type="Script" path="res://actors/hestmor/aim/Aim.cs" id="2_b0i7f"]
