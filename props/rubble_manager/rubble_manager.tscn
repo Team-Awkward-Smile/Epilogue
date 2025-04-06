@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0fy5dnw3iwve"]
+
+[ext_resource type="Script" path="res://props/rubble_manager/RubbleManager.cs" id="1_15o0j"]
+[ext_resource type="PackedScene" uid="uid://cpxujqmh46467" path="res://props/rubble_manager/rubble_scene/rubble.tscn" id="2_vehpn"]
+
+[node name="RubbleManager" type="Node2D"]
+script = ExtResource("1_15o0j")
+_rubbleScene = ExtResource("2_vehpn")

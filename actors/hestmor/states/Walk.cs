@@ -20,7 +20,7 @@ public partial class Walk : State
 	/// <param name="stateMachine">The State Machine who owns this State</param>
 	/// <param name="walkSpeed">The horizontal speed of Hestmor when Walking</param>
 	public Walk(StateMachine stateMachine, float walkSpeed) : base(stateMachine)
-	{
+	{	
 		_walkSpeed = walkSpeed;
 		_player = (Player)stateMachine.Owner;
 		_footstepManager = _player.GetNode<FootstepManager>("FlipRoot/ActorAudioPlayer/FootstepManager");

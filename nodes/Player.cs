@@ -4,6 +4,8 @@ using Epilogue.Actors.Hestmor.States;
 using Epilogue.Global.Enums;
 using Epilogue.Global.Singletons;
 using Godot;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Epilogue.Nodes;
@@ -21,7 +23,7 @@ public partial class Player : Actor
 	private MainSprite _mainSprite;
 
 	[Export] private bool _allowQuickSlide;
-
+	
 	/// <summary>
 	///		Defines if the player toggled the Run mode while playing in Retro Mode
 	/// </summary>
@@ -116,6 +118,7 @@ public partial class Player : Actor
 			}
 		}
 	}
+
 
 	/// <inheritdoc/>
 	public override void ReduceHealth(float damage, DamageType damageType)

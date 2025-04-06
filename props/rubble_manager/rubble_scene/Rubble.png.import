@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bd0p8vapstjup"
-path="res://.godot/imported/tileset.png-d31e78047b1a36dccf49d24711345c6a.ctex"
+uid="uid://rgwaxbuwmj0g"
+path="res://.godot/imported/Rubble.png-19f5730a316cf67839f9110fba487b1d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://temp/tileset.png"
-dest_files=["res://.godot/imported/tileset.png-d31e78047b1a36dccf49d24711345c6a.ctex"]
+source_file="res://props/rubble_manager/rubble_scene/Rubble.png"
+dest_files=["res://.godot/imported/Rubble.png-19f5730a316cf67839f9110fba487b1d.ctex"]
 
 [params]
 

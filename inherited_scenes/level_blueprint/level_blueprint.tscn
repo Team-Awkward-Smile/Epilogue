@@ -6,6 +6,7 @@
 [ext_resource type="TileSet" uid="uid://c2hf2m205a0qe" path="res://temp/tileset.tres" id="3_s2lh1"]
 [ext_resource type="Script" path="res://inherited_scenes/level_blueprint/UILayer.cs" id="4_hds6l"]
 [ext_resource type="PackedScene" uid="uid://gfi6s3o0bflx" path="res://inherited_scenes/level_blueprint/level_assets/prallax_background_blueprint/parallax_background_blueprint.tscn" id="5_gyxs4"]
+[ext_resource type="Script" path="res://inherited_scenes/level_blueprint/TileMap.cs" id="5_oqy77"]
 [ext_resource type="Script" path="res://props/camera/Camera.cs" id="7_xmj8w"]
 
 [node name="LevelBlueprint" type="Node2D"]
@@ -41,6 +42,10 @@ script = ExtResource("4_hds6l")
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource("3_s2lh1")
 format = 2
+layer_0/name = "Terrain"
+layer_1/name = "Spikes"
+layer_1/tile_data = PackedInt32Array()
+script = ExtResource("5_oqy77")
 
 [node name="ParallaxBackground" parent="." instance=ExtResource("5_gyxs4")]
 

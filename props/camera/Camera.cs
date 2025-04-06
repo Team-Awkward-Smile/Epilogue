@@ -6,7 +6,22 @@ namespace Epilogue.Props.camera;
 /// </summary>
 public partial class Camera : Camera2D
 {
+
+
+	[Export] public bool ZoomOut = false;
+
 	private Node2D _cameraTarget;
+
+	public override void _Ready()
+	{
+		base._Ready();
+		
+		if (ZoomOut)
+		{
+			Zoom = new Vector2(1f, 1f);
+		}
+	}
+
 
 	/// <summary>
 	///		Sets a new target for this Camera to follow

@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://cpxujqmh46467"]
+
+[ext_resource type="Texture2D" uid="uid://rgwaxbuwmj0g" path="res://props/rubble_manager/rubble_scene/Rubble.png" id="1_7n781"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bajh6"]
+radius = 5.0
+
+[node name="Rubble" type="RigidBody2D"]
+collision_layer = 2048
+collision_mask = 3087
+sleeping = true
+freeze = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_7n781")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_bajh6")
