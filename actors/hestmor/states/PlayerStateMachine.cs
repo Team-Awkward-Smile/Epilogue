@@ -35,8 +35,7 @@ public partial class PlayerStateMachine : StateMachine
 		[Export] private int _cameraMovementDistance = 100;
 
 	[ExportGroup("Run")]
-		[Export] public float RunSpeed {set; get;} = 200f;
-		public float OGRunSpeed;
+		[Export] private float _runSpeed {set; get;} = 200f;
 
 	[ExportGroup("Sleep")]
 		[Export] private float _sleepDelay = 60f;
@@ -79,7 +78,7 @@ public partial class PlayerStateMachine : StateMachine
 			new Jump(this, _standingJumpVerticalSpeed, _lowJumpVerticalSpeed, _lowJumpHorizontalSpeed, _longJumpVerticalSpeed, _longJumpHorizontalSpeed),
 			new LookUp(this, _cameraMovementDelay, _cameraMovementDistance),
 			new MeleeAttack(this, _slideAttackSpeed),
-			new Run(this),
+			new Run(this, _runSpeed),
 			new Sleep(this),
 			new Slide(this, _frontRollDuration, _longSlideDuration, _kneeSlideDuration, _frontRollSpeed, _longSlideSpeed, _kneeSlideSpeed, _frontRollCoyoteDuration, _longSlideCoyoteDuration, _kneeSlideCoyoteDuration),
 			new Stand(this),
