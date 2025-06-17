@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://actors/hestmor/aim/StickAim.cs" id="5_3agu6"]
 [ext_resource type="Script" path="res://actors/hestmor/CameraAnchor.cs" id="6_u4eh3"]
 [ext_resource type="Shader" path="res://actors/hestmor/iframes.gdshader" id="7_ig4q1"]
-[ext_resource type="Texture2D" uid="uid://6wht785hslmw" path="res://actors/hestmor/sprite_sheet/hestmor_1-Sheet.png" id="8_wc1x7"]
+[ext_resource type="Texture2D" uid="uid://be0or44ubsq5m" path="res://actors/hestmor/sprite_sheet/epilogue_bob-Sheet.png" id="8_qovh3"]
 [ext_resource type="Texture2D" uid="uid://dcj6nrh0f0uxd" path="res://temp/sword_melee.png" id="9_cd267"]
 [ext_resource type="Script" path="res://nodes/HitBox.cs" id="10_dg7e0"]
 [ext_resource type="Script" path="res://actors/hestmor/MainSprite.cs" id="10_xgd07"]
@@ -1410,7 +1410,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [Vector2i(6, 29), Vector2i(7, 29), Vector2i(8, 29)]
+"values": [Vector2i(10, 27), Vector2i(11, 27), Vector2i(12, 27)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -1439,6 +1439,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_ywd33"]
 resource_name = "sleep_loop"
+length = 1.2
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -1447,10 +1448,10 @@ tracks/0/path = NodePath(".:frame_coords")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [Vector2i(0, 28), Vector2i(1, 28)]
+"values": [Vector2i(0, 28), Vector2i(1, 28), Vector2i(2, 28), Vector2i(3, 28), Vector2i(4, 28), Vector2i(5, 28)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -1761,7 +1762,7 @@ radius = 4.0
 height = 50.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_swilf"]
-radius = 13.0
+radius = 12.0
 height = 68.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_o5mpv"]
@@ -1869,7 +1870,7 @@ collision_mask = 8
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_yy212")
 position = Vector2(0, -49)
-texture = ExtResource("8_wc1x7")
+texture = ExtResource("8_qovh3")
 hframes = 8
 vframes = 4
 script = ExtResource("10_xgd07")

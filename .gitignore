@@ -4,3 +4,11 @@
 .vscode/
 packages/
 .vscode/settings.json
+
+
+
+
+# Hhk187 specific ignores ===========================
+/Requirements
+OpenProject.bat
+#====================================================
