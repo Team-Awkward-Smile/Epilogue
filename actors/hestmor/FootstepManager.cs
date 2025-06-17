@@ -62,7 +62,7 @@ public partial class FootstepManager : Node2D
 		}
 
 		var tileType = tile.GetCustomData("ground_type").AsInt32();
-
+		// GD.Print($"Playing collision SFX for tile type: {tileType} with prefix: {prefix}");
 		EmitSignal(SignalName.PlayerCollisionOnTile, prefix, tileType);
 	}
 }
