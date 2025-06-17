@@ -89,6 +89,7 @@ public partial class MeleeAttack : State
 			var animation = _attackType switch
 			{
 				StateType.SlideAttack => "slide_attack",
+				StateType.UppercutPunch => "uppercut_punch",
 				_ => "melee_attack",
 			};
 
