@@ -99,7 +99,6 @@ public partial class StateMachine : Node
 	/// <param name="args">Optional list of arguments that may be used by specific States</param>
 	public async void ChangeState(Type newStateType, params object[] args)
 	{
-		GD.Print($"Changing state to {newStateType} with args: {string.Join(", ", args)}");
         _canProcess = false;
 
 		var oldState = _currentState;

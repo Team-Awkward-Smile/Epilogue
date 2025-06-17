@@ -38,12 +38,12 @@ public partial class Vault : State
 	internal override void OnEnter(params object[] args)
 	{
 		_spriteOriginalPosition = _player.Sprite.Position;
-		
+
 		_player.CanChangeFacingDirection = false;
 		_player.Velocity = Vector2.Zero;
-		
+
 		AnimPlayer.Play("vault");
-		// _footstepManager.PlayRandomCollisionSfx("Climb");
+		GD.Print("Vaulting...");
 	}
 
 	private void MoveToTop()
