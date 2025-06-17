@@ -69,7 +69,7 @@ public partial class Slide : State
 		_longSlideCoyoteDuration = longSlideCoyoteDuration;
 		_kneeSlideCoyoteDuration = kneeSlideCoyoteDuration;
 
-		SpriteSheetId = (int)Enums.SpriteSheetId.Bob;
+		SpriteSheetId = (int)Enums.SpriteSheetId.IdleWalk;
 	}
 
 	internal override void OnStateMachineActivation()
