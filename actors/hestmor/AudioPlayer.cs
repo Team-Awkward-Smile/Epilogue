@@ -17,7 +17,11 @@ public partial class AudioPlayer : ActorAudioPlayer
 		{ "Slide", GD.Load<AudioStream>($"{PATH}//Slide_SFX.wav") },
 		{ "Jump", GD.Load<AudioStream>($"{PATH}//JumpingStart_SFX.wav") },
 		{ "Land", GD.Load<AudioStream>($"{PATH}//JumpingLand_SFX.wav") },
-		{ "Melee", GD.Load<AudioStream>($"{PATH}//SwipingAttack_SFX.wav") },
+		
+		{ "SlashAttack1", GD.Load<AudioStream>($"{PATH}//generic/slash/SlashAttack1.wav") },
+		{ "SlashAttack2", GD.Load<AudioStream>($"{PATH}//generic/slash/SlashAttack2.wav") },
+		{ "SlashAttack3", GD.Load<AudioStream>($"{PATH}//generic/slash/SlashAttack3.wav") },
+
 		{ "GloryKill", GD.Load<AudioStream>($"{PATH}//glory_kill.wav") },
 		{ "Crouch1", GD.Load<AudioStream>($"{PATH}//generic//crouch_1.wav") },
 		{ "Crouch2", GD.Load<AudioStream>($"{PATH}//generic//crouch_2.wav") },
