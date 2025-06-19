@@ -56,7 +56,7 @@ public partial class FootstepManager : Node2D
 	public void PlayRandomCollisionSfx(string prefix)
 	{
 		var tile = _level.GetTileDataAtPosition(GlobalPosition);
-		GD.Print(tile);
+		
 		if (tile is null)
 		{
 			return;

@@ -98,7 +98,8 @@ public partial class Jump : State
 		{
 			var offset = _player.RayCasts["Head"].GlobalPosition.Y - ledgePosition.Y;
 
-			if (offset < -30 || isPlatform)
+
+			if (offset < -25 || isPlatform)
 			{
 				_player.Position = new Vector2(_player.Position.X, ledgePosition.Y + Const.Constants.MAP_TILE_SIZE);
 

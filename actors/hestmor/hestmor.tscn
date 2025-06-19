@@ -187,7 +187,7 @@ tracks/13/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [4]
+"values": [7]
 }
 tracks/14/type = "value"
 tracks/14/imported = false
@@ -469,7 +469,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0.1),
 "transitions": PackedFloat32Array(1),
 "values": [{
-"args": ["ClimbRock"],
+"args": ["Climb"],
 "method": &"PlayRandomCollisionSfx"
 }]
 }
@@ -1855,7 +1855,6 @@ collision_mask = 8
 position = Vector2(0, -45)
 target_position = Vector2(15, 0)
 collision_mask = 8
-hit_from_inside = true
 
 [node name="SlideShapeCast2D" type="ShapeCast2D" parent="FlipRoot"]
 position = Vector2(0, -25)
@@ -1871,7 +1870,7 @@ material = SubResource("ShaderMaterial_yy212")
 position = Vector2(0, -49)
 texture = ExtResource("8_wc1x7")
 hframes = 8
-vframes = 4
+vframes = 7
 script = ExtResource("10_xgd07")
 
 [node name="LedgeAnchor" type="Node2D" parent="FlipRoot/MainSprite"]
@@ -1962,4 +1961,5 @@ disabled = true
 debug_color = Color(1, 0, 1, 0.0784314)
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+visible = false
 occluder = SubResource("OccluderPolygon2D_arh4n")
