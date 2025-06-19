@@ -158,6 +158,7 @@ public partial class Player : Actor
 		var headRaycast = RayCasts["Head"];
 		var ledgeRaycast = RayCasts["Ledge"];
 		var platformRaycast = RayCasts["Platform"];
+		var platformOriginalPositionY = platformRaycast.Position.Y;
 		var originalPositions = new Vector2(headRaycast.Position.Y, ledgeRaycast.Position.Y);
 		var offset = originalPositions.Y - originalPositions.X;
 
@@ -174,20 +175,22 @@ public partial class Player : Actor
 			platformRaycast.ForceRaycastUpdate();
 			ledgeRaycast.ForceRaycastUpdate();
 
-			if (platformRaycast.IsColliding())
+			if (platformRaycast.IsColliding() && !headRaycast.IsColliding() && ledgeRaycast.IsColliding())
 			{
+
+				GD.PrintS(i, "platformRaycast");
 				do
 				{
 					platformRaycast.Position -= new Vector2(0f, 1f);
 					platformRaycast.ForceRaycastUpdate();
-				} 
+				}
 				while (platformRaycast.IsColliding());
 
 				ledgePosition = platformRaycast.GlobalPosition;
 				isPlatform = true;
 
 				headRaycast.Position = new Vector2(0f, originalPositions.X);
-				platformRaycast.Position = new Vector2(0f, originalPositions.X);
+				platformRaycast.Position = new Vector2(0f, platformOriginalPositionY);
 				ledgeRaycast.Position = new Vector2(0f, originalPositions.Y);
 
 				return true;
@@ -195,6 +198,7 @@ public partial class Player : Actor
 			}
 			else if (headRaycast.IsColliding() && !ledgeRaycast.IsColliding())
 			{
+				GD.PrintS(i, "headRaycast and not ledgeraycast");
 				var feetRaycast = RayCasts["Feet"];
 				var originalTarget = feetRaycast.TargetPosition;
 
@@ -212,6 +216,7 @@ public partial class Player : Actor
 
 				headRaycast.Position = new Vector2(0f, originalPositions.X);
 				ledgeRaycast.Position = new Vector2(0f, originalPositions.Y);
+				platformRaycast.Position = new Vector2(0f, platformOriginalPositionY);
 				feetRaycast.TargetPosition = originalTarget;
 
 				return true;
@@ -220,6 +225,7 @@ public partial class Player : Actor
 
 		headRaycast.Position = new Vector2(0f, originalPositions.X);
 		ledgeRaycast.Position = new Vector2(0f, originalPositions.Y);
+		platformRaycast.Position = new Vector2(0f, platformOriginalPositionY);
 
 		return false;
 	}

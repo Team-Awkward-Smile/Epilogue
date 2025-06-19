@@ -43,7 +43,6 @@ public partial class Vault : State
 		_player.Velocity = Vector2.Zero;
 
 		AnimPlayer.Play("vault");
-		GD.Print("Vaulting...");
 	}
 
 	private void MoveToTop()
