@@ -24,6 +24,7 @@ public partial class FootstepManager : Node2D
 	[Signal] public delegate void PlayerCollisionOnTileEventHandler(string prefix, TileType tileType);
 
 	private Level _level;
+	private int _last_tileType;
 
 	/// <inheritdoc/>
 	public override void _Ready()
@@ -55,7 +56,7 @@ public partial class FootstepManager : Node2D
 	public void PlayRandomCollisionSfx(string prefix)
 	{
 		var tile = _level.GetTileDataAtPosition(GlobalPosition);
-
+		GD.Print(tile);
 		if (tile is null)
 		{
 			return;

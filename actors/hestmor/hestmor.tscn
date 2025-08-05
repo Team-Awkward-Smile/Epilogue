@@ -635,14 +635,14 @@ tracks/2/keys = {
 tracks/3/type = "method"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("../ActorAudioPlayer")
+tracks/3/path = NodePath("%MainSprite/../ActorAudioPlayer/FootstepManager")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0.1),
 "transitions": PackedFloat32Array(1),
 "values": [{
-"args": ["ClimbRock"],
+"args": ["Climb"],
 "method": &"PlayRandomCollisionSfx"
 }]
 }

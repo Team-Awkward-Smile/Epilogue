@@ -6,6 +6,7 @@ namespace Epilogue.Actors.Hestmor.States;
 public partial class Vault : State
 {
 	private readonly Player _player;
+	private readonly FootstepManager _footstepManager;
 
 	private Vector2 _spriteOriginalPosition;
 
@@ -16,6 +17,7 @@ public partial class Vault : State
 	public Vault(StateMachine stateMachine) : base(stateMachine)
 	{
 		_player = (Player)stateMachine.Owner;
+		_footstepManager = _player.GetNode<FootstepManager>("FlipRoot/ActorAudioPlayer/FootstepManager");
 
 		SpriteSheetId = (int)Enums.SpriteSheetId.Bob;
 	}
@@ -41,6 +43,7 @@ public partial class Vault : State
 		_player.Velocity = Vector2.Zero;
 
 		AnimPlayer.Play("vault");
+		GD.Print("Vaulting...");
 	}
 
 	private void MoveToTop()

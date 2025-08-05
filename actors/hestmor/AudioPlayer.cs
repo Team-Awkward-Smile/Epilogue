@@ -76,6 +76,11 @@ public partial class AudioPlayer : ActorAudioPlayer
 		{ "ClimbRock_03", GD.Load<AudioStream>($"{PATH}//collision//ledge//rock//rclimbing_03.wav") },
 		{ "ClimbRock_04", GD.Load<AudioStream>($"{PATH}//collision//ledge//rock//rclimbing_04.wav") },
 
+		{ "ClimbFlesh_01", GD.Load<AudioStream>($"{PATH}//collision//vault//VaultFlesh_01.mp3") },
+		{ "ClimbFlesh_02", GD.Load<AudioStream>($"{PATH}//collision//vault//VaultFlesh_02.mp3") },
+		{ "ClimbFlesh_03", GD.Load<AudioStream>($"{PATH}//collision//vault//VaultFlesh_03.mp3") },
+		{ "ClimbFlesh_04", GD.Load<AudioStream>($"{PATH}//collision//vault//VaultFlesh_04.mp3") },
+				
 		{ "ScratchRock_01", GD.Load<AudioStream>($"{PATH}//collision//melee//rock//scratch.wav") },
 		{ "ScratchRock_02", GD.Load<AudioStream>($"{PATH}//collision//melee//rock//scratch_01.wav") },
 		{ "ScratchRock_03", GD.Load<AudioStream>($"{PATH}//collision//melee//rock//scratch_02.wav") },
@@ -87,13 +92,11 @@ public partial class AudioPlayer : ActorAudioPlayer
 		{ "LandFlesh_02", GD.Load<AudioStream>($"{PATH}//collision//land//flesh//FleshLand2.wav") },
 		{ "LandFlesh_03", GD.Load<AudioStream>($"{PATH}//collision//land//flesh//FleshLand3.wav") },
 		{ "LandFlesh_04", GD.Load<AudioStream>($"{PATH}//collision//land//flesh//FleshLand4.wav") },
-		
+
 		{ "RollFlesh_01", GD.Load<AudioStream>($"{PATH}//collision//roll//flesh//FleshRoll1.wav") },
 		{ "RollFlesh_02", GD.Load<AudioStream>($"{PATH}//collision//roll//flesh//FleshRoll2.wav") },
 		{ "RollFlesh_03", GD.Load<AudioStream>($"{PATH}//collision//roll//flesh//FleshRoll3.wav") },
 		{ "RollFlesh_04", GD.Load<AudioStream>($"{PATH}//collision//roll//flesh//FleshRoll4.wav") },
-		
-		
 		
 
 	};

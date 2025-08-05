@@ -216,7 +216,17 @@ public partial class Level : Node2D
 	public TileData GetTileDataAtPosition(Vector2 position)
 	{
 		var localPosition = _tileMap.LocalToMap(position);
+		var tileId = _tileMap.GetCellTileData(0, localPosition);
 
-		return _tileMap.GetCellTileData(0, localPosition);
+		if (tileId == null)
+		{
+			tileId = _tileMap.GetCellTileData(0, (Vector2I)(localPosition + new Vector2(1f, 0f)));
+		}
+		if(tileId == null)
+		{
+			tileId = _tileMap.GetCellTileData(0, (Vector2I)(localPosition + new Vector2(-1f, 0f)));
+		}
+
+		return tileId;
 	}
 }
