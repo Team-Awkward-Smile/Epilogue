@@ -76,6 +76,9 @@ public partial class AudioPlayer : ActorAudioPlayer
 		{ "ClimbRock_03", GD.Load<AudioStream>($"{PATH}//collision//ledge//rock//rclimbing_03.wav") },
 		{ "ClimbRock_04", GD.Load<AudioStream>($"{PATH}//collision//ledge//rock//rclimbing_04.wav") },
 
+		// TODO : write path and key, implement into animation
+		{ "", GD.Load<AudioStream>($"{PATH}") },
+
 		{ "ClimbFlesh_01", GD.Load<AudioStream>($"{PATH}//collision//vault//VaultFlesh_01.mp3") },
 		{ "ClimbFlesh_02", GD.Load<AudioStream>($"{PATH}//collision//vault//VaultFlesh_02.mp3") },
 		{ "ClimbFlesh_03", GD.Load<AudioStream>($"{PATH}//collision//vault//VaultFlesh_03.mp3") },
