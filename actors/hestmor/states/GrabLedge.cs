@@ -61,6 +61,7 @@ public partial class GrabLedge : State
 
 	internal override void OnEnter(params object[] args)
 	{
+
 		_player.Velocity = new Vector2(0f, 0f);
 		_player.CanChangeFacingDirection = false;
 		_player.RayCasts["Feet"].ForceRaycastUpdate();
