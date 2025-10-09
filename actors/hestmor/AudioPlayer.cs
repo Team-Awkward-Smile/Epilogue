@@ -80,6 +80,10 @@ public partial class AudioPlayer : ActorAudioPlayer
 		{ "ClimbFlesh_02", GD.Load<AudioStream>($"{PATH}//collision//vault//VaultFlesh_02.mp3") },
 		{ "ClimbFlesh_03", GD.Load<AudioStream>($"{PATH}//collision//vault//VaultFlesh_03.mp3") },
 		{ "ClimbFlesh_04", GD.Load<AudioStream>($"{PATH}//collision//vault//VaultFlesh_04.mp3") },
+
+		{ "FallGrabFlesh_01", GD.Load<AudioStream>($"{PATH}//collision//ledge//flesh//FleshLedgeFallGrab1.wav") },
+		{ "FallGrabFlesh_02", GD.Load<AudioStream>($"{PATH}//collision//ledge//flesh//FleshLedgeFallGrab2.wav") },
+		{ "FallGrabFlesh_03", GD.Load<AudioStream>($"{PATH}//collision//ledge//flesh//FleshLedgeFallGrab3.wav") },
 				
 		{ "ScratchRock_01", GD.Load<AudioStream>($"{PATH}//collision//melee//rock//scratch.wav") },
 		{ "ScratchRock_02", GD.Load<AudioStream>($"{PATH}//collision//melee//rock//scratch_01.wav") },
