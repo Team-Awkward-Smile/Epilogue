@@ -10,7 +10,7 @@ namespace Epilogue.Actors.Hestmor.States;
 public partial class PlayerStateMachine : StateMachine
 {
 	[ExportGroup("Attack")]
-		[Export] private float _slideAttackSpeed = 150f;
+		[Export] private float _RunAttackSpeed = 150f;
 
 	[ExportGroup("Crawl")]
 		[Export] private float _crawlSpeed = 50f;
@@ -77,7 +77,7 @@ public partial class PlayerStateMachine : StateMachine
 			new Idle(this, _sleepDelay),
 			new Jump(this, _standingJumpVerticalSpeed, _lowJumpVerticalSpeed, _lowJumpHorizontalSpeed, _longJumpVerticalSpeed, _longJumpHorizontalSpeed),
 			new LookUp(this, _cameraMovementDelay, _cameraMovementDistance),
-			new MeleeAttack(this, _slideAttackSpeed),
+			new MeleeAttack(this, _RunAttackSpeed),
 			new Run(this, _runSpeed),
 			new Sleep(this),
 			new Slide(this, _frontRollDuration, _longSlideDuration, _kneeSlideDuration, _frontRollSpeed, _longSlideSpeed, _kneeSlideSpeed, _frontRollCoyoteDuration, _longSlideCoyoteDuration, _kneeSlideCoyoteDuration),
