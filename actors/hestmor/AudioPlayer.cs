@@ -29,6 +29,11 @@ public partial class AudioPlayer : ActorAudioPlayer
 		{ "Sleeping", GD.Load<AudioStream>($"{PATH}//generic//sleep//SleepBreathing.mp3") },
 		{ "SleepStart", GD.Load<AudioStream>($"{PATH}//generic//sleep//SleepingCrouch.mp3") },
 
+		{ "UpperCut_01", GD.Load<AudioStream>($"{PATH}//generic//upper_cut/UpperCut_01.wav") },
+		{ "UpperCut_02", GD.Load<AudioStream>($"{PATH}//generic//upper_cut/UpperCut_02.wav") },
+		{ "UpperCut_03", GD.Load<AudioStream>($"{PATH}//generic//upper_cut/UpperCut_03.wav") },
+
+
 		{ "DeathBreath1", GD.Load<AudioStream>($"{PATH}//generic//death_breath//DeathBreath1.mp3") },
 		{ "DeathBreath2", GD.Load<AudioStream>($"{PATH}//generic//death_breath//DeathBreath2.mp3") },
 		{ "DeathBreath3", GD.Load<AudioStream>($"{PATH}//generic//death_breath//DeathBreath3.mp3") },
