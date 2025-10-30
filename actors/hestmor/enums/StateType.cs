@@ -37,7 +37,7 @@ public enum StateType
 	/// <summary>
 	///		An attack performed during a slide
 	/// </summary>
-	SlideAttack,
+	RunAttack,
 
 	/// <summary>
 	///		A small slide forward

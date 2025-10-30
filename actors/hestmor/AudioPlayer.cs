@@ -23,8 +23,8 @@ public partial class AudioPlayer : ActorAudioPlayer
 		{ "SlashAttack3", GD.Load<AudioStream>($"{PATH}//generic/slash/SlashAttack3.wav") },
 
 		{ "GloryKill", GD.Load<AudioStream>($"{PATH}//glory_kill.wav") },
-		{ "Crouch1", GD.Load<AudioStream>($"{PATH}//generic//crouch_1.wav") },
-		{ "Crouch2", GD.Load<AudioStream>($"{PATH}//generic//crouch_2.wav") },
+		{ "Crouch_01", GD.Load<AudioStream>($"{PATH}//generic//crouch_1.wav") },
+		{ "Crouch_02", GD.Load<AudioStream>($"{PATH}//generic//crouch_2.wav") },
 		{ "Idle", GD.Load<AudioStream>($"{PATH}//HestmorIdleBreathingLoop.mp3") },
 		{ "Sleeping", GD.Load<AudioStream>($"{PATH}//generic//sleep//SleepBreathing.mp3") },
 		{ "SleepStart", GD.Load<AudioStream>($"{PATH}//generic//sleep//SleepingCrouch.mp3") },
@@ -34,13 +34,14 @@ public partial class AudioPlayer : ActorAudioPlayer
 		{ "UpperCut_03", GD.Load<AudioStream>($"{PATH}//generic//upper_cut/UpperCut_03.wav") },
 
 
-		{ "DeathBreath1", GD.Load<AudioStream>($"{PATH}//generic//death_breath//DeathBreath1.mp3") },
-		{ "DeathBreath2", GD.Load<AudioStream>($"{PATH}//generic//death_breath//DeathBreath2.mp3") },
-		{ "DeathBreath3", GD.Load<AudioStream>($"{PATH}//generic//death_breath//DeathBreath3.mp3") },
-		{ "DeathBreath4", GD.Load<AudioStream>($"{PATH}//generic//death_breath//DeathBreath4.mp3") },
-		{ "DeathBreath5", GD.Load<AudioStream>($"{PATH}//generic//death_breath//DeathBreath5.mp3") },
-		{ "DeathBreath6", GD.Load<AudioStream>($"{PATH}//generic//death_breath//DeathBreath6.mp3") },
+		{ "DeathBreath_01", GD.Load<AudioStream>($"{PATH}//generic//death_breath//DeathBreath1.mp3") },
+		{ "DeathBreath_02", GD.Load<AudioStream>($"{PATH}//generic//death_breath//DeathBreath2.mp3") },
+		{ "DeathBreath_03", GD.Load<AudioStream>($"{PATH}//generic//death_breath//DeathBreath3.mp3") },
+		{ "DeathBreath_04", GD.Load<AudioStream>($"{PATH}//generic//death_breath//DeathBreath4.mp3") },
+		{ "DeathBreath_05", GD.Load<AudioStream>($"{PATH}//generic//death_breath//DeathBreath5.mp3") },
+		{ "DeathBreath_06", GD.Load<AudioStream>($"{PATH}//generic//death_breath//DeathBreath6.mp3") },
 
+		{ "RunAttack", GD.Load<AudioStream>($"{PATH}//generic//run_attack//RunAttack.wav") },
 		
 	};
 

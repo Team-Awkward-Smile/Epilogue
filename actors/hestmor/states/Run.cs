@@ -49,7 +49,7 @@ public partial class Run : State
 		}
 		else if (@event.IsActionPressed("melee"))
 		{
-			StateMachine.ChangeState(typeof(MeleeAttack), StateType.SlideAttack);
+			StateMachine.ChangeState(typeof(MeleeAttack), StateType.RunAttack);
 		}
 		else if (@event.IsActionPressed("slide"))
 		{
