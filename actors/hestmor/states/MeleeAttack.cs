@@ -9,7 +9,7 @@ namespace Epilogue.Actors.Hestmor.States;
 /// <inheritdoc/>
 public partial class MeleeAttack : State
 {
-	private readonly float _slideAttackSpeed;
+	private readonly float _RunAttackSpeed;
 	private readonly Player _player;
 
 	private PlayerEvents _eventsSingleton;
@@ -20,10 +20,10 @@ public partial class MeleeAttack : State
 	/// 	State that allows Hestmor to perform melee attacks and Executions
 	/// </summary>
 	/// <param name="stateMachine">The State Machine who owns this State</param>
-	/// <param name="slideAttackSpeed">The horizontal speed of Hestmor when performing a Slide Attack</param>
-	public MeleeAttack(StateMachine stateMachine, float slideAttackSpeed) : base(stateMachine)
+	/// <param name="RunAttackSpeed">The horizontal speed of Hestmor when performing a Slide Attack</param>
+	public MeleeAttack(StateMachine stateMachine, float RunAttackSpeed) : base(stateMachine)
 	{
-		_slideAttackSpeed = slideAttackSpeed;
+		_RunAttackSpeed = RunAttackSpeed;
 		_player = (Player)stateMachine.Owner;
 
 		SpriteSheetId = (int)Enums.SpriteSheetId.Bob;
@@ -88,16 +88,16 @@ public partial class MeleeAttack : State
 		{
 			var animation = _attackType switch
 			{
-				StateType.SlideAttack => "slide_attack",
+				StateType.RunAttack => "run_attack_melee",
 				StateType.UppercutPunch => "uppercut_punch",
 				_ => "melee_attack",
 			};
 
 			AnimPlayer.Play($"Combat/{animation}");
 
-			if (_attackType == StateType.SlideAttack)
+			if (_attackType == StateType.RunAttack)
 			{
-				_player.Velocity = new Vector2(_slideAttackSpeed * (_player.FacingDirection == ActorFacingDirection.Left ? -1 : 1), 0f);
+				_player.Velocity = new Vector2(_RunAttackSpeed * (_player.FacingDirection == ActorFacingDirection.Left ? -1 : 1), 0f);
 			}
 		}
 	}
@@ -119,7 +119,7 @@ public partial class MeleeAttack : State
 
 	internal override void PhysicsUpdate(double delta)
 	{
-		if (_attackType != StateType.SlideAttack)
+		if (_attackType != StateType.RunAttack)
 		{
 			return;
 		}

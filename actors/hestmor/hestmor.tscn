@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=3 uid="uid://de3k3vfjvfqe4"]
+[gd_scene load_steps=72 format=3 uid="uid://de3k3vfjvfqe4"]
 
 [ext_resource type="Script" path="res://nodes/Player.cs" id="1_6t4q3"]
 [ext_resource type="Script" path="res://actors/hestmor/aim/Aim.cs" id="2_b0i7f"]
@@ -1034,12 +1034,41 @@ tracks/3/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_28a48"]
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [341, 342, 343, 344, 345, 346, 347, 348, 349, 350]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("%MainSprite/../ActorAudioPlayer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["RunAttack"],
+"method": &"PlayGenericSfx"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ty2th"]
 _data = {
 "die": SubResource("Animation_2sw5o"),
 "execution_fast": SubResource("Animation_6bxxv"),
 "execution_slow": SubResource("Animation_earni"),
 "melee_attack": SubResource("Animation_2kxuw"),
+"run_attack_melee": SubResource("Animation_28a48"),
 "sword_slash": SubResource("Animation_8ebfb"),
 "take_damage": SubResource("Animation_isw63"),
 "uppercut_punch": SubResource("Animation_aoyha")
