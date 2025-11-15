@@ -8,19 +8,19 @@ namespace Epilogue.Nodes;
 /// </summary>
 public partial class MultiAudioStreamPlayer : AudioStreamPlayer
 {
-    [Export] private Array<AudioStream> _audioStreams;
+	[Export] private Array<AudioStream> _audioStreams;
 
-    private RandomNumberGenerator _rng = new();
+	private RandomNumberGenerator _rng = new();
 
-    /// <summary>
-    ///     Plays a random stream from the predefined array
-    /// </summary>
-    public void PlayRandom()
-    {
-        var sfx = _audioStreams.ElementAt(_rng.RandiRange(0, _audioStreams.Count - 1));
+	/// <summary>
+	///     Plays a random stream from the predefined array
+	/// </summary>
+	public void PlayRandom()
+	{
+		var sfx = _audioStreams.ElementAt(_rng.RandiRange(0, _audioStreams.Count - 1));
 
-        Stream = sfx;
+		Stream = sfx;
 
-        Play();
-    }
+		Play();
+	}
 }
