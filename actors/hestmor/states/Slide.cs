@@ -149,7 +149,7 @@ public partial class Slide : State
 				_animation = "knee_slide";
 				_currentSlideDuration = _kneeSlideDuration;
 				_currentCoyoteDuration = _kneeSlideCoyoteDuration;
-				_footstepManager.PlayRandomCollisionSfx("Slide");
+				_footstepManager.PlayRandomCollisionSfx("KneeSlide");
 				break;
 
 			case StateType.LongSlide:

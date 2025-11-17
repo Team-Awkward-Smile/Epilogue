@@ -14,10 +14,11 @@ public partial class AudioPlayer : ActorAudioPlayer
 	/// <inheritdoc/>
 	protected override Dictionary<string, AudioStream> GenericSfxList { get; set; } = new()
 	{
+		{ "KneeSlide", GD.Load<AudioStream>($"{PATH}//KneeSlide_SFX.wav") },
 		{ "Slide", GD.Load<AudioStream>($"{PATH}//Slide_SFX.wav") },
 		{ "Jump", GD.Load<AudioStream>($"{PATH}//JumpingStart_SFX.wav") },
 		{ "Land", GD.Load<AudioStream>($"{PATH}//JumpingLand_SFX.wav") },
-		
+	 
 		{ "SlashAttack1", GD.Load<AudioStream>($"{PATH}//generic/slash/SlashAttack1.wav") },
 		{ "SlashAttack2", GD.Load<AudioStream>($"{PATH}//generic/slash/SlashAttack2.wav") },
 		{ "SlashAttack3", GD.Load<AudioStream>($"{PATH}//generic/slash/SlashAttack3.wav") },
@@ -45,7 +46,7 @@ public partial class AudioPlayer : ActorAudioPlayer
 		
 	};
 
-    /// <inheritdoc/>
+	/// <inheritdoc/>
 	protected override Dictionary<string, AudioStream> FootstepSfxList { get; set; } = new()
 	{
 		{ "StepRock_01", GD.Load<AudioStream>($"{PATH}//footsteps//rock//rsteps_01.wav") },
@@ -68,10 +69,12 @@ public partial class AudioPlayer : ActorAudioPlayer
 		{ "StepFlesh_08", GD.Load<AudioStream>($"{PATH}//footsteps//flesh//StepFlesh_08.wav") },
 	};
 
-    /// <inheritdoc/>
-    protected override Dictionary<string, AudioStream> CollisionSfxList { get; set; } = new()
+	/// <inheritdoc/>
+	protected override Dictionary<string, AudioStream> CollisionSfxList { get; set; } = new()
 	{
 		{ "SlideRock_01", GD.Load<AudioStream>($"{PATH}//collision//slide//rock//rslide_01.wav") },
+
+		{ "KneeSlideRock_01", GD.Load<AudioStream>($"{PATH}//collision//kneeslide//rock//rkneeslide_01.wav") },
 
 		{ "GrabRock_01", GD.Load<AudioStream>($"{PATH}//collision//ledge//rock//rgrab_ledge_01.wav") },
 		{ "GrabRock_02", GD.Load<AudioStream>($"{PATH}//collision//ledge//rock//rgrab_ledge_02.wav") },
@@ -113,10 +116,10 @@ public partial class AudioPlayer : ActorAudioPlayer
 
 	/// <inheritdoc/>
 	public override void _Ready()
-    {
-        base._Ready();
+	{
+		base._Ready();
 
 		GetNode<FootstepManager>("FootstepManager").PlayerSteppedOnTile += (TileType tileType) => PlayRandomFootstepSfx($"Step{tileType}");
 		GetNode<FootstepManager>("FootstepManager").PlayerCollisionOnTile += (string prefix, TileType tileType) => PlayRandomCollisionSfx($"{prefix}{tileType}");
-    }
+	}
 }
