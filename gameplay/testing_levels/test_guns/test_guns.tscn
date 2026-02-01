@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://b261vfseu4qcy"]
+[gd_scene load_steps=5 format=3 uid="uid://b261vfseu4qcy"]
 
 [ext_resource type="PackedScene" uid="uid://dyvphcrj22tvr" path="res://inherited_scenes/level_blueprint/level_blueprint.tscn" id="1_epav0"]
 [ext_resource type="PackedScene" uid="uid://dulc4vm30o030" path="res://temp/handgun.tscn" id="2_ljk5a"]
 [ext_resource type="PackedScene" uid="uid://di5pn4kqpf3t7" path="res://temp/shotgun.tscn" id="3_4vtbk"]
+[ext_resource type="PackedScene" uid="uid://dkxb60ljnimb7" path="res://temp/flamethrower.tscn" id="4_o5n1b"]
 
 [node name="LevelBlueprint" instance=ExtResource("1_epav0")]
 
@@ -29,3 +30,6 @@ position = Vector2(167, -34)
 
 [node name="Shotgun2" parent="." index="10" instance=ExtResource("3_4vtbk")]
 position = Vector2(217, -32)
+
+[node name="Flamethrower" parent="." index="11" instance=ExtResource("4_o5n1b")]
+position = Vector2(502, -49)
