@@ -1,7 +1,14 @@
-/nbproject/
-/.idea/*
-*.tmlanguage.cache
-*.tmPreferences.cache
-*.stTheme.cache
-*.sublime-workspace
-*.sublime-project
+# Godot 4+ specific ignores
+.godot/
+.vs/
+.vscode/
+packages/
+.vscode/settings.json
+
+
+
+
+# Hhk187 specific ignores ===========================
+/Requirements
+OpenProject.bat
+#====================================================
