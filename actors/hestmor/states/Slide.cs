@@ -149,7 +149,7 @@ public partial class Slide : State
 				_animation = "knee_slide";
 				_currentSlideDuration = _kneeSlideDuration;
 				_currentCoyoteDuration = _kneeSlideCoyoteDuration;
-				_footstepManager.PlayRandomCollisionSfx("Slide");
+				_footstepManager.PlayRandomCollisionSfx("KneeSlide");
 				break;
 
 			case StateType.LongSlide:
@@ -176,9 +176,7 @@ public partial class Slide : State
 		_player.Velocity = new Vector2(speed * direction, 0f);
 		_player.CanChangeFacingDirection = false;
 
-		AnimPlayer.Play($"Slide/{(_rollType != StateType.FrontRoll ? _animation + "_start" : _animation)}");
-		AudioPlayer.PlayGenericSfx("Slide");
-		
+		AnimPlayer.Play($"Slide/{(_rollType != StateType.FrontRoll ? _animation + "_start" : _animation)}");	
 	}
 
 	internal override void PhysicsUpdate(double delta)
