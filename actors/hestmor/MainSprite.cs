@@ -24,7 +24,7 @@ public partial class MainSprite : Sprite2D
 		{
 			ID = (int)SpriteSheetId.Bob,
 			Texture = GD.Load<CompressedTexture2D>("res://actors/hestmor/sprite_sheet/epilogue_bob-Sheet.png"),
-			HFrames = 11,
+			HFrames = 13,
 			VFrames = 36,
 			Scale = new Vector2(1.7f, 1.7f)
 		},
