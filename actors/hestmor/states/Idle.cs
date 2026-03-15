@@ -73,10 +73,10 @@ public partial class Idle : State
 
 			if (_player.SweepRayCastForEnemy(out var enemy) && enemy.IsVulnerable)
 			{
-				StateMachine.ChangeState(typeof(Execute), enemy);
-			}
-			else
-			{
+			// 	StateMachine.ChangeState(typeof(Execute), enemy);
+			// }
+			// else
+			// {
 				StateMachine.ChangeState(typeof(MeleeAttack), StateType.SwipeAttack);
 			}
 		}

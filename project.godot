@@ -37,11 +37,10 @@ shapes/collision/shape_color=Color(0, 0, 1, 0.509804)
 
 [display]
 
-window/size/viewport_width=560
-window/size/viewport_height=315
+window/size/viewport_width=1024
+window/size/viewport_height=576
 window/size/mode=3
-window/stretch/mode="viewport"
-window/stretch/scale=0.5
+window/stretch/mode="canvas_items"
 window/vsync/vsync_mode=2
 
 [dotnet]

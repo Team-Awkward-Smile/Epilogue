@@ -72,7 +72,7 @@ public partial class PlayerStateMachine : StateMachine
 			new Crawl(this, _crawlSpeed),
 			new Crouch(this, gunEvents),
 			new Die(this, playerEvents),
-			new Execute(this, playerEvents),
+			// new Execute(this, playerEvents),
 			new Fall(this),
 			new GrabLedge(this),
 			new Growl(this, growlArea, _weakGrowlRadius, _mediumGrowlRadius, _strongGrowlRadius),

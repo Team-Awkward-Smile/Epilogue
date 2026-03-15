@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://b261vfseu4qcy"]
 
-[ext_resource type="PackedScene" path="res://inherited_scenes/level_blueprint/level_blueprint.tscn" id="1_epav0"]
+[ext_resource type="PackedScene" uid="uid://dyvphcrj22tvr" path="res://inherited_scenes/level_blueprint/level_blueprint.tscn" id="1_epav0"]
 [ext_resource type="PackedScene" uid="uid://dulc4vm30o030" path="res://temp/handgun.tscn" id="2_ljk5a"]
 [ext_resource type="PackedScene" uid="uid://di5pn4kqpf3t7" path="res://temp/shotgun.tscn" id="3_4vtbk"]
 
