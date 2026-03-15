@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://inherited_scenes/level_blueprint/Level.cs" id="1_gp8ik"]
 [ext_resource type="PackedScene" uid="uid://cegk1cph0llpn" path="res://inherited_scenes/level_blueprint/level_assets/checkpoint_blueprint/checkpoint.tscn" id="2_8opyh"]
 [ext_resource type="Script" path="res://ui/debug/DebugInfo.cs" id="2_y5wp4"]
-[ext_resource type="TileSet" uid="uid://c2hf2m205a0qe" path="res://temp/tileset.tres" id="3_s2lh1"]
+[ext_resource type="TileSet" uid="uid://di8p6ps8twioe" path="res://temp/tileset.tres" id="3_s2lh1"]
 [ext_resource type="Script" path="res://inherited_scenes/level_blueprint/UILayer.cs" id="4_hds6l"]
 [ext_resource type="PackedScene" uid="uid://gfi6s3o0bflx" path="res://inherited_scenes/level_blueprint/level_assets/prallax_background_blueprint/parallax_background_blueprint.tscn" id="5_gyxs4"]
 [ext_resource type="Script" path="res://props/camera/Camera.cs" id="7_xmj8w"]
