@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=3 uid="uid://de3k3vfjvfqe4"]
+[gd_scene load_steps=69 format=3 uid="uid://de3k3vfjvfqe4"]
 
 [ext_resource type="Script" path="res://nodes/Player.cs" id="1_6t4q3"]
 [ext_resource type="Script" path="res://actors/hestmor/aim/Aim.cs" id="2_b0i7f"]
@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://actors/hestmor/aim/StickAim.cs" id="5_3agu6"]
 [ext_resource type="Script" path="res://actors/hestmor/CameraAnchor.cs" id="6_u4eh3"]
 [ext_resource type="Shader" path="res://actors/hestmor/iframes.gdshader" id="7_ig4q1"]
-[ext_resource type="Texture2D" uid="uid://be0or44ubsq5m" path="res://actors/hestmor/sprite_sheet/epilogue_bob-Sheet.png" id="8_qovh3"]
+[ext_resource type="Texture2D" uid="uid://6wht785hslmw" path="res://actors/hestmor/sprite_sheet/hestmor_1-Sheet.png" id="8_wc1x7"]
 [ext_resource type="Texture2D" uid="uid://dcj6nrh0f0uxd" path="res://temp/sword_melee.png" id="9_cd267"]
 [ext_resource type="Script" path="res://nodes/HitBox.cs" id="10_dg7e0"]
 [ext_resource type="Script" path="res://actors/hestmor/MainSprite.cs" id="10_xgd07"]
@@ -884,72 +884,6 @@ tracks/3/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="Animation_28a48"]
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [341, 342, 343, 344, 345, 346, 347, 348, 349, 350]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("%MainSprite/../ActorAudioPlayer")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": ["RunAttack"],
-"method": &"PlayGenericSfx"
-}]
-"update": 0,
-"values": [22.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../../CollisionShape2D:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, -11)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../../HurtBox/CollisionShape2D2:shape:height")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [26.0]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("../../HurtBox/CollisionShape2D2:position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, -17)]
-}
-
 [sub_resource type="Animation" id="Animation_8ebfb"]
 resource_name = "sword_slash"
 length = 0.5
@@ -1094,8 +1028,6 @@ _data = {
 "execution_fast": SubResource("Animation_6bxxv"),
 "execution_slow": SubResource("Animation_earni"),
 "melee_attack": SubResource("Animation_2kxuw"),
-"run_attack_melee": SubResource("Animation_28a48"),
-"slide_attack": SubResource("Animation_0yten"),
 "sword_slash": SubResource("Animation_8ebfb"),
 "take_damage": SubResource("Animation_isw63"),
 "uppercut_punch": SubResource("Animation_aoyha")
