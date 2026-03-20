@@ -17,6 +17,12 @@ public partial class FootstepManager : Node2D
 	[Signal] public delegate void PlayerSteppedOnTileEventHandler(TileType tileType);
 
 	/// <summary>
+	///		Signal emitted whenever an animation track wants to play an SFX for crawling
+	/// </summary>
+	/// <param name="tileType"></param>
+	[Signal] public delegate void PlayerCrawledOnTileEventHandler(TileType tileType);
+
+	/// <summary>
 	/// 	Signal emitted whenever an animation track wants to play an SFX for collision
 	/// </summary>
 	/// <param name="prefix"></param>
@@ -49,6 +55,23 @@ public partial class FootstepManager : Node2D
 		EmitSignal(SignalName.PlayerSteppedOnTile, tileType);
 	}
 	
+	/// <summary>
+	///		Plays a random crawl SFX based on the Tile this Node is currently touching
+	/// </summary>
+	public void PlayRandomCrawlSfx()
+	{
+		var tile = _level.GetTileDataAtPosition(GlobalPosition);
+
+		if (tile is null)
+		{
+			return;
+		}
+
+		var tileType = tile.GetCustomData("ground_type").AsInt32();
+
+		EmitSignal(SignalName.PlayerCrawledOnTile, tileType);
+	}
+
 	/// <summary>
 	/// 	Plays a random collision SFX based on the Tile this Node is currently touching
 	/// </summary>
