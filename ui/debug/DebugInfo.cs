@@ -44,7 +44,7 @@ public partial class DebugInfo : Node
 	{
 		_wheelParent?.QueueFree();
 
-		var screenSize = DisplayServer.WindowGetSize();
+		var screenSize = GetViewport().GetVisibleRect().Size;
 
 		_wheelParent = new Node2D
 		{

@@ -21,8 +21,9 @@ public partial class MouseAim : Node
 	/// <inheritdoc/>
 	public override void _Process(double delta)
 	{
-		var screenSize = DisplayServer.WindowGetSize();
-		var mousePosition = (GetViewport().GetMousePosition() - (screenSize / 2)) * new Vector2(1f, -1f);
+		var viewport = GetViewport();
+		var center = viewport.GetVisibleRect().Size / 2f;
+		var mousePosition = viewport.GetMousePosition() - center;
 		var angle = Mathf.RadToDeg(Mathf.Atan2(mousePosition.Y, mousePosition.X)) + 22.5f;
 		var wheelArea = Mathf.Floor(angle / 45f);
 

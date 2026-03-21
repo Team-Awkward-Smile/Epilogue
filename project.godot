@@ -38,7 +38,6 @@ shapes/collision/shape_color=Color(0, 0, 1, 0.509804)
 [display]
 
 window/stretch/mode="viewport"
-window/stretch/scale_mode="integer"
 window/vsync/vsync_mode=2
 
 [dotnet]
