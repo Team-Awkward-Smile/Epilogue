@@ -67,6 +67,11 @@ public partial class AudioPlayer : ActorAudioPlayer
 		{ "StepFlesh_06", GD.Load<AudioStream>($"{PATH}//footsteps//flesh//StepFlesh_06.wav") },
 		{ "StepFlesh_07", GD.Load<AudioStream>($"{PATH}//footsteps//flesh//StepFlesh_07.wav") },
 		{ "StepFlesh_08", GD.Load<AudioStream>($"{PATH}//footsteps//flesh//StepFlesh_08.wav") },
+
+		{ "CrawlRock_01", GD.Load<AudioStream>($"{PATH}//footsteps//rock//CrawlRock_01.wav") },
+		{ "CrawlRock_02", GD.Load<AudioStream>($"{PATH}//footsteps//rock//CrawlRock_02.wav") },
+		{ "CrawlRock_03", GD.Load<AudioStream>($"{PATH}//footsteps//rock//CrawlRock_03.wav") },
+		{ "CrawlRock_04", GD.Load<AudioStream>($"{PATH}//footsteps//rock//CrawlRock_04.wav") },
 	};
 
 	/// <inheritdoc/>
@@ -121,6 +126,7 @@ public partial class AudioPlayer : ActorAudioPlayer
 		base._Ready();
 
 		GetNode<FootstepManager>("FootstepManager").PlayerSteppedOnTile += (TileType tileType) => PlayRandomFootstepSfx($"Step{tileType}");
+		GetNode<FootstepManager>("FootstepManager").PlayerCrawledOnTile += (TileType tileType) => PlayRandomFootstepSfx($"Crawl{tileType}");
 		GetNode<FootstepManager>("FootstepManager").PlayerCollisionOnTile += (string prefix, TileType tileType) => PlayRandomCollisionSfx($"{prefix}{tileType}");
 	}
 }
