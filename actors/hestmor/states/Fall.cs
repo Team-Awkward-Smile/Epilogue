@@ -120,7 +120,7 @@ public partial class Fall : State
 			return;
 		}
 
-        AudioPlayer.PlayGenericSfx("Land");
+        //AudioPlayer.PlayGenericSfx("Land");
 		_footstepManager.PlayRandomCollisionSfx("Land");
 
 
