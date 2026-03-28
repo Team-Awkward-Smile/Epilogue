@@ -117,7 +117,10 @@ public partial class AudioPlayer : ActorAudioPlayer
 		{ "RollFlesh_03", GD.Load<AudioStream>($"{PATH}//collision//roll//flesh//FleshRoll3.wav") },
 		{ "RollFlesh_04", GD.Load<AudioStream>($"{PATH}//collision//roll//flesh//FleshRoll4.wav") },
 		
-
+		{ "RollRock_01", GD.Load<AudioStream>($"{PATH}//collision//roll//rock//RockRoll1.wav") },
+		{ "RollRock_02", GD.Load<AudioStream>($"{PATH}//collision//roll//rock//RockRoll2.wav") },
+		{ "RollRock_03", GD.Load<AudioStream>($"{PATH}//collision//roll//rock//RockRoll3.wav") },
+		{ "RollRock_04", GD.Load<AudioStream>($"{PATH}//collision//roll//rock//RockRoll4.wav") },
 	};
 
 	/// <inheritdoc/>
