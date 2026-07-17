@@ -1,8 +1,9 @@
-[gd_scene load_steps=17 format=3 uid="uid://nng3614d5rr1"]
+[gd_scene load_steps=18 format=3 uid="uid://nng3614d5rr1"]
 
 [ext_resource type="Script" path="res://ui/pause/PauseUI.cs" id="1_v0tlv"]
 [ext_resource type="StyleBox" uid="uid://tcrgcl8a1vy4" path="res://ui/styles/normal.tres" id="2_myxmy"]
 [ext_resource type="PackedScene" uid="uid://dbb26cg7y5rty" path="res://ui/display/display_ui.tscn" id="2_xf10g"]
+[ext_resource type="AudioStream" uid="uid://bfwei7gsaoov3" path="res://ui/pause/BoneCrack3.wav" id="2_yy7ju"]
 [ext_resource type="PackedScene" uid="uid://b3fpxyxkl46k6" path="res://ui/remap/remap_controls.tscn" id="3_f65f6"]
 [ext_resource type="StyleBox" uid="uid://bjwvdsuqfue1b" path="res://ui/styles/hover.tres" id="3_l2wkc"]
 [ext_resource type="Texture2D" uid="uid://bru5obevrfqw5" path="res://ui/temp/button_gray_hover.png" id="3_p5kra"]
@@ -45,6 +46,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_v0tlv")
+
+[node name="UISound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_yy7ju")
+volume_db = 7.027
 
 [node name="PauseLayer" type="CanvasLayer" parent="."]
 layer = 128

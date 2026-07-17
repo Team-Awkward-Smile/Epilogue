@@ -11,6 +11,7 @@ public partial class PauseUI : Screen
 	private CanvasLayer _pauseLayer;
 	private CanvasLayer _settingsLayer;
 	private CanvasLayer _galleryLayer;
+	private AudioStreamPlayer _UISound;
 
 	/// <inheritdoc/>
 	public override void _Input(InputEvent @event)
@@ -47,6 +48,7 @@ public partial class PauseUI : Screen
 		_pauseLayer = GetNode<CanvasLayer>("PauseLayer");
 		_settingsLayer = GetNode<CanvasLayer>("SettingsLayer");
 		_galleryLayer = GetNode<CanvasLayer>("TempGalleryLayer");
+		_UISound = GetNode<AudioStreamPlayer>("UISound");
 
 		_pauseLayer.Hide();
 		_settingsLayer.Hide();
@@ -65,6 +67,8 @@ public partial class PauseUI : Screen
 	{
 		_pauseLayer.Hide();
 		_settingsLayer.Show();
+		_UISound.Play();
+
 	}
 
 	private void ShowGallery()
@@ -72,13 +76,15 @@ public partial class PauseUI : Screen
 		_pauseLayer.Hide();
 		_galleryLayer.Show();
 		_galleryLayer.GetNode<Screen>("Gallery").Show();
+		_UISound.Play();
 	}
 
 	private void Unpause()
 	{
 		_pauseLayer.Hide();
 		_settingsLayer.Hide();
-
+		_galleryLayer.Hide();
+		_UISound.Play();
 		Disable(true);
 
 		GetViewport().SetInputAsHandled();
